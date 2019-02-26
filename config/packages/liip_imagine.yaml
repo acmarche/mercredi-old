@@ -1,3 +1,15 @@
+liip_imagine:
+  resolvers:
+    default:
+      web_path: ~
+
+  filter_sets:
+    cache: ~
+    my_thumb:
+      quality: 100
+      filters:
+        thumbnail: { size: [250, 188], mode: inset }
+
 #liip_imagine:
 #    # valid drivers options include "gd" or "gmagick" or "imagick"
 #    driver: "gd"

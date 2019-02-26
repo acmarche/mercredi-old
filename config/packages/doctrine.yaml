@@ -1,29 +1,47 @@
 parameters:
-    # Adds a fallback DATABASE_URL if the env var is not set.
-    # This allows you to run cache:warmup even if your
-    # environment variables are not available yet.
-    # You should not need to change this value.
-    env(DATABASE_URL): ''
+  # Adds a fallback DATABASE_URL if the env var is not set.
+  # This allows you to run cache:warmup even if your
+  # environment variables are not available yet.
+  # You should not need to change this value.
+  env(DATABASE_URL): ''
 
 doctrine:
-    dbal:
-        # configure these for your database server
-        driver: 'pdo_mysql'
-        server_version: '5.7'
-        charset: utf8mb4
-        default_table_options:
-            charset: utf8mb4
-            collate: utf8mb4_unicode_ci
+  dbal:
+    # configure these for your database server
+    driver: 'pdo_mysql'
+    server_version: '5.7'
+    charset: utf8mb4
+    default_table_options:
+      charset: utf8mb4
+      collate: utf8mb4_unicode_ci
 
-        url: '%env(resolve:DATABASE_URL)%'
-    orm:
-        auto_generate_proxy_classes: true
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
-        mappings:
-            App:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+    url: '%env(resolve:DATABASE_URL)%'
+  orm:
+    auto_generate_proxy_classes: true
+    naming_strategy: doctrine.orm.naming_strategy.underscore
+    auto_mapping: true
+    mappings:
+      AcMarche\Mercredi\Admin:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/AcMarche/Mercredi/Admin/Entity'
+        prefix: 'AcMarche\Mercredi\Admin'
+        alias: AcMarche\Mercredi\Admin
+      AcMarche\Mercredi\Plaine:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/AcMarche/Mercredi/Plaine/Entity'
+        prefix: 'AcMarche\Mercredi\Plaine'
+        alias: AcMarche\Mercredi\Plaine
+      AcMarche\Mercredi\Security:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/AcMarche/Mercredi/Security/Entity'
+        prefix: 'AcMarche\Mercredi\Security'
+        alias: AcMarche\Mercredi\Security
+      AcMarche\Mercredi\Logger:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/AcMarche/Mercredi/Logger/Entity'
+        prefix: 'AcMarche\Mercredi\Logger'
+        alias: AcMarche\Mercredi\Logger

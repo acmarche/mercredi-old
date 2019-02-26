@@ -1,3 +1,37 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+acmarche_mercredi_front:
+  resource: '../../src/AcMarche/Mercredi/Front/Controller/'
+  type: annotation
+
+acmarche_mercredi_admin:
+  resource: '../../src/AcMarche/Mercredi/Admin/Controller/'
+  type:     annotation
+  prefix: admin/
+
+acmarche_mercredi_plaine:
+  resource: '../../src/AcMarche/Mercredi/Plaine/Controller/'
+  type:     annotation
+  prefix: plaine/
+
+acmarche_mercredi_parent:
+  resource: '../../src/AcMarche/Mercredi/Parent/Controller/'
+  type:     annotation
+  prefix: parent/
+
+acmarche_mercredi_security:
+  resource: '../../src/AcMarche/Mercredi/Security/Controller/'
+  type:     annotation
+
+acmarche_ecole:
+  resource: '../../src/AcMarche/Mercredi/Ecole/Controller/'
+  type:     annotation
+  prefix: ecole/
+
+acmarche_mercredi_animateur:
+  resource: '../../src/AcMarche/Mercredi/Animateur/Controller/'
+  type:     annotation
+  prefix: animateur/
+
+acmarche_mercredi_api:
+  resource: '../../src/AcMarche/Mercredi/Api/Controller/'
+  type:     annotation
+
