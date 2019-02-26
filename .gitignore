@@ -16,3 +16,18 @@
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
+
+###> acmarche/mercredi ###
+/.idea/
+/public/media/
+/data
+/public/uploads/
+/public/files/
+/public/enfants/
+/public/animateurs/
+/.php_cs.cache
+/*.sql
+###< acmarche/mercredi ###
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
