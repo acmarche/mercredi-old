@@ -1,0 +1,28 @@
+{% extends 'admin/layout.html.twig' %}
+{% block body %}
+    <div class="page-header">
+        <h3>Liste des écoles</h3>
+    </div>
+
+    {% include 'admin/ecole/actions.html.twig' %}
+
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Enfants</th>
+            <th>Utilisateur</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ecole in ecoles %}
+            <tr>
+                <td><a href="{{ path('ecole_show', { 'id': ecole.id }) }}">{{ ecole }}</a></td>
+                <td>{{ ecole.enfants | length }}</td>
+                <td>{{ ecole.users | join(',') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

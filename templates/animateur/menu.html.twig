@@ -1,0 +1,12 @@
+<li {% if action == 'animateur_presence' %} class="active" {% endif %}>
+    <a href="{{ path('animateur_presence') }}">Les présences</a>
+</li>
+<li {% if action == 'animateur_enfant' %} class="active" {% endif %}>
+    <a href="{{ path('animateur_enfant') }}">Enfants</a>
+</li>
+<li {% if action == 'animateur_tuteur' %} class="active" {% endif %}>
+    <a href="{{ path('animateur_tuteur') }}">Parents</a>
+</li>
+<li {% if action == 'animateur_show' %} class="active" {% endif %}>
+    <a href="{{ path('animateur_show') }}">Ma fiche</a>
+</li>

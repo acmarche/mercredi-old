@@ -1,0 +1,82 @@
+{% extends 'parent/layout.html.twig' %}
+{% block stylesheets %}
+    <style>
+        #accompagnateurs-list li * {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        #accompagnateurs-list li input {
+            width: 50%;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="page-header">
+        <h3>Modification de {{ enfant }}</h3>
+    </div>
+
+    {{ form_start(form, { 'attr': {'class': 'well'}}) }}
+    {{ form_errors(form) }}
+
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.nom) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.prenom) }}
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            {{ form_row(form.sexe) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.numero_national) }}
+        </div>
+
+    </div>
+
+     <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.ecole) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.annee_scolaire) }}
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.remarques) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_label(form.accompagnateurs) }}
+            <ul class="list-group" id="accompagnateurs-list"
+                data-prototype="{{ form_widget(form.accompagnateurs.vars.prototype)|e }}">
+                {% for accompagnateurField in form.accompagnateurs %}
+                    <li class="list-group-item">
+                        {{ form_errors(accompagnateurField) }}
+                        {{ form_widget(accompagnateurField) }}
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="col-md-offset-8">
+                <a href="#" id="add-another-accompagnateur" class="btn btn-success btn-xs">
+                    <i class="fas fa-plus-sign"></i> Ajouter un accompagnateur
+                </a>
+            </div>
+            <br/>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/accompagnateur.js') }}"></script>
+{% endblock %}

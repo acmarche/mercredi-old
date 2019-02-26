@@ -1,0 +1,50 @@
+{% extends 'parent/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h3>
+            {{ tuteur }} {% include 'admin/default/sexe.html.twig' with {'entity': tuteur } %}
+        </h3>
+        <span class="fas fa-map-marker-alt"></span>
+        {{ tuteur.adresse }} <br/>
+        {{ tuteur.codepostal }} {{ tuteur.localite }}
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <table class='table table-bordered table-hover table-condensed'>
+                <tbody>
+                <tr>
+                    <th><span class="fas fa-phone"></span> Téléphone</th>
+                    <td>{{ tuteur.telephone }}</td>
+                </tr>
+                <tr>
+                    <th><span class="fas fa-phone"></span> Téléphone bureau</th>
+                    <td>{{ tuteur.telephonebureau }}</td>
+                </tr>
+                <tr>
+                    <th><span class="fas fa-mobile-alt"></span> Gsm</th>
+                    <td>{{ tuteur.gsm }}</td>
+                </tr>
+                <tr>
+                    <th><span class="far fa-envelope"></span> Email</th>
+                    <td><a href='mailto:{{ tuteur.email }}'>{{ tuteur.email }}</a></td>
+                </tr>
+                <tr>
+                    <th>Caisse d'allocation</th>
+                    <td>{{ tuteur.caisseallocation }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-6">
+            {% include 'parent/default/conjoint.html.twig' with {'entity': tuteur } %}
+        </div>
+    </div>
+
+    <a href="{{ path('parent_coordonnees_edit') }}" class="btn btn-primary" role="button">
+        <i class="far fa-edit"></i>
+        Modifier mes coordonnées
+    </a>
+
+{% endblock %}

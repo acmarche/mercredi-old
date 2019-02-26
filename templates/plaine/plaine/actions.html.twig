@@ -1,0 +1,31 @@
+{% if is_granted('ROLE_MERCREDI_ADMIN') %}
+    <div class="hidden-print">
+        <div class="btn-toolbar" role="toolbar" style="margin: 0;">     
+            <div class="btn-group">
+                <a href="{{ path('plaine') }}" class="btn btn-primary" role="button"><i class="fas fa-list"></i> Retour à la liste</a>
+            </div>
+            <div class="btn-group">
+                <a href="{{ path('plaine_edit', {'slugname' : plaine.slugname }) }}" class="btn btn-primary" role="button"><i class="far fa-edit"></i> Editer</a>
+            </div>            
+            <div class="btn-group">
+                <a href="{{ path('plainejour_new', {'id' : plaine.id }) }}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i> Ajouter une date</a>
+            </div>            
+            <div class="btn-group">
+                <a href="{{ path('plainepresence_new', {'slugname' : plaine.slugname }) }}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i> Ajouter un enfant</a>
+            </div>
+            <div class="btn-group">
+                <a href="{{ path('plaine_pdf', { 'slugname': plaine.slugname } ) }}"  class="btn btn-default" role="button">
+                    <span class="far fa-file-pdf"></span> Exporter en pdf
+                </a>
+            </div>
+            <div class="btn-group">      
+                {% if plaine.archive %}
+                    <a id="edit_enfant" href="{{ path('plaine_archiver', { 'slugname': plaine.slugname }) }}" class="btn btn-warning" role="button"><i class="far fa-file-archive"></i> Désarchiver</a>
+                {% else %}   
+                    <a id="edit_enfant" href="{{ path('plaine_archiver', { 'slugname': plaine.slugname }) }}" class="btn btn-warning" role="button"><i class="fas fa-archive"></i> Archiver</a>
+                {% endif %}
+            </div>        
+        </div> 
+    </div>
+    <br />
+{% endif %}

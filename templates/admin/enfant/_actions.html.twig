@@ -1,0 +1,38 @@
+<div class="hidden-print">
+    <div class="btn-toolbar" role="toolbar" style="margin: 0;">
+        <div class="btn-group">
+            <a id="edit_enfant" href="{{ path('enfant_edit', { 'slugname': enfant.slugname }) }}"
+               class="btn btn-primary" role="button"><i class="far fa-edit"></i> Editer</a>
+        </div>
+        <div class="btn-group">
+            <a id="add_presence" href="{{ path('presence_new', { 'id' : enfant.id } ) }}"
+               class="btn btn-primary" role="button">
+                <i class="fas fa-plus"></i> Ajouter une présence </a>
+        </div>
+        <div class="btn-group">
+            <a id="add_presence" href="{{ path('note_new', { 'slugname' : enfant.slugname } ) }}"
+               class="btn btn-primary" role="button">
+                <i class="fas fa-plus"></i> Ajouter une note
+            </a>
+        </div>
+        <div class="btn-group">
+            <a id="edit_enfant" href="{{ path('admin_sante_show', { 'uuid': enfant.uuid }) }}"
+               class="btn btn-primary" role="button"><i class="fas fa-heartbeat"></i> Fiche santé</a>
+        </div>
+        <div class="btn-group">
+            <a id="add_tuteur" href="#" class="btn btn-primary" role="button" data-toggle="modal"
+               data-target="#modaltuteur">
+                <i class="fas fa-plus"></i> Ajouter un parent </a>
+        </div>
+        <div class="btn-group">
+            {% if enfant.archive %}
+                <a id="edit_enfant" href="{{ path('enfant_archiver', { 'slugname': enfant.slugname }) }}"
+                   class="btn btn-warning" role="button"><i class="far fa-file-archive"></i>
+                    Désarchiver</a>
+            {% else %}
+                <a id="edit_enfant" href="{{ path('enfant_archiver', { 'slugname': enfant.slugname }) }}"
+                   class="btn btn-warning" role="button"><i class="fas fa-archive"></i> Archiver</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

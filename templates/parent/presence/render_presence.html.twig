@@ -1,0 +1,70 @@
+
+{% for month, presences in prencesgroupbymonth %}       
+
+    <h4 class="text-success">{{ month | monthtext }}</h4>
+
+    <table class='table table-bordered table-hover table-condensed'>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Prix plein suivant l'ordre</th>
+                <th>Réduction</th>
+                <th>Absent ?</th>
+                <th>Ordre</th>
+                <th>Coût</th>
+                <th>Frâterie ce jour là</th>
+                <th>Payé avec</th>
+                    {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+                    <th>Actions</th>
+                    {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for presence in presences %}
+
+                {% set moispresence = presence.jour.datejour | date('n') %}
+                {% set calcul = presence.calcul %}
+                
+                {% if moispresence == month %}                    
+                    <tr>
+                        <td>
+                            <a href="{{ path('presence_show', { 'id': presence.id }) }}" title='Consulter'>
+                                {{ presence.jour.datejour | date('D') | trans }} {{ presence.jour.datejour | date('d-m-Y') }}                            </a>
+                        </td>
+                        <td>                            
+                            {{ calcul.prix }} €
+                        </td>
+                        <td>
+                            {% if presence.reduction %}
+                                {{ presence.reduction }}
+                            {% endif %}
+                        </td>
+                        <td>{{ calcul.absence | absencetext }}</td>
+                        <td>
+                            {{ calcul.ordre }}
+                             ({{ calcul.ordre_provenance }})
+                        </td>
+                        <td>
+                            {{ calcul.montant }}                            
+                        </td>
+                        <td>
+                            {% if calcul.fratries | length > 0 %}
+                                {{ calcul.fratries | join(' | ') }}
+                            {% endif %}
+                        </td>
+                        <td>{{ presence.paiement }}</td>
+                        {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+                            <td>
+                                <a href="{{ path('presence_edit', { 'id': presence.id }) }}" title="Editer"><button type="button" class="btn btn-primary btn-xs"><i class="far fa-edit"></i> Editer</button></a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>  
+{% else %}                    
+    <br />
+    <p class="text-info">Aucune présence</p>    
+    <br />
+{% endfor %}

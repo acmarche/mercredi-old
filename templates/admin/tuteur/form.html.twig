@@ -1,0 +1,33 @@
+<div class="row">
+    {{ form_start(form, { 'attr': {'class': 'well'}}) }}
+    {{ form_errors(form) }}
+    <div class="col-md-6">
+        {{ form_row(form.civilite) }}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.prenom) }}
+        {{ form_row(form.adresse) }}
+        <div class="col-md-6">
+            {{ form_row(form.code_postal) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.localite) }}
+        </div>
+        {{ form_row(form.email) }}
+        {{ form_row(form.telephone) }}
+        {{ form_row(form.telephone_bureau) }}
+        {{ form_row(form.gsm) }}            
+        {{ form_row(form.sexe) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.conjoint) }}
+        {{ form_row(form.nom_conjoint) }}
+        {{ form_row(form.prenom_conjoint) }}     
+        {{ form_row(form.email_conjoint) }}
+        {{ form_row(form.telephone_conjoint) }}
+        {{ form_row(form.telephone_bureau_conjoint) }}
+        {{ form_row(form.gsm_conjoint) }}
+        {{ form_row(form.composition_menage) }}
+        {{ form_row(form.remarques) }}
+    </div>       
+    {{ form_end(form) }}
+</div>

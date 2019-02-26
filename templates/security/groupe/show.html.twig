@@ -1,0 +1,33 @@
+{% extends 'security/layout.html.twig' %}
+
+{% block body -%}
+    <div class="page-header">
+        <h3>{{entity.name}}</h3>
+    </div>
+
+    <div class="row">
+        {% include 'security/groupe/actions.html.twig' %}
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <table class='table table-bordered table-hover'>
+                <tbody>
+                    <tr>
+                        <th><span class="far fa-envelope"></span> Rôles</th>
+                        <td>  {{ entity.roles | join(",") }}</td>
+                    </tr>
+                    <tr>
+                        <th><span class="far fa-user"></span> Membres </th>
+                        <td>{{ entity.users | join(",") }} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <a href="{{ path('groupe_index') }}">
+        <span class="fas fa-list"></span>  Retour à la liste
+    </a>
+
+{% endblock %}

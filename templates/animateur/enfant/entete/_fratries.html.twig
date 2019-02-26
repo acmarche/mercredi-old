@@ -1,0 +1,14 @@
+{% if fratries | length > 0 %}
+
+    {% for fratrie in fratries %}
+
+        <a href="{{ path('animateur_enfant_show', { 'slugname': fratrie.slugname }) }}">
+            {{ fratrie }}
+        </a>
+      {% if not loop.last %} | {% endif %}
+
+    {% endfor %}
+
+{% else %}
+    Aucune fratrie
+{% endif %}

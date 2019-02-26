@@ -1,0 +1,20 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Nouvelle présence pour {{ enfant }}</h3>
+    </div>
+
+    <div class="alert alert-info">
+        Maintenez la touche "CTRL" pour sélectionner plusieurs dates en même temps
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            {{ form(form) }}
+        </div>
+    </div>
+
+    {% include 'admin/enfant/_link_retour.html.twig' with {'entity': entity } %}
+
+{% endblock %}

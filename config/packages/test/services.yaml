@@ -1,0 +1,3 @@
+services:
+    AcMarche\Mercredi\Admin\Service\Facture:
+        public: true

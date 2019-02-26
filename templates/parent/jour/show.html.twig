@@ -1,0 +1,29 @@
+{% extends 'parent/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h3>Présence du {{ entity.jour }} pour {{ entity.enfant }}</h3>
+    </div>
+
+    <table class="table table-bordered table-hover">
+        <tbody>
+        <tr>
+            <th>Absent ?</th>
+            <td>{{ entity.absent | absencetext }} </td>
+        </tr>
+        <tr>
+            <th>Payé ?</th>
+            <td>
+                {% if entity.paiement %}
+                    <span class="fas fa-check"></span>
+                {% else %}
+                    <span class="text-warning">Non</span>
+                {% endif %}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    {% include 'parent/jour/delete.html.twig' %}
+{% endblock %}

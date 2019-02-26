@@ -1,0 +1,23 @@
+<h3 class="text-success">Ses parents</h3>
+
+{% for tuteur in tuteurs %}
+
+    <h4><span class="far fa-user"> </span>
+        <a href="{{ path('animateur_tuteur_show', { 'slugname': tuteur.slugname }) }}" title="Consulter">
+            {{ tuteur }}
+        </a>
+    </h4>
+
+    {% if tuteur.gsm %}
+        {{ tuteur.gsm }}
+    {% endif %} |
+    {% if tuteur.telephone %}
+        {{ tuteur.telephone }}
+    {% endif %}
+    {% if tuteur.nomconjoint %}
+        <i class="fas fa-heart" style="color:hotpink;"></i> {{ tuteur.nomconjoint }} {{ tuteur.prenomconjoint }}
+    {% endif %}
+    {% if tuteur.email %}
+        <br/><a href='mailto:{{ tuteur.email }}'>{{ tuteur.email }}</a>
+    {% endif %}
+{% endfor %}

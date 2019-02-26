@@ -1,0 +1,46 @@
+{% extends 'parent/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Modification de la fiche santé de {{ enfant }}</h3>
+    </div>
+
+    <div class="alert alert-info">
+        Chaque question doit être répondue par oui ou par non pour que le formulaire soit complet
+    </div>
+
+    {{ form_start(form, { 'attr': {'class': 'well2'}}) }}
+    {{ form_errors(form) }}
+
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.medecinNom) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.medecinTelephone) }}
+        </div>
+
+    </div>
+
+    {{ form_row(form.personneUrgence) }}
+
+    <h3 class="text-success">Questions</h3>
+    {% for question in form.questions %}
+        <h4 class="text-warning"><strong>{{ question.vars.data.intitule }}</strong></h4>
+        <hr/>
+        <div class="row">
+            <div class="col-md-4 col-sm-4">
+                {{ form_row(question.reponse) }}
+            </div>
+            <div class="col-md-8 col-sm-8">
+                {{ form_row(question.remarque) }}
+            </div>
+        </div>
+    {% endfor %}
+
+    {{ form_row(form.remarques) }}
+    {{ form_row(form.Enregistrer) }}
+
+    {{ form_end(form) }}
+
+{% endblock %}

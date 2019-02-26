@@ -1,0 +1,90 @@
+{% extends 'front/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h3>Modalités pratiques</h3>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Tarifs</th>
+            <td>
+                <p class="text-warning"><strong>Tarifs par mercredi</strong></p>
+                Premier enfant : 5.50 € <br/>
+                Deuxième enfant :3.50 € <br/>
+                Les suivants: 2.50 €<br/><br/>
+                <strong>Abonnement pour 5 séances:</strong>
+                <ul>
+                    <li>Premier enfant: 24.75euros</li>
+
+                    <li>Deuxième enfant: 15.75 euros</li>
+
+                    <li> Troisième enfant: 11.25 euros</li>
+                </ul>
+
+                <p class="text-warning"><strong>Tarifs des journées pédagogiques et plaines de vacances par jour</strong></p>
+                Premier enfant : 8 €<br/>
+                Deuxième enfant : 5 €<br/>
+                Les suivants: 3 €<br/>
+            </td>
+        </tr>
+        <tr>
+            <th>Numéro de compte bancaire</th>
+            <td>
+                <strong>Vos virements seront pris en compte tous les mardis sur votre compte personnel</strong>
+                <br/>BE27 0016 3639 7373
+                <br/>communication: nom de l'enfant
+            </td>
+        </tr>
+        <tr>
+            <th>Horaire d' accueil</th>
+            <td>
+                <p class="text-warning"><strong>Les mercredis :</strong></p>
+                <strong>
+                    La présence de l’enfant pour chaque mercredi est à confirmer au plus tard la veille,
+
+                    <br/>
+                    soit le mardi à 10h.</strong> La période d’animation est fixée de 13h30 à 16h et nous demandons aux
+                parents de
+                laisser leurs enfants pendant ce laps de temps.
+                <br/><br/>
+                Un accueil temps libre est prévu de 12h à 13h30 et de 16h à 18h. Un ramassage des enfants au départ de
+                certaines écoles est mis en place.
+                <br/><br/>
+                L’accueil se fait sur le site du Complexe Saint-François: Rue Victor Libert 36 E 6900 Marche.
+                <br/><br/>
+                <p class="text-warning"> Pour les journées pédagogiques:</p>
+
+                L’EPE ouvre ses portes ces journées-là à partir du moment où il y a au minimum 5 enfants inscrits
+                <strong>une
+                    semaine avant la date de la journée pédagogique.</strong>
+                <br/>
+                La période d’animation est fixée de 9h à 16h et nous demandons aux parents de laisser leurs enfants
+                pendant ce laps de temps.
+                <br/>
+                Un accueil temps libre est prévu de 7h15 à 9h et de 16h à 18h.
+            </td>
+        </tr>
+        <tr>
+            <th>Roi / Pp</th>
+            <td>
+                <a href="{{ asset('pdf/ROI.pdf') }}">Réglement d'odre intérieur</a>
+                <br/>
+                <br/>
+                <a href="{{ asset('pdf/projet-peda.pdf') }}">Projet pédagogique</a>
+                <br/><br/>
+                Un nouveau règlement d'ordre intérieur et projet pédagogique seront mis en ligne prochainement.
+            </td>
+        </tr>
+        <tr>
+            <th>Info sur les trajets de bus</th>
+            <td>
+                Un acheninement des enfants en bus au départ de certaines écoles est mis en place et pour cela,
+                <br/>nous vous demandons
+                de prendre contact avec la direction de l’école de votre enfant pour de plus amples informations.
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

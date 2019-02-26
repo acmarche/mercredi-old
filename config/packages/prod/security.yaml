@@ -1,0 +1,7 @@
+# security
+security:
+    firewalls:
+        secured_area:
+            guard:
+                authenticators:
+                    - AcMarche\Mercredi\Security\Authenticator\FormLoginAuthenticator

@@ -1,0 +1,10 @@
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+    {% for year in years %}
+        <li role="presentation" class="{% if thisyear == year %}active{% endif %}">
+            <a href="#t-{{ year }}-{{ enfantTuteur.id }}" aria-controls="t-{{ year }}" role="tab" data-toggle="tab">
+                {{ year }}
+            </a>
+        </li>
+    {% endfor %}    
+</ul>

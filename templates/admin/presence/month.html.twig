@@ -1,0 +1,89 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Listing des présences par mois {% if mois %} : {{ mois }} {% endif %}</h3>
+    </div>
+
+    {% include 'admin/search/presence_mois.html.twig' with {'form': search_form } %}
+
+    <div class="hidden-print">
+        <div class="alert alert-info" role="alert">Encodez le mois et l'année (03/2015) pour afficher les enfants
+            inscrits
+        </div>
+    </div>
+
+    {% if mois %}
+        <div class="hidden-print pull-right" style="margin-bottom: 10px;">
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-warning"><span class="far fa-file-excel"></span> Exporter
+                    en Excel
+                </button>
+                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('presence_mois_xls', { 'mois': mois, 'type': type, 'one': '0' } ) }}">Par défaut</a></li>
+                    <li><a href="{{ path('presence_mois_xls', { 'mois': mois, 'type': type, 'one': true } ) }}">Pour
+                            l'One</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <table class='table table-bordered table-hover'>
+            <thead>
+            <tr>
+                <th>Enfant</th>
+                <th>Né le</th>
+                {% for date, count in presences %}
+                    <th class="text-center">{{ date }}</th>
+                {% endfor %}
+                <th class="text-center">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for enfant in enfants %}
+                {% set enfantcount = 0 %}
+                <tr>
+                    <td>
+                        <a href="{{ path('enfant_show', { 'slugname': enfant.slugname }) }}">{{ enfant }}</a>
+                    </td>
+                    <td>{% if enfant.birthday %} {{ enfant.birthday|date('d-m-Y') }} {% endif %}</td>
+                    {% for date, data in presences %}
+                        <td class="text-center">
+                            {% if enfant in data.enfants %}
+                                <img src="{{ asset('images/tick_16.png') }}" alt="ok"/>
+                                {% set enfantcount = enfantcount + 1 %}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                    <td class="text-center">{{ enfantcount }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                {% for date, data in presences %}
+                    <td></td>
+                {% endfor %}
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>{{ enfants | length }} enfants</strong></td>
+                <td></td>
+                {% set totalmois = 0 %}
+                {% for date, data in presences %}
+                    <td class="text-center">{{ data.count }}</td>
+                    {% set totalmois = totalmois + data.count %}
+                {% endfor %}
+                <td class="text-center">{{ totalmois }} présences</td>
+            </tr>
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}

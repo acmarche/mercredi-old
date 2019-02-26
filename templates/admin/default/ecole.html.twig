@@ -1,0 +1,44 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body -%}
+
+    <div class="page-header">
+        <h3 class="text-success">{{ presences | length }} présences</h3>
+    </div>
+
+    <div class="alert alert-info">
+        J'ai retiré les présences non payées, et celles qui ont un certif
+    </div>
+
+    <div class="alert alert-info">
+        Total des gains actuel: {{ totalActuel | number_format(2, ',', '.') }} € (sans tenir compte abonnement)<br/><br/>
+        Total paiement: {{ totalPaiement | number_format(2, ',', '.') }} € <br/><br/>
+        Total des gains nouveau tarif : {{ totalNew | number_format(2, ',', '.') }} €
+    </div>
+
+    <table class="table table-bordered">
+        <tr>
+            <td>Presence</td>
+            <td>Paiement</td>
+            <td>Tarif actuel</td>
+            <td>Tarif nouveau</td>
+            <td>Cout actuel</td>
+            <td>Cout nouveau</td>
+        </tr>
+        {% for presence in presences %}
+            <tr>
+                <td>
+                    <a href="{{ path('presence_show', {'id':presence.id}) }}">{{ presence.jour.dateJour | date('D d Y') }}</a>
+                </td>
+                <td>{{ presence.paiement }}</td>
+                <td>{{ presence.prix }} €</td>
+                <td>{{ presence.prixTmp }} €</td>
+                <td>{{ presence.cout | number_format(2, ',', '.') }} €</td>
+                <td>{{ presence.coutTmp | number_format(2, ',', '.') }} €</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+
+{% endblock %}

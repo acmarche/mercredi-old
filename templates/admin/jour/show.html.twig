@@ -1,0 +1,44 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>
+            Jour de garde : 
+            {{ entity.datejour | datefr }}
+        </h3>
+    </div>
+
+    {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+        <div class="hidden-print">
+            <div class="btn-toolbar" role="toolbar" style="margin: 0;">
+                <div class="btn-group">
+                    <a href="{{ path('jour') }}" class="btn btn-primary" role="button"><i class="fas fa-list"></i> Retour à la liste</a>
+                </div>
+                <div class="btn-group">
+                    <a href="{{ path('jour_edit', { 'id': entity.id }) }}" class="btn btn-primary" role="button"><i class="far fa-edit"></i> Editer</a>
+                </div>  
+                <div class="btn-group">
+                    <a href="{{ path('jour_animateurs', { 'id': entity.id }) }}" class="btn btn-primary" role="button"><i class="far fa-user"></i> Attribuer des animateurs</a>
+                </div>
+                {% if entity.archive %}
+                    <a id="edit_enfant" href="{{ path('jour_archiver', { 'id': entity.id }) }}" class="btn btn-warning" role="button"><i class="far fa-file-archive"></i> Désarchiver</a>
+                {% else %}   
+                    <a id="edit_enfant" href="{{ path('jour_archiver', { 'id': entity.id }) }}" class="btn btn-warning" role="button"><i class="fas fa-archive"></i> Archiver</a>
+                {% endif %}
+            </div>
+        </div>
+        <br />
+    {% endif %}
+
+    {% if entity.remarques %}
+        <p class="text-muted">
+            {{ entity.remarques | nl2br }}
+        </p>
+    {% endif %}
+
+    {% include 'admin/jour/list_animateurs.html.twig' %}
+
+    {% include 'admin/jour/list_enfants.html.twig' %}
+
+    {% include 'admin/jour/delete.html.twig' %}
+{% endblock %}

@@ -1,0 +1,101 @@
+<table class="table table-bordered">
+    <tr>
+        <td><img src="http://artistes.marche.be/images/marche.jpg" alt="logomarche"/></td>
+        <td>
+            <h2 class="text-warning">Fiche médicale individuelle</h2>
+            {% if fiche %}
+                <span class="pull-right">Maj le {{ fiche.updatedAt | date('d-m-Y') }}</span>
+                {% if isComplete == false %}
+                    <i class="fas fa-ban"></i><span class="text-danger"> Fiche non complète</span>
+                {% endif %}
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+<h3 class="text-warning">Identité de l'enfant</h3>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Nom</th>
+        <td>{{ enfant.nom }}</td>
+        <th>Prénom</th>
+        <td>{{ enfant.prenom }}</td>
+    </tr>
+    <tr>
+        <th>Né le</th>
+        <td>{{ enfant.birthday | date('d-m-Y') }}</td>
+        <th>Année scolaire</th>
+        <td>{{ enfant.anneescolaire }}</td>
+    </tr>
+</table>
+
+<table class="table table-bordered">
+    <tr>
+        <td>
+            <h4 class="text-warning">Personne(s) à joindre en cas d'urgence</h4>
+            {% if fiche %}
+                {{ fiche.personneUrgence | nl2br }}
+            {% endif %}
+            <h4 class="text-warning">Médecin traitant</h4>
+            {% if fiche %}
+                {{ fiche.medecinNom }}
+                {{ fiche.medecinTelephone }}
+            {% endif %}
+        </td>
+        <td>
+            <h4 class="text-warning">Accompagnateurs</h4>
+            <ul class="list-group">
+                {% for accompagnateur in enfant.accompagnateurs %}
+                    <li class="list-group-item">{{ accompagnateur }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+</table>
+{% if fiche %}
+    {% if fiche.remarques %}
+        <br/>
+        {{ fiche.remarques | nl2br }}
+        <br/>
+    {% endif %}
+{% endif %}
+
+<h3 class="text-warning">Informations médicales confidentielles</h3>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Question</th>
+        <th>Non</th>
+        <th>Oui</th>
+        <th>Remarque</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for question in questions %}
+        <tr>
+            <td>{{ question.intitule }}</td>
+            <td>
+                {% if question.reponse is null %}
+                    -
+                {% elseif question.reponse == 0 %}
+                    <i class="fas fa-chevron-down"></i>
+                {% endif %}
+            </td>
+            <td>
+                {% if question.reponse is null %}
+                    -
+                {% elseif question.reponse == 1 %}
+                    <i class="fas fa-chevron-down"></i>
+                {% endif %}
+            </td>
+            <td>
+                {% if question.reponse is null %}
+                    <i class="fas fa-exclamation-circle"></i> <span class="text-danger">Non répondu</span>
+                {% endif %}
+                {{ question.remarque }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,56 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body -%}
+
+    <div class="page-header">
+        <h3 class="text-success">Accès rapide</h3>
+    </div>
+
+    <div class="alert alert-info">Ecrivez le nom de l'enfant pour un accès rapide</div>
+
+    <div id="bloodhound">
+        <input class="typeahead" type="text" placeholder="Nom de l'enfant">
+        <input type='hidden' name='enfant_id' id='enfant_id'>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+
+        var enfants = new Bloodhound({
+            datumTokenizer: function (datum) {
+                return Bloodhound.tokenizers.whitespace(datum.value);
+            },
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            remote: {
+                url: "{{ path('enfant_autocomplete') }}/%QUERY",
+                wildcard: '%QUERY'
+            }
+        });
+
+        var options = {
+            hint: true,
+            highlight: true,
+            minLength: 2
+        };
+
+        var dataSetEnfant = {
+            display: 'label',
+            limit: 10,
+            source: enfants,
+            templates: {
+                suggestion: function (data) {
+                    var value = data.nom + ' ' + data.prenom + ' ' + data.birthday;
+                    var url = '{{ path("enfant_show", {'slugname': 'slug'}) }}';
+                    url = url.replace("slug", data.slugname);
+                    return '<p><a href="' + url + '">' + value + '</a></p>';
+                }
+            }
+        };
+
+        $('.typeahead').typeahead(options, dataSetEnfant);
+
+    </script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Détail de la présence du <strong>{{ jour }}</strong></h3>
+    </div>
+
+    <h4>
+        De <strong>{{ enfant }}</strong> à la plaine <strong>{{ plaine }}</strong>
+    </h4>
+    <br/>
+
+    <a href="{{ path('plainepresence_show_enfant', { 'plaine_slugname' : plaine.slugname ,'enfant_slugname' : enfant.slugname}) }}">
+        <i class="fas fa-list"></i> Retour à l'enfant
+    </a>
+
+{% endblock %}

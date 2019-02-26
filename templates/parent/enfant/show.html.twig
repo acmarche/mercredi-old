@@ -1,0 +1,18 @@
+{% extends 'parent/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="panel panel-default">
+
+        <div class="panel-body">
+            {% include 'parent/enfant/_actions.html.twig' %}
+            {% include 'parent/enfant/_identite.html.twig' %}
+            {% include 'parent/enfant/presences/index.html.twig' %}
+            {% include 'parent/enfant/plaines/index.html.twig' %}
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    {% include 'admin/enfant/_scripts.html.twig' %}
+{% endblock %}

@@ -1,0 +1,56 @@
+{{ form_start(form, { 'attr': {'class': 'well'}}) }}
+{{ form_errors(form) }}
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.nom) }}
+        {{ form_row(form.prenom) }}
+        <div class="col-md-6">
+            {{ form_row(form.birthday) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.numero_national) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.ordre) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.sexe) }}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        {{ form_row(form.ecole) }}
+        {{ form_row(form.annee_scolaire) }}
+        {{ form_row(form.groupe_scolaire) }}
+        {{ form_row(form.photoAutorisation) }}
+    </div>
+</div>
+{{ form_row(form.remarques) }}
+<br/>
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.image) }}
+        {{ form_row(form.file) }}
+        {{ form_row(form.fiche) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_label(form.accompagnateurs) }}
+        <ul class="list-group" id="accompagnateurs-list"
+            data-prototype="{{ form_widget(form.accompagnateurs.vars.prototype)|e }}">
+            {% for accompagnateurField in form.accompagnateurs %}
+                <li class="list-group-item">
+                    {{ form_errors(accompagnateurField) }}
+                    {{ form_widget(accompagnateurField) }}
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="col-md-offset-8">
+            <a href="#" id="add-another-accompagnateur" class="btn btn-success btn-xs">
+                <i class="fas fa-plus-sign"></i> Ajouter un accompagnateur
+            </a>
+        </div>
+        <br/>
+    </div>
+</div>
+
+{{ form_end(form) }}

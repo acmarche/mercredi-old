@@ -1,0 +1,68 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Nouveau message à {{ destinataires | length }} emails</h3>
+    </div>
+
+    <div class="alert alert-info">Lorsque vous cliquez sur "Envoyer le message", veuillez attendre d'être redirigé avant
+        de quitter la page
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            {{ form(form) }}
+        </div>
+        <div class="col-md-4">
+            <div class="alert alert-warning">La pièce jointe ne peut être envoyée lors du test</div>
+            <form name="text" id="test" method="post" action="">
+                <div class="form-group">
+                    <label for='emailtest' class="control-label required">Email test</label>
+                    <input type='email' value='{{ emailuser }}' id="emailuser" required="required"
+                           class="form-control"/>
+                    <br/>
+                    <input type='button' class="btn btn-default" name='envoyer' value="Envoi d'un test" id="btntest"/>
+                </div>
+            </form>
+            <br/>
+            <div id="result"></div>
+            <br/>
+        </div>
+    </div>
+
+    <a href="{{ path('message') }}">
+        <span class="fas fa-list"></span> Annuler
+    </a>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+
+        $("#btntest").click(function () {
+
+            email = $("#emailuser").val();
+            sujet = $("#message_sujet").val();
+            body = $("#message_texte").val();
+
+            console.log(email);
+            $.ajax({
+                type: "POST",
+                url: "{{ path('message_test') }}",
+                data: 'email=' + email + '&sujet=' + sujet + '&body=' + body,
+                dataType: 'html',
+                success: function (code_html, statut) {
+                    console.log(code_html);
+                    $("#result").html(code_html);
+                },
+                complete: function (resultat, statut) {
+
+                },
+                error: function (resultat, statut, erreur) {
+
+                }
+            });
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,16 @@
+
+.saut_page {
+    display: block;
+    page-break-before: always;
+}
+
+.page-breaker {
+    display: block;
+    page-break-after: always;
+}
+
+/*Empeche l'impression des liens */
+
+a[href]:after {
+    content: none;
+  }

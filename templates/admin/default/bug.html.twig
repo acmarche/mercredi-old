@@ -1,0 +1,33 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body -%}
+    <h2>Présences gratuites qui ont été payées</h2>
+
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Date</th>
+            <th>Reduction</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            {% if entity.reduction %}
+                {% if entity.reduction.pourcentage == 100 %}
+                    <tr>
+                        <td>{{ entity.enfant }}</td>
+                        <td>
+                            <a href="{{ path('presence_edit', { 'id': entity.id }) }}">{{ entity }}</a>
+                        </td>
+                        <td>
+                            {{ entity.reduction }}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'ecole/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h3>Liste des enfants</h3>
+    </div>
+
+    {% include 'ecole/_search_enfant.html.twig' %}
+
+    <br/>
+    {% if enfants | length > 0 %}
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Né le</th>
+                <th>Année scolaire</th>
+                <th>Parents</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for enfant in enfants %}
+                <tr>
+                    <td>{{ enfant.nom | upper }} </td>
+                    <td>{{ enfant.prenom }}</td>
+                    <td>
+                        {% if enfant.birthday %}
+                            {{ enfant.birthday|date('d-m-Y') }}
+                        {% endif %}
+                    </td>
+                    <td>{{ enfant.anneescolaire }}</td>
+                    <td>
+                        {% include 'ecole/tuteurs.html.twig' %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-warning">Aucun enfant trouvé</p>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-lg-8">
+        <div class="btn-toolbar" role="toolbar" style="margin: 0;">
+            {% if not is_granted('ROLE_USER_ADMIN') %}
+                <div class="btn-group">                
+                    <a id="edit_user" href="{{ path('groupe_edit', { 'name': entity.name }) }}" class="btn btn-primary" role="button">
+                        <i class="far fa-edit"></i> Editer</a>
+                </div>
+            {% endif %}                           
+        </div>         
+    </div>    
+</div>
+<br />

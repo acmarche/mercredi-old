@@ -1,0 +1,22 @@
+{% if presences | length > 0 %}
+    <table class='table table-bordered table-hover table-condensed'>
+        <thead>
+            <tr>
+                <th>Date</th>                
+            </tr>
+        </thead>
+        <tbody>
+            {% for presence in presences %}
+                <tr>
+                    <td>
+                        <a href="{{ path('presence_show', { 'id': presence.id }) }}" title='Consulter'>
+                            {{ presence.jour.datejour | datefr }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>     
+{% else %}
+    <p>Aucun paiement</p>
+{% endif %}

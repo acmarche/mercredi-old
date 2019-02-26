@@ -1,0 +1,16 @@
+{% extends 'admin/layout.html.twig' %}
+{% block stylesheets %}
+    <link href="{{ asset('jquery-ui/jquery-ui.min.css') }}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+
+    <div class="page-header">
+        <h3>Nouveau paiement {% if tuteur %} pour {{ tuteur }} {% endif %}</h3>
+    </div>
+
+    {% include 'admin/paiement/form.html.twig' with {'form' : form } %}
+
+{% endblock %}
+{% block scripts %}
+    {% include 'commun/form/calendar.html.twig' %}
+{% endblock %}

@@ -1,0 +1,19 @@
+{{ form_start(form, { 'attr': {'class': 'well'}}) }}
+{{ form_errors(form) }}
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.montant) }}
+        {{ form_row(form.date_paiement) }}
+        {{ form_row(form.enfant) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.type_paiement) }}
+        {{ form_row(form.mode_paiement) }}
+        {{ form_row(form.ordre) }}
+        {{ form_row(form.cloture) }}
+    </div>
+</div>
+
+{{ form_row(form.remarques) }}
+
+{{ form_end(form) }}

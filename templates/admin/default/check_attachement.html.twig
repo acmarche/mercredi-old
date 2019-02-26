@@ -1,0 +1,15 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h3>Vérification des pièces jointes </h3>
+    </div>
+
+    {% for lost in losts %}
+        {{ lost }}<br/>
+    {% else %}
+        <p class="text-success">Tous  leur pièce jointe :-)</p>
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,9 @@
+{% if is_granted('ROLE_MERCREDI_ADMIN') %}
+    <div class="btn-toolbar" role="toolbar" style="margin: 0;">
+        <div class="btn-group">
+            <a href="{{ path('plainepresence_jours', {'plaine_slugname': plaine.slugname, 'enfant_slugname' : enfant.slugname }) }}"
+               class="btn btn-primary" role="button"><i class="far fa-edit"></i> Modifiers les présences</a>
+        </div>
+    </div>
+    <br/>
+{% endif %}

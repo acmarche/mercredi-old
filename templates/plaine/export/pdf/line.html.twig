@@ -1,0 +1,79 @@
+<div class="container">
+
+    <div class="page-header">
+        <h2>{{ plaine }} ({{ taille }})</h2>
+    </div>
+
+    {% if plaine.remarques %}
+        <p class="text-muted">
+            {{ plaine.remarques | nl2br }}
+        </p>
+    {% endif %}
+
+    <table class='table table-bordered table-hover' autosize="1">
+        <thead>
+        <tr>
+            <th style="width: 20%;">Enfants</th>
+            {% for date in dates %}
+                <th style="text-align: center;">{{ date.datejour | date('d-m') }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for plaine_enfant in plaine_enfants %}
+            <tr>
+                {% set enfant = plaine_enfant.enfant %}
+                {% set absent = '' %}
+                {% set jour = dates | first %}
+
+                {% set age = enfant.age(jour.datejour) %}
+                {% set agecomplet = enfant.age(jour.datejour, true) %}
+                {% set tuteur = plaine_enfant.tuteur %}
+                <td style="width: 45%;">
+                    <strong>{{ enfant }}</strong> ({{ agecomplet }})
+                    <br/>
+                    {% include 'plaine/export/pdf/coordonnees.html.twig' %}
+                </td>
+
+                {% for date in dates %}
+                    {% set dateId = date.id %}
+                    <td style="text-align: center;">
+                        {% if dateId in plaine_enfant.jourids %}
+                            {% if taille == 'Moyens' %}
+                                {% if age < 6 %}
+                                    {{ date.addenfantmoins6 }}
+                                {% else %}
+                                    {{ date.addenfant }}
+                                {% endif %}
+                            {% else %}
+                                {{ date.addenfant }}
+                            {% endif %}
+                            <img src="data:image/jpg;base64,{{ images.ok }}"
+                                 alt='oui'/>
+                        {% else %}
+                            <img src="data:image/jpg;base64,{{ images.ko }}"
+                                 alt='non'/>
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td><strong>Nombre d'enfants par jour</strong></td>
+            {% for date in dates %}
+                <td class='text-center'>
+                    {% if taille == 'Moyens' %}
+                        {{ date.enfantsmoins6 }} / {{ date.enfants }}
+                    {% else %}
+                        {{ date.enfants }}
+                    {% endif %}
+                </td>
+            {% endfor %}
+        </tr>
+        </tfoot>
+    </table>
+
+    <div class="page-breaker"></div>
+</div>

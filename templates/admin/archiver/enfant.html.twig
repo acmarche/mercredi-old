@@ -1,0 +1,18 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>{{entity}}</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            {{ form(form) }}
+        </div>
+    </div>
+
+            <a href="{{ path('enfant_show', {'slugname' : entity.slugname }) }}">
+             <span class="fas fa-list"></span>    Annuler et retour à la fiche
+            </a>       
+
+{% endblock %}

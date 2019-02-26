@@ -1,0 +1,38 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header hidden-print">
+        <h3>{{ plaine }} le {{ entity.datejour | date('d-m-Y') }}</h3>
+    </div>
+
+    <div class="page-header visible-print">
+        <h3>{{ plaine }} le {{ entity.datejour | date('d-m-Y') }}</h3>
+    </div>
+    <h3>Petit</h3>
+    {% include 'plaine/plaine_jour/line.html.twig' with {'groups': petits } %}
+
+    <div class="saut_page"></div>
+
+    <div class="page-header visible-print">
+        <h3>{{ plaine }} le {{ entity.datejour | date('d-m-Y') }}</h3>
+    </div>
+    <h3>Moyen</h3>
+    {% include 'plaine/plaine_jour/line.html.twig' with {'groups': moyens } %}
+
+    <div class="saut_page"></div>
+
+    <div class="page-header visible-print-block">
+        <h3>{{ plaine }} le {{ entity.datejour | date('d-m-Y') }}</h3>
+    </div>
+
+    <h3>Grand</h3>
+    {% include 'plaine/plaine_jour/line.html.twig' with {'groups': grands } %}
+
+    <div class="hidden-print">
+            <a href="{{ path('plaine_show', { 'slugname' : plaine.slugname}) }}">
+                <i class="fas fa-list"></i> Retour à la plaine
+            </a>
+    </div>
+
+    {% include 'plaine/plaine_jour/delete.html.twig' %}
+{% endblock %}

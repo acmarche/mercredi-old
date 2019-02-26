@@ -1,0 +1,26 @@
+{% extends 'parent/layout.html.twig' %}
+{% block body %}
+
+    <div class="page-header">
+        <h3>Ajouter une présence pour {{ enfant }}</h3>
+    </div>
+
+    <h4>Sélectionnez un jour de garde</h4>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="list-group">
+                {% for jour in jours %}
+                    <a href="{{ path('parent_presence_new', {'uuid': enfant.uuid, 'id' :jour.id} ) }}" class="list-group-item">
+                    {{ jour }} {% if jour.remarques %} <span class="text-muted">({{ jour.remarques }}</span>) {% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ path('parent_enfants') }}">
+        <span class="fas fa-list"></span> Annuler et retour à la liste
+    </a>
+
+{% endblock %}

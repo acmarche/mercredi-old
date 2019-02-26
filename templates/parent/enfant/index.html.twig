@@ -1,0 +1,36 @@
+{% extends 'parent/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>{% if enfants | length > 0 %}Vos enfants {% else %}Votre enfant {% endif %}</h3>
+    </div>
+
+    {% if enfants | length > 0 %}
+        <table class="table table-bordered table-hover">
+            {% for enfant in enfants %}
+                <tr>
+                    <td>
+                        <a href="{{ path('parent_enfant_show', {'uuid': enfant.uuid}) }}">{{ enfant }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('parent_sante_show', { 'uuid': enfant.uuid }) }}" title="Consulter"
+                           class="btn btn-primary btn-xs">
+                            <i class="fas fa-heartbeat"></i>
+                          Sa fiche santé
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('parent_enfant_edit', { 'uuid': enfant.uuid }) }}" title="Modifier"
+                           class="btn btn-primary btn-xs">
+                            <i class="far fa-edit"></i>
+                            Autres informations importantes
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p class="text-warning">Aucun enfant trouvé suivant votre compte.</p>
+    {% endif %}
+
+{% endblock %}

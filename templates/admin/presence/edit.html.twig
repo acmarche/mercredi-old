@@ -1,0 +1,17 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>
+            Edition de la présence du <strong>{{ entity.jour.datejour | date('D') | trans }} {{ entity.jour.datejour | date('d-m-Y') }}</strong> de {{entity.enfant}}
+        </h3>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            {{ form(edit_form) }}
+        </div>
+    </div>
+
+    {% include 'admin/enfant/_link_retour.html.twig' with {'entity': entity } %}
+
+{% endblock %}

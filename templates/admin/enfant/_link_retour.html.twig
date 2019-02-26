@@ -1,0 +1,9 @@
+{% if entity.enfant %}
+    <div class="row">
+        <div class="col-lg-6">
+            <a href="{{ path('enfant_show', { 'slugname': entity.enfant.slugname }) }}">
+             <span class="fas fa-list"></span> Annuler et retour à la fiche
+            </a>
+        </div>
+    </div>                
+{% endif %}

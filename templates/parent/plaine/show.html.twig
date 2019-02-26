@@ -1,0 +1,44 @@
+{% extends 'parent/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>
+            Présences de {{ enfant }} pour <strong>{{ plaine }}</strong>
+        </h3>
+    </div>
+
+    <h4 class="text-success">Est inscrit aux dates :</h4>
+    <br/>
+    {% if presences | length > 0 %}
+        <table class='table table-bordered table-hover'>
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Absent ?</th>
+                <th>Payé ?</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for presence in presences %}
+                {% set jour = presence.jour %}
+                <tr>
+                    <td>
+                        {{ jour }}
+                    </td>
+                    <td>{{ presence.absent | absencetext }}</td>
+                    <td>
+                        {% if presence.paiement %}
+                            <span class="fas fa-check"></span>
+                        {% else %}
+                            <span class="text-warning">Non</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="alert alert-danger">Aucune date !</p>
+    {% endif %}
+
+{% endblock %}

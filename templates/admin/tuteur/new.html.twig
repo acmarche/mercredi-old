@@ -1,0 +1,12 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Nouveau parent</h3>
+    </div>    
+        
+    {% include 'admin/tuteur/form.html.twig'  %}
+
+    {% include 'admin/default/link_list.html.twig' with {'link': 'tuteur' } %}
+
+{% endblock %}

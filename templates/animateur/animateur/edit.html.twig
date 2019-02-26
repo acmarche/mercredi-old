@@ -1,0 +1,10 @@
+{% extends 'animateur/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Edition de l'animateur {{animateur}}</h3>
+    </div>   
+    
+    {% include 'admin/animateur/form.html.twig' %}
+
+{% endblock %}

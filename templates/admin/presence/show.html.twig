@@ -1,0 +1,120 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Présence du {{ entity.jour }} pour <a
+                    href="{{ path('enfant_show', { 'slugname': entity.enfant.slugname }) }}"
+                    title="Consulter">{{ entity.enfant }}</a></h3>
+    </div>
+
+    <div class="row">
+        {% include 'admin/presence/actions.html.twig' with {'entity': entity } %}
+    </div>
+
+    <div class="row">
+
+        <table class="table table-bordered table-hover">
+            <tbody>
+            <tr>
+                <th>Parent</th>
+                <td>
+                    {% if entity.tuteur %}
+                        <a href="{{ path('tuteur_show', { 'slugname': entity.tuteur.slugname }) }}" title="Consulter">
+                            {{ entity.tuteur }}
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Fratries présentent ce jour là</th>
+                <td>
+                    {% if entity.fratries > 0 %}
+                        {% for fratrie in entity.fratries %}
+                            <a href="{{ path('enfant_show', { 'slugname': fratrie.slugname }) }}" title="Consulter">
+                                {{ fratrie }}
+                            </a>
+                            {% if not loop.last %} | {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Ordre définit sur la présence ?</th>
+                <td>
+                    {% if entity.ordre %}
+                        {{ entity.ordre }}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Ordre après calcul</th>
+                <td>{{ entity.ordrenew }}</td>
+            </tr>
+            <tr>
+                <th>Prix plein suivant l'ordre</th>
+                <td>
+                    {{ entity.prix }} €
+                </td>
+            </tr>
+            <tr>
+                <th>Réduction</th>
+                <td>{{ entity.reduction }} </td>
+            </tr>
+            <tr>
+                <th>Absent ?</th>
+                <td>{{ entity.absent | absencetext }} </td>
+            </tr>
+            <tr>
+                <th>Coût de la journée (Après calcul)</th>
+                <td>{{ entity.cout }} €</td>
+            </tr>
+            <tr>
+                <th>Payer avec</th>
+                <td>
+                    {% if entity.paiement %}
+                        <a href="{{ path('paiement_show', {'id' : entity.paiement.id}) }}">{{ entity.paiement }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Ajouté par</th>
+                <td>
+                    {{ entity.userAdd.nom | upper }} {{ entity.userAdd.prenom }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Détail du calcul du coût de la présence </h3>
+            </div>
+            <div class="panel-body">
+                <p class="text-warning">L'ordre de base est déterminé par ordre d'importance :</p>
+                <ol class="">
+                    <li class=''>Sur la présence elle même</li>
+                    <li class=''>Sur la relation entre le parent et l'enfant</li>
+                    <li class=''>Sur la fiche de l'enfant</li>
+                </ol>
+                <p>Ensuite, l'ordre change suivant la présence de la fratrie</p>
+
+                <p class="text-warning">Le coût de la journée est égale à :</p>
+                prix plein suivant l'ordre - réduction
+
+
+            </div>
+        </div>
+
+
+    </div>
+    {% if entity.enfant %}
+        <div class="row">
+            <div class="col-md-6">
+                <a href="{{ path('enfant_show', { 'slugname': entity.enfant.slugname }) }}">
+                    <i class="fas fa-list"></i> Retour à la fiche
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+    {% include 'admin/presence/delete.html.twig' %}
+{% endblock %}

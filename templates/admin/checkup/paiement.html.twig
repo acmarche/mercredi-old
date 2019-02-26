@@ -1,0 +1,66 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h3>{{ paiements | length }} non clôturés</h3>
+    </div>
+
+    <div class="alert alert-info">
+
+    </div>
+
+    <h4 class="text-success">Liste</h4>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Enfant</th>
+            <th>Tuteur</th>
+            <th>Montant</th>
+             <th>Nbre présences</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set total = 0 %}
+        {% for paiement in paiements %}
+            <tr>
+                <td>
+                    <a href="{{ path('paiement_show', {'id': paiement.id}) }}">
+                        {{ paiement.datePaiement | date('d-m-Y') }}
+                    </a>
+                </td>
+                <td>
+                    {% if paiement.enfant %}
+                        <a href="{{ path('enfant_show', {'slugname': paiement.enfant.slugname}) }}">
+                            {{ paiement.enfant }}
+                        </a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if paiement.tuteur %}
+                        <a href="{{ path('tuteur_show', {'slugname': paiement.tuteur.slugname}) }}">
+                            {{ paiement.tuteur }}
+                        </a>
+                    {% endif %}
+                </td>
+                <td>
+                    {{ paiement.montant }} €
+                    {% set total = total + paiement.montant %}
+                </td>
+                <td>
+                    {{ paiement.presences | length }}
+                </td>
+            </tr>
+
+        {% endfor %}
+        <tr>
+            <td>Total</td>
+            <td colspan="2"></td>
+            <td><strong>{{ total | number_format(2, ',', '.') }} €</strong></td>
+        </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

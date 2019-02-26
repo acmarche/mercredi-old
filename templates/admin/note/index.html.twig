@@ -1,0 +1,42 @@
+{% extends 'admin/layout.html.twig' %}
+{% block body %}
+
+    <div class="page-header">
+        <h3>
+            Liste des notes de
+            <a href="{{ path('enfant_show', {'slugname': enfant.slugname}) }}">
+                {{ enfant }}
+            </a>
+        </h3>
+    </div>
+
+    <p>
+        <a id="add_presence" href="{{ path('note_new', { 'slugname' : enfant.slugname } ) }}"
+           class="btn btn-primary" role="button">
+            <i class="fas fa-plus"></i> Ajouter une note
+        </a>
+    </p>
+
+    {% for note in notes %}
+
+        <p>
+            <a href="{{ path('note_show', { 'id': note.id }) }}">
+                {{ note.contenu | slice(0,100) }}
+            </a>
+        </p>
+
+        <p class="text-muted">
+            {{ 'Created' | trans }} {{ note.created|date('d-m-Y H:i:s') }} par {{ note.useradd }}
+            . {{ 'Updated' | trans }} {{ note.updated|date('d-m-Y H:i:s') }}
+        </p>
+
+    {% else %}
+        <p class="text-warning">Aucune</p>
+    {% endfor %}
+
+    <p>
+        <a href="{{ path('enfant_show', {'slugname': enfant.slugname}) }}">
+            <span class="fas fa-list"></span> Retour à la fiche
+        </a>
+    </p>
+{% endblock %}

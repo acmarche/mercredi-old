@@ -1,0 +1,17 @@
+{{ form_start(form, { 'attr': {'class': 'well'}}) }}
+{{ form_errors(form) }}
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.nom) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.prenom) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.email) }}
+    </div>
+</div>
+{{ form_row(form.groups) }}
+{{ form_end(form) }}

@@ -1,0 +1,133 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>{{ plaine.intitule }}
+            {% if plaine.archive %}
+                <span class="fas fa-archive" title="Cette plaine est archivée"></span>
+            {% endif %}
+        </h3>
+        {% if plaine.inscriptionOuverture %}
+            <div class="alert alert-warning">
+                Inscriptions ouvertes aux parents !
+            </div>
+        {% endif %}
+    </div>
+
+    {% include 'plaine/plaine/actions.html.twig' %}
+
+    {% if plaine.remarques %}
+        <p class="text-muted">
+            {{ plaine.remarques | nl2br }}
+        </p>
+    {% endif %}
+
+    <div class="hidden-print">
+        <h4 class="text-success">Dates de la plaine</h4>
+
+        <div class="alert alert-info">Cliquez sur une date pour afficher la liste des enfants inscrits par journée</div>
+        {% if plaine.jours | length > 0 %}
+            <ul class="list-group list-inline ">
+                {% for jour in plaine.jours %}
+                    <li class="list-group-item"><a href="{{ path('plainejour_show', {'id' : jour.id }) }}"
+                                                   title="Détail par date">{{ jour.datejour | datefr }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="alert alert-info">Aucune date !</p>
+        {% endif %}
+
+    </div>
+
+    <div class="hidden-print">
+        <table class='table table-bordered table-hover'>
+            <tr>
+                <td>
+                    <h4 class="text-success">Liste des enfants inscrits</h4>
+                    <ul class="list-inline">
+                        {% for groupe, key in groupes %}
+                            <li class="list-group-item">{{ groupe }} : {{ key|length }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <h4 class="text-success">Maximum par groupe</h4>
+                    <ul class="list-inline">
+                        {% for max, key in maxs %}
+                            <li class="list-group-item">{{ max }} : {{ key }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        </table>
+        <p class="text-warning">Dans cette couleur, absent</p>
+        <p class="text-danger">Dans cette couleur, non payé</p>
+    </div>
+
+
+    <br/>
+    {% if plaine_enfants | length > 0 %}
+        <table class='table table-bordered table-hover'>
+            <thead>
+            <tr>
+                <th>Enfant</th>
+                <th>Dates</th>
+                <th>Inscrit le</th>
+                <th>Email réception lettre</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for plaine_enfant in plaine_enfants %}
+
+                {% set enfant = plaine_enfant.enfant %}
+                {% set presences = plaine_enfant.presences %}
+                <tr>
+                    <td>
+                        <a href="{{ path('plainepresence_show_enfant', {'plaine_slugname': plaine.slugname, 'enfant_slugname' : enfant.slugname }) }}"
+                           title="Détail de sa présence">
+                            {{ enfant }}
+                        </a>
+                    </td>
+                    <td>
+                        {% set email = '' %}
+                        {% set inscrit_le = '' %}
+                        {% for presence in presences %}
+                            {% set class = '' %}
+
+                            {% if presence.paiement %}
+                            {% else %}
+                                {% set class = 'text-danger' %}
+                            {% endif %}
+
+                            {% if presence.absent %}
+                                {% set class = 'text-warning' %}
+                            {% endif %}
+
+                            <span class="{{ class }}">
+                                    {{ presence.jour.datejour | date('d-m') }}
+                            </span>
+                            |
+                            {% set email = plaineService.emailOnPresence(presence) %}
+                            {% set inscrit_le = presence.created %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ inscrit_le | date('d-m-Y') }}</td>
+                    <td>{{ email }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="alert alert-info">Aucun enfant !</p>
+    {% endif %}
+
+    <div class="hidden-print">
+        <br/>
+        <a href="{{ path('plaine') }}">
+            <i class="fas fa-list"></i> Retour à la liste
+        </a>
+        <br/>
+    </div>
+
+    {% include 'plaine/plaine/delete.html.twig' %}
+{% endblock %}

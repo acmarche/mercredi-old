@@ -1,0 +1,54 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Paiement de
+            <a href="{{ path('tuteur_show', { 'slugname': entity.tuteur.slugname }) }}">{{ entity.tuteur }}</a>
+            pour
+            <a href="{{ path('enfant_show', { 'slugname': entity.enfant.slugname }) }}"
+               title="Consulter sa fiche">
+                {{ entity.enfant }}
+            </a>
+        </h3>
+    </div>
+
+    {% include 'admin/paiement/actions.html.twig' with {'entity': entity} %}
+
+    <table class="table table-bordered table-hover">
+        <tbody>
+        <tr>
+            <th>Montant</th>
+            <td>{{ entity.montant }} €</td>
+        </tr>
+        <tr>
+            <th>Type</th>
+            <td>{{ entity.typepaiement }}</td>
+        </tr>
+        <tr>
+            <th>Mode</th>
+            <td>{{ entity.modepaiement }}</td>
+        </tr>
+        <tr>
+            <th>Payé le</th>
+            <td>{% if entity.datepaiement %}{{ entity.datepaiement|date('d-m-Y') }}{% endif %}</td>
+        </tr>
+        <tr>
+            <th>Remarques</th>
+            <td>{{ entity.remarques | nl2br }}</td>
+        </tr>
+        <tr>
+            <th>Clôturé</th>
+            <td>
+                {%  if entity.cloture %}
+                    <span class="fas fa-check"></span>
+                {% endif %}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Présence(s) payée(s) avec ce virement :</h4>
+    {% include 'admin/paiement/presences.html.twig' with {'presences': entity.presences } %}
+
+    {% include 'admin/paiement/delete.html.twig' %}
+{% endblock %}

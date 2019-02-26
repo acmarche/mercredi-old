@@ -1,0 +1,33 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Note pour {{ entity.enfant }}</h3>
+    </div>
+
+    {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+        <a href="{{ path('note', { 'slugname': entity.enfant.slugname }) }}" class="btn btn-primary" title="Editer">
+            <i class="fas fa-list"></i> Retour à la liste des notes
+        </a>
+        <a href="{{ path('note_edit', { 'id': entity.id }) }}" class="btn btn-primary" title="Editer">
+            <i class="far fa-edit"></i> Editer
+        </a>
+        <a href="#" class="btn btn-warning" role="button" data-toggle="modal" data-target="#myModal">
+            <i class="far fa-trash-alt"></i> Clôturer</a>
+        <br/>
+    {% endif %}
+    <br/>
+    <p> {{ entity.contenu | nl2br }}</p>
+    <br/>
+
+    <p class="text-muted">
+        {{ 'Created' | trans }} {{ entity.created|date('d-m-Y H:i:s') }} par {{ entity.useradd }}
+        . {{ 'Updated' | trans }} {{ entity.updated|date('d-m-Y H:i:s') }}
+    </p>
+
+    <a href="{{ path('enfant_show', {'slugname': entity.enfant.slugname}) }}">
+        <span class="fas fa-list"></span> Retour à l'enfant
+    </a>
+
+    {% include 'admin/note/delete.html.twig' with {'delete_form': delete_form } %}
+{% endblock %}

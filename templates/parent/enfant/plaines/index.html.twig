@@ -1,0 +1,22 @@
+<h4>Inscrits aux plaines</h4>
+
+{% if plaines | length > 0 %}
+    <table class='table table-bordered table-hover'>
+        <thead>
+            <tr>
+                <th>Plaine</th>
+        </thead>
+        <tbody>
+            {% for enfantplaine in plaines %}
+                {% set plaine = enfantplaine.plaine %}
+            <td>
+                <a title="Consulter ses présences" href="{{ path('parent_plaine_show', { 'plaine_slugname' : plaine.slugname ,'enfant_uuid' : enfant.uuid}) }}">
+                    {{ plaine }}
+                </a>
+            </td>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>Aucune plaine</p>
+{% endif %}

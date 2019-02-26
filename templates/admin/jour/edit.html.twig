@@ -1,0 +1,25 @@
+{% extends 'admin/layout.html.twig' %}
+{% block stylesheets %}
+    <link href="{{ asset('jquery-ui/jquery-ui.min.css') }}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+
+    <div class="page-header">
+        <h3>Edition du <strong>{{ entity.datejour | datefr }}</strong></h3>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            {{ form(edit_form) }}
+        </div>
+    </div>
+
+    <a href="{{ path('jour') }}">
+        <span class="fas fa-list"></span> Annuler et retour à la liste
+    </a>
+
+{% endblock %}
+
+{% block scripts %}
+    {% include 'commun/form/calendar.html.twig' %}
+{% endblock %}

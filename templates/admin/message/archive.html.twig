@@ -1,0 +1,29 @@
+{% extends 'admin/layout.html.twig' %}
+{% block body %}
+    <div class="page-header">
+        <h3>Archive des messages</h3>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Sujet</th>
+            <th>Destinataires</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for message in messages %}
+            <tr>
+                <td>
+                    <a href="{{ path('message_show', {'id': message.id}) }}">{{ message.createdAt | date('j-m-Y') }}</a>
+                </td>
+                <td>{{ message.sujet }}</td>
+                <td>{{ message.destinataires | length }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

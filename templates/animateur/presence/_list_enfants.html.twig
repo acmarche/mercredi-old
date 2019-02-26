@@ -1,0 +1,28 @@
+{% if presences | length > 0 %}
+
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Année scolaire</th>
+            <th width="15%">Ecole</th>
+            <th>Remarques</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for presence in presences %}
+            {% set enfant = presence.enfant %}
+            <tr>
+                <td><a href="{{ path('animateur_enfant_show', { 'slugname': enfant.slugname }) }}">{{ enfant.nom }}</a></td>
+                <td>{{ enfant.prenom }}</td>
+                <td>{{ enfant.anneescolaire }}</td>
+                <td>{{ enfant.ecole }}</td>
+                <td>{{ enfant.remarques | nl2br }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Personne</p>
+{% endif %}

@@ -1,0 +1,50 @@
+{% set yearpresence = presence.jour.datejour | date('Y') %}
+{% set moispresence = presence.jour.datejour | date('n') %}
+{% if moispresence == month %}
+    <tr>
+        <td>
+            <input type="checkbox" name="presences[]" value="{{ presence.id }}" title="Cocher pour supprimer"/>
+        </td>
+        <td>
+            <a href="{{ path('presence_show', { 'id': presence.id }) }}" title='Détail de la présence'>
+                {{ presence.jour.datejour | datefr }}</a>
+        </td>
+        <td>{{ presence.ordrenew }}</td>
+        <td>{{ presence.reduction }}</td>
+        <td>{{ presence.absent | absencetext }}</td>
+        <td>{{ presence.cout }} €</td>
+        <td>
+            {% for fratrie in presence.fratries %}
+                {% if fratrie.absent %}
+                    <span class="text-warning">
+                {% endif %}
+                <a href="{{ path('enfant_show', { 'slugname': fratrie.slugname }) }}"
+                   title="Consulter sa fiche"> {{ fratrie }} </a>
+                {% if fratrie.absent %}
+                    </span>
+                {% endif %}
+                {% if not loop.last %} | {% endif %}
+            {% endfor %}
+        </td>
+            <td>
+                {% if presence.isGratuite %}
+                    Gratuit
+                {% elseif presence.paiement %}
+                    <a title="Détail du paiement"
+                       href="{{ path('paiement_show', { 'id': presence.paiement.id } ) }}">{{ presence.paiement }}</a>
+                {% endif %}
+            </td>
+            <td>
+                {% if presence.paiement %}
+                    {{ presence.paiement.remarques }}
+                {% endif %}
+            </td>
+            <td class="hidden-print">
+                <a href="{{ path('presence_edit', { 'id': presence.id }) }}" title="Editer">
+                    <button type="button" class="btn btn-primary btn-xs"><i class="far fa-edit"></i>
+                        Editer
+                    </button>
+                </a>
+            </td>
+    </tr>
+{% endif %}

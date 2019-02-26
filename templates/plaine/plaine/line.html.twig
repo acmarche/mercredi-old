@@ -1,0 +1,39 @@
+{% if groups | length > 0 %}
+    <table class='table table-bordered table-hover'>
+        <tbody>
+        {% for plaine_enfant in groups %}
+            {% set enfant = plaine_enfant.enfant %}
+            {% set presences = plaine_enfant.presences %}
+            <tr class="info">
+                <td style="width: 30%;"><a
+                            href="{{ path('plainepresence_show_enfant', {'plaine_slugname': entity.slugname, 'enfant_slugname' : enfant.slugname }) }}"
+                            title="Détail de sa présence">
+                        {{ enfant }}
+                    </a>
+                </td>
+                <td>
+                    <span class="text-muted">{{ enfant.remarques }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <ul class="list-group list-inline">
+                        {% for presence in presences %}
+                            {% set class = '' %}
+                            {% if presence.paiement %}
+                            {% else %}
+                                {% set class = 'list-group-item-warning' %}
+                            {% endif %}
+                            <li class="list-group-item {{ class }}">
+                                {{ presence.jour | date('d-m-Y') }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Personne</p>
+{% endif %}

@@ -1,0 +1,44 @@
+{% extends 'admin/layout.html.twig' %}
+{% block body %}
+
+    <div class="page-header">
+        <h3>Jours de garde archivés</h3>
+    </div>
+
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Prix 1</th>
+            <th>Prix 2</th>
+            <th>Prix suivant</th>
+            <th>Enfants inscrits</th>
+            <th>Animateurs</th>
+            {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+                <th>Actions</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr {% if entity.color %} style="background-color:{{ entity.color }}" {% endif %}>
+                <td><a href="{{ path('jour_show', { 'id': entity.id }) }}">{{ entity.datejour | datefr }}</a></td>
+                <td>{{ entity.prix1 }} €</td>
+                <td>{{ entity.prix2 }} €</td>
+                <td>{{ entity.prix3 }} €</td>
+                <td>{{ entity.presences | length }}</td>
+                <td>{{ entity.animateurs | length }}</td>
+                {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+                    <td>
+                        <a href="{{ path('jour_edit', { 'id': entity.id }) }}" title="Editer"
+                           class="btn btn-primary btn-xs">
+                            <i class="far fa-edit"></i> Editer
+                        </a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

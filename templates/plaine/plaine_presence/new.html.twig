@@ -1,0 +1,22 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Ajout d'un enfant pour : <strong>{{ plaine }}</strong></h3>
+    </div>
+
+    <div class="alert alert-info">
+        Pour un accès rapide, tapez la première lettre du nom de famille
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            {{ form(form) }}
+        </div>
+    </div>
+
+    <a href="{{ path('plaine_show', {'slugname' : plaine.slugname }) }}">
+        <i class="fas fa-list"></i> Annuler et retour à la plaine
+    </a>
+
+{% endblock %}

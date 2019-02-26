@@ -1,0 +1,14 @@
+{% for enfantTuteur in enfant.tuteurs %}
+
+    {% set tuteur = enfantTuteur.tuteur %}
+
+    {% if tuteur %}
+        <span class="text-muted">
+            {{ tuteur }}
+            {{ tuteur.gsm }} {{ tuteur.telephone }} {{ tuteur.telephonebureau }}
+        </span>
+        {% if not loop.last %}
+            |
+        {% endif %}
+    {% endif %}
+{% endfor %}

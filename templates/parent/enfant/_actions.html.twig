@@ -1,0 +1,13 @@
+<div class="btn-group">
+    <a id="edit_enfant" href="{{ path('parent_presence_select_jour', { 'uuid': enfant.uuid }) }}"
+       class="btn btn-primary" role="button"><i class="fas fa-plus"></i> Ajouteur une présence
+    </a>
+</div>
+<div class="btn-group">
+    <a id="edit_enfant" href="{{ path('parent_sante_show', { 'uuid': enfant.uuid }) }}"
+       class="btn btn-primary" role="button"><i class="fas fa-heartbeat"></i> Sa fiche santé</a>
+</div>
+<div class="btn-group">
+    <a id="edit_enfant" href="{{ path('parent_enfant_edit', { 'uuid': enfant.uuid }) }}"
+       class="btn btn-primary" role="button"><i class="far fa-edit"></i> Modifier</a>
+</div>

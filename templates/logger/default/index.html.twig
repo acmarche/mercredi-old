@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Date</th>
+            <th>Quoi</th>
+            <th>Qui</th>
+            <th>Ip</th>
+            <th>Url</th>
+            <th>Dump context</th>
+            <th>Dump extra</th>
+        </tr>
+        {% for log in logs %}
+            <tr>
+                <td>{{ log.createdAt | date }}</td>
+                <td>
+                    <a href="{{ path('acmarche_logger_show', {'id': log.id}) }}">
+                        {{ log.message }}</a>
+                </td>
+                <td>{{ log.extra.user.username }}</td>
+                <td>{{ log.extra.client_ip }}</td>
+                <td>{{ log.extra.uri }}</td>
+                <td>{#{ dump(log.context) }#}</td>
+                <td>{#{ dump(log.extra) }#}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

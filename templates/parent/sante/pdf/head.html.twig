@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="{{ absolute_url(asset('css/pdf.css')) }}" rel="stylesheet">
+    <link href="{{ absolute_url(asset('bootstrap/css/bootstrap.min.css')) }}" rel="stylesheet">
+    <link href="{{ absolute_url(asset('bootstrap/css/bootstrap-theme.min.css')) }}" rel="stylesheet">
+    <link rel="stylesheet" href="http://use.fontawesome.com/releases/v5.3.1/css/all.css" media="all"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <title>Fiche santé</title>
+    <style type="text/css">
+        table {
+            page-break-inside: auto
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto
+        }
+
+        thead {
+            display: table-header-group
+        }
+
+        tfoot {
+            display: table-footer-group
+        }
+    </style>
+</head>
+<body>
+<div class="container">

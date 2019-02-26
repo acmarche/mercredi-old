@@ -1,0 +1,33 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>{{ question }}</h3>
+    </div>
+
+    <a href="{{ path('question_edit', { 'id': question.id }) }}" title="Editer" class="btn btn-primary" role="button">
+        <i class="far fa-edit"></i> Editer
+    </a>
+    <br/>
+    <br/>
+    <table class="table table-bordered">
+        <tr>
+            <th>Complément d'information nécessaire ?</th>
+            <td>
+                {% if question.complement %}
+                    Oui
+                {% else %}
+                    Non
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Texte d'aide au complément</th>
+            <td>{{ question.complementLabel }}</td>
+        </tr>
+    </table>
+
+    <br/>
+
+    {% include 'admin/question/delete.html.twig' %}
+{% endblock %}

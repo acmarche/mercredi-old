@@ -1,0 +1,28 @@
+<table class='table table-bordered table-hover'>
+    <tr>
+        <th><i class="fas fa-heart" style="color:hotpink;"></i> Conjoint</th>
+        <td>{{ tuteur.nomconjoint }} {{ tuteur.prenomconjoint }}</td>
+    </tr>
+    <tr>
+        <th><span class="fas fa-phone"></span> Conjoint téléphone </th>
+        <td>{{ tuteur.telephoneconjoint }} </td>
+    </tr>
+    <tr>
+        <th><span class="fas fa-phone"></span> Conjoint téléphone bureau</th>
+        <td>{{ tuteur.telephonebureauconjoint }} </td>
+    </tr>
+    <tr>
+        <th><span class="fas fa-mobile-alt"></span> Conjoint gsm</th>
+        <td>{{ tuteur.gsmconjoint }}</td>
+    </tr>
+    <tr>
+        <th>Composition ménage</th>
+        <td> 
+            {% if tuteur.compositionmenage %}
+                <span class="fas fa-check" title="En ordre"></span>
+            {% else %}
+                {{ tuteur.compositionmenage }}
+            {% endif %}
+        </td>
+    </tr>  
+</table>

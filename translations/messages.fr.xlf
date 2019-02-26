@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Unable to find Tuteur entity.</source>
+                <target>Le tuteur n'a pas été trouvé</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Delete</source>
+                <target>Supprimer</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Update</source>
+                <target>Mettre à jour</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Create</source>
+                <target>Ajouter</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Edit</source>
+                <target>Editer</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Birthday</source>
+                <target>Date d'anniversaire</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Unable to find Enfant entity.</source>
+                <target>L'enfant n'a pas été trouvé.</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Created</source>
+                <target>Créé le</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>Updated</source>
+                <target>Mis à jour le</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>Telephone</source>
+                <target>Téléphone</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>Localite</source>
+                <target>Localité</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>Prenom</source>
+                <target>Prénom</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>Search raz</source>
+                <target>Réinitialiser la recherche</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>Wed</source>
+                <target>Mercredi</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>Tue</source>
+                <target>Mardi</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>Fri</source>
+                <target>Vendredi</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>Mon</source>
+                <target>Lundi</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>Thu</source>
+                <target>Jeudi</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>Numero national</source>
+                <target>Numéro national</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>Num assimilation</source>
+                <target>Numéro d'assimilation</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>Num bancaire</source>
+                <target>Numéro bancaire</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>Diplome</source>
+                <target>Diplôme(s)</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>Groupe souhaite</source>
+                <target>Groupe souhaité</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>Disponibilite</source>
+                <target>Disponibilité</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>Taille tshirt</source>
+                <target>Taille du T-shirt</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>Monday</source>
+                <target>Lundi</target>
+            </trans-unit>
+            <trans-unit id="27">
+                <source>Tuesday</source>
+                <target>Mardi</target>
+            </trans-unit>
+            <trans-unit id="28">
+                <source>Wednesday</source>
+                <target>Mercredi</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>Thursday</source>
+                <target>Jeudi</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>Friday</source>
+                <target>Vendredi</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>Saturday</source>
+                <target>Samedi</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>Sunday</source>
+                <target>Dimanche</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>Sat</source>
+                <target>Samedi</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>Sun</source>
+                <target>Dimanche</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>Unable to find Enfant entity.</source>
+                <target>Impossible de trouver la fiche enfant</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>Username</source>
+                <target>Nom d'utilisateur</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>add.animateur.plaine</source>
+                <target>L'animateur est déjà attribué à cette plaine</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>The presented password is invalid.</source>
+                <target>Le mot de passe est invalide</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>There is no user with name "%s".</source>
+                <target>L'utilisateur %s n'a pas été trouvé</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>Token does not have the required roles.</source>
+                <target>Vous n'avez pas les droits suffisants.</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>User account is disabled.</source>
+                <target>Le compte n'est pas activé.</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>Invalid CSRF token.</source>
+                <target>Le jeton de sécurité n'est pas valable.</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>Bad credentials</source>
+                <target>Mauvais nom d'utilisateur ou mot de passe</target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>santes.title</source>
+                <target>{0} There are no apples|{1} There is one apple|]1,Inf[ There are %count% apples</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

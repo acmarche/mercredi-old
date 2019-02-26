@@ -1,0 +1,18 @@
+{% if is_granted('ROLE_MERCREDI_ADMIN') %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="btn-toolbar" role="toolbar" style="margin: 0;">
+                <div class="btn-group">
+                    <a href="{{ path('presence_edit', { 'id' : entity.id }) }}" class="btn btn-primary" role="button"><i
+                                class="far fa-edit"></i> Editer</a>
+                </div>
+                <div class="btn-group">
+                    <a id="edit_enfant" href="#" class="btn btn-danger" role="button" data-toggle="modal"
+                       data-target="#myModal">
+                        <i class="far fa-trash-alt"></i> Supprimer la présence</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+{% endif %}

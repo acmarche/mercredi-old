@@ -1,0 +1,18 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Modifier les dates pour {{ enfant }} à la plaine {{ plaine }}</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            {{ form(edit_form) }}
+        </div>
+    </div>
+
+    <a href="{{ path('plainepresence_show_enfant', { 'enfant_slugname' : enfant.slugname, 'plaine_slugname' : plaine.slugname }) }}">
+        <i class="fas fa-list"></i> Annuler et retour à l'enfant
+    </a>
+
+{% endblock %}

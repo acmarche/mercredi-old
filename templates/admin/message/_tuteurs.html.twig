@@ -1,0 +1,24 @@
+<table class='table table-bordered table-hover'>
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Téléphones</th>
+        <th>Gsm</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for tuteur in tuteurs %}
+        <tr>
+            <td>
+                <a href='{{ path('tuteur_show', {'slugname' : tuteur.slugname }) }}'>
+                    {{ tuteur }}
+                </a>
+            </td>
+            <td>{{ tuteur.telephone }} {{ tuteur.telephonebureau }} {{ tuteur.telephoneconjoint }} {{ tuteur.telephonebureauconjoint }}</td>
+            <td>{{ tuteur.gsm }} {{ tuteur.gsmconjoint }}</td>
+        </tr>
+    {% else %}
+        <p>Aucun</p>
+    {% endfor %}
+    </tbody>
+</table>

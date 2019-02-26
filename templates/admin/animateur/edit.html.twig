@@ -1,0 +1,15 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Edition de l'animateur {{animateur}}</h3>
+    </div>   
+    
+    {% include 'admin/animateur/form.html.twig' %}
+
+            <a href="{{ path('admin_animateur') }}">
+                <span class="fas fa-list"></span>
+                Annuler et retour à la liste
+            </a>
+
+{% endblock %}

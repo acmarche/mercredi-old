@@ -1,0 +1,7 @@
+monolog:
+    channels: ['db']
+    handlers:
+        db:
+            type: service
+            id: AcMarche\Mercredi\Logger\Service\MonologDBHandler
+            channels: ['db']

@@ -1,0 +1,26 @@
+{% extends 'admin/layout.html.twig' %}
+{% block stylesheets %}
+    <style>
+        #accompagnateurs-list li * {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        #accompagnateurs-list li input {
+            width: 50%;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="page-header">
+        <h3>Nouvel enfant {% if tuteur %} pour {{ tuteur }} {% endif %}</h3>
+    </div>
+        
+    {% include 'admin/enfant/_form.html.twig' %}
+
+    {% include 'admin/default/link_list.html.twig' with {'link': 'enfant' } %}
+
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('js/accompagnateur.js') }}"></script>
+{% endblock %}

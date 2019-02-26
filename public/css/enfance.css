@@ -1,0 +1,186 @@
+.container-fluid {
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+section {
+    height: 300px;
+}
+
+.well .btn-primary {
+    margin-top: 25px;
+}
+
+.page-header {
+    margin: 20px 0 5px;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    margin-top: 6px;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #f5f5f5;
+}
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+body > .container {
+    padding: 60px 15px 0;
+}
+
+.container .text-muted {
+    margin: 20px 0;
+}
+
+#footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+code {
+    font-size: 80%;
+}
+
+/* pour autocompletion */
+
+.typeahead, .tt-query, .tt-hint {
+    border: 2px solid #CCCCCC;
+    border-radius: 8px;
+    font-size: 24px;
+    height: 30px;
+    line-height: 30px;
+    outline: medium none;
+    padding: 8px 12px;
+    width: 396px;
+}
+
+.typeahead {
+    background-color: #FFFFFF;
+}
+
+.typeahead:focus {
+    border: 2px solid #0097CF;
+}
+
+.tt-query {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+.tt-hint {
+    color: #999999;
+}
+
+.tt-dropdown-menu {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 12px;
+    padding: 8px 0;
+    width: 422px;
+}
+
+.tt-suggestion {
+    font-size: 24px;
+    line-height: 24px;
+    padding: 3px 20px;
+}
+
+.tt-suggestion.tt-is-under-cursor {
+    background-color: #0097CF;
+    color: #FFFFFF;
+}
+
+.tt-suggestion p {
+    margin: 0;
+}
+
+.list-height {
+    height: 150px;
+}
+
+.birthday-text > input.form-control {
+    width: 30%;
+}
+
+.img-enfance {
+    margin-right: 15px;
+}
+
+#header-img22 {
+    width: 100%;
+    height: auto;
+}
+
+#header-img0 {
+    min-height: 160px;
+    background-image: url("/images/banner/pexels-photo-89430.jpeg");
+    background-repeat: no-repeat;
+    background-size: 1400px 220px;
+    background-position: center top;
+}
+
+#header-img1 {
+    min-height: 160px;
+    background-image: url("/images/banner/pexels-photo-85599.jpeg");
+    background-repeat: no-repeat;
+    background-size: 1400px 220px;
+    background-position: center top;
+}
+
+#header-img2 {
+    min-height: 160px;
+    background-image: url("/images/banner/IMG_20170209_131913.jpg");
+    background-repeat: no-repeat;
+    background-size: 1400px 220px;
+    background-position: center top;
+}
+
+#header-img3 {
+    min-height: 160px;
+    background-image: url("/images/banner/bannercee2.jpg");
+    background-repeat: no-repeat;
+    background-size: 1400px 220px;
+    background-position: center top;
+}
+
+#header-img4 {
+    min-height: 160px;
+    background-image: url("/images/banner/pexels-photo-201688.jpeg");
+    background-repeat: no-repeat;
+    background-size: 1400px 220px;
+    background-position: center top;
+}
+
+#header-img5 {
+    min-height: 160px;
+    background-image: url("/images/banner/pexels-photo-132464.jpeg");
+    background-repeat: no-repeat;
+    background-size: 1400px 220px;
+    background-position: center top;
+}
+
+#header-img6 {
+    min-height: 160px;
+    background-image: url("/images/banner/bannercee1.jpg");
+    background-repeat: no-repeat;
+    background-size: 1400px 220px;
+    background-position: center top;
+}

@@ -1,0 +1,23 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>{{ ecole }}</h3>
+    </div>
+
+    {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+        <a href="{{ path('ecole_edit', { 'id': ecole.id }) }}" class="btn btn-primary" role="button"><i
+                    class="far fa-edit"></i> Editer</a>
+        <br/><br/>
+    {% endif %}
+
+    {% include 'admin/ecole/users.html.twig' with {'users': ecole.users} %}
+
+    {% include 'admin/ecole/enfants.html.twig' with {'enfants': ecole.enfants} %}
+
+    <a href="{{ path('ecole') }}">
+        <i class="fas fa-list"></i> Retour à la liste
+    </a>
+
+    {% include 'admin/ecole/delete.html.twig' with {'delete_form': delete_form } %}
+{% endblock %}

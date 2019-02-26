@@ -1,0 +1,23 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Confirmation</h3>
+    </div>
+
+    <a href="{{ path('enfant_new_with_tuteur', { 'id' : tuteur.id }) }}" class="btn btn-primary" role="button">
+        <i class="fas fa-plus"></i> Ajouter un autre enfant </a>
+    <br><br>
+    <strong>La fiche parent</strong> <a
+        href="{{ path('tuteur_show', {'slugname': tuteur.slugname}) }}">{{ tuteur }}</a> bien été ajoutée
+    <br><br>
+    <strong>La fiche enfant</strong> <a
+        href="{{ path('enfant_show',{'slugname': enfant.slugname}) }}">{{ enfant }}</a> a bien été ajoutée
+    <br><br>
+    {% if user %}
+        Le compte {{ user }} {% if password %} a été créé {% else %} a été associé {% endif %}<br>
+        Adresse mail pour se connecter: {{ user.email }}<br>
+        {% if password %} Mot de passe: {{ password }}    {% endif %}    <br>
+    {% endif %}
+
+{% endblock %}

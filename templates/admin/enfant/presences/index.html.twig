@@ -1,0 +1,32 @@
+<h3 class="text-warning">Présences</h3>
+{% set months = enfant_tuteur.presencesByMonth(year) %}
+
+{% for month, presences in months %}
+    <h4 class="text-success">{{ month | monthtext }}</h4>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th></th>
+            <th style="width: 15%;">Date</th>
+            <th style="width: 5%;">Ordre</th>
+            <th style="width: 20%;">Réduction</th>
+            <th style="width: 5%;">Absent?</th>
+            <th style="width: 5%;">Coût</th>
+            <th style="width: 20%;">Fratrie ce jour là</th>
+            <th style="width: 20%;">Payé</th>
+            <th style="width: 10%;">Commentaire</th>
+            <th class="hidden-print" style="width: 10%;"> Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tbody>
+        {% for presence in presences %}
+            {% include 'admin/enfant/presences/line.html.twig' %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <br/>
+    <p class="text-warning">Aucune présence</p>
+{% endfor %}

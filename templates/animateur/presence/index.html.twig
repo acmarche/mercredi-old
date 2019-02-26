@@ -1,0 +1,25 @@
+{% extends 'animateur/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Les jours de garde</h3>
+    </div>
+
+    <ul class="list-group">
+        {% for jour in jours %}
+            <li class="list-group-item">
+                {% if instanceof(jour,'AcMarche\\Mercredi\\Admin\\Entity\\Jour') %}
+                    <a href="{{ path('animateur_presence_show', {'id': jour.id, 'type':'jour'}) }}">
+                        {{ jour }}
+                    </a>
+                {% else %}
+
+                    <a href="{{ path('animateur_presence_show', {'id': jour.id, 'type':'plaine'}) }}">
+                        {{ jour }} (P)
+                    </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'admin/layout.html.twig' %}
+{% block body %}
+
+    <div class="page-header">
+        <h3>Liste des questions</h3>
+    </div>
+
+    {% include 'admin/question/_actions.html.twig' %}
+
+    <br/>
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Complément d'information</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for question in questions %}
+            <tr>
+                <td>
+                    <a href="{{ path('question_show', { 'id': question.id }) }}">{{ question }}</a>
+                </td>
+                <td>
+                    {% if question.complement %}
+                        {{ question.complementLabel }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+<br />
+<div class="hidden-print">
+    {{ form_start(form, { 'attr': {'class': 'form-inline'}}) }}        
+    {{ form_errors(form) }}
+
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><span class="fas fa-filter"></span></div>
+                    {{ form_widget(form.nom) }}
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-addon"><span class="fas fa-filter"></span></div>
+                    {{ form_widget(form.groupe) }}
+            </div>
+
+            <div class="input-group">                    
+                {{ form_row(form.submit) }}
+            </div>
+
+            <div class="input-group">                    
+                {{ form_row(form.raz) }}
+            </div>
+        </div>
+
+    {{ form_end(form) }}
+</div>
+<br />

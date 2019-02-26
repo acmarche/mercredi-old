@@ -1,0 +1,27 @@
+<h3>Inscrits aux plaines</h3>
+
+{% if plaines | length > 0 %}
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Plaine</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for enfantplaine in plaines %}
+            <tr>
+                {% set plaine = enfantplaine.plaine %}
+                <td>
+                    <a href="{{ path('plainepresence_show_enfant',
+                        {'plaine_slugname': plaine.slugname, 'enfant_slugname' : enfant.slugname }) }}"
+                       title="Détail de sa présence">
+                        {{ plaine }}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Aucune plaine</p>
+{% endif %}

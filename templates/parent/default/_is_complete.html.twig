@@ -1,0 +1,8 @@
+{% if tuteurIsComplete == false %}
+    <h4 class="text-danger">
+        Vos coordonnées ne sont pas complètes
+    </h4>
+
+    <a href="{{ path('parent_coordonnees_edit') }}">Editer mes coordonnées</a>
+
+{% endif %}

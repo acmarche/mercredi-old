@@ -1,0 +1,138 @@
+{% extends 'animateur/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        {% if animateur.imageName is not empty %}
+            <div class="media">
+                <div class="media-left media-middle">
+                    <a href="#">
+                        <img class="media-object"
+                             src="{{ animateur | animateurimage | imagine_filter('my_thumb') }}"
+                             alt="{{ animateur.slugname }}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h3 class="media-heading">Animateur {{ animateur }}</h3>
+                    {{ animateur.adresse }} <br/>
+                    {{ animateur.codepostal }} {{ animateur.localite }}
+                </div>
+            </div>
+        {% else %}
+            <h3>Animateur {{ animateur }}</h3>
+            {{ animateur.adresse }} <br/>
+            {{ animateur.codepostal }} {{ animateur.localite }}
+        {% endif %}
+    </div>
+
+     <div class="btn-group">
+            <a href="{{ path('animateur_edit') }}" class="btn btn-primary"
+               role="button"><i class="far fa-edit"></i> Editer</a>
+        </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <table class='table table-bordered table-hover'>
+                <tbody>
+                <tr>
+                    <th><span class="fas fa-phone"></span> Téléphone</th>
+                    <td>{{ animateur.telephone }}</td>
+                </tr>
+                <tr>
+                    <th><span class="fas fa-mobile-alt"></span> Gsm</th>
+                    <td>{{ animateur.gsm }}</td>
+                </tr>
+                <tr>
+                    <th><span class="far fa-envelope"></span> Email</th>
+                    <td><a href='mailto:{{ animateur.email }}'>{{ animateur.email }}</a></td>
+                </tr>
+                <tr>
+                    <th>Numéro national</th>
+                    <td>{{ animateur.numeronational }}</td>
+                </tr>
+                <tr>
+                    <th><span class="fas fa-birthday-cake"></span> Né le</th>
+                    <td>
+                        {% if animateur.birthday %} {{ animateur.birthday|date('d-m-Y') }} {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-6">
+
+            <table class='table table-bordered table-hover'>
+                <tr>
+                    <th>Numéro d'assimilation</th>
+                    <td>
+                        {{ animateur.numassimilation }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Numéro bancaire</th>
+                    <td>{{ animateur.numbancaire }}</td>
+                </tr>
+                <tr>
+                    <th>Diplôme(s)</th>
+                    <td>{{ animateur.diplome | nl2br }}</td>
+                </tr>
+                <tr>
+                    <th>Taille T-shirt</th>
+                    <td>{{ animateur.tailletshirt }}</td>
+                </tr>
+                <tr>
+                    <th>Groupe souhaité</th>
+                    <td>{{ animateur.groupesouhaite }}</td>
+                </tr>
+                <tr>
+                    <th>Disponibilité</th>
+                    <td>{{ animateur.disponibilite | nl2br }}</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    {{ animateur.remarques | nl2br }}
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="list-group">
+                {% if animateur.filename %}
+                    <li class="list-group-item">
+                        <span class="fas fa-download" aria-hidden="true"></span>
+                        <a href="{{ path('download_animateur', {'slugname': animateur.slugname, 'type': 'cv'}) }}" target="_blank">
+                            Télécharger le Curriculum vitae
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if animateur.diplomeName %}
+                    <li class="list-group-item">
+                        <span class="fas fa-download" aria-hidden="true"></span>
+                        <a href="{{ path('download_animateur', {'slugname': animateur.slugname, 'type': 'diplome'}) }}" target="_blank">
+                            Télécharger le diplôme
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if animateur.casierName %}
+                    <li class="list-group-item">
+                        <span class="fas fa-download" aria-hidden="true"></span>
+                        <a href="{{ path('download_animateur', {'slugname': animateur.slugname, 'type': 'casier'}) }}" target="_blank">
+                            Télécharger le certificat de bonne vie et moeurs</a>
+                    </li>
+                {% endif %}
+
+                {% if animateur.certificatName %}
+                    <li class="list-group-item">
+                        <span class="fas fa-download" aria-hidden="true"></span>
+                        <a href="{{ path('download_animateur', {'slugname': animateur.slugname, 'type': 'certificat'}) }}" target="_blank">
+                            Télécharger le certificat de capacité de travail
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+
+{% endblock %}

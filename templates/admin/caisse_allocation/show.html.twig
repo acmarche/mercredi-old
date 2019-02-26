@@ -1,0 +1,21 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>{{ entity.nom }}</h3>
+    </div>
+
+    {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+
+        <a href="{{ path('caisseallocation_edit', { 'id': entity.id }) }}" class="btn btn-primary" role="button"><i
+                    class="far fa-edit"></i> Editer</a>
+
+        <br/><br/>
+    {% endif %}
+
+    <a href="{{ path('caisseallocation') }}">
+        <i class="fas fa-list"></i> Annuler et retour à la liste
+    </a>
+
+    {% include 'admin/caisse_allocation/delete.html.twig' with {'delete_form': delete_form } %}
+{% endblock %}

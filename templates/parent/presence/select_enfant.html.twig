@@ -1,0 +1,26 @@
+{% extends 'parent/layout.html.twig' %}
+{% block body %}
+
+    <div class="page-header">
+        <h3>Ajouter une présence</h3>
+    </div>
+
+    <h4>Sélectionnez un enfant</h4>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="list-group">
+                {% for enfant in enfants %}
+                    <a href="{{ path('parent_presence_select_jour', {'uuid': enfant.uuid} ) }}" class="list-group-item">
+                        {{ enfant }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ path('parent_enfants') }}">
+        <span class="fas fa-list"></span> Annuler
+    </a>
+
+{% endblock %}

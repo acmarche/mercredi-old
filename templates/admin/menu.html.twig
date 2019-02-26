@@ -1,0 +1,64 @@
+{% if is_granted('ROLE_MERCREDI_ADMIN') %}
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                    class="fas fa-plus"></span> Ajouter... <b
+                    class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="{{ path('home_mercredi_quick') }}">Parent et enfant</a></li>
+            <li><a href="{{ path('enfant_new') }}">Un enfant</a></li>
+            <li><a href="{{ path('tuteur_new') }}">Un parent</a></li>
+            <li><a href="{{ path('admin_animateur_new') }}">Un animateur</a></li>
+            <li><a href="{{ path('jour_new') }}">Une date</a></li>
+            <li><a href="{{ path('message') }}">Message</a></li>
+        </ul>
+    </li>
+{% endif %}
+
+<li {% if action == 'enfant' %} class="active" {% endif %}><a
+            href="{{ path('enfant') }}">Enfants</a>
+</li>
+<li {% if action == 'tuteur' %} class="active" {% endif %}><a
+            href="{{ path('tuteur') }}">Parents</a>
+</li>
+<li class="dropdown{% if action == 'presence' or action == 'presence_mois' %} active {% endif %}">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Présences... <b
+                class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li><a href="{{ path('presence') }}">Listing</a></li>
+        <li><a href="{{ path('presence_mois') }}">Par mois</a></li>
+    </ul>
+</li>
+
+<li {% if action == 'plaine' %} class="active" {% endif %}><a
+            href="{{ path('plaine') }}">Plaines</a>
+</li>
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Archives... <b
+                class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li><a href="{{ path('archive_jours') }}">Présences</a></li>
+        <li><a href="{{ path('archive_enfants') }}">Enfants</a></li>
+        <li><a href="{{ path('archive_plaines') }}">Plaines</a></li>
+    </ul>
+</li>
+
+{% if is_granted('ROLE_MERCREDI_ADMIN') %}
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Paramètres">
+            <i class="fas fa-ellipsis-v"></i> ... <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="{{ path('jour') }}">Jours de garde</a></li>
+            <li><a href="{{ path('ecole') }}">Les écoles</a></li>
+            <li><a href="{{ path('admin_animateur') }}">Les animateurs</a></li>
+            <li><a href="{{ path('reduction') }}">Les réductions</a></li>
+            <li><a href="{{ path('question') }}">Les questions</a></li>
+            <li><a href="{{ path('checkup_presences_non_payer') }}">Présences non payées</a></li>
+            <li><a href="{{ path('checkup_paiement') }}">Récapitulatif des paiements</a></li>
+            <li><a href="{{ path('upgrade_ecole') }}">Passage d'année</a></li>
+            <li><a href="{{ path('utilisateur') }}">Utilisateurs</a></li>
+        </ul>
+    </li>
+{% endif %}
+

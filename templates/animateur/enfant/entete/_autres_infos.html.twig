@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-md-6">
+        {% if enfant.remarques %}
+            <br/>
+            <p class="text-muted">
+                {{ enfant.remarques | nl2br }}
+            </p>
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        {% if enfant.accompagnateurs %}
+            <p class="text-muted" title="Personnes autorisées à venir chercher l'enfant">
+                <strong>Accompagnateurs: </strong> {{ enfant.accompagnateurs | join(', ') }}
+            </p>
+        {% endif %}
+        <p><strong>Autorisation photo</strong>:
+            {% if enfant.photoAutorisation %}
+                <i class="fas fa-camera-retro" title="oui"></i>
+            {% else %}
+                <i class="fas fa-eye-slash" title="non"></i>
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+{% if enfant.fichename %}
+    <br/>
+    <span class="fas fa-download" aria-hidden="true"></span>
+    <a href="{{ path('download_enfant', {'uuid':enfant.uuid, 'type':'sante'}) }}" target="_blank">
+        Télécharger la fiche santé (Ancienne version)
+    </a>
+{% endif %}
+
+{% if enfant.filename %}
+    <br/>
+    <span class="fas fa-download" aria-hidden="true"></span>
+    <a href="{{ path('download_enfant', {'uuid':enfant.uuid, 'type':'inscription'}) }}" target="_blank">
+        Télécharger la fiche d'inscription
+    </a>
+{% endif %}

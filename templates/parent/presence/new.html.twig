@@ -1,0 +1,18 @@
+{% extends 'parent/layout.html.twig' %}
+{% block body %}
+
+    <div class="page-header">
+        <h3>Ajout d'une garde pour {{ enfant }} le {{ jour }}</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            {{ form(form) }}
+        </div>
+    </div>
+
+    <a href="{{ path('parent_enfants') }}">
+        <span class="fas fa-list"></span> Annuler
+    </a>
+
+{% endblock %}

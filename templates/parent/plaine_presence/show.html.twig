@@ -1,0 +1,71 @@
+{% extends 'parent/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>{{ plaine }}</h3>
+    </div>
+
+    {% if plaine.remarques %}
+        <p class="text-muted">
+            {{ plaine.remarques | nl2br }}
+        </p>
+    {% endif %}
+
+
+    <h4 class="text-success">Rappel des tarifs</h4>
+    <a href="{{ path('modalite') }}" target="_blank">Consultez la page des modalités</a>
+
+    <h4 class="text-success">J'inscris</h4>
+
+    <div class="row">
+        <div class="col-md-8">
+            <ul class="list-group">
+                {% for enfant in enfants if enfant.inscrit == false %}
+                    <li class="list-group-item">
+                        <a href="{{ path('parent_plainepresence_create', {'uuid': enfant.uuid, 'plaineid': plaine.id} ) }}">
+                            {{ enfant }}
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="list-group-item">
+                        Tous inscrit
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="alert alert-warning">
+        Afin de confirmer l'inscription, veuillez procéder au payement par virement bancaire dans les 2 jours ouvrables.
+    </div>
+
+    <h4 class="text-success">Informations de paiement</h4>
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Nom</th>
+            <th>Ordre</th>
+            <th>Nbre de jours</th>
+            <th>Montant</th>
+        </tr>
+        {% for enfant in enfants if enfant.inscrit %}
+            <tr>
+                <td>{{ enfant }}</td>
+                <td>{{ enfant.ordre }}</td>
+                <td>{{ enfant.presencesPlaine |length }}</td>
+                <td>{{ enfant.totalPlaine | number_format(2,',','') }} €</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3"><strong>Soit un total à payer de</strong></td>
+            <td>{{ totalAPayer | number_format(2,',','') }} €</td>
+        </tr>
+    </table>
+
+    <h5 class="text-warning">Informations bancaire</h5>
+    Coordination Éducation Enfance <br/>
+    Compte IBAN : BE27 0016 3639 7373
+    <br/>
+    Communication: fêtes 2018 + nom de l'enfant
+
+{% endblock %}

@@ -1,0 +1,32 @@
+<tr>
+    <td>
+        <a href="{{ path('presence_show', { 'id': presence.id }) }}" title='Consulter'>
+            {{ presence.jour.datejour | datefr }}
+        </a>
+    </td>
+    <td>
+        {{ presence.ordrenew}}
+    </td>
+    <td>
+        {{presence.prix}} €
+    </td>
+    <td>
+        {{presence.reduction}}
+    </td>
+    <td>
+        {% for fratrie in presence.fratries %}
+            {% if fratrie.absent %}
+                <span class="text-warning">
+                {% endif %}
+                <a href="{{ path('enfant_show', { 'slugname': fratrie.slugname }) }}" title="Consulter sa fiche"> {{fratrie}} </a>
+                {% if fratrie.absent %}
+                </span>
+            {% endif %}
+            {% if not loop.last %} | {% endif %}
+        {% endfor %}
+    </td>
+    <td>
+        {{ presence.cout }} €
+    </td>
+
+</tr>

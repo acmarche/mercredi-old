@@ -1,0 +1,37 @@
+{% if is_granted('ROLE_MERCREDI_ADMIN') %}
+    <div class="hidden-print">
+        <div class="btn-toolbar" role="toolbar" style="margin: 0;">
+            <div class="btn-group">
+                <a href="{{ path('tuteur_edit', { 'slugname': tuteur.slugname }) }}" class="btn btn-primary"
+                   role="button"><i class="far fa-edit"></i> Editer</a>
+            </div>
+            <div class="btn-group">
+                <a href="#" class="btn btn-primary" role="button" data-toggle="modal" data-target="#modalenfant">
+                    <i class="fas fa-plus"></i> Ajouter un enfant </a>
+            </div>
+            <div class="btn-group">
+                <a id="abonnement_new" href="{{ path('paiement_new', { 'id' : tuteur.id } ) }}"
+                   class="btn btn-primary" role="button">
+                    <i class="fas fa-plus"></i> Ajouter un paiement </a>
+            </div>
+            <div class="btn-group">
+                <a id="message" href="{{ path('message_new_tuteur', { 'id' : tuteur.id } ) }}"
+                   class="btn btn-primary" role="button">
+                    <i class="far fa-envelope"></i> Envoyer un message </a>
+            </div>
+            <div class="btn-group">
+                {% if tuteur.user %}
+                <a href="{{ path('utilisateur_show', {'id':tuteur.user.id}) }}"
+                   class="btn btn-primary" role="button">
+                    <i class="far fa-user"></i> Compte associé </a>
+                {% else %}
+                <a href="{{ path('utilisateur_new_tuteur', {'id': tuteur.id}) }}"
+                   class="btn btn-primary" role="button">
+                    <i class="fas fa-user-plus"></i> Créer un compte </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <br/>
+{% endif %}

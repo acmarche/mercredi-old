@@ -1,0 +1,28 @@
+{% extends 'admin/layout.html.twig' %}
+{% block stylesheets %}
+    <style>
+        #accompagnateurs-list li * {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        #accompagnateurs-list li input {
+            width: 50%;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="page-header">
+        <h3>Edition de {{ enfant }}</h3>
+    </div>
+
+    {% include 'admin/enfant/_form.html.twig' with {'form': edit_form } %}
+
+    <a href="{{ path('enfant_show', {'slugname' : enfant.slugname }) }}">
+        <span class="fas fa-list"></span> Annuler et retour à la fiche
+    </a>
+
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('js/accompagnateur.js') }}"></script>
+{% endblock %}

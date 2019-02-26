@@ -1,0 +1,67 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body -%}
+    <div class="page-header">
+        <h3>{{ user }}</h3>
+    </div>
+
+    {% include 'security/utilisateur/_actions.html.twig' %}
+
+    <div class="row">
+        <div class="col-lg-6">
+            <table class='table table-bordered table-hover'>
+                <tbody>
+                <tr>
+                    <th><span class="far fa-user"></span> Nom d'utilisateur</th>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th><span class="far fa-envelope"></span> Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                {% if user.isParent %}
+                    <tr>
+                        <th> Tuteur</th>
+                        <td>
+                            {% if user.tuteur %}
+                                <a href="{{ path('tuteur_show', {'slugname': user.tuteur.slugname}) }}">
+                                    {{ user.tuteur }}
+                                </a>
+                            {% else %}
+                                <p>Aucun parent associé</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if user.isEcole %}
+                    <tr>
+                        <th>Ecoles</th>
+                        <td>
+                            {% for ecole in user.ecoles %}
+                                <a href="{{ path('ecole_show', {'id': ecole.id}) }}">
+                                    {{ ecole }}
+                                </a>
+                            {% else %}
+                                <p>Aucune école associée</p>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <th>Droit</th>
+                    <td>{{ user.roles | join(',') }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% include 'security/utilisateur/_presences.html.twig' %}
+
+    <a href="{{ path('utilisateur') }}">
+        <span class="fas fa-list"></span> Retour à la liste
+    </a>
+
+    {% include 'security/utilisateur/_delete.html.twig' %}
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% if user.isParent %}
+    <h4>Présences réservées par cet utilisateur</h4>
+    {% if presences | length > 0 %}
+        <table class='table table-bordered table-hover'>
+            <thead>
+            <tr>
+                <th>Enfant</th>
+                <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for presence in presences %}
+                <tr>
+                    <td>
+                        <a href="{{ path('enfant_show', { 'slugname': presence.enfant.slugname }) }}">
+                            {{ presence.enfant }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('presence_show', { 'id': presence.id }) }}" title='Consulter'>
+                            {{ presence.jour.datejour | date('D') | trans }} {{ presence.jour.datejour | date('d-m-Y') }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucune</p>
+    {% endif %}
+
+{% endif %}

@@ -1,0 +1,68 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>
+            {{ tuteur }} {% include 'admin/default/sexe.html.twig' with {'entity':tuteur} %}
+        </h3>
+        <span class="fas fa-map-marker-alt"></span>
+        {{ tuteur.adresse }} <br/>
+        {{ tuteur.codepostal }} {{ tuteur.localite }}
+    </div>
+
+    {% include 'admin/tuteur/actions.html.twig' %}
+
+    <div class="row">
+        <div class="col-md-6">
+            <table class='table table-bordered table-hover table-condensed'>
+                <tbody>
+                <tr>
+                    <th><span class="fas fa-phone"></span> Téléphone</th>
+                    <td>{{ tuteur.telephone }}</td>
+                </tr>
+                <tr>
+                    <th><span class="fas fa-phone"></span> Téléphone bureau</th>
+                    <td>{{ tuteur.telephonebureau }}</td>
+                </tr>
+                <tr>
+                    <th><span class="fas fa-mobile-alt"></span> Gsm</th>
+                    <td>{{ tuteur.gsm }}</td>
+                </tr>
+                <tr>
+                    <th><span class="far fa-envelope"></span> Email</th>
+                    <td><a href='mailto:{{ tuteur.email }}'>{{ tuteur.email }}</a></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-6">
+            {% include 'admin/tuteur/conjoint.html.twig' %}
+
+        </div>
+        {{ tuteur.remarques | nl2br }}
+    </div>
+
+    {% include 'admin/tuteur/enfants/index.html.twig' %}
+
+    {% if is_granted('ROLE_MERCREDI_READ') %}
+        {% include 'admin/tuteur/paiements/index.html.twig' %}
+        {% include 'admin/tuteur/non_payes.html.twig' %}
+    {% endif %}
+
+    {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+        {% include 'admin/tuteur/add_enfant.html.twig' with {'form': form_attach } %}
+        {% if tuteur.enfants | length > 0 %}
+            {% include 'admin/tuteur/detacher.html.twig' with {'form': form_detach } %}
+        {% endif %}
+    {% endif %}
+
+    <p class="text-muted">
+        {{ 'Created' | trans }} {{ tuteur.created|date('d-m-Y H:i:s') }} par {{ tuteur.useradd }}
+        . {{ 'Updated' | trans }} {{ tuteur.updated|date('d-m-Y H:i:s') }}
+    </p>
+
+    {% include 'admin/tuteur/delete.html.twig' %}
+
+{% endblock %}
+{% block scripts %}
+    {% include 'admin/tuteur/scripts.html.twig' %}
+{% endblock %}

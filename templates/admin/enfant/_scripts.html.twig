@@ -1,0 +1,47 @@
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+        var tuteurs = new Bloodhound({
+            datumTokenizer: function (datum) {
+                return Bloodhound.tokenizers.whitespace(datum.value);
+            },
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            remote: {
+                url: "{{ path('tuteur_autocomplete') }}/%QUERY",
+                wildcard: '%QUERY'
+            }
+        });
+
+        var options = {
+            hint: true,
+            highlight: true,
+            minLength: 2
+        };
+
+        var dataSetTuteurs = {
+            display: 'label',
+            limit: 10,
+            source: tuteurs,
+            templates: {
+                suggestion: function (data) {
+                    var value = data.nom + ' ' + data.prenom + ' ' + data.birthday;
+                    return '<p>' + value + ' </p>';
+                }
+            }
+        };
+
+        var mon = $('#enfant_set_tuteur_autocompletion').typeahead(options, dataSetTuteurs);
+        mon.bind('typeahead:selected', function (obj, datum) {
+            //  console.log(obj, datum, name);
+            setId(obj, datum["id"]);
+        });
+
+        // quand on click sur le nom du tuteur dans la suggestion
+        // on place l'id dans le champ cache
+        function setId(obj, id) {
+            $('#enfant_set_tuteur_tuteur').val(id);
+        }
+
+    });
+</script>
+

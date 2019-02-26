@@ -1,0 +1,14 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Edition de {{ user }}</h3>
+    </div>
+
+    {% include 'security/utilisateur/_form.html.twig' %}
+
+    <a href="{{ path('utilisateur_show', {'id': user.id}) }}">
+        <span class="fas fa-list" aria-hidden="true"></span> Annuler et retour
+    </a>
+
+{% endblock %}

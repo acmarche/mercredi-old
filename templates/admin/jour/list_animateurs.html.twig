@@ -1,0 +1,10 @@
+<h4><span class="badge">{{ entity.animateurs | length }}</span> Animateur(s) </h4>
+
+<div class="list-group">
+    {% for animateur in entity.animateurs %}
+        <a href="{{ path('animateur_show', { 'slugname': animateur.slugname }) }}"
+           class="list-group-item"> {{ animateur }}</a>
+    {% else %}
+        <p>Aucun</p>
+    {% endfor %}
+</div>

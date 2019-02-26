@@ -1,0 +1,46 @@
+{% extends 'admin/layout.html.twig' %}
+{% block body %}
+
+    <div class="page-header">
+        <h3>Liste des petites plaines</h3>
+    </div>
+
+    {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+        <a href="{{ path('plaine_new') }}" class="btn btn-primary" role="button"><i
+                    class="fas fa-plus"></i> Ajouter
+        </a>
+        <br/>
+    {% endif %}
+
+    {% include 'plaine/search/plaine.html.twig' %}
+
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Intitulé</th>
+            <th>Prix1</th>
+            <th>Prix2</th>
+            <th>Prix3</th>
+            <th>Nbr de jours</th>
+            <th>Enfants</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for plaine in plaines %}
+            <tr>
+                <td>
+                    <a href="{{ path('plaine_show', { 'slugname': plaine.slugname }) }}">
+                        {{ plaine.intitule }}
+                    </a>
+                </td>
+                <td>{{ plaine.prix1 }} €</td>
+                <td>{{ plaine.prix2 }} €</td>
+                <td>{{ plaine.prix3 }} €</td>
+                <td>{{ plaine.jours | length }}</td>
+                <td>{{ plaine.enfants | length }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

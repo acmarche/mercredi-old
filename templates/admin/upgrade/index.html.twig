@@ -1,0 +1,42 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Passage d'année pour {{ enfants | length}} enfants</h3>
+    </div>
+
+    {{ form(form) }}
+
+    {% if enfants | length > 0 %}
+        <table class='table table-bordered table-hover'>
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Né le</th>
+                <th>Année scolaire</th>
+                <th>Année scolaire suivante</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for enfant in enfants %}
+                <tr>
+                    <td><a href="{{ path('enfant_show', { 'slugname': enfant.slugname }) }}"
+                           title="Consulter sa fiche">{{ enfant.nom }}</a></td>
+                    <td>{{ enfant.prenom }}</td>
+                    <td>{% if enfant.birthday %}{{ enfant.birthday|date('d-m-Y') }}{% endif %}</td>
+                    <td>{{ enfant.anneescolaire }}</td>
+                    <td>
+                        {% if enfant.newscolaire == 'Archive' %}
+                            <span class='text-danger'>{{ enfant.newscolaire }}</span>
+                        {% else %}
+                            {{ enfant.newscolaire }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}

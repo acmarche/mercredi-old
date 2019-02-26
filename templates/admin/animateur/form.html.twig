@@ -1,0 +1,47 @@
+{{ form_start(form, { 'attr': {'class': 'well'}}) }}
+{{ form_errors(form) }}
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.nom) }}
+        {{ form_row(form.prenom) }}
+        {{ form_row(form.adresse) }}
+        <div class="col-md-6">
+            {{ form_row(form.code_postal) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.localite) }}
+        </div>
+        {{ form_row(form.email) }}
+        {{ form_row(form.telephone) }}
+        {{ form_row(form.gsm) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.numero_national) }}
+        {{ form_row(form.birthday) }}
+        {{ form_row(form.num_assimilation) }}
+        {{ form_row(form.num_bancaire) }}
+        {{ form_row(form.diplome) }}
+        {{ form_row(form.groupe_souhaite) }}
+        {{ form_row(form.taille_tshirt) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.remarques) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.disponibilite) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.image) }}
+        {{ form_row(form.file) }}
+        {{ form_row(form.diplome) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.casier) }}
+        {{ form_row(form.certificat) }}
+    </div>
+</div>
+{{ form_end(form) }}

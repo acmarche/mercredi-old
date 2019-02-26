@@ -1,0 +1,27 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Fiche santé pour
+            <a href="{{ path('enfant_show', {'slugname': enfant.slugname }) }}">
+                {{ enfant }}
+            </a>
+            {% if isComplete %}
+                <i class="fas fa-check" title="Fiche complète"></i>
+            {% else %}
+                <i class="fas fa-ban" title="Fiche non complète"></i>
+            {% endif %}
+        </h3>
+    </div>
+    <div class="btn-group hidden-print">
+        <a id="edit_enfant" href="{{ path('parent_sante_edit', { 'uuid': enfant.uuid }) }}"
+           class="btn btn-primary" role="button"><i class="far fa-edit"></i> Editer</a>
+    </div>
+    <div class="btn-group hidden-print">
+        <a id="edit_enfant" href="{{ path('parent_sante_pdf', { 'uuid': enfant.uuid }) }}"
+           class="btn btn-success" role="button"><i class="far fa-file-pdf"></i> Pdf</a>
+    </div>
+    <br/><br/>
+
+    {% include 'parent/sante/pdf/pdf.html.twig' %}
+{% endblock %}

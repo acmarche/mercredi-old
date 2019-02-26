@@ -1,0 +1,42 @@
+{% extends 'admin/layout.html.twig' %}
+{% block body %}
+    <div class="page-header">
+        <h3>Liste des paiements</h3>
+    </div>
+
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Tuteur</th>
+            <th>Montant</th>
+            <th>Date de paiement</th>
+            {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+                <th>Actions</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>
+                    <a href="{{ path('tuteur_show', { 'slugname': entity.tuteur.slugname }) }}">
+                        {{ entity.tuteur }}
+                    </a>
+                </td>
+                <td>{{ entity.montant }}</td>
+                <td>
+                    {% if entity.datepaiement %}
+                        {{ entity.datepaiement|date('m-d-Y') }}
+                    {% endif %}
+                </td>
+                {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+                    <td>
+
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

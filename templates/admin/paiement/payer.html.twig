@@ -1,0 +1,42 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Payer les présences de <strong>{{ entity.enfant }}</strong> sous la garde de
+            <strong>{{ entity.tuteur }}</strong></h3>
+    </div>
+
+    <div class="alert alert-info">
+        Les présences avec une réduction de 100% ou ayant une absence avec certificat sont exclus de la liste ci dessous
+        <br/>
+    </div>
+
+    {% set count = form.presences | length %}
+
+    {% if count > 0 %}
+
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <div class="row">
+
+            <div class="col-md-6">
+                {% for presenceField in form.presences %}
+                <p class="">{{ form_row(presenceField) }}</p>
+                {% if loop.index0 == (loop.length // 2) %}
+            </div>
+            <div class="col-md-6">
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {{ form_end(form) }}
+    {% else %}
+        <p class="text-warning">Aucune présence impayée</p>
+    {% endif %}
+
+    <a href="{{ path('paiement_show', { 'id': entity.id }) }}">
+        <span class="fas fa-list"></span> Annuler
+    </a>
+
+
+{% endblock body %}

@@ -1,0 +1,34 @@
+{% if is_granted('ROLE_MERCREDI_ADMIN') %}
+
+    <div class="btn-toolbar" role="toolbar" style="margin: 0;">
+        <div class="btn-group">
+            <a href="{{ path('admin_animateur') }}" class="btn btn-primary" role="button">
+                <i class="fas fa-list"></i> Retour à la liste</a>
+        </div>
+        <div class="btn-group">
+            <a href="{{ path('admin_animateur_edit', { 'slugname': animateur.slugname }) }}" class="btn btn-primary"
+               role="button"><i class="far fa-edit"></i> Editer</a>
+        </div>
+        <div class="btn-group">
+            {% if animateur.user %}
+                <a href="{{ path('utilisateur_show', {'id':animateur.user.id}) }}"
+                   class="btn btn-primary" role="button">
+                    <i class="far fa-user"></i> Compte associé </a>
+            {% else %}
+                <a href="{{ path('utilisateur_new_animateur', {'id': animateur.id}) }}"
+                   class="btn btn-primary" role="button">
+                    <i class="fas fa-user-plus"></i> Créer un compte </a>
+            {% endif %}
+        </div>
+        <div class="btn-group">
+            <a href="{{ path('animateur_jours', { 'slugname': animateur.slugname }) }}" class="btn btn-primary"
+               role="button"><i class="fas fa-clipboard-list"></i> Ses jours de présences</a>
+        </div>
+        <div class="btn-group">
+            <a href="{{ path('animateur_plaines', { 'slugname': animateur.slugname }) }}" class="btn btn-primary"
+               role="button"><i class="fas fa-clipboard-list"></i> Ses jours de plaines</a>
+        </div>
+    </div>
+
+    <br/>
+{% endif %}

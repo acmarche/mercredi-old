@@ -1,0 +1,8 @@
+{% for jour in jours %}
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="enfance_plainebundle_animateur_plaine_jours_{{ jour.id }}" name="enfance_plainebundle_animateur_plaine[jours][]" value="{{ jour.id }}" />
+            {{ jour }}
+        </label>
+    </div>
+{% endfor %}

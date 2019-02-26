@@ -1,0 +1,40 @@
+{% extends 'admin/layout.html.twig' %}
+{% block body %}
+
+    <div class="page-header">
+        <h3>Liste des réductions</h3>
+    </div>
+
+    {% include 'admin/reduction/actions.html.twig' %}
+
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Pourcentage</th>
+            <th>Nbre de présences</th>
+            {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+                <th>Actions</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('reduction_show', { 'slugname': entity.slugname }) }}">{{ entity.nom }}</a></td>
+                <td>{{ entity.pourcentage }} %</td>
+                <td>{{ entity.presence | length }}</td>
+                {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+                    <td>
+                        <a href="{{ path('reduction_edit', { 'id': entity.id }) }}" class="btn btn-primary btn-xs"
+                           title="Editer">
+                            <i class="far fa-edit"></i> Editer
+                        </a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

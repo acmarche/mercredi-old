@@ -1,0 +1,18 @@
+{% if enfant.imageName is not empty %}
+    <div class="media">
+        <div class="media-left media-middle">
+            <a href="#">
+                <img class="media-object" src="{{ enfant | enfantimage | imagine_filter('my_thumb') }}"
+                     alt="{{ enfant.slugname }}">
+            </a>
+        </div>
+        <div class="media-body">
+            {% include 'admin/enfant/entete/_index.html.twig' %}
+            {% include 'admin/enfant/_actions.html.twig' %}
+        </div>
+    </div>
+{% else %}
+    {% include 'admin/enfant/entete/_index.html.twig' %}
+    {% include 'admin/enfant/_actions.html.twig' %}
+{% endif %}
+{% include 'admin/enfant/entete/_autres_infos.html.twig' %}

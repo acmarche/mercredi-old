@@ -1,0 +1,16 @@
+<li>
+    <a href="{{ path('parent_presence_select_enfant') }}">
+        <span class="fas fa-plus"></span> Ajouter une présence
+    </a>
+</li>
+<li {% if action == 'parent_enfants' %} class="active" {% endif %}>
+    <a href="{{ path('parent_enfants') }}">Mes enfants</a>
+</li>
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Mes infos... <b
+                class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li><a href="{{ path('parent_paiements') }}">Mes paiements</a></li>
+        <li><a href="{{ path('parent_coordonnees') }}">Mes coordonnées</a></li>
+    </ul>
+</li>

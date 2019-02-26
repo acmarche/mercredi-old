@@ -1,0 +1,120 @@
+{% extends 'parent/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Bienvenue {{ app.user.prenom | capitalize }}</h3>
+    </div>
+
+    {% if app.user and is_granted("ROLE_MERCREDI_PARENT") %}
+
+        {% if plaine %}
+            <div class="alert alert-info">
+                Inscriptions à <strong><a
+                            href="{{ path('parent_plaine_inscription', {'id': plaine.id}) }}">{{ plaine }}</a></strong>
+                ouvertes !
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-lg-6">
+                <h4 class="text-success">Vos enfants</h4>
+                {% if enfants | length > 0 %}
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Nom</th>
+                            <th>Données</th>
+                            <th>Fiche santé</th>
+                        </tr>
+                        {% for enfant in enfants %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('parent_enfant_show', {'uuid': enfant.uuid}) }}">
+                                        {{ enfant }}
+                                    </a>
+                                </td>
+                                <td>
+                                    {% if enfant.ficheComplete == false %}
+                                        <i class="fas fa-exclamation-triangle"
+                                           title="Données non complètes"></i>
+                                        <a href="{{ path('parent_enfant_edit', {'uuid': enfant.uuid}) }}"
+                                           style="margin-left: 0.9em;">
+                                            <i class="fas fa-edit" title="Editer"></i>
+                                        </a>
+                                    {% else %}
+                                        <i class="fas fa-check" title="OK"></i>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if enfant.santeFicheComplete == false %}
+                                        <i class="fas fa-exclamation-triangle"
+                                           title="Fiche santé non complète"></i>
+                                        <a href="{{ path('parent_sante_edit', {'uuid': enfant.uuid}) }}"
+                                           style="margin-left: 0.9em;">
+                                            <i class="fas fa-edit" title="Editer"></i>
+                                        </a>
+                                    {% else %}
+                                        <i class="fas fa-check" title="OK"></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p class="text-warning">Aucun enfant trouvé suivant votre compte.</p>
+                {% endif %}
+            </div>
+            <div class="col-lg-6">
+                {% include 'parent/default/_is_complete.html.twig' %}
+            </div>
+        </div>
+
+        <h4 class="text-success">Présences impayées</h4>
+
+        {% if presences | length > 0 or presencesPlaines | length > 0 %}
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Enfant</th>
+                    <th>Sagit-il d'une plaine ?</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for presenceTmp in presences %}
+                    {% for presence in presenceTmp %}
+                        <tr>
+                            <td>{{ presence.jour.datejour | datefr }} </td>
+                            <td>{{ presence.enfant }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+
+                {% for plainePresence in presencesPlaines %}
+                    {% for presence in plainePresence %}
+                        <tr>
+                            <td>{{ presence.jour.datejour | datefr(true) }}</td>
+                            <td>
+                                {% if presence.plaineEnfant %}
+                                    {{ presence.plaineEnfant.enfant }}
+                                {% endif %}
+                            </td>
+                            <td>{{ presence.plaineEnfant.plaine }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+
+                </tbody>
+            </table>
+
+        {% else %}
+            <p class="text-warning">Aucune</p>
+        {% endif %}
+
+    {% else %}
+        <div class="alert alert-info">
+            Votre compte doit encore être associé à un parent
+        </div>
+    {% endif %}
+
+{% endblock %}

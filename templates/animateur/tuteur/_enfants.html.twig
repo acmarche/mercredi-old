@@ -1,0 +1,20 @@
+<h3 class="text-success">Enfant(s)</h3>
+
+{% if tuteur.enfants | length > 0 %}
+
+    <table class="table table-bordered table-hover">
+
+        {% for enfant_tuteur in tuteur.enfants %}
+            {% set enfant = enfant_tuteur.enfant %}
+            {% set tuteur = enfant_tuteur.tuteur %}
+            <tr>
+                <td>
+                    <a href="{{ path('animateur_enfant_show', { 'slugname': enfant.slugname }) }}"
+                       title="Consulter">{{ enfant }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p class='text-danger'>Aucun !</p>
+{% endif %}

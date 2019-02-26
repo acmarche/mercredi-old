@@ -1,0 +1,32 @@
+{% extends 'front/layout.html.twig' %}
+
+{% block body -%}
+
+    <div class="page-header">
+        <h3>Sélection de votre profil</h3>
+    </div>
+
+    <ul class="list-group">
+        {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+            <li class="list-group-item">
+                <a href="{{ path('home_admin') }}">Accès en tant que administrateur</a>
+            </li>
+        {% endif %}
+        {% if is_granted('ROLE_MERCREDI_ANIMATEUR') %}
+            <li class="list-group-item">
+                <a href="{{ path('home_animateur') }}">Accès en tant que animateur</a>
+            </li>
+        {% endif %}
+        {% if is_granted('ROLE_MERCREDI_PARENT') %}
+            <li class="list-group-item">
+                <a href="{{ path('home_parent') }}">Accès en tant que parent</a>
+            </li>
+        {% endif %}
+        {% if is_granted('ROLE_MERCREDI_ECOLE') %}
+            <li class="list-group-item">
+                <a href="{{ path('home_ecole') }}">Accès en tant que école</a>
+            </li>
+        {% endif %}
+    </ul>
+
+{% endblock %}

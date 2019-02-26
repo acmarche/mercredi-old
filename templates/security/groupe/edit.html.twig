@@ -1,0 +1,20 @@
+{% extends 'security/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Edition de {{ entity.name }}</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">        
+
+            {{ form(edit_form) }}
+
+        </div>
+    </div>
+
+    <a href="{{ path('groupe_index')}}">
+        <span class="fas fa-list" aria-hidden="true"></span> Annuler et retour
+    </a>
+
+{% endblock %}

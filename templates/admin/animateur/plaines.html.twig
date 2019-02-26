@@ -1,0 +1,57 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Plaines pour {{animateur}}</h3>
+    </div>
+    <div class="alert alert-info"> TO DO  </div>
+    {#
+    <div class="row">
+        {{ form_start(form, { 'attr': {'class': 'well'}}) }}
+        {{ form_errors(form) }}
+        {{ form_row(form.plaine) }} 
+        {{ form_row(form.jours) }} 
+        {{ form_row(form.submit) }}
+        {{ form_end(form) }}
+    </div>
+#}
+    <div class="row">
+        <a href="{{ path('animateur_show', {'slugname' : animateur.slugname }) }}">
+            <span class="fas fa-list"></span>
+            Annuler et retour à la fiche
+        </a>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#enfance_plainebundle_animateur_plaine_plaine").change(function () {
+                var plaineId = $("#enfance_plainebundle_animateur_plaine_plaine").val();
+                var url = '{{ path('ajax_get_jours') }}';
+                $.ajax({
+                    'data': {plaineId: plaineId},
+                    'url': url,
+                    'method': 'POST',
+                    'success': function (data) {
+                        console.log(data);
+                        error = data.error;
+                        if (error) {
+                            alert(error);
+                            return;
+                        }
+                        else {
+                            $("#enfance_plainebundle_animateur_plaine_jours").html(data);
+                        }
+                    }
+                }).done(function (data) {
+                    if (console && console.log) {
+                        //   console.log("data:", data);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

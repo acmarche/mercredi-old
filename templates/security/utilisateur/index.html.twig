@@ -1,0 +1,52 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Liste des {{ users | length }} utilisateurs</h3>
+    </div>
+
+    <p>
+        <a href="{{ path('utilisateur_new') }}" class="btn btn-primary">
+            <span class="fas fa-plus"></span> Ajouter un utilisateur</a>
+    </p>
+
+    {% include 'admin/search/utilisateur.html.twig' with {'form': search_form } %}
+
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Nom d'utilisateur</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Associé à</th>
+            <th>Droit</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr {% if not user.tuteur %}class="text-warning"{% endif %}>
+                <td>
+                    <a href="{{ path('utilisateur_show', { 'id': user.id }) }}"
+                       title="Consulter sa fiche">{{ user.username }}
+                    </a>
+                </td>
+                <td>{{ user.nom }} {{ user.prenom }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% if user.isParent %}
+                        {% if user.tuteur %}
+                            {{ user.tuteur }}
+                        {% endif %}
+                    {% endif %}
+
+                    {% if user.isEcole %}
+                        {{ user.ecoles | join(',')  }}
+                    {% endif %}
+                </td>
+                <td>{{ user.groups | join(',') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

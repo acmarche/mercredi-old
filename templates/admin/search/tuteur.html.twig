@@ -1,0 +1,40 @@
+<br/>
+<div class="hidden-print">
+    {{ form_start(form, { 'attr': {'class': 'form-inline'}}) }}
+    {{ form_errors(form) }}
+
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-addon"><span class="fas fa-filter"></span></div>
+            {{ form_widget(form.nom) }}
+        </div>
+
+        <div class="input-group">
+            {{ form_row(form.submit) }}
+        </div>
+
+        <div class="input-group">
+            {{ form_row(form.raz) }}
+        </div>
+
+        {% if years is defined %}
+            <div class="input-group">
+                <button type="button" class="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    Toutes les attestations <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        {% for year in years %}
+                            <a href="{{ path('tuteurs_attestation', {'annee' : year}) }}">
+                                <i class="far fa-file-pdf"></i> {{ year }}
+                            </a>
+                        {% endfor %}
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+    {{ form_end(form) }}
+</div>
+<br/>

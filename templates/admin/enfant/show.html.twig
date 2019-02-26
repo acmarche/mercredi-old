@@ -1,0 +1,27 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+
+    {% include 'admin/enfant/entete/_head.html.twig' %}
+
+    <div class="row">
+        {% include 'admin/enfant/presences/tuteurs.html.twig' %}
+    </div>
+
+    {% if is_granted('ROLE_MERCREDI_READ') %}
+        {% include 'admin/enfant/plaines/_index.html.twig' %}
+    {% endif %}
+
+    {% include 'admin/enfant/_add_tuteur.html.twig' %}
+
+    <p class="text-muted">
+        {{ 'Created' | trans }} {{ enfant.created|date('d-m-Y H:i:s') }} par {{ enfant.useradd }}
+        . {{ 'Updated' | trans }} {{ enfant.updated|date('d-m-Y H:i:s') }}
+    </p>
+
+    {% include 'admin/enfant/_delete.html.twig' %}
+
+{% endblock %}
+{% block scripts %}
+    {% include 'admin/enfant/_scripts.html.twig' %}
+{% endblock %}

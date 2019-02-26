@@ -1,0 +1,9 @@
+<h4>Liste des jours de présences <span class="badge">{{ animateur.jours | length }}</span></h4>
+
+    <div class="list-group-item">
+        {% for jour in animateur.jours %}
+            <a href="{{ path('jour_show', { 'id': jour.id }) }}" class="list-group-item"> {{ jour.datejour | date('d-m-Y')}} {{ jour.datejour | date('D') | trans }}</a>
+        {% else %}
+            <p>Aucun</p>
+        {% endfor %}
+    </div>

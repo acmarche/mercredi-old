@@ -1,0 +1,27 @@
+{{ form_start(form, { 'attr': {'class': 'well'}}) }}
+{{ form_errors(form) }}
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.adresse) }}
+        <div class="col-md-6">
+            {{ form_row(form.code_postal) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.localite) }}
+        </div>
+        {{ form_row(form.email) }}
+        {{ form_row(form.telephone) }}
+        {{ form_row(form.telephone_bureau) }}
+        {{ form_row(form.gsm) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.nom_conjoint) }}
+        {{ form_row(form.prenom_conjoint) }}
+        {{ form_row(form.email_conjoint) }}
+        {{ form_row(form.telephone_conjoint) }}
+        {{ form_row(form.telephone_bureau_conjoint) }}
+        {{ form_row(form.gsm_conjoint) }}
+    </div>
+</div>
+{{ form_row(form.submit) }}
+{{ form_end(form) }}

@@ -1,0 +1,27 @@
+{% if is_granted('ROLE_MERCREDI_ADMIN') %}
+    <!-- Modal -->
+    <div class="modal fade" id="modaldetacher" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Détacher l'enfant ? </h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-warning">L'enfant <strong><span
+                                        id="nomenfant"></span></strong> sera détaché de <strong>{{ tuteur }}</strong>
+                        </li>
+                        <li class="list-group-item list-group-item-warning">Les présences liés seront supprimés !</li>
+                        <li class="list-group-item list-group-item-warning">Les paiements seront supprimés</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Annuler</button>
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

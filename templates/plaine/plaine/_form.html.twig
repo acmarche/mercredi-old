@@ -1,0 +1,37 @@
+{{ form_start(form, { 'attr': {'class': 'well'}}) }}
+{{ form_errors(form) }}
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.intitule) }}
+        {% if form.jours is defined %}
+            {{ form_row(form.jours) }}
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.prix1) }}
+        {{ form_row(form.prix2) }}
+        {{ form_row(form.prix3) }}
+        {{ form_row(form.max) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+
+    </div>
+    <div class="col-md-6">
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.max) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.max) }}
+    </div>
+</div>
+
+{{ form_row(form.remarques) }}
+{{ form_end(form) }}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h3>Log détails</h3>
+
+    {% if app.debug == true %}
+        {#{ dump(log.context) }#}
+        {#{ dump(log.extra) }#}
+    {% else %}
+        Il faut etre en mode debug
+    {% endif %}
+
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ status_text }}
+{% endblock %}
+
+{% block body -%}
+    <div class="page-header">
+        <h3>Page non trouvée</h3>
+    </div>
+
+    <div class="alert alert-danger">
+        {{ status_code }} {{ status_text }}
+
+    </div>
+
+    <img src="{{ asset('images/404.jpg') }}" style="width: 250px;" alt="denied" class="img-thumbnail"/>
+
+    <a href="{{ path('homepage') }}">Retour à la page d'accueil</a>
+
+{% endblock %}

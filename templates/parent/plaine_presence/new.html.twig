@@ -1,0 +1,24 @@
+{% extends 'parent/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Inscription de <strong>{{ enfant }}</strong> à <strong>{{ plaine }}</strong></h3>
+    </div>
+
+    <div class="alert alert-info">
+        "Cher parent, vous pouvez inscrire votre enfant au(x) jour(s) souhaité(s) pour la plaine.
+        <br/><br/>
+        Attention, une fois l’inscription effectuée, vous ne pouvez plus les modifier."
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            {{ form(form) }}
+        </div>
+    </div>
+
+    <a href="{{ path('parent_plaine_inscription', {'id' : plaine.id }) }}">
+        <i class="fas fa-list"></i> Annuler
+    </a>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+<h3 class="text-success">Enfant(s)</h3>
+
+{% if tuteur.enfants | length > 0 %}
+
+    <table class="table table-bordered table-hover">
+
+        {% for enfant_tuteur in tuteur.enfants %}
+            {% set enfant = enfant_tuteur.enfant %}
+            {% set tuteur = enfant_tuteur.tuteur %}
+            <tr>
+                <td>
+                    <a href="{{ path('enfant_show', { 'slugname': enfant.slugname }) }}"
+                       title="Consulter">{{ enfant }}</a>
+                </td>
+                <td>
+                    {% if is_granted('ROLE_MERCREDI_READ') %}
+                        <!-- Single button -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-xs btn-success dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                Attestations <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    {% for year in years %}
+                                        <a href="{{ path('tuteur_attestation', {'tuteurslugname' : tuteur.slugname, 'enfantslugname' : enfant.slugname, 'annee' : year}) }}">
+                                            <i class="far fa-file-pdf"></i> Année {{ year }}
+                                        </a>
+                                    {% endfor %}
+                                </li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                </td>
+                {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+                    <td>
+                        <a id="detach_enfant_{{ enfant_tuteur.id }}" href="#"
+                           class="btn btn-primary btn-xs hidden-print" role="button" data-toggle="modal"
+                           data-target="#modaldetacher">
+                            <i class="fas fa-unlink"></i> Détacher du parent</a>
+
+                        <script type="text/javascript">
+                            /* pour definir quel parent est detache */
+                            $("#detach_enfant_{{ enfant_tuteur.id }}").click(function () {
+                                $("#form_tuteur_enfant_id").val({{ enfant_tuteur.id }}); //set hidden field
+                                $("#nomenfant").html("{{ enfant }}"); // personnalise message
+                            });
+                        </script>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p class='text-danger'>Aucun !</p>
+{% endif %}

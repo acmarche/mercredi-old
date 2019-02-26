@@ -1,0 +1,8 @@
+{% if is_granted('ROLE_MERCREDI_ADMIN') %}
+
+    <a href="{{ path('ecole_new') }}" class="btn btn-primary" role="button">
+        <i class="fas fa-plus"></i>
+        Ajouter</a>
+
+    <br/><br/>
+{% endif %}

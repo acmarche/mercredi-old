@@ -1,0 +1,41 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>{{ entity.nom }}</h3>
+    </div>
+
+    {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+
+        <a href="{{ path('reduction_edit', { 'id': entity.id }) }}" title="Editer">
+            <button type="button" class="btn btn-primary"><i class="far fa-edit"></i> Editer</button>
+        </a>
+
+        <br/>
+    {% endif %}
+<br />
+   <p>Pourcentage : {{ entity.pourcentage }} %</p>
+
+   <p> {{ entity.remarques }}</p>
+<br />
+    <table class="table table-bordered table-hover">
+        <tbody>
+        {% for presence in presences %}
+            <tr>
+                <th>
+                    <a href="{{ path('enfant_show', { 'slugname': presence.enfant.slugname }) }}">
+                        {{ presence.enfant }}
+                    </a>
+                </th>
+                <td>{{ presence }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('reduction') }}">
+        Annuler et retour à la liste
+    </a>
+
+    {% include 'admin/reduction/delete.html.twig' %}
+{% endblock %}

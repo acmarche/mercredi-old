@@ -1,0 +1,88 @@
+<h3 class="text-success">Les parents</h3>
+{% if is_granted('ROLE_MERCREDI_ADMIN') %}
+    {{ form_start(form_delete_presences) }}
+    {{ form_errors(form_delete_presences) }}
+{% endif %}
+
+{% for enfant_tuteur in enfant_tuteurs %}
+
+    {% set tuteur = enfant_tuteur.tuteur %}
+
+    <h4><span class="far fa-user"> </span>
+        <a href="{{ path('tuteur_show', { 'slugname': tuteur.slugname }) }}" title="Consulter">
+            {{ tuteur }}
+        </a>
+
+        {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+            <span class="pull-right">
+                    {% if enfant_tuteur.relation %}
+                        <span class='text-muted'>({{ enfant_tuteur.relation }})</span>
+                    {% endif %}
+
+                {% if enfant_tuteur.ordre %}
+                    <span class="text-success">
+                            Ordre : {{ enfant_tuteur.ordre }}
+                        </span>
+                {% endif %}
+                <a class="btn btn-primary btn-xs hidden-print"
+                   href="{{ path('enfanttuteur_edit', { 'id': enfant_tuteur.id }) }}" title="Editer"><i
+                            class="far fa-edit"></i> Spécifier la relation entre le parent et
+                    l'enfant</a>
+                    <a class="btn btn-primary btn-xs hidden-print"
+                       href="{{ path('paiement_new', { 'id': enfant_tuteur.tuteur.id }) }}"
+                       title="Ajouter un paiement"><i class="fas fa-plus"></i> Ajouter un paiement au
+                        parent</a>
+                </span>
+        {% endif %}
+    </h4>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                {% if tuteur.gsm %}
+                    {{ tuteur.gsm }}
+                {% endif %} |
+                {% if tuteur.telephone %}
+                    {{ tuteur.telephone }}
+                {% endif %}
+                {% if tuteur.nomconjoint %}
+                    <i class="fas fa-heart" style="color:hotpink;"></i> {{ tuteur.nomconjoint }} {{ tuteur.prenomconjoint }}
+                {% endif %}
+                {% if tuteur.email %}
+                    <br/><a href='mailto:{{ tuteur.email }}'>{{ tuteur.email }}</a>
+                {% endif %}
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div role="tabpanel">
+                {% set thisyear = "now"|date("Y") %}
+                {% include 'admin/enfant/presences/onglets.html.twig' with {'years': years, 'thisyear' : thisyear } %}
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    {% for yeart in years %}
+                        <div role="tabpanel" class="tab-pane {% if thisyear == yeart %}active{% endif %}"
+                             id="t-{{ yeart }}-{{ enfant_tuteur.id }}">
+
+                            {% include 'admin/enfant/presences/index.html.twig' with {'year': yeart} %}
+
+                            {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+                                {% include 'admin/enfant/presences/paiements.html.twig' with {'tuteur': enfant_tuteur.tuteur, 'year': yeart } %}
+                            {% endif %}
+
+                        </div>
+                    {% endfor %} <!-- boucle onglet year -->
+                </div>
+            </div>
+        </div> <!-- end panel -->
+    </div>
+
+{% else %}
+    <p>Aucun Parent</p>
+{% endfor %}
+
+{% if is_granted('ROLE_MERCREDI_ADMIN') %}
+    {{ form_row(form_delete_presences.submit) }}
+
+    {{ form_end(form_delete_presences) }}
+{% endif %}

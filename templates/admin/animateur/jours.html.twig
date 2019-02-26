@@ -1,0 +1,31 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Jours de présences pour {{ animateur }}</h3>
+    </div>
+
+    {{ form_start(form, { 'attr': {'class': 'well'}}) }}
+    {{ form_errors(form) }}
+    <div class="row">
+        <div class="col-md-4">
+            {% for jourField in form.jours %}
+            {{ form_label(jourField) }}
+            {{ form_widget(jourField) }}
+
+            {% if loop.index == loop.length // 2 %}
+        </div>
+        <div class="col-md-4">
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {{ form_row(form.submit) }}
+    {{ form_end(form) }}
+
+        <a href="{{ path('admin_animateur_show', {'slugname' : animateur.slugname }) }}">
+            <span class="fas fa-list"></span>
+            Annuler et retour à la fiche
+        </a>
+
+{% endblock %}

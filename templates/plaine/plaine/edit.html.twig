@@ -1,0 +1,15 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Edition de la plaine {{ plaine.intitule }}</h3>
+    </div>
+
+    {% include 'plaine/plaine/_form.html.twig' %}
+
+    <a href="{{ path('plaine_show', {'slugname': plaine.slugname}) }}">
+        <span class="fas fa-list"></span> Annuler
+    </a>
+
+
+{% endblock %}

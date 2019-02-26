@@ -1,0 +1,59 @@
+<h3 class="text-success">Les paiments</h3>
+<div class="alert alert-info">
+    Cliquez sur l'icône <i class="fas fa-bars"></i> ou
+    sur le montant du paiment pour le détail
+</div>
+{% for tuteurenfant in tuteurenfants %}
+    {% set enfant = tuteurenfant.enfant %}
+
+    <h4>{{ tuteurenfant.paiements | length }} paiements pour
+        <strong>{{ enfant }}</strong></h4>
+    {% if tuteurenfant.paiements | length > 0 %}
+        {% for paiement in tuteurenfant.paiements %}
+
+            {% set totalpresences = paiement.plainepresences | length + paiement.presences | length %}
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a title="Afficher le détail" href="#content-{{ paiement.id }}" aria-expanded="false"
+                           aria-controls="content-{{ paiement.id }}" data-toggle="collapse" role="button">
+                            <i class="fas fa-bars"></i>
+                        </a>
+                        {% if paiement.datepaiement %}
+                            Du {{ paiement.datepaiement | date('d-m-Y') }}
+                        {% endif %}
+                        <a href="{{ path('paiement_show', { 'id': paiement.id }) }}" title="Détail de l'abonnement">
+                            d'un montant de {{ paiement.montant }} €
+                        </a>
+
+                        <span class='text-muted'>
+                                {% if paiement.typepaiement %}
+                                    | {{ paiement.typepaiement }}
+                                {% endif %}
+                            {% if paiement.ordre %}
+                                | Ordre {{ paiement.ordre }}
+                            {% endif %}
+                            | {{ totalpresences }} présence(s)
+                            {% if paiement.modepaiement %}
+                                | {{ paiement.modepaiement }}
+                            {% endif %}
+                            {% if paiement.cloture %}
+                                | <i class="fas fa-lock" title="Clôturé"></i>
+                            {% endif %}
+                            </span>
+                    </h3>
+                </div>
+                <div class="collapse panel-body" id="content-{{ paiement.id }}">
+                    {% if totalpresences > 0 %}
+                        {% include 'admin/tuteur/paiements/presences.html.twig' with { 'presences' : paiement.presences, 'plainepresences' : paiement.plainepresences } %}
+                    {% else %}
+                        <p>Aucune présence</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-info">Aucun paiement</p>
+    {% endif %}
+{% endfor %}

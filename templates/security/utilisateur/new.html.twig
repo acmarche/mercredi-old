@@ -1,0 +1,16 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Nouvel utilisateur
+            {% if entity is defined %} pour {{ entity }} {% endif %}
+        </h3>
+    </div>
+
+    {% include 'security/utilisateur/_form.html.twig' %}
+
+    <a href="{{ path('utilisateur') }}">
+        <span class="fas fa-list" aria-hidden="true"></span> Annuler et retour
+    </a>
+
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>Enfants archivés <span class='badge'>{{ entities | length }}</span></h3>
+    </div>
+
+    {% include 'admin/search/enfant.html.twig' with {'form': search_form } %}
+
+        {% if entities | length > 0 %}
+            <table class='table table-bordered table-hover'>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Né le</th>
+                        <th>Année scolaire</th>
+                        <th>Parent(s)</th>
+                        <th>Présences</th>
+                            {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+                            <th>Actions</th>
+                            {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entity in entities %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('enfant_show', { 'slugname': entity.slugname }) }}" title="Consulter sa fiche">
+                                    {{ entity.nom }}
+                                </a>
+                            </td>
+                            <td>{{ entity.prenom }}</td>
+                            <td>{% if entity.birthday %}{{ entity.birthday|date('d-m-Y') }}{% endif %}</td>
+                            <td>{{ entity.anneescolaire }}</td>
+                            <td>{{ entity.tuteurs | length }}</td>
+                            <td>
+                                {% set nonpayes = 0 %}
+                                {% if entity.presences | length > 0 %}
+                                    {% for presence in entity.presences %}
+                                        {% if not presence.paiement %}
+                                            {% set nonpayes = nonpayes + 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                                {{ entity.presences | length }}
+                                {% if nonpayes != 0 %}
+                                    <span title="Présences non payées" class="text-danger">({{ nonpayes }})</span>
+                                {% endif %}
+                            </td>
+                            {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+                                <td>
+                                    <a href="{{ path('enfant_edit', { 'slugname': entity.slugname }) }}" title="Editer"><button type="button" class="btn btn-primary btn-xs"><i class="far fa-edit"></i> Editer</button></a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-warning">Aucun enfant trouvé</p>
+        {% endif %}
+
+{% endblock %}

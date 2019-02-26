@@ -1,0 +1,32 @@
+<h4>
+    {{ enfant }}{% include 'admin/default/sexe.html.twig' with {'entity': enfant} %}
+</h4>
+<span class="fas fa-birthday-cake"></span>
+Né le
+{% if enfant.birthday %}
+    {{ enfant.birthday|date('d-m-Y') }}
+{% endif %}
+{% if enfant.numeroNational %}
+    <br/>
+    ({{ enfant.numeroNational }})
+{% endif %}
+<br/>
+Scolarisé à <strong>{{ enfant.ecole }}</strong> en <strong>{{ enfant.anneescolaire }}</strong>
+<br/>
+<strong>Accompagnateurs:</strong> {{ enfant.accompagnateurs|join(',') }}
+<br/>
+{% if enfant.fichename %}
+    <br/>
+    <span class="fas fa-download" aria-hidden="true"></span>
+    <a href="{{ path('download_enfant', {'uuid':enfant.uuid, 'type':'sante'}) }}" target="_blank">
+        Télécharger la fiche santé
+    </a>
+{% endif %}
+
+{% if enfant.filename %}
+    <br/>
+    <span class="fas fa-download" aria-hidden="true"></span>
+    <a href="{{ path('download_enfant', {'uuid':enfant.uuid, 'type':'inscription'}) }}" target="_blank">
+        Télécharger la fiche d'inscription
+    </a>
+{% endif %}

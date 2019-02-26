@@ -1,0 +1,30 @@
+<tr>
+    <td>
+        <a href="{{ path('plaine_show', { 'slugname': presence.plaineenfant.plaine.slugname }) }}">
+            {{presence.plaineenfant.plaine}}
+        </a>
+    </td>
+    <td>
+        <a href="{{ path('plainepresence_show_enfant', {'plaine_slugname': presence.plaineenfant.plaine.slugname, 'enfant_slugname' : presence.plaineenfant.enfant.slugname }) }}" title='Consulter'>
+            {{ presence.jour.datejour | datefr }}
+        </a>
+    </td>
+    <td>
+        {{ presence.ordrenew}}
+    </td>   
+    <td>
+        {% for fratrie in presence.fratries %}
+            {% if fratrie.absent %}
+                <span class="text-warning">
+                {% endif %}
+                <a href="{{ path('enfant_show', { 'slugname': fratrie.slugname }) }}" title="Consulter sa fiche"> {{fratrie}} </a>
+                {% if fratrie.absent %}
+                </span>
+            {% endif %}
+            {% if not loop.last %} | {% endif %}
+        {% endfor %}
+    </td>
+    <td>
+        {{ presence.cout }} €
+    </td>
+</tr>

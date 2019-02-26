@@ -1,0 +1,35 @@
+{% extends 'front/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h3>Coordination Éducation Enfance</h3>
+    </div>
+
+    <span class="fas fa-map-marker-alt"></span>
+
+    Complexe Saint François <br/>
+    Rue Victor Libert, 36E<br/>
+    6900 Marche-en-Famenne<br/>
+    <br/>
+    <span class="fas fa-phone"></span> Tél : 084 32 69 90 ou 084 32 69 85<br/>
+    <span class="far fa-envelope"></span> Courriel : <a href="mailto:epe@marche.be">epe@marche.be</a><br/>
+
+    <br/>
+    <h4 class="text-success">Envoyer nous un message</h4>
+
+    <div class="row">
+        <div class="col-md-8">
+            {{ form_start(contact_form, { 'attr': {'class': 'well'} }) }}
+            <div class="col-md-6">
+                {{ form_row(contact_form.nom) }}
+                {{ form_row(contact_form.email) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(contact_form.texte) }}
+            </div>
+            {{ form_end(contact_form) }}
+        </div>
+    </div>
+
+{% endblock %}

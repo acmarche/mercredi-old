@@ -1,0 +1,40 @@
+{% extends 'admin/layout.html.twig' %}
+{% block body %}
+    <div class="page-header">
+        <h3>Liste des animateurs</h3>
+    </div>
+
+    {% include 'admin/search/animateur.html.twig' with {'form': search_form } %}
+
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Adresse</th>
+            <th>Téléphone</th>
+            <th>Email</th>
+            <th>Compte</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for animateur in animateurs %}
+            <tr>
+                <td><a href="{{ path('admin_animateur_show', { 'slugname': animateur.slugname }) }}">{{ animateur.nom }}</a>
+                </td>
+                <td>{{ animateur.prenom }}</td>
+                <td>{{ animateur.adresse }} {{ animateur.localite }}</td>
+                <td>{{ animateur.telephone }} {{ animateur.gsm }}</td>
+                <td>{{ animateur.email }}</td>
+                <td>
+                    {% if animateur.user %}
+                        <a href="{{ path('utilisateur_show', {'id': animateur.user.id}) }}">
+                            {{ animateur.user }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

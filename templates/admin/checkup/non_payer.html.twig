@@ -1,0 +1,96 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h3>{{ presences | length }} non payés</h3>
+    </div>
+
+    <div class="alert alert-info">
+        Sont exclues les gratuites et les absences avec certificats<br/>
+        Il s'agit également des présences dont la date inférieur ou égale au
+        <strong>{{ 'today' | date('d-m-Y') }}</strong>
+    </div>
+
+    <h4><a href="#plaines">Les présences des plaines ci-dessous</a></h4>
+
+    <h4 class="text-success">Jours de garde</h4>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Enfant</th>
+            <th>Date</th>
+            <th>Tuteur</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for presence in presences %}
+
+            <tr>
+                <td>
+                    <a href="{{ path('enfant_show', {'slugname': presence.enfant.slugname}) }}">
+                        {{ presence.enfant }}
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ path('presence_show', {'id': presence.id}) }}">
+                        {{ presence.jour }}
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ path('tuteur_show', {'slugname': presence.tuteur.slugname}) }}">
+                        {{ presence.tuteur }}
+                    </a>
+                </td>
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    <h4 id="plaines" class="text-success">Jours de plaines</h4>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Enfant</th>
+            <th>Date</th>
+            <th>Plaine</th>
+            <th>Tuteur</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for presence in presencesPlaines %}
+            {% set enfant = presence.plaineEnfant.enfant %}
+            {% set plaine = presence.plaineEnfant.plaine %}
+            {% set tuteur = presence.tuteur %}
+            <tr>
+                <td>
+                    <a href="{{ path('enfant_show', {'slugname': enfant.slugname}) }}">
+                        {{ enfant }}
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ path('presence_show', {'id': presence.id}) }}">
+                        {{ presence.jour }}
+                    </a>
+                </td>
+                <td>
+                    {{ plaine }}
+                </td>
+                <td>
+                    {% if tuteur %}
+                        <a href="{{ path('tuteur_show', {'slugname': tuteur.slugname}) }}">
+                            {{ tuteur }}
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

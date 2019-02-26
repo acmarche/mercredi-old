@@ -1,0 +1,20 @@
+{% set yearpresence = presence.jour.datejour | date('Y') %}
+{% set moispresence = presence.jour.datejour | date('n') %}
+{% if moispresence == month %}
+    <tr>
+        <td>
+            <a href="{{ path('parent_presence_show', { 'id': presence.id }) }}" title='Détail de la présence'>
+                {{ presence.jour.datejour | datefr }}
+            </a>
+        </td>
+        <td>{{ presence.absent | absencetext }}</td>
+        <td>
+            {% if presence.paiement %}
+                <span class="fas fa-check"></span>
+            {% else %}
+                <span class="text-warning">Non</span>
+            {% endif %}
+        </td>
+        <td>{{ presence.remarques | nl2br }}</td>
+    </tr>
+{% endif %}

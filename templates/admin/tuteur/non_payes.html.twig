@@ -1,0 +1,64 @@
+<h3 class="text-warning">Les jours de garde non payés</h3>
+
+    {% for tuteurenfant in tuteurenfants %}
+        {% set enfant = tuteurenfant.enfant %}
+        {% set nonpayes = tuteurenfant.presencesnonpayes %}
+
+        <h4><span class="far fa-user"> </span> {{ enfant }}</h4>
+
+        {% if  nonpayes | length > 0 %}
+            <table class='table table-bordered table-hover table-condensed'>
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Date</th>
+                        <th style="width: 10%;">Ordre</th>
+                        <th style="width: 10%;">Prix plein</th>
+                        <th style="width: 15%;">Réduction</th>
+                        <th style="width: 25%;">Fratrie(s) présente(nt)</th>
+                        <th style="width: 15%;">Coût</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set total = 0 %}
+                    {% for nonpaye in nonpayes %}
+                        {% set total = total + nonpaye.cout %}
+                        {% include 'admin/tuteur/paiements/line.html.twig' with { 'presence' : nonpaye } %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-info">Aucune présence non payée</p>
+        {% endif %}
+    {% endfor %}
+
+<h3 class="text-warning">Les jours de plaine non payés</h3>
+
+    {% for tuteurenfant in tuteurenfants %}
+        {% set enfant = tuteurenfant.enfant %}
+        {% set plainesnonpayes = tuteurenfant.plainepresencesnonpayes %}
+
+        <h4><span class="far fa-user"> </span> {{ enfant }}</h4>
+
+        {% if  plainesnonpayes | length > 0 %}
+            <table class='table table-bordered table-hover table-condensed'>
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Plaine</th>
+                        <th style="width: 15%;">Date</th>
+                        <th style="width: 10%;">Ordre</th>
+                        <th style="width: 30%;">Fratrie(s) présente(nt)</th>
+                        <th style="width: 10%;">Coût</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set total = 0 %}
+                    {% for plainesnonpaye in plainesnonpayes  %}
+                        {% set total = total + plainesnonpaye.cout %}
+                        {% include 'admin/tuteur/paiements/plaine_line.html.twig' with { 'presence' : plainesnonpaye } %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-info">Aucune présence non payée</p>
+        {% endif %}
+    {% endfor %}

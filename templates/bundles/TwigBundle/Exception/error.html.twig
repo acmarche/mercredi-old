@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Une erreur est survenue: {{ status_text }}
+{% endblock %}
+
+{% block body -%}
+    <div class="page-header">
+        <h3>Oups l'application s'est plantée</h3>
+    </div>
+
+    <h4>Le serveur a retourné : "{{ status_code }} {{ status_text }}".</h4>
+
+    <div class="alert alert-info">
+        L'administrateur du site a été prévenu
+    </div>
+    <br/><br/>
+    <p>
+        <a href="{{ path('homepage') }}">Retour à l'accueil</a>
+    </p>
+
+{% endblock %}

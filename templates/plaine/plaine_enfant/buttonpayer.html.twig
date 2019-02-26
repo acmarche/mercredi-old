@@ -1,0 +1,42 @@
+{% set paiements = 0 %}
+{% if presence.tuteur %}
+    {% set paiements = presence.tuteur.paimentsNonCloture() %}
+    {% if presence.paiement %}
+        <a href="{{ path('plainepresence_paiement', {'id' : presence.id, 'paiementid': presence.paiement.id }) }}"
+           class="btn btn-sm btn-primary" role="button"><i
+                    class="far fa-credit-card"></i>
+            Editer le paiement</a>
+    {% else %}
+        {% if paiements %}
+            <!-- Single button -->
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-primary dropdown-toggle"
+                        data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    <i class="far fa-credit-card"></i> Payer...<span
+                            class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    {% for paiement in paiements %}
+                        <li>
+                            <a href="{{ path('plainepresence_paiement', {'id' : presence.id, 'paiementid': paiement.id }) }}">
+                                {{ paiement }}</a>
+                        </li>
+                    {% else %}
+                        <li>Aucun paiement disponible pour ce tuteur</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <a disabled="disabled" class="btn btn-sm btn-primary" role="button"
+                    title="Aucun paiement du tuteur disponible">
+                <i class="far fa-credit-card"></i> Payer
+            </a>
+        {% endif %}
+    {% endif %}
+{% else %}
+    <a disabled="disabled" class="btn btn-sm btn-primary" role="button"
+            title="Attribuez d'abord un tuteur">
+        <i class="far fa-credit-card"></i> Payer
+    </a>
+{% endif %}

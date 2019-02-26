@@ -1,0 +1,30 @@
+<div class="page-header">
+    <h3 class="media-heading">{{ enfant }}
+        {% include 'admin/default/sexe.html.twig' with {'entity':enfant} %}
+    </h3>
+    {% if enfant.archive %}
+        <span class="fas fa-archive" title="Cet enfant est archivé"></span>
+    {% endif %}
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <span class="fas fa-birthday-cake"></span> Né le
+        {% if enfant.birthday %}
+            {{ enfant.birthday|date('d-m-Y') }}
+        {% endif %}
+        {% if enfant.numeronational %}
+            ({{ enfant.numeronational }})
+        {% endif %}
+        <br/>
+        Scolarisé à <strong>{{ enfant.ecole }}</strong> en <strong>{{ enfant.anneescolaire }}</strong>
+    </div>
+    <div class="col-md-4">
+        Ordre par défaut: {{ enfant.ordre }}
+        <br/>
+        Groupe scolaire forcé :<strong>{{ enfant.groupescolaire }}</strong>
+    </div>
+    <div class="col-md-4">
+        <p class="text-success">Fratrie(s) :</p>
+        {% include 'animateur/enfant/entete/_fratries.html.twig' %}
+    </div>
+</div>

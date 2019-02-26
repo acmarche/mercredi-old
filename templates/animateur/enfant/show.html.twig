@@ -1,0 +1,33 @@
+{% extends 'animateur/layout.html.twig' %}
+
+{% block body %}
+
+    {% include 'animateur/enfant/entete/_head.html.twig' %}
+
+    {% include 'animateur/enfant/_tuteurs.html.twig' %}
+
+    <h3 class="text-success">Ses présences</h3>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Jour</th>
+            <th>Parent</th>
+            <th>Frateries ce jour là</th>
+        </tr>
+        </thead>
+    {% for presence in presences %}
+        <tr>
+            <td>{{ presence.jour }}</td>
+            <td>{{ presence.tuteur }}</td>
+            <td>
+                {% for fratrie in presence.fratries %}
+                    <a href="{{ path('animateur_enfant_show', { 'slugname': fratrie.slugname }) }}"
+                       title="Consulter sa fiche"> {{ fratrie }} </a>
+                    {% if not loop.last %} | {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
