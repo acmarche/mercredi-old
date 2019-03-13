@@ -73,7 +73,7 @@ class User implements UserInterface
      * @Assert\Length(
      *      min = 6
      *     )
-     * @var string
+     * @var string|null
      */
     protected $plainPassword;
 
@@ -258,6 +258,54 @@ class User implements UserInterface
     }
 
     /**
+     * @return string|null
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string|null $type
+     */
+    public function setType(?string $type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmailRequest(): ?string
+    {
+        return $this->email_request;
+    }
+
+    /**
+     * @param string|null $email_request
+     */
+    public function setEmailRequest(?string $email_request): void
+    {
+        $this->email_request = $email_request;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     */
+    public function setPlainPassword(?string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    /**
      * Returns the password used to authenticate the user.
      *
      * This should be the encoded password. On authentication, a plain-text
@@ -289,7 +337,7 @@ class User implements UserInterface
      */
     public function getUsername()
     {
-        return $this->username;
+        return $this->email;
     }
 
     /**
@@ -301,6 +349,26 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         $this->plainPassword = null;
+    }
+
+    /**
+     * Ajout de if ($tuteur !== null) {
+     * @param Tuteur|null $tuteur
+     * @return User
+     */
+    public function setTuteur(?Tuteur $tuteur): self
+    {
+        $this->tuteur = $tuteur;
+        if ($tuteur !== null) {
+
+            // set (or unset) the owning side of the relation if necessary
+            $newUser = $tuteur === null ? null : $this;
+            if ($newUser !== $tuteur->getUser()) {
+                $tuteur->setUser($newUser);
+            }
+        }
+
+        return $this;
     }
 
     public function getId(): ?int
@@ -487,19 +555,6 @@ class User implements UserInterface
         return $this->tuteur;
     }
 
-    public function setTuteur(?Tuteur $tuteur): self
-    {
-        $this->tuteur = $tuteur;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newUser = $tuteur === null ? null : $this;
-        if ($newUser !== $tuteur->getUser()) {
-            $tuteur->setUser($newUser);
-        }
-
-        return $this;
-    }
-
     public function getAnimateur(): ?Animateur
     {
         return $this->animateur;
@@ -555,4 +610,5 @@ class User implements UserInterface
 
         return $this;
     }
+
 }

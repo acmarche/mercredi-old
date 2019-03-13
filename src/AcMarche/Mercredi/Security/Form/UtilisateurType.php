@@ -36,8 +36,7 @@ class UtilisateurType extends AbstractType
             )
             ->add(
                 'email',
-                EmailType::class,
-                array()
+                EmailType::class
             )
             ->add(
                 'groups',

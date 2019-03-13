@@ -4,19 +4,19 @@ namespace AcMarche\Mercredi\Security\Controller;
 
 use AcMarche\Mercredi\Admin\Entity\Animateur;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
+use AcMarche\Mercredi\Admin\Form\Search\SearchUtilisateurType;
 use AcMarche\Mercredi\Admin\Repository\PresenceRepository;
 use AcMarche\Mercredi\Security\Entity\User;
-use AcMarche\Mercredi\Admin\Form\Search\SearchUtilisateurType;
 use AcMarche\Mercredi\Security\Form\UtilisateurEditType;
 use AcMarche\Mercredi\Security\Form\UtilisateurType;
 use AcMarche\Mercredi\Security\Manager\UserManager;
 use AcMarche\Mercredi\Security\Repository\UserRepository;
 use AcMarche\Mercredi\Security\Service\Mailer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * User controller.
@@ -115,7 +115,7 @@ class UtilisateurController extends AbstractController
      */
     public function new(Request $request)
     {
-        $user = $this->userManager->getInstance();
+        $user = new User();
 
         $form = $this->createForm(UtilisateurType::class, $user)
             ->add('create', SubmitType::class);

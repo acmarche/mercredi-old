@@ -41,15 +41,12 @@ class UserManager
         $this->passwordManager = $passwordManager;
     }
 
-    public function getInstance(string $email = null): User
+    public function getInstance(string $email): User
     {
-        if ($email) {
-            if (!$user = $this->findOneByEmail($email)) {
-                $user = new User();
-                $user->setEmail($email);
-            }
-        } else {
+        if (!$user = $this->findOneByEmail($email)) {
             $user = new User();
+            $user->setEmail($email);
+            $user->setUsername($email);
         }
 
         $user->setEnabled(true);
@@ -99,7 +96,8 @@ class UserManager
 
     public function insert(User $user)
     {
-        $user->setEmail($user->getEmail());//pour setUsername();
+        $user->setEmail($user->getEmail());
+        $user->setUsername($user->getEmail());//pour setUsername();
         $this->passwordManager->generateNewPasswordAndSetPlainPassword($user);
         $this->passwordManager->changePassword($user, $user->getPlainPassword());
         $this->userRepository->insert($user);
