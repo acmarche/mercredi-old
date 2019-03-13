@@ -83,10 +83,10 @@ class DateService
                 //si après 10h
                 $heure = (int)$today->format('G');
                 $minute = (int)$today->format('i');
-                if ($heure > 12) {
+                if ($heure > 10) {
                     return false;
                 }
-                if ($heure == 12) {
+                if ($heure == 10) {
                     //si après 10h02
                     if ($minute > 02) {
                         return false;
