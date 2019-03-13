@@ -151,6 +151,9 @@ class UserManager
             if (($key = array_search('ROLE_MERCREDI_READ', $roles)) !== false) {
                 unset($roles[$key]);
             }
+            if (($key = array_search('ROLE_USER', $roles)) !== false) {
+                unset($roles[$key]);
+            }
         }
 
         return $roles;

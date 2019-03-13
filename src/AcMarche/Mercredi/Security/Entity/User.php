@@ -248,7 +248,9 @@ class User implements UserInterface
         $roles = $this->roles;
 
         foreach ($this->getGroups() as $group) {
-            $roles = array_merge($roles, $group->getRoles());
+            foreach ($group->getRoles() as $role) {
+                $roles[] = $role;
+            }
         }
 
         // we need to make sure to have at least one role
