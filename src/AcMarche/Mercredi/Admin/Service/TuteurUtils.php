@@ -9,11 +9,22 @@
 namespace AcMarche\Mercredi\Admin\Service;
 
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
+use AcMarche\Mercredi\Admin\Repository\EnfantTuteurRepository;
 use AcMarche\Mercredi\Security\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class TuteurUtils
 {
+    /**
+     * @var EnfantTuteurRepository
+     */
+    private $enfantTuteurRepository;
+
+    public function __construct(EnfantTuteurRepository $enfantTuteurRepository)
+    {
+        $this->enfantTuteurRepository = $enfantTuteurRepository;
+    }
+
     /**
      * @param User $user
      * @return Tuteur|null
@@ -60,7 +71,7 @@ class TuteurUtils
      * @param Tuteur $tuteur
      * @return bool
      */
-    public static function hasTelephone(Tuteur $tuteur) : bool
+    public static function hasTelephone(Tuteur $tuteur): bool
     {
         if ($tuteur->getGsm()) {
             return true;
@@ -89,24 +100,31 @@ class TuteurUtils
         return false;
     }
 
-    public static function coordonneesIsComplete(Tuteur $tuteur) {
-        if(self::hasTelephone($tuteur) === false)
+    public static function coordonneesIsComplete(Tuteur $tuteur)
+    {
+        if (self::hasTelephone($tuteur) === false) {
             return false;
+        }
 
-        if(!$tuteur->getNom())
+        if (!$tuteur->getNom()) {
             return false;
+        }
 
-        if(!$tuteur->getPrenom())
+        if (!$tuteur->getPrenom()) {
             return false;
+        }
 
-        if(!$tuteur->getAdresse())
+        if (!$tuteur->getAdresse()) {
             return false;
+        }
 
-        if(!$tuteur->getCodePostal())
+        if (!$tuteur->getCodePostal()) {
             return false;
+        }
 
-        if(!$tuteur->getLocalite())
+        if (!$tuteur->getLocalite()) {
             return false;
+        }
 
         return true;
     }
@@ -120,7 +138,9 @@ class TuteurUtils
     {
         $emails = [];
         foreach ($tuteurs as $tuteur) {
-            $emails = array_merge($emails, $this->getEmailsOfOneTuteur($tuteur));
+            if ($this->tuteurIsActif($tuteur)) {
+                $emails = array_merge($emails, $this->getEmailsOfOneTuteur($tuteur));
+            }
         }
 
         return array_unique($emails);
@@ -135,12 +155,19 @@ class TuteurUtils
     {
         $data = [];
         foreach ($tuteurs as $tuteur) {
-            if (count($this->getEmailsOfOneTuteur($tuteur)) == 0) {
-                $data[] = $tuteur;
+            if ($this->tuteurIsActif($tuteur)) {
+                if (count($this->getEmailsOfOneTuteur($tuteur)) == 0) {
+                    $data[] = $tuteur;
+                }
             }
         }
 
         return $data;
+    }
+
+    public function tuteurIsActif(Tuteur $tuteur)
+    {
+        return count($this->enfantTuteurRepository->getEntantsActif($tuteur));
     }
 
     /**

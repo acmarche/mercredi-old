@@ -2,11 +2,11 @@
 
 namespace AcMarche\Mercredi\Admin\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method EnfantTuteur|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,7 +24,7 @@ class EnfantTuteurRepository extends ServiceEntityRepository
     public function insert(EnfantTuteur $enfantTuteur)
     {
         $this->_em->persist($enfantTuteur);
-        $this->_em->flush();
+        $this->save();
     }
 
     public function save()
@@ -119,5 +119,21 @@ class EnfantTuteurRepository extends ServiceEntityRepository
         $results = $query->getResult();
 
         return $results;
+    }
+
+    public function getEntantsActif(Tuteur $tuteur)
+    {
+        $qb = $this->createQueryBuilder('enfantTuteur');
+        $qb->leftJoin('enfantTuteur.enfant', 'enfant', 'WITH');
+        $qb->addSelect('enfant');
+
+        $qb->andwhere('enfantTuteur.tuteur = :tuteur')
+            ->setParameter('tuteur', $tuteur);
+
+        $qb->andwhere('enfant.archive != 1');
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
     }
 }
