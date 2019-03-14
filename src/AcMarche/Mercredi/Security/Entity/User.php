@@ -129,6 +129,38 @@ class User implements UserInterface
     private $prenom;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=200, nullable=true)
+     *
+     */
+    protected $adresse;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="integer", length=6, nullable=true)
+     *
+     */
+    protected $code_postal;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=200, nullable=true)
+     *
+     */
+    protected $localite;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=150, nullable=true, options={"comment" = "tel"})
+     *
+     */
+    protected $telephone;
+
+    /**
      * @var bool|null
      *
      * @ORM\Column(type="boolean", nullable=true)
@@ -227,6 +259,11 @@ class User implements UserInterface
     public function hasRole($role)
     {
         return in_array(strtoupper($role), $this->getRoles(), true);
+    }
+
+    public function getAdresseComplete()
+    {
+        return $this->adresse.'<br />'.$this->code_postal.' '.$this->localite;
     }
 
     /**
@@ -609,6 +646,54 @@ class User implements UserInterface
     public function setToken(?string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getCodePostal(): ?int
+    {
+        return $this->code_postal;
+    }
+
+    public function setCodePostal(?int $code_postal): self
+    {
+        $this->code_postal = $code_postal;
+
+        return $this;
+    }
+
+    public function getLocalite(): ?string
+    {
+        return $this->localite;
+    }
+
+    public function setLocalite(?string $localite): self
+    {
+        $this->localite = $localite;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?string $telephone): self
+    {
+        $this->telephone = $telephone;
 
         return $this;
     }

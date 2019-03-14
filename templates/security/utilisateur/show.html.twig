@@ -19,6 +19,14 @@
                     <th><span class="far fa-envelope"></span> Email</th>
                     <td>{{ user.email }}</td>
                 </tr>
+                <tr>
+                    <th><span class="fas fa-phone"></span> Téléphone</th>
+                    <td>{{ user.telephone }}</td>
+                </tr>
+                <tr>
+                    <th><span class="far fa-envelope"></span> Adresse</th>
+                    <td>{{ user.adresseComplete | raw }}</td>
+                </tr>
                 {% if user.isParent %}
                     <tr>
                         <th> Tuteur</th>
