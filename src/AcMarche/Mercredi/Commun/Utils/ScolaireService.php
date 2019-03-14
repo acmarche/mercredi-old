@@ -15,6 +15,16 @@ use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
 
 class ScolaireService
 {
+    /**
+     * @var SortUtils
+     */
+    private $sortUtils;
+
+    public function __construct(SortUtils $sortUtils)
+    {
+        $this->sortUtils = $sortUtils;
+    }
+
     public static function getAnneesScolaires()
     {
         $annees = ["PM", "1M", "2M", "3M", "1P", "2P", "3P", "4P", "5P", "6P"];
@@ -87,7 +97,12 @@ class ScolaireService
             }
         }
 
+        $petits = $this->sortUtils->sortObjectsByName($petits);
+        $moyens = $this->sortUtils->sortObjectsByName($moyens);
+        $grands = $this->sortUtils->sortObjectsByName($grands);
+
         return ['petits' => $petits, 'moyens' => $moyens, 'grands' => $grands];
     }
+
 
 }

@@ -2,30 +2,16 @@
 
 namespace AcMarche\Mercredi\Animateur\Controller;
 
-use AcMarche\Mercredi\Admin\Entity\Jour;
-use AcMarche\Mercredi\Admin\Form\Presence\PresenceEditType;
-use AcMarche\Mercredi\Admin\Form\Presence\PresenceType;
 use AcMarche\Mercredi\Admin\Repository\JourRepository;
 use AcMarche\Mercredi\Admin\Repository\PresenceRepository;
-use AcMarche\Mercredi\Admin\Service\EnfantUtils;
-use AcMarche\Mercredi\Admin\Service\Facture;
-use AcMarche\Mercredi\Admin\Service\PresenceService;
-use AcMarche\Mercredi\Commun\Utils\SortUtils;
-use AcMarche\Mercredi\Plaine\Entity\PlaineJour;
-use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
 use AcMarche\Mercredi\Commun\Utils\ScolaireService;
+use AcMarche\Mercredi\Commun\Utils\SortUtils;
 use AcMarche\Mercredi\Plaine\Repository\PlaineJourRepository;
 use AcMarche\Mercredi\Plaine\Repository\PlainePresenceRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use AcMarche\Mercredi\Admin\Entity\Presence;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
-use AcMarche\Mercredi\Admin\Form\Search\SearchPresenceByMonthType;
-use AcMarche\Mercredi\Admin\Form\Search\SearchPresenceType;
+use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
@@ -56,19 +42,25 @@ class PresenceController extends AbstractController
      * @var SortUtils
      */
     private $sortUtils;
+    /**
+     * @var ScolaireService
+     */
+    private $scolaireService;
 
     public function __construct(
         JourRepository $jourRepository,
         PlaineJourRepository $plaineJourRepository,
         PresenceRepository $presenceRepository,
         PlainePresenceRepository $plainePresenceRepository,
-        SortUtils $sortUtils
+        SortUtils $sortUtils,
+        ScolaireService $scolaireService
     ) {
         $this->plaineJourRepository = $plaineJourRepository;
         $this->presenceRepository = $presenceRepository;
         $this->plainePresenceRepository = $plainePresenceRepository;
         $this->jourRepository = $jourRepository;
         $this->sortUtils = $sortUtils;
+        $this->scolaireService = $scolaireService;
     }
 
     /**
@@ -104,7 +96,8 @@ class PresenceController extends AbstractController
      */
     public function show(int $id, string $type)
     {
-        if ($type == 'plaine') {
+        $petits = $grands = $moyens = [];
+        if ($type === 'plaine') {
             $jour = $this->plaineJourRepository->find($id);
             $presences = $this->plainePresenceRepository->findBy(['jour' => $jour]);
             foreach ($presences as $presence) {
@@ -112,7 +105,6 @@ class PresenceController extends AbstractController
             }
         } else {
             $jour = $this->jourRepository->find($id);
-
             $presences = $this->presenceRepository->findBy(['jour' => $jour]);
         }
 
@@ -120,10 +112,19 @@ class PresenceController extends AbstractController
             throw $this->createNotFoundException('Jour non trouvé');
         }
 
+        $remarques = $jour->getRemarques();
+
+        extract($this->scolaireService->groupPresences($presences, $type), EXTR_OVERWRITE);
+
         return $this->render(
             'animateur/presence/show.html.twig',
             array(
-                'jour' => $jour,
+                'datejour' => $jour->getDateJour(),
+                'petits' => $petits,
+                'moyens' => $moyens,
+                'grands' => $grands,
+                'remarques' => $remarques,
+                'display_remarques' => true,
                 'presences' => $presences,
             )
         );

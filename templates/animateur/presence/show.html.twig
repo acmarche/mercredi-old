@@ -4,9 +4,30 @@
     <div class="page-header">
         <h3>
             Enfants présents le
-            {{ jour.datejour | datefr }}
+            {{ datejour | datefr }}
         </h3>
     </div>
 
-    {% include 'animateur/presence/_list_enfants.html.twig' %}
+    <h3>Petit</h3>
+
+    {% include 'animateur/presence/_line.html.twig' with {'groups': petits } %}
+
+    <div class="saut_page"></div>
+
+    <div class="page-header visible-print">
+        <h3>Listing des présences {{ datejour | date('d-m-Y') }}</h3>
+    </div>
+
+    <h3>Moyen</h3>
+    {% include 'animateur/presence/_line.html.twig' with {'groups': moyens } %}
+
+    <div class="saut_page"></div>
+
+    <div class="page-header visible-print">
+        <h3>Listing des présences {{ datejour | date('d-m-Y') }}</h3>
+    </div>
+
+    <h3>Grand</h3>
+    {% include 'animateur/presence/_line.html.twig' with {'groups': grands } %}
+
 {% endblock %}
