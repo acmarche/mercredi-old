@@ -6,7 +6,7 @@ use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
-class StaffLdap
+class LdapEmploye
 {
     /**
      * @var Ldap

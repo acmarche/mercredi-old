@@ -24,7 +24,7 @@ security:
             provider: sql_provider
             guard:
                 authenticators:
-                    - AcMarche\Mercredi\Security\Authenticator\FormLoginAuthenticator
+                    - AcMarche\Mercredi\Security\Authenticator\MercrediAuthenticator
             logout:       true
             anonymous:    true
 
