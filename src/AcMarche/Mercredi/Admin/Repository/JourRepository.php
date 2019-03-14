@@ -214,7 +214,12 @@ class JourRepository extends ServiceEntityRepository
         $jours = [];
 
         foreach ($results as $jour) {
-            $jours[$jour->getDateJour()->format('d-m-Y')] = $jour->getId();
+            $dateJour = $jour->getDateJour();
+            $numericDay = $dateJour->format('w');
+
+            if ($numericDay == 3) {
+                $jours[$dateJour->format('d-m-Y')] = $jour->getId();
+            }
         }
 
         return $jours;

@@ -88,4 +88,27 @@ class Mailer
 
         $this->mailer->send($mail);
     }
+
+     /**
+     * @param User $user
+     * @param string|null $password
+     */
+    public function sendNewAccountToEcole(User $user, string $password = null)
+    {
+        $body = $this->twigEngine->render(
+            'security/mail/new_account_ecole.txt.twig',
+            array(
+                'user' => $user,
+                'password' => $password,
+            )
+        );
+
+        $mail = (new \Swift_Message("Votre compte pour le site du mercredi"))
+            ->setFrom($this->emailFrom)
+            ->setTo($user->getEmail())
+            ->setBody($body, 'text/plain')
+            ->setBcc($this->emailFrom);
+
+        $this->mailer->send($mail);
+    }
 }

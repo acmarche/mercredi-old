@@ -38,11 +38,13 @@ class ScolaireService
 
         if (in_array($annee_scolaire, array("PM", "1M", "2M"))) {
             return 'petits';
-        } elseif (in_array($annee_scolaire, array("3M", "1P", "2P"))) {
-            return 'moyens';
-        } else {
-            return 'grands';
         }
+
+        if (in_array($annee_scolaire, array("3M", "1P", "2P"))) {
+            return 'moyens';
+        }
+
+        return 'grands';
     }
 
     public static function getGroupesScolaires()

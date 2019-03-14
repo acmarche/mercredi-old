@@ -41,6 +41,15 @@ class AssociateAnimateurType extends AbstractType
                     'mapped' => false,
                     'help' => 'Cochez la case si vous ne voulez plus lié ce compte à un animteur',
                 ]
+            )
+            ->add(
+                'sendmail',
+                CheckboxType::class,
+                [
+                    'required' => false,
+                    'label' => 'Envoyer un email de création de compte',
+                    'mapped' => false,
+                ]
             );
     }
 

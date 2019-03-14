@@ -2,19 +2,18 @@
 
 namespace AcMarche\Mercredi\Security\Controller;
 
+use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Admin\Repository\PresenceRepository;
 use AcMarche\Mercredi\Admin\Repository\TuteurRepository;
 use AcMarche\Mercredi\Security\Entity\User;
-use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Security\Form\AssociateParentType;
 use AcMarche\Mercredi\Security\Repository\UserRepository;
 use AcMarche\Mercredi\Security\Service\Mailer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * User controller.
@@ -86,6 +85,10 @@ class AssocierParentController extends AbstractController
                 $tuteur = $form->getData()->getTuteur();
                 if ($tuteur) {
                     $this->associerParent($user, $tuteur, $oldTuteur);
+                    if ($request->request->get('Sendmail')) {
+                        $this->mailer->sendNewAccountToParent($user, $tuteur);
+                        $this->addFlash('success', "Un mail de bienvenue a été envoyé");
+                    }
                 }
             }
 

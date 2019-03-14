@@ -1,0 +1,26 @@
+{% if groups | length > 0 %}
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Année scolaire</th>
+            <th>Ecole</th>
+            <th>Parents</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for enfant in groups %}
+            <tr>
+                <td>{{ enfant.nom | upper }} {{ enfant.prenom }}</td>
+                <td>{{ enfant.anneescolaire }}</td>
+                <td>{{ enfant.ecole }}</td>
+                <td>
+                    {% include 'ecole/tuteurs.html.twig' %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Personne</p>
+{% endif %}

@@ -2,9 +2,9 @@
 
 namespace AcMarche\Mercredi\Security\Form;
 
-use AcMarche\Mercredi\Security\Entity\User;
-use AcMarche\Mercredi\Admin\Repository\TuteurRepository;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
+use AcMarche\Mercredi\Admin\Repository\TuteurRepository;
+use AcMarche\Mercredi\Security\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -40,6 +40,15 @@ class AssociateParentType extends AbstractType
                     'required' => false,
                     'mapped' => false,
                     'help' => 'Cochez la case si vous ne voulez plus lié ce compte à un parent',
+                ]
+            )
+            ->add(
+                'sendmail',
+                CheckboxType::class,
+                [
+                    'required' => false,
+                    'label' => 'Envoyer un email de création de compte',
+                    'mapped' => false,
                 ]
             );
     }

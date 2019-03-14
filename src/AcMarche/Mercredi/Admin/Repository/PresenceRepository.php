@@ -2,12 +2,12 @@
 
 namespace AcMarche\Mercredi\Admin\Repository;
 
+use AcMarche\Mercredi\Admin\Entity\Enfant;
+use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
+use AcMarche\Mercredi\Admin\Entity\Presence;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
-use AcMarche\Mercredi\Admin\Entity\Presence;
 use Doctrine\ORM\NonUniqueResultException;
 
 /**
@@ -355,6 +355,43 @@ class PresenceRepository extends ServiceEntityRepository
         $qb->addOrderBy('jour.date_jour');
 
         return $query = $qb->getQuery()->getResult();
+
+    }
+
+    public function searchForEcole(iterable $args)
+    {
+        $nom = $args['nom'] ?? null;
+        $ecole = $args['ecole'] ?? null;
+        $jour = $args['jour'] ?? null;
+
+        $qb = $this->createQueryBuilder('presence');
+
+        $qb->leftJoin('presence.jour', 'jour', 'WITH');
+        $qb->leftJoin('presence.enfant', 'enfant', 'WITH');
+        $qb->addSelect('jour', 'enfant');
+
+        if ($jour) {
+            $qb->andWhere('presence.jour = :jour')
+                ->setParameter('jour', $jour);
+        }
+
+        if ($nom) {
+            $qb->andwhere('enfant.nom LIKE :nom OR enfant.prenom LIKE :nom')
+                ->setParameter('nom', '%'.$nom.'%');
+        }
+
+        if ($ecole) {
+            $qb->andwhere('enfant.ecole = :ecole')
+                ->setParameter('ecole', $ecole);
+        }
+
+        $qb->andwhere('enfant.archive = 0');
+
+        $qb->orderBy('enfant.nom');
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
 
     }
 

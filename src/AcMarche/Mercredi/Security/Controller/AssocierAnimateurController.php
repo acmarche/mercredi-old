@@ -8,12 +8,11 @@ use AcMarche\Mercredi\Security\Entity\User;
 use AcMarche\Mercredi\Security\Form\AssociateAnimateurType;
 use AcMarche\Mercredi\Security\Repository\UserRepository;
 use AcMarche\Mercredi\Security\Service\Mailer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * User controller.
@@ -79,6 +78,10 @@ class AssocierAnimateurController extends AbstractController
                 $animateur = $form->getData()->getAnimateur();
                 if ($animateur) {
                     $this->associerAnimateur($user, $animateur, $oldAnimateur);
+                    if ($request->request->get('Sendmail')) {
+                        $this->mailer->sendNewAccountToAnimateur($user, $animateur, null);
+                        $this->addFlash('success', "Un mail de bienvenue a été envoyé");
+                    }
                 }
             }
 

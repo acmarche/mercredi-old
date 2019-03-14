@@ -5,14 +5,14 @@ namespace AcMarche\Mercredi\Admin\Controller;
 use AcMarche\Mercredi\Admin\Entity\Ecole;
 use AcMarche\Mercredi\Admin\Form\EcoleType;
 use AcMarche\Mercredi\Security\Entity\Group;
+use AcMarche\Mercredi\Security\Service\Mailer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * Ecole controller.
@@ -22,6 +22,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class EcoleController extends AbstractController
 {
+    /**
+     * @var Mailer
+     */
+    private $mailer;
+
+    public function __construct(Mailer $mailer)
+    {
+        $this->mailer = $mailer;
+    }
+
     /**
      * Lists all Ecole entities.
      *
@@ -34,9 +44,12 @@ class EcoleController extends AbstractController
 
         $ecoles = $em->getRepository(Ecole::class)->findAll();
 
-        return $this->render('admin/ecole/index.html.twig', array(
-            'ecoles' => $ecoles,
-        ));
+        return $this->render(
+            'admin/ecole/index.html.twig',
+            array(
+                'ecoles' => $ecoles,
+            )
+        );
     }
 
     /**
@@ -73,15 +86,24 @@ class EcoleController extends AbstractController
             $em->persist($ecole);
             $em->flush();
 
+            $users = $form->getData()->getUsers();
+            foreach ($users as $user) {
+                $this->mailer->sendNewAccountToEcole($user);
+                $this->addFlash('success', "Un mail de bienvenue a été envoyé");
+            }
+
             $this->addFlash('success', "L'école a bien été ajoutée");
 
             return $this->redirectToRoute('ecole');
         }
 
-        return $this->render('admin/ecole/new.html.twig', array(
-            'ecole' => $ecole,
-            'form' => $form->createView(),
-        ));
+        return $this->render(
+            'admin/ecole/new.html.twig',
+            array(
+                'ecole' => $ecole,
+                'form' => $form->createView(),
+            )
+        );
     }
 
     /**
@@ -94,10 +116,13 @@ class EcoleController extends AbstractController
     {
         $deleteForm = $this->createDeleteForm($ecole->getId());
 
-        return $this->render('admin/ecole/show.html.twig', array(
-            'ecole' => $ecole,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->render(
+            'admin/ecole/show.html.twig',
+            array(
+                'ecole' => $ecole,
+                'delete_form' => $deleteForm->createView(),
+            )
+        );
     }
 
     /**
@@ -153,10 +178,13 @@ class EcoleController extends AbstractController
             return $this->redirectToRoute('ecole');
         }
 
-        return $this->render('admin/ecole/edit.html.twig', array(
-            'ecole' => $ecole,
-            'edit_form' => $editForm->createView(),
-        ));
+        return $this->render(
+            'admin/ecole/edit.html.twig',
+            array(
+                'ecole' => $ecole,
+                'edit_form' => $editForm->createView(),
+            )
+        );
     }
 
     /**

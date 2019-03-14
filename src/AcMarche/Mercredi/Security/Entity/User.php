@@ -410,6 +410,20 @@ class User implements UserInterface
         return $this;
     }
 
+    public function setAnimateur(?Animateur $animateur): self
+    {
+        $this->animateur = $animateur;
+        if ($animateur != null) {
+            // set (or unset) the owning side of the relation if necessary
+            $newUser = $animateur === null ? null : $this;
+            if ($newUser !== $animateur->getUser()) {
+                $animateur->setUser($newUser);
+            }
+        }
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -597,19 +611,6 @@ class User implements UserInterface
     public function getAnimateur(): ?Animateur
     {
         return $this->animateur;
-    }
-
-    public function setAnimateur(?Animateur $animateur): self
-    {
-        $this->animateur = $animateur;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newUser = $animateur === null ? null : $this;
-        if ($newUser !== $animateur->getUser()) {
-            $animateur->setUser($newUser);
-        }
-
-        return $this;
     }
 
     /**

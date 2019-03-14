@@ -23,7 +23,8 @@
                     <li> Troisième enfant: 11.25 euros</li>
                 </ul>
 
-                <p class="text-warning"><strong>Tarifs des journées pédagogiques et plaines de vacances par jour</strong></p>
+                <p class="text-warning"><strong>Tarifs des journées pédagogiques et plaines de vacances par
+                        jour</strong></p>
                 Premier enfant : 8 €<br/>
                 Deuxième enfant : 5 €<br/>
                 Les suivants: 3 €<br/>
@@ -57,16 +58,16 @@
                 <p class="text-warning"> Pour les journées pédagogiques:</p>
 
                 L’EPE ouvre ses portes ces journées-là à partir du moment où il y a au minimum 5 enfants inscrits 
-               <strong> une semaine avant la date de la journée pédagogique.</strong>
+                <strong> une semaine avant la date de la journée pédagogique.</strong>
                 <br/>
                 L'enfant doit être préinscrit à l'EPE avant sa 1ère venue (voir modalités d’inscription).
-                 <br/> <br/>
+                <br/> <br/>
                 Si l’enfant n’a pas été inscrit sur le site internet à l’avance, nous ne pourrons pas l’accueillir
                 lors de cette journée. Une inscription par mail ou sur notre répondeur ne sera pas prise en compte.
-                 <br/> <br/>
+                <br/> <br/>
                 La période d’animation est fixée de 9h à 16h et nous demandons aux parents de laisser
                 leurs enfants pendant ce laps de temps. 
-                 <br/>
+                <br/>
                 Un accueil temps libre est prévu de 7h00 à 9h et de 16h à 18h.
             </td>
         </tr>
@@ -84,9 +85,16 @@
         <tr>
             <th>Info sur les trajets de bus</th>
             <td>
-                Un acheminement des enfants en bus au départ de certaines écoles est mis en place et pour cela,
-                <br/>nous vous demandons
-                de prendre contact avec la direction de l’école de votre enfant pour de plus amples informations.
+                Un acheminement des enfants en bus au départ de certaines écoles est mis en place et pour cela
+                {% if is_granted('ROLE_MERCREDI_ADMIN') %}
+                    .<br/><strong>
+                    Les parents doivent prendre contact avec la direction de l’école de leur enfant pour de plus
+                    amples informations.
+                </strong>
+                {% else %}
+                    ,<br/>nous vous demandons
+                    de prendre contact avec la direction de l’école de votre enfant pour de plus amples informations.
+                {% endif %}
             </td>
         </tr>
     </table>

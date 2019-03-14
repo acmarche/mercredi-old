@@ -6,12 +6,11 @@ use AcMarche\Mercredi\Security\Entity\User;
 use AcMarche\Mercredi\Security\Form\AssociateEcoleType;
 use AcMarche\Mercredi\Security\Repository\UserRepository;
 use AcMarche\Mercredi\Security\Service\Mailer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * User controller.
@@ -46,8 +45,9 @@ class AssocierEcoleController extends AbstractController
      */
     public function associate(Request $request, User $user)
     {
-        if(!$user->isEcole()) {
-            $this->addFlash('danger','Le compte n\'a pas les droits d\'école');
+        if (!$user->isEcole()) {
+            $this->addFlash('danger', 'Le compte n\'a pas les droits d\'école');
+
             return $this->redirectToRoute('utilisateur_show', ['id' => $user->getId()]);
         }
 
@@ -58,6 +58,10 @@ class AssocierEcoleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->userRepository->save();
+            if ($request->request->get('Sendmail')) {
+                $this->mailer->sendNewAccountToEcole($user);
+                $this->addFlash('success', "Un mail de bienvenue a été envoyé");
+            }
 
             return $this->redirectToRoute('utilisateur_show', ['id' => $user->getId()]);
         }
