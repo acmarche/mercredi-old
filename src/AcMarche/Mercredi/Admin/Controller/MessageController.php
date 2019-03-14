@@ -9,6 +9,7 @@ use AcMarche\Mercredi\Admin\Form\Search\SearchMessageType;
 use AcMarche\Mercredi\Admin\Manager\MessageManager;
 use AcMarche\Mercredi\Admin\Repository\EnfantRepository;
 use AcMarche\Mercredi\Admin\Repository\EnfantTuteurRepository;
+use AcMarche\Mercredi\Admin\Repository\JourRepository;
 use AcMarche\Mercredi\Admin\Repository\PresenceRepository;
 use AcMarche\Mercredi\Admin\Repository\TuteurRepository;
 use AcMarche\Mercredi\Admin\Service\EnfantUtils;
@@ -18,14 +19,13 @@ use AcMarche\Mercredi\Admin\Service\TuteurUtils;
 use AcMarche\Mercredi\Commun\Utils\ScolaireService;
 use AcMarche\Mercredi\Commun\Utils\SortUtils;
 use AcMarche\Mercredi\Plaine\Repository\PlaineEnfantRepository;
+use AcMarche\Mercredi\Plaine\Repository\PlaineJourRepository;
 use AcMarche\Mercredi\Plaine\Repository\PlainePresenceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -96,6 +96,14 @@ class MessageController extends AbstractController
      * @var MessageManager
      */
     private $messageManager;
+    /**
+     * @var JourRepository
+     */
+    private $jourRepository;
+    /**
+     * @var PlaineJourRepository
+     */
+    private $plaineJourRepository;
 
     public function __construct(
         MessageManager $messageManager,
@@ -110,7 +118,9 @@ class MessageController extends AbstractController
         SortUtils $sortUtils,
         SessionInterface $session,
         ScolaireService $scolaireService,
-        EnfantUtils $enfantUtils
+        EnfantUtils $enfantUtils,
+        JourRepository $jourRepository,
+        PlaineJourRepository $plaineJourRepository
     ) {
         $this->tuteurRepository = $tuteurRepository;
         $this->plaineEnfantRepository = $plaineEnfantRepository;
@@ -125,6 +135,8 @@ class MessageController extends AbstractController
         $this->scolaireService = $scolaireService;
         $this->enfantUtils = $enfantUtils;
         $this->messageManager = $messageManager;
+        $this->jourRepository = $jourRepository;
+        $this->plaineJourRepository = $plaineJourRepository;
     }
 
     /**
@@ -233,7 +245,7 @@ class MessageController extends AbstractController
     }
 
     /**
-     * Displays a form to create a new Plaine entity.
+     *
      *
      * @Route("/new/groupescolaire/{groupe}", name="message_new_groupescolaire", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
@@ -281,6 +293,59 @@ class MessageController extends AbstractController
             return $this->redirectToRoute('message');
         }
 
+
+        return $this->render(
+            'admin/message/new.html.twig',
+            array(
+                'emailuser' => $this->getUser()->getEmail(),
+                'form' => $form->createView(),
+                'destinataires' => $destinataires,
+            )
+        );
+    }
+
+    /**
+     *
+     *
+     * @Route("/new/jour/{id}/{type}", name="message_new_jour", methods={"GET","POST"})
+     * @IsGranted("ROLE_MERCREDI_ADMIN")
+     *
+     */
+    public function newFromJour(Request $request, int $id, string $type)
+    {
+        $message = $this->messageManager->newInstance();
+
+        $form = $form = $this->createForm(MessageType::class, $message)
+            ->add('submit', SubmitType::class, array('label' => 'Envoyer le message'));
+
+        $args = $this->session->get(self::KEY_GROUP_SESSION, []);
+        if (count($args) < 1) {
+            return $this->redirectToRoute('presence');
+        }
+
+        if ($type === 'mercredi') {
+            $jour = $this->jourRepository->find($id);
+            $presences = $this->presenceRepository->findBy(['jour' => $jour]);
+        }
+
+        if ($type === 'plaine') {
+            $jour = $this->plaineJourRepository->find($id);
+            $presences = $this->plainePresenceRepository->findBy(['jour' => $jour]);
+        }
+
+        $tuteurs = $this->presenceService->getTuteursByPrences($presences);
+        $destinataires = $this->tuteurUtils->getEmails($tuteurs);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->messageManager->handleMessage($message, $destinataires);
+
+            $this->addFlash('success', "Le message a bien été envoyé");
+
+            return $this->redirectToRoute('message');
+        }
 
         return $this->render(
             'admin/message/new.html.twig',

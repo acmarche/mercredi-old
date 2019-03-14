@@ -102,9 +102,9 @@ class PresenceController extends AbstractController
 
             $session->set($key, serialize($args));
 
-            if ($type == 'mercredi') {
+            if ($type === 'mercredi') {
                 $jour_object = $em->getRepository(Jour::class)->search($args);
-            } elseif ($type == 'plaine') {
+            } elseif ($type === 'plaine') {
                 $jour_object = $em->getRepository(PlaineJour::class)->search($args);
             } else {
                 $jour_object = false;
@@ -120,13 +120,13 @@ class PresenceController extends AbstractController
             //je ne prend PAS les enfants mis absent
             $args['absent'] = 1;
 
-            if ($type == 'mercredi') {
+            if ($type === 'mercredi') {
                 $remarques = $jour_object->getRemarques();
                 $args['order'] = 'enfant';
                 $presences = $em->getRepository(Presence::class)->search($args);
             }
 
-            if ($type == 'plaine') {
+            if ($type === 'plaine') {
                 $plaine = $jour_object->getPlaine();
                 $remarques = $plaine->getRemarques();
                 $presences = $em->getRepository(PlainePresence::class)->search($args);
@@ -147,6 +147,7 @@ class PresenceController extends AbstractController
                 'moyens' => $moyens,
                 'grands' => $grands,
                 'remarques' => $remarques,
+                'type'=>$type,
                 'display_remarques' => $display_remarque,
             )
         );

@@ -2,7 +2,13 @@
 
 {% block body %}
     <div class="page-header">
-        <h3>Listing des présences {% if datejour %} {{ datejour | date('d-m-Y') }} {% endif %}</h3>
+        <h3>
+            Listing des présences {% if datejour %} {{ datejour | date('d-m-Y') }} {% endif %}
+
+            <a href="{{ path('message_new_jour', {'id': jour.id, 'type': type}) }}"
+               title="Envoyer un message aux parents">
+                <i class="far fa-envelope"></i></a>
+        </h3>
     </div>
 
     {% include 'admin/search/presence.html.twig' with {'form': search_form } %}
