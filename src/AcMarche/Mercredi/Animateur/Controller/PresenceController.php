@@ -2,6 +2,7 @@
 
 namespace AcMarche\Mercredi\Animateur\Controller;
 
+use AcMarche\Mercredi\Admin\Entity\Jour;
 use AcMarche\Mercredi\Admin\Repository\JourRepository;
 use AcMarche\Mercredi\Admin\Repository\PresenceRepository;
 use AcMarche\Mercredi\Commun\Utils\ScolaireService;
@@ -97,6 +98,7 @@ class PresenceController extends AbstractController
     public function show(int $id, string $type)
     {
         $petits = $grands = $moyens = [];
+        $remarques = '';
         if ($type === 'plaine') {
             $jour = $this->plaineJourRepository->find($id);
             $presences = $this->plainePresenceRepository->findBy(['jour' => $jour]);
@@ -106,13 +108,16 @@ class PresenceController extends AbstractController
         } else {
             $jour = $this->jourRepository->find($id);
             $presences = $this->presenceRepository->findBy(['jour' => $jour]);
+
         }
 
         if (!$jour) {
             throw $this->createNotFoundException('Jour non trouvé');
         }
 
-        $remarques = $jour->getRemarques();
+        if ($jour instanceof Jour) {
+            $remarques = $jour->getRemarques();
+        }
 
         extract($this->scolaireService->groupPresences($presences, $type), EXTR_OVERWRITE);
 

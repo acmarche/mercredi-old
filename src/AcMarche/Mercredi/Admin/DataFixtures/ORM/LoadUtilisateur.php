@@ -65,7 +65,7 @@ class LoadUtilisateur extends Fixture implements ORMFixtureInterface
 
         $pmi = new User();
         $pmi->setEmail("pmichel@marche.be");
-        $pmi->setUsername('pmichel');
+        $pmi->setUsername('pmichel@marche.be');
         $pmi->setNom('Mich');
         $pmi->setPrenom('Phili');
         $this->setPassword($pmi, 'admin');
@@ -76,7 +76,7 @@ class LoadUtilisateur extends Fixture implements ORMFixtureInterface
 
         $animateur = new User();
         $animateur->setEmail("animateur@marche.be");
-        $animateur->setUsername('animateur');
+        $animateur->setUsername('animateur@marche.be');
         $animateur->setNom('Vermoesen');
         $animateur->setPrenom('John');
         $this->setPassword($animateur, 'animateur');
@@ -86,7 +86,7 @@ class LoadUtilisateur extends Fixture implements ORMFixtureInterface
 
         $read = new User();
         $read->setEmail("read@marche.be");
-        $read->setUsername('read');
+        $read->setUsername('read@marche.be');
         $read->setNom('Lecteur');
         $read->setPrenom('Ipod');
         $this->setPassword($read, 'read');
@@ -96,7 +96,7 @@ class LoadUtilisateur extends Fixture implements ORMFixtureInterface
 
         $ecole = new User();
         $ecole->setEmail("ecole@marche.be");
-        $ecole->setUsername('ecole');
+        $ecole->setUsername('ecole@marche.be');
         $ecole->setNom('Ecole');
         $ecole->setPrenom('Aye');
         $this->setPassword($ecole, 'ecole');

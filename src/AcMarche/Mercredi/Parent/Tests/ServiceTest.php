@@ -41,16 +41,16 @@ class ServiceTest extends KernelTestCase
         $today = \DateTime::createFromFormat('Y-m-d H:i:s', '2016-09-20 09:10:00');
         $this->assertEquals(true, $this->dateService->checkDate($jourPresence, $today));
 
-        //la veille presence a 12h10
-        $today = \DateTime::createFromFormat('Y-m-d H:i:s', '2016-09-20 12:10:00');
+        //la veille presence a 10h10
+        $today = \DateTime::createFromFormat('Y-m-d H:i:s', '2016-09-20 10:10:00');
         $this->assertEquals(false, $this->dateService->checkDate($jourPresence, $today));
 
-        //la veille presence a 12h02
-        $today = \DateTime::createFromFormat('Y-m-d H:i:s', '2016-09-20 12:02:00');
+        //la veille presence a 10h02
+        $today = \DateTime::createFromFormat('Y-m-d H:i:s', '2016-09-20 10:02:00');
         $this->assertEquals(true, $this->dateService->checkDate($jourPresence, $today));
 
         //a l'avance
-        $today = \DateTime::createFromFormat('Y-m-d H:i:s', '2016-09-02 12:12:00');
+        $today = \DateTime::createFromFormat('Y-m-d H:i:s', '2016-09-02 10:12:00');
         $this->assertEquals(true, $this->dateService->checkDate($jourPresence, $today));
     }
 

@@ -3,11 +3,11 @@
 {% block body %}
     <div class="page-header">
         <h3>
-            Listing des présences {% if datejour %} {{ datejour | date('d-m-Y') }} {% endif %}
-
+            Listing des présences {% if datejour %} {{ datejour | date('d-m-Y') }}
             <a href="{{ path('message_new_jour', {'id': jour.id, 'type': type}) }}"
                title="Envoyer un message aux parents">
                 <i class="far fa-envelope"></i></a>
+            {% endif %}
         </h3>
     </div>
 

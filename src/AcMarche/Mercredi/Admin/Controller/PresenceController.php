@@ -2,25 +2,25 @@
 
 namespace AcMarche\Mercredi\Admin\Controller;
 
+use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Admin\Entity\Jour;
+use AcMarche\Mercredi\Admin\Entity\Presence;
 use AcMarche\Mercredi\Admin\Form\Presence\PresenceEditType;
 use AcMarche\Mercredi\Admin\Form\Presence\PresenceType;
+use AcMarche\Mercredi\Admin\Form\Search\SearchPresenceByMonthType;
+use AcMarche\Mercredi\Admin\Form\Search\SearchPresenceType;
 use AcMarche\Mercredi\Admin\Service\EnfantUtils;
 use AcMarche\Mercredi\Admin\Service\Facture;
 use AcMarche\Mercredi\Admin\Service\PresenceService;
+use AcMarche\Mercredi\Commun\Utils\ScolaireService;
 use AcMarche\Mercredi\Plaine\Entity\PlaineJour;
 use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
-use AcMarche\Mercredi\Commun\Utils\ScolaireService;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use AcMarche\Mercredi\Admin\Entity\Presence;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
-use AcMarche\Mercredi\Admin\Form\Search\SearchPresenceByMonthType;
-use AcMarche\Mercredi\Admin\Form\Search\SearchPresenceType;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
@@ -116,7 +116,9 @@ class PresenceController extends AbstractController
 
             unset($args['one']);
 
-            $dateJour = $jour_object->getDateJour(); //for title page
+            if ($jour_object) {
+                $dateJour = $jour_object->getDateJour();
+            } //for title page
             //je ne prend PAS les enfants mis absent
             $args['absent'] = 1;
 
@@ -147,7 +149,7 @@ class PresenceController extends AbstractController
                 'moyens' => $moyens,
                 'grands' => $grands,
                 'remarques' => $remarques,
-                'type'=>$type,
+                'type' => $type,
                 'display_remarques' => $display_remarque,
             )
         );
