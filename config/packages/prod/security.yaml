@@ -4,4 +4,4 @@ security:
         secured_area:
             guard:
                 authenticators:
-                    - AcMarche\Mercredi\Security\Authenticator\FormLoginAuthenticator
+                    - AcMarche\Mercredi\Security\Authenticator\MercrediAuthenticator

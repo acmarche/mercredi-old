@@ -25,6 +25,7 @@ security:
             guard:
                 authenticators:
                     - AcMarche\Mercredi\Security\Authenticator\MercrediAuthenticator
+                entry_point: AcMarche\Mercredi\Security\Authenticator\MercrediAuthenticator
             logout:       true
             anonymous:    true
 
