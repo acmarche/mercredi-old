@@ -48,7 +48,7 @@ class Tuteur implements UserPopulateInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=200, nullable=false)
+     * @ORM\Column(name="nom", type="string", length=50, nullable=false)
      * @Assert\NotBlank()
      *
      */
@@ -57,7 +57,7 @@ class Tuteur implements UserPopulateInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="prenom", type="string", length=200, nullable=false)
+     * @ORM\Column(name="prenom", type="string", length=50, nullable=false)
      * @Assert\NotBlank()
      *
      */
