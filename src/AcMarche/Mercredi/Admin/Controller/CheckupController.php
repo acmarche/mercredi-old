@@ -52,7 +52,7 @@ class CheckupController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $args = ['cloture' => 0];
 
-        $paiements = $em->getRepository(Paiement::class)->search($args);
+        $paiements = $em->getRepository(Paiement::class)->findBy($args);
 
         return $this->render('admin/checkup/paiement.html.twig', array(
             'paiements' => $paiements
