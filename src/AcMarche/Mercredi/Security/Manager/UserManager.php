@@ -41,12 +41,14 @@ class UserManager
         $this->passwordManager = $passwordManager;
     }
 
-    public function getInstance(string $email): User
+    public function getInstance(string $email = null): User
     {
-        if (!$user = $this->findOneByEmail($email)) {
-            $user = new User();
-            $user->setEmail($email);
-            $user->setUsername($email);
+        $user = new User();
+        if ($email) {
+            if (!$user = $this->findOneByEmail($email)) {
+                $user->setEmail($email);
+                $user->setUsername($email);
+            }
         }
 
         $user->setEnabled(true);
@@ -60,6 +62,8 @@ class UserManager
             $user = $this->getInstance($animateur->getEmail());
             $this->populateFromObject($user, $animateur);
         }
+
+        $user->setUsername($user->getEmail());
         $this->addGroupByDefault($user, $animateur->getRoleByDefault());
         $this->associateAnimateurAndUser($user, $animateur);
         $this->passwordManager->generateNewPasswordAndSetPlainPassword($user);
@@ -75,6 +79,8 @@ class UserManager
             $user = $this->getInstance($tuteur->getEmail());
             $this->populateFromObject($user, $tuteur);
         }
+
+        $user->setUsername($user->getEmail());
         $this->addGroupByDefault($user, $tuteur->getRoleByDefault());
         $this->associateTuteurAndUser($user, $tuteur);
         $this->passwordManager->generateNewPasswordAndSetPlainPassword($user);
