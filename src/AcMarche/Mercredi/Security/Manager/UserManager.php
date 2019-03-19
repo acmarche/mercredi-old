@@ -46,6 +46,7 @@ class UserManager
         $user = new User();
         if ($email) {
             if (!$user = $this->findOneByEmail($email)) {
+                $user = new User();
                 $user->setEmail($email);
                 $user->setUsername($email);
             }
