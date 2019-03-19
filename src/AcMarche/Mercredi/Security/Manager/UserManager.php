@@ -147,13 +147,14 @@ class UserManager
     public function getRolesForProfile(User $user): iterable
     {
         $roles = $user->getRoles();
+        if (($key = array_search('ROLE_USER', $roles)) !== false) {
+            unset($roles[$key]);
+        }
         if ($user->hasRole('ROLE_MERCREDI_ADMIN')) {
             if (($key = array_search('ROLE_MERCREDI_READ', $roles)) !== false) {
                 unset($roles[$key]);
             }
-            if (($key = array_search('ROLE_USER', $roles)) !== false) {
-                unset($roles[$key]);
-            }
+
         }
 
         return $roles;
