@@ -171,12 +171,14 @@ class JourRepository extends ServiceEntityRepository
          */
         if ($enfant) {
             $presences = $enfant->getPresences();
-            $jours = array();
-            foreach ($presences as $presence) {
-                $jours[] = $presence->getJour();
+            if (count($presences) > 0) {
+                $jours = array();
+                foreach ($presences as $presence) {
+                    $jours[] = $presence->getJour();
+                }
+                $qb->andWhere("jour NOT IN (:jours)")
+                    ->setParameter('jours', $jours);
             }
-            $qb->andWhere("jour NOT IN (:jours)")
-                ->setParameter('jours', $jours);
         }
 
         /**
