@@ -110,7 +110,7 @@ class DefaultController extends AbstractController
 
         $plaine = $this->plaineService->getPlaineOuverte();
 
-        $year = date('Y');
+        $year = date('Y')-1;
 
         return $this->render(
             'parent/default/index.html.twig',
