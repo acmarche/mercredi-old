@@ -24,6 +24,7 @@
                             <th>Nom</th>
                             <th>Données</th>
                             <th>Fiche santé</th>
+                            <th>Attestation fiscale</th>
                         </tr>
                         {% for enfant in enfants %}
                             <tr>
@@ -55,6 +56,11 @@
                                     {% else %}
                                         <i class="fas fa-check" title="OK"></i>
                                     {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ path('parent_attestation', {'annee': year, 'uuid': enfant.uuid}) }}">
+                                        <i class="far fa-file-pdf"></i> Télécharger
+                                    </a>
                                 </td>
                             </tr>
                         {% endfor %}

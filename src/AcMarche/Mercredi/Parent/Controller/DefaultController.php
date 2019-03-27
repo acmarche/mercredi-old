@@ -79,7 +79,8 @@ class DefaultController extends AbstractController
     public function index()
     {
         if (!$this->authorizationChecker->isGranted('ROLE_MERCREDI_PARENT')) {
-            $this->addFlash('danger','Accès refusé');
+            $this->addFlash('danger', 'Accès refusé');
+
             return $this->redirectToRoute('homepage');
         }
 
@@ -109,6 +110,8 @@ class DefaultController extends AbstractController
 
         $plaine = $this->plaineService->getPlaineOuverte();
 
+        $year = date('Y');
+
         return $this->render(
             'parent/default/index.html.twig',
             array(
@@ -117,6 +120,7 @@ class DefaultController extends AbstractController
                 'presencesPlaines' => $presencesPlaines,
                 'plaine' => $plaine,
                 'tuteurIsComplete' => $tuteurIsComplete,
+                'year' => $year,
             )
         );
     }
