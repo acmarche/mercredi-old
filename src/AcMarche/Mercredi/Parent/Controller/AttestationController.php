@@ -108,7 +108,7 @@ class AttestationController extends AbstractController
         }
 
         if (count($presences) == 0 && count($presencesPlaines) == 0) {
-            return '<div class="page-breaker"></div>';
+            return 'Aucne présence en '.$annee.'<div class="page-breaker"></div>';
         }
 
         $html = $this->renderView(
