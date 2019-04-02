@@ -177,7 +177,7 @@ class Enfant implements \Serializable
 
     /**
      * @var SanteFiche $sante_fiche |null
-     * @ORM\OneToOne(targetEntity="AcMarche\Mercredi\Admin\Entity\Sante\SanteFiche", mappedBy="enfant" )
+     * @ORM\OneToOne(targetEntity="AcMarche\Mercredi\Admin\Entity\Sante\SanteFiche", mappedBy="enfant", cascade={"remove"} )
      *
      */
     protected $sante_fiche;
