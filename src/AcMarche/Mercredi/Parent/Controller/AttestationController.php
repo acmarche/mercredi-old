@@ -107,8 +107,8 @@ class AttestationController extends AbstractController
             $presences[] = $presence->getJour();
         }
 
-        if (count($presences) == 0 && count($presencesPlaines) == 0) {
-            return 'Aucne présence en '.$annee.'<div class="page-breaker"></div>';
+        if (count($paiments) == 0) {
+            return 'Aucun paiement en '.$annee.'<div class="page-breaker"></div>';
         }
 
         $html = $this->renderView(
