@@ -2,12 +2,12 @@
 
 namespace AcMarche\Mercredi\Admin\Service;
 
+use AcMarche\Mercredi\Admin\Entity\Enfant;
+use AcMarche\Mercredi\Admin\Entity\Jour;
+use AcMarche\Mercredi\Admin\Entity\Presence;
 use AcMarche\Mercredi\Admin\Repository\EnfantTuteurRepository;
 use AcMarche\Mercredi\Admin\Repository\PresenceRepository;
 use AcMarche\Mercredi\Commun\Utils\SortUtils;
-use AcMarche\Mercredi\Admin\Entity\Jour;
-use AcMarche\Mercredi\Admin\Entity\Presence;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
 
 /**
  * Facture
@@ -109,6 +109,12 @@ class Facture
 
         if ($pourcentage > 0) {
             return $prix - (($prix / 100) * $pourcentage);
+        }
+
+        if ($paiement = $presence->getPaiement()) {
+            if ($paiement->getTypePaiement() === 'Abonnement') {
+                return $paiement->getMontant() / 5;
+            }
         }
 
         return $prix;
