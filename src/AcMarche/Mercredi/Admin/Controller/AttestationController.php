@@ -38,8 +38,9 @@ class AttestationController extends AbstractController
      * Pdf
      * @Route("/{tuteurslugname}/{enfantslugname}/{annee}", name="tuteur_attestation", methods={"GET"})
      * @Route("/all/{annee}", name="tuteurs_attestation", methods={"GET"})
-     * @paramConverter("tuteur", class="AcMarche\Mercredi\Admin\Entity\Tuteur", options={"mapping": {"tuteurslugname": "slugname" }})
-     * @paramConverter("enfant", class="AcMarche\Mercredi\Admin\Entity\Enfant", options={"mapping": {"enfantslugname": "slugname" }})
+     * Entity("enfant", expr="repository.findBy(enfant)")
+     * @ParamConverter("tuteur", class="AcMarche\Mercredi\Admin\Entity\Tuteur", options={"mapping": {"tuteurslugname": "slugname" }})
+     * @ParamConverter("enfant", class="AcMarche\Mercredi\Admin\Entity\Enfant", options={"mapping": {"enfantslugname": "slugname" }})
      *
      */
     public function index(Request $request, Tuteur $tuteur = null, Enfant $enfant = null, $annee)
