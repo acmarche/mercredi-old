@@ -111,11 +111,11 @@ class Facture
             return $prix - (($prix / 100) * $pourcentage);
         }
 
-        if ($paiement = $presence->getPaiement()) {
+      /*  if ($paiement = $presence->getPaiement()) {
             if ($paiement->getTypePaiement() === 'Abonnement') {
                 return $paiement->getMontant() / 5;
             }
-        }
+        }*/
 
         return $prix;
     }
