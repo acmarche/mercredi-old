@@ -38,7 +38,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MessageController extends AbstractController
 {
     private const KEY_SESSION = 'message_emails';
-    private const KEY_GROUP_SESSION = 'message_emails_from_groupe';
+    public const KEY_GROUP_SESSION = 'message_emails_from_groupe';
 
     /**
      * @var MailerService
