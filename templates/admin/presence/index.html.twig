@@ -7,6 +7,10 @@
             <a href="{{ path('message_new_jour', {'id': jour.id, 'type': type}) }}"
                title="Envoyer un message aux parents">
                 <i class="far fa-envelope"></i></a>
+
+                <a href="{{ path('presence_xls', {'id': jour.id, 'type': type}) }}"
+               title="Exporter en xls">
+             <i class="fas fa-file-excel"></i> </a>
             {% endif %}
         </h3>
     </div>
