@@ -44,27 +44,27 @@ class UpgradeController extends AbstractController
 
         $scolaires = array_values(ScolaireService::getAnneesScolaires());
         $count = count($scolaires);
+        $last = $scolaires[$count-1];
 
         foreach ($enfants as $enfant) {
             $scolaire = $enfant->getAnneeScolaire();
-            $key = array_search($scolaire, $scolaires);
-            $key++;
 
-            if ($key >= $count) {
+            if ($scolaire === $last) {
                 $enfant->setNewScolaire("Archive");
                 $enfant->setArchive(true);
             } else {
+                $key = array_search($scolaire, $scolaires);
+                $key++;
                 $enfant->setNewScolaire($scolaires[$key]);
                 if ($form->isSubmitted() && $form->isValid()) {
                     $enfant->setAnneeScolaire($scolaires[$key]);
+                    $this->enfantRepository->save();
                 }
             }
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->enfantRepository->save();
             $this->addFlash('success', "Le changement d'année scolaire a bien été effectué");
-
             return $this->redirectToRoute('upgrade_ecole');
         }
 
