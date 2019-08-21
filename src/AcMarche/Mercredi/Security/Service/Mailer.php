@@ -111,4 +111,23 @@ class Mailer
 
         $this->mailer->send($mail);
     }
+
+    public function sendNewAccountToUser(User $user)
+    {
+        $body = $this->twigEngine->render(
+            'security/mail/new_account_user.txt.twig',
+            array(
+                'user' => $user,
+            )
+        );
+
+        $mail = (new \Swift_Message("Votre compte pour le site du mercredi"))
+            ->setFrom($this->emailFrom)
+            ->setTo($user->getEmail())
+            ->setBody($body, 'text/plain')
+            ->setBcc($this->emailFrom);
+
+        $this->mailer->send($mail);
+
+    }
 }

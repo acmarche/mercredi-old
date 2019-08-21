@@ -127,6 +127,12 @@ class UtilisateurController extends AbstractController
             $this->userManager->insert($user);
             $this->addFlash('success', "L'utilisateur a bien été ajouté");
 
+            $this->addFlash('info', sprintf("Mot de passe généré: %s:", $user->getPlainPassword()));
+
+            $this->mailer->sendNewAccountToUser($user);
+
+            $this->addFlash('info', "Un email contenant le nom d'utilisateur et le mot de passe a été envoyé");
+
             return $this->redirectToRoute('utilisateur_show', array('id' => $user->getId()));
         }
 

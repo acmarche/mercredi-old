@@ -40,6 +40,7 @@ class AssociateEcoleType extends AbstractType
                     'required' => false,
                     'label' => 'Envoyer un email de création de compte',
                     'mapped' => false,
+                    'data'=>true
                 ]
             );
     }

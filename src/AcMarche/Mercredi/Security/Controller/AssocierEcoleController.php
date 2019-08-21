@@ -57,8 +57,13 @@ class AssocierEcoleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $data = $request->get('associate_ecole');
+            $sendmail = $data['sendmail'];
+
             $this->userRepository->save();
-            if ($request->request->get('Sendmail')) {
+
+            if ($sendmail) {
                 $this->mailer->sendNewAccountToEcole($user);
                 $this->addFlash('success', "Un mail de bienvenue a été envoyé");
             }
