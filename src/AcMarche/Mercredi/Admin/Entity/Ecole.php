@@ -41,6 +41,61 @@ class Ecole
     protected $nom;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=200, nullable=true)
+     *
+     */
+    protected $adresse;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="integer", length=6, nullable=true)
+     *
+     */
+    protected $code_postal;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=200, nullable=true)
+     *
+     */
+    protected $localite;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=150, nullable=true)
+     *
+     */
+    protected $telephone;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=150, nullable=true)
+     *
+     */
+    protected $gsm;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=50, nullable=true)
+     *
+     *
+     */
+    protected $email;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     *
+     */
+    protected $remarques;
+
+    /**
      * @ORM\ManyToMany(targetEntity="AcMarche\Mercredi\Security\Entity\User", mappedBy="ecoles" )
      */
     protected $users;
@@ -59,7 +114,7 @@ class Ecole
 
     public function __toString()
     {
-        return $this->getNom();
+        return $this->nom;
     }
 
     /**
