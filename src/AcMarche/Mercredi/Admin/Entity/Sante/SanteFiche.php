@@ -95,98 +95,75 @@ class SanteFiche
         return "Fiche ".$this->id;
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPersonneUrgence()
+    public function getPersonneUrgence(): ?string
     {
         return $this->personne_urgence;
     }
 
-    /**
-     * @param mixed $personne_urgence
-     */
-    public function setPersonneUrgence($personne_urgence): void
+    public function setPersonneUrgence(string $personne_urgence): self
     {
         $this->personne_urgence = $personne_urgence;
+
+        return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getMedecinNom(): ?string
     {
         return $this->medecin_nom;
     }
 
-    /**
-     * @param null|string $medecin_nom
-     */
-    public function setMedecinNom(?string $medecin_nom): void
+    public function setMedecinNom(string $medecin_nom): self
     {
         $this->medecin_nom = $medecin_nom;
+
+        return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getMedecinTelephone(): ?string
     {
         return $this->medecin_telephone;
     }
 
-    /**
-     * @param null|string $medecin_telephone
-     */
-    public function setMedecinTelephone(?string $medecin_telephone): void
+    public function setMedecinTelephone(string $medecin_telephone): self
     {
         $this->medecin_telephone = $medecin_telephone;
+
+        return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getRemarques(): ?string
     {
         return $this->remarques;
     }
 
-    /**
-     * @param null|string $remarques
-     */
-    public function setRemarques(?string $remarques): void
+    public function setRemarques(?string $remarques): self
     {
         $this->remarques = $remarques;
+
+        return $this;
     }
 
-    /**
-     * @return Enfant
-     */
-    public function getEnfant(): Enfant
+    public function getEnfant(): ?Enfant
     {
         return $this->enfant;
     }
 
-    /**
-     * @param Enfant $enfant
-     */
-    public function setEnfant(Enfant $enfant): void
+    public function setEnfant(?Enfant $enfant): self
     {
         $this->enfant = $enfant;
+
+        return $this;
     }
 
     /**
-     * @return SanteReponse[]
+     * @return Collection|SanteReponse[]
      */
-    public function getReponses(): array
+    public function getReponses(): Collection
     {
         return $this->reponses;
     }

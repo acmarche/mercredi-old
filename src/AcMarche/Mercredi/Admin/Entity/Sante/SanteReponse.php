@@ -52,76 +52,57 @@ class SanteReponse
      */
     protected $remarque;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return SanteQuestion
-     */
-    public function getQuestion(): SanteQuestion
+    public function getQuestion(): ?SanteQuestion
     {
         return $this->question;
     }
 
-    /**
-     * @param SanteQuestion $question
-     */
-    public function setQuestion(SanteQuestion $question): void
+    public function setQuestion(?SanteQuestion $question): self
     {
         $this->question = $question;
+
+        return $this;
     }
 
-    /**
-     * @return SanteFiche
-     */
-    public function getSanteFiche(): SanteFiche
+    public function getSanteFiche(): ?SanteFiche
     {
         return $this->sante_fiche;
     }
 
-    /**
-     * @param SanteFiche $sante_fiche
-     */
-    public function setSanteFiche(SanteFiche $sante_fiche): void
+    public function setSanteFiche(?SanteFiche $sante_fiche): self
     {
         $this->sante_fiche = $sante_fiche;
+
+        return $this;
     }
 
-    /**
-     * @return bool|null
-     */
     public function getReponse(): ?bool
     {
         return $this->reponse;
     }
 
-    /**
-     * @param bool|null $reponse
-     */
-    public function setReponse(?bool $reponse): void
+    public function setReponse(?bool $reponse): self
     {
         $this->reponse = $reponse;
+
+        return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getRemarque(): ?string
     {
         return $this->remarque;
     }
 
-    /**
-     * @param null|string $remarque
-     */
-    public function setRemarque(?string $remarque): void
+    public function setRemarque(?string $remarque): self
     {
         $this->remarque = $remarque;
+
+        return $this;
     }
 
 }

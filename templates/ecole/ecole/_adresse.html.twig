@@ -1,0 +1,23 @@
+<span class="fas fa-map-marker-alt"></span>
+{{ ecole.adresse }} <br/>
+{{ ecole.codepostal }} {{ ecole.localite }}
+
+<table class='table table-bordered'>
+    <tbody>
+    <tr>
+        <th><span class="fas fa-phone"></span> Téléphone</th>
+        <td>{{ ecole.telephone }}</td>
+    </tr>
+    <tr>
+        <th><span class="fas fa-mobile-alt"></span> Gsm</th>
+        <td>{{ ecole.gsm }}</td>
+    </tr>
+    <tr>
+        <th><span class="far fa-envelope"></span> Email</th>
+        <td><a href='mailto:{{ ecole.email }}'>{{ ecole.email }}</a></td>
+    </tr>
+</table>
+
+<p class="text-muted">
+    {{ ecole.remarques | nl2br }}
+</p>

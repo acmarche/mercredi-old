@@ -1,0 +1,25 @@
+{% extends 'ecole/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>{{ ecole }}</h3>
+    </div>
+
+    <a href="{{ path('ecole_ecole_edit', { 'id': ecole.id }) }}" class="btn btn-primary" role="button"><i
+                class="far fa-edit"></i> Editer</a>
+
+    <a href="{{ path('ecole_accompagnateur_new', { 'id': ecole.id }) }}" class="btn btn-primary" role="button"><i
+                class="fas fa-plus"></i> Ajouter un accompagnateur</a>
+    <br/><br/>
+
+    {{ include('ecole/ecole/_adresse.html.twig') }}
+
+    {% include 'ecole/ecole/accompagnateur.html.twig' with {'enfants': ecole.enfants} %}
+
+    {% include 'ecole/ecole/enfants.html.twig' with {'enfants': ecole.enfants} %}
+
+    <a href="{{ path('ecole_ecole_index') }}">
+        <i class="fas fa-list"></i> Retour à la liste
+    </a>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h3>Liste des accompagnateurs</h3>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Telephone</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for accompagnateur in accompagnateurs %}
+            <tr>
+                <td>
+                    <a href="{{ path('admin_accompagnateur_show', {'id': accompagnateur.id}) }}">
+                        {{ accompagnateur.nom }}
+                    </a>
+                </td>
+                <td>{{ accompagnateur.prenom }}</td>
+                <td>{{ accompagnateur.telephone }}</td>
+                <td>{{ accompagnateur.email }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Aucun accompagnateur</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

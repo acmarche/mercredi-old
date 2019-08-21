@@ -527,14 +527,7 @@ class Enfant implements \Serializable
         return $this;
     }
 
-    /**
-     * Set accompagnateurs
-     *
-     * @param array $accompagnateurs
-     *
-     * @return Enfant
-     */
-    public function setAccompagnateurs($accompagnateurs)
+    public function setAccompagnateurs(?array $accompagnateurs): self
     {
         $this->accompagnateurs = $accompagnateurs;
 
@@ -1025,20 +1018,22 @@ class Enfant implements \Serializable
         return $this;
     }
 
-    /**
-     * @return SanteFiche|null
-     */
     public function getSanteFiche(): ?SanteFiche
     {
         return $this->sante_fiche;
     }
 
-    /**
-     * @param SanteFiche $sante_fiche
-     */
-    public function setSanteFiche(SanteFiche $sante_fiche): void
+    public function setSanteFiche(?SanteFiche $sante_fiche): self
     {
         $this->sante_fiche = $sante_fiche;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newEnfant = $sante_fiche === null ? null : $this;
+        if ($newEnfant !== $sante_fiche->getEnfant()) {
+            $sante_fiche->setEnfant($newEnfant);
+        }
+
+        return $this;
     }
 
     /**

@@ -187,36 +187,36 @@ class Jour
         return $this;
     }
 
-    public function getPrix1()
+    public function getPrix1(): ?string
     {
         return $this->prix1;
     }
 
-    public function setPrix1($prix1): self
+    public function setPrix1(string $prix1): self
     {
         $this->prix1 = $prix1;
 
         return $this;
     }
 
-    public function getPrix2()
+    public function getPrix2(): ?string
     {
         return $this->prix2;
     }
 
-    public function setPrix2($prix2): self
+    public function setPrix2(string $prix2): self
     {
         $this->prix2 = $prix2;
 
         return $this;
     }
 
-    public function getPrix3()
+    public function getPrix3(): ?string
     {
         return $this->prix3;
     }
 
-    public function setPrix3($prix3): self
+    public function setPrix3(string $prix3): self
     {
         $this->prix3 = $prix3;
 

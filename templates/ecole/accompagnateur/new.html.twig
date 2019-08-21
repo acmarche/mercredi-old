@@ -1,0 +1,16 @@
+{% extends 'ecole/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h3>Nouvel accompagnateur</h3>
+    </div>
+
+    {{ include('ecole/accompagnateur/_form.html.twig') }}
+
+    <br />
+    <a href="{{ path('ecole_accompagnateur_index') }}">
+        <span class="fas fa-list"></span> Annuler
+    </a>
+
+{% endblock %}

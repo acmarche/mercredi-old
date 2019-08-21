@@ -374,7 +374,7 @@ class Tuteur implements UserPopulateInterface
         return $this->nom;
     }
 
-    public function setNom(string $nom): UserPopulateInterface
+    public function setNom(string $nom): self
     {
         $this->nom = $nom;
 
@@ -386,7 +386,7 @@ class Tuteur implements UserPopulateInterface
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): UserPopulateInterface
+    public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
 
@@ -470,7 +470,7 @@ class Tuteur implements UserPopulateInterface
         return $this->email;
     }
 
-    public function setEmail(?string $email): UserPopulateInterface
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 

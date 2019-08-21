@@ -59,9 +59,6 @@ class Message
      */
     protected $destinataires;
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
@@ -83,36 +80,28 @@ class Message
         $this->from = $from;
     }
 
-    /**
-     * @return null|string
-     */
     public function getSujet(): ?string
     {
         return $this->sujet;
     }
 
-    /**
-     * @param null|string $sujet
-     */
-    public function setSujet(?string $sujet): void
+    public function setSujet(string $sujet): self
     {
         $this->sujet = $sujet;
+
+        return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getTexte(): ?string
     {
         return $this->texte;
     }
 
-    /**
-     * @param null|string $texte
-     */
-    public function setTexte(?string $texte): void
+    public function setTexte(string $texte): self
     {
         $this->texte = $texte;
+
+        return $this;
     }
 
     /**
@@ -131,19 +120,15 @@ class Message
         $this->file = $file;
     }
 
-    /**
-     * @return array|null
-     */
     public function getDestinataires(): ?array
     {
         return $this->destinataires;
     }
 
-    /**
-     * @param array|null $destinataires
-     */
-    public function setDestinataires(?array $destinataires): void
+    public function setDestinataires(array $destinataires): self
     {
         $this->destinataires = $destinataires;
+
+        return $this;
     }
 }

@@ -2,9 +2,9 @@
 
 namespace AcMarche\Mercredi\Admin\Security;
 
+use AcMarche\Mercredi\Admin\Entity\Accompagnateur;
 use AcMarche\Mercredi\Admin\Entity\Ecole;
 use AcMarche\Mercredi\Security\Entity\User;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
@@ -18,30 +18,33 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
  *
  * @author Yonel Ceruto <yonelceruto@gmail.com>
  */
-class EcoleVoter extends Voter
+class AccompagnateurVoter extends Voter
 {
     /**
      * @var User $user
      */
     private $user;
-    const INDEX = 'index_ecole';
+    const INDEX = 'index_accompagnateur';
     const SHOW = 'show';
-    const ADD = 'add';
     const EDIT = 'edit';
     const DELETE = 'delete';
+
     private $decisionManager;
+
     /**
      * @var FlashBagInterface
      */
     private $flashBag;
+
     /**
-     * @var Ecole[]|ArrayCollection
+     * @var Ecole[]|\Doctrine\Common\Collections\Collection
      */
     private $ecoles;
     /**
-     * @var Ecole
+     * @var Accompagnateur
      */
-    private $ecole;
+    private $accompagnateur;
+
 
     public function __construct(AccessDecisionManagerInterface $decisionManager, FlashBagInterface $flashBag)
     {
@@ -56,18 +59,18 @@ class EcoleVoter extends Voter
     {
         //a cause de index pas d'ecole defini
         if ($subject) {
-            if (!$subject instanceof Ecole) {
+            if (!$subject instanceof Accompagnateur) {
                 return false;
             }
         }
 
-        return in_array($attribute, [self::INDEX, self::SHOW, self::ADD, self::EDIT, self::DELETE], true);
+        return in_array($attribute, [self::INDEX, self::SHOW, self::EDIT, self::DELETE], true);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function voteOnAttribute($attribute, $ecole, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $accompagnateur, TokenInterface $token)
     {
         $this->user = $token->getUser();
 
@@ -79,7 +82,7 @@ class EcoleVoter extends Voter
             return true;
         }
 
-        $this->ecole = $ecole;
+        $this->accompagnateur = $accompagnateur;
         $this->ecoles = $this->user->getEcoles();
 
         switch ($attribute) {
@@ -87,8 +90,6 @@ class EcoleVoter extends Voter
                 return $this->canIndex($token);
             case self::SHOW:
                 return $this->canView($token);
-            case self::ADD:
-                return $this->canAdd($token);
             case self::EDIT:
                 return $this->canEdit($token);
             case self::DELETE:
@@ -119,43 +120,44 @@ class EcoleVoter extends Voter
             return true;
         }
 
-        if ($this->decisionManager->decide($token, ['ROLE_MERCREDI_READ'])) {
-            return true;
-        }
-
-        if ($this->decisionManager->decide($token, ['ROLE_MERCREDI_ANIMATEUR'])) {
+        if (!$this->decisionManager->decide($token, ['ROLE_MERCREDI_ECOLE'])) {
             return false;
         }
 
-        return $this->checkEcoles($token);
-    }
-
-    private function canEdit(TokenInterface $token)
-    {
-        if ($this->ecoles->contains($this->ecole)) {
+        if ($this->ecoles->contains($this->accompagnateur->getEcole())) {
             return true;
         }
 
         return false;
     }
 
-    private function canAdd(TokenInterface $token)
+    private function canEdit(TokenInterface $token)
     {
-        //only mercredi admin
+        if (!$this->decisionManager->decide($token, ['ROLE_MERCREDI_ECOLE'])) {
+            return false;
+        }
+
+        if ($this->ecoles->contains($this->accompagnateur->getEcole())) {
+            return true;
+        }
+
         return false;
     }
 
     private function canDelete(TokenInterface $token)
     {
-        //only mercredi admin
+        if ($this->canEdit($token)) {
+            return true;
+        }
+
         return false;
     }
 
     private function checkEcoles($token)
     {
         if ($this->decisionManager->decide($token, ['ROLE_MERCREDI_ECOLE'])) {
-            $ecoles = $this->user->getEcoles();
-            if (count($ecoles) > 0) {
+
+            if (count($this->ecoles) > 0) {
                 return true;
             }
         }

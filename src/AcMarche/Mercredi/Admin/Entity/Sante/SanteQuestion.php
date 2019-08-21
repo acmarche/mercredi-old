@@ -92,44 +92,33 @@ class SanteQuestion
         return $this->getIntitule();
     }
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getIntitule(): ?string
     {
         return $this->intitule;
     }
 
-    /**
-     * @param null|string $intitule
-     */
-    public function setIntitule(?string $intitule): void
+    public function setIntitule(string $intitule): self
     {
         $this->intitule = $intitule;
+
+        return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getCategorie(): ?string
     {
         return $this->categorie;
     }
 
-    /**
-     * @param null|string $categorie
-     */
-    public function setCategorie(?string $categorie): void
+    public function setCategorie(?string $categorie): self
     {
         $this->categorie = $categorie;
+
+        return $this;
     }
 
     /**
@@ -180,51 +169,39 @@ class SanteQuestion
         $this->remarque = $remarque;
     }
 
-    /**
-     * @return bool|null
-     */
     public function getComplement(): ?bool
     {
         return $this->complement;
     }
 
-    /**
-     * @param bool|null $complement
-     */
-    public function setComplement(?bool $complement): void
+    public function setComplement(?bool $complement): self
     {
         $this->complement = $complement;
+
+        return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getComplementLabel(): ?string
     {
         return $this->complement_label;
     }
 
-    /**
-     * @param null|string $complement_label
-     */
-    public function setComplementLabel(?string $complement_label): void
+    public function setComplementLabel(?string $complement_label): self
     {
         $this->complement_label = $complement_label;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getDisplayOrder(): ?int
     {
         return $this->display_order;
     }
 
-    /**
-     * @param int|null $display_order
-     */
-    public function setDisplayOrder(?int $display_order): void
+    public function setDisplayOrder(?int $display_order): self
     {
         $this->display_order = $display_order;
+
+        return $this;
     }
 }

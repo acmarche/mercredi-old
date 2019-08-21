@@ -146,12 +146,12 @@ class Paiement
         return $this->id;
     }
 
-    public function getMontant()
+    public function getMontant(): ?string
     {
         return $this->montant;
     }
 
-    public function setMontant($montant): self
+    public function setMontant(string $montant): self
     {
         $this->montant = $montant;
 

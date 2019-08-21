@@ -106,10 +106,16 @@ class Ecole
      */
     protected $enfants;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AcMarche\Mercredi\Admin\Entity\Accompagnateur", mappedBy="ecole", orphanRemoval=true)
+     */
+    private $accompagnateurs;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->enfants = new ArrayCollection();
+        $this->accompagnateurs = new ArrayCollection();
     }
 
     public function __toString()
@@ -200,6 +206,121 @@ class Ecole
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
             $user->removeEcole($this);
+        }
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getCodePostal(): ?int
+    {
+        return $this->code_postal;
+    }
+
+    public function setCodePostal(?int $code_postal): self
+    {
+        $this->code_postal = $code_postal;
+
+        return $this;
+    }
+
+    public function getLocalite(): ?string
+    {
+        return $this->localite;
+    }
+
+    public function setLocalite(?string $localite): self
+    {
+        $this->localite = $localite;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?string $telephone): self
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getGsm(): ?string
+    {
+        return $this->gsm;
+    }
+
+    public function setGsm(?string $gsm): self
+    {
+        $this->gsm = $gsm;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getRemarques(): ?string
+    {
+        return $this->remarques;
+    }
+
+    public function setRemarques(?string $remarques): self
+    {
+        $this->remarques = $remarques;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Accompagnateur[]
+     */
+    public function getAccompagnateurs(): Collection
+    {
+        return $this->accompagnateurs;
+    }
+
+    public function addAccompagnateur(Accompagnateur $accompagnateur): self
+    {
+        if (!$this->accompagnateurs->contains($accompagnateur)) {
+            $this->accompagnateurs[] = $accompagnateur;
+            $accompagnateur->setEcole($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccompagnateur(Accompagnateur $accompagnateur): self
+    {
+        if ($this->accompagnateurs->contains($accompagnateur)) {
+            $this->accompagnateurs->removeElement($accompagnateur);
+            // set the owning side to null (unless already changed)
+            if ($accompagnateur->getEcole() === $this) {
+                $accompagnateur->setEcole(null);
+            }
         }
 
         return $this;

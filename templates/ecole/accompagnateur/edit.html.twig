@@ -1,0 +1,16 @@
+{% extends 'ecole/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h3>{{ accompagnateur.nom }} {{ accompagnateur.prenom }}</h3>
+    </div>
+
+    {{ include('ecole/accompagnateur/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    <br />
+    <a href="{{ path('ecole_accompagnateur_index') }}">
+        <span class="fas fa-list"></span> Annuler
+    </a>
+
+{% endblock %}

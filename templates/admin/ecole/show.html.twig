@@ -8,10 +8,17 @@
     {% if is_granted('ROLE_MERCREDI_ADMIN') %}
         <a href="{{ path('ecole_edit', { 'id': ecole.id }) }}" class="btn btn-primary" role="button"><i
                     class="far fa-edit"></i> Editer</a>
+
+        <a href="{{ path('admin_accompagnateur_new', { 'id': ecole.id }) }}" class="btn btn-primary" role="button"><i
+                    class="fas fa-plus"></i> Ajouter un accompagnateur</a>
         <br/><br/>
     {% endif %}
 
+    {{ include('ecole/ecole/_adresse.html.twig') }}
+
     {% include 'admin/ecole/users.html.twig' with {'users': ecole.users} %}
+
+    {% include 'admin/ecole/accompagnateur.html.twig' with {'enfants': ecole.enfants} %}
 
     {% include 'admin/ecole/enfants.html.twig' with {'enfants': ecole.enfants} %}
 

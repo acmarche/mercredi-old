@@ -1,0 +1,38 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h3>{{ accompagnateur.nom }} {{ accompagnateur.prenom }}</h3>
+    </div>
+
+    {% include 'admin/accompagnateur/_actions.html.twig' %}
+
+    <br />
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ accompagnateur.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ accompagnateur.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ accompagnateur.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ accompagnateur.email }}</td>
+            </tr>
+            <tr>
+                <th>Ecole</th>
+                <td>{{ accompagnateur.ecole }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('admin/accompagnateur/_delete_form.html.twig') }}
+{% endblock %}
