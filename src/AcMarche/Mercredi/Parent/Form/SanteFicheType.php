@@ -24,6 +24,7 @@ class SanteFicheType extends AbstractType
                 TextareaType::class,
                 [
                     'label' => 'Personne(s) en cas d\'urgence',
+                    'help' => 'Nom, prénom et numéro de téléphone',
                 ]
             )
             ->add(
@@ -41,7 +42,7 @@ class SanteFicheType extends AbstractType
                 TextareaType::class,
                 [
                     'required' => false,
-                    'label'=>"D'autres remarques",
+                    'label' => "D'autres remarques",
                 ]
             )
             ->add(
