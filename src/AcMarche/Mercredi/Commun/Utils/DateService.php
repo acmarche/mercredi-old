@@ -34,6 +34,7 @@ class DateService
      * @param \DateTime $datePresence
      * @param null $today
      * @return bool
+     * @throws \Exception
      */
     public function checkDate(\DateTimeInterface $datePresence, $today = null)
     {

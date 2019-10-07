@@ -206,7 +206,7 @@ class JourRepository extends ServiceEntityRepository
         $date_time = new \DateTime();
 
         $qb->andWhere('jour.date_jour >= :today')
-            ->setParameter('today', $date_time);
+            ->setParameter('today', $date_time->format('Y-m-d'));
 
         $query = $qb->getQuery();
         /**
