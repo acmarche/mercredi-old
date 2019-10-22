@@ -214,7 +214,7 @@ class PresenceService
         $tuteurs = new ArrayCollection();
         foreach ($presences as $presence) {
             $tuteur = $presence->getTuteur();
-            if (!$tuteurs->contains($tuteur)) {
+            if ($tuteur && !$tuteurs->contains($tuteur)) {
                 $tuteurs->add($tuteur);
             }
         }
