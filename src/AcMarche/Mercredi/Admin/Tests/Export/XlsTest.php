@@ -12,9 +12,9 @@ class XlsTest extends BaseUnit
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
         $form = $crawler->selectButton('Rechercher')->form(
-            array(
+            [
                 'search_presence_by_month[mois]' => '10/2016',
-            )
+            ]
         );
 
         $crawler = $this->admin->submit($form);

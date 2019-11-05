@@ -8,16 +8,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Note
+ * Note.
  *
  * @ORM\Table("note")
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Admin\Repository\NoteRepository")
  */
 class Note
 {
-
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -40,10 +39,9 @@ class Note
     protected $enfant;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean", options={"default" = "0"})
-     *
      */
     protected $cloture = false;
 
@@ -142,7 +140,7 @@ class Note
         return $this;
     }
 
-    /**
+    /*
      * STOP
      */
 }

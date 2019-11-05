@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 17/08/18
- * Time: 10:32
+ * Time: 10:32.
  */
 
 namespace AcMarche\Mercredi\Admin\Service;
-
 
 use AcMarche\Mercredi\Admin\Repository\JourRepository;
 use AcMarche\Mercredi\Plaine\Repository\PlaineJourRepository;
@@ -40,29 +39,29 @@ class JourService
 
     /**
      * Je vais chercher toutes les dates pour remplir le formulaire
-     * pour le listing presence
-     * @return array
+     * pour le listing presence.
      *
+     * @return array
      */
     public function getAllDaysGardesAndPlaines()
     {
         $plaines_jours = $this->plaineJourRepository->findAll();
         $presence_jours = $this->jourRepository->findAll();
 
-        $jours = array();
+        $jours = [];
 
         foreach ($plaines_jours as $jour) {
             $jour_id = $jour->getId().'_plaine';
             $jourDateTime = $jour->getDateJour();
-            $jourFr = $this->translator->trans($jourDateTime->format("D"));
-            $jours[$jour_id] = $jourDateTime->format("d-m-Y")." ".$jourFr." (P)";
+            $jourFr = $this->translator->trans($jourDateTime->format('D'));
+            $jours[$jour_id] = $jourDateTime->format('d-m-Y').' '.$jourFr.' (P)';
         }
 
         foreach ($presence_jours as $jour) {
             $jourDateTime = $jour->getDateJour();
             $jour_id = $jour->getId().'_mercredi';
-            $jourFr = $this->translator->trans($jourDateTime->format("D"));
-            $jours[$jour_id] = $jourDateTime->format("d-m-Y")." ".$jourFr;
+            $jourFr = $this->translator->trans($jourDateTime->format('D'));
+            $jours[$jour_id] = $jourDateTime->format('d-m-Y').' '.$jourFr;
         }
 
         uasort(

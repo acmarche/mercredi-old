@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Pour ajouter une date a un enfant a une plaine
+ * Pour ajouter une date a un enfant a une plaine.
  */
 
 namespace AcMarche\Mercredi\Plaine\Form;
@@ -19,11 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlainePresencePaiementType extends AbstractType
 {
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $plaineEnfant = $options['plaine_enfant'];
@@ -34,33 +29,30 @@ class PlainePresencePaiementType extends AbstractType
             ->add(
                 'plaine_presences',
                 EntityType::class,
-                array(
+                [
                     'class' => PlainePresence::class,
                     'query_builder' => function (PlainePresenceRepository $cr) use ($plaineEnfant) {
                         return $cr->getPresencesNonPayes2(
-                            array(
+                            [
                                 'plaine_enfant' => $plaineEnfant,
-                            )
+                            ]
                         );
                     },
                     'label' => 'Jours de présences',
                     'expanded' => true,
                     'multiple' => true,
-                )
+                ]
             )
-            ->add('submit', SubmitType::class, array('label' => 'Valider le paiement'));
+            ->add('submit', SubmitType::class, ['label' => 'Valider le paiement']);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => Paiement::class,
                 'plaine_enfant' => null,
-            )
+            ]
         );
     }
 }

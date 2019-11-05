@@ -2,23 +2,19 @@
 
 namespace AcMarche\Mercredi\Security\Form\Type;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserSelectType extends AbstractType
 {
-
     /**
      * @var ObjectManager
      */
     private $om;
 
-    /**
-     * @param ObjectManager $om
-     */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;
@@ -30,22 +26,22 @@ class UserSelectType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'invalid_message' => 'The selected user does not exist',
-        ));
+        ]);
 
         $users = $this->om->getRepository('AcSecurityBundle:User')->getList();
 
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'required' => false,
             'label' => 'Utilisateur',
             'choices' => $users,
             'placeholder' => 'Choisissez un utilisateur',
-        ));
+        ]);
     }
 
     public function getParent()
     {
-        return ChoiceType::class ;
+        return ChoiceType::class;
     }
 }

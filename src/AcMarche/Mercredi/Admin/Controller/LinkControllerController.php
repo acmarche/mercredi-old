@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- *
- * @package AcMarche\Admin\Admin\Controller
  * @Route("/link")
  * @IsGranted("ROLE_MERCREDI_ADMIN")
  */
@@ -33,7 +31,6 @@ class LinkControllerController extends AbstractController
      * Detacher un tuteur.
      *
      * @Route("/detach/{id}", name="tuteur_detach", methods={"POST"})
-     *
      */
     public function detach(Request $request, Enfant $enfant)
     {
@@ -57,17 +54,16 @@ class LinkControllerController extends AbstractController
             $em->remove($enfantTuteur);
             $em->flush();
 
-            $this->addFlash('success', "Le parent a bien été détaché");
+            $this->addFlash('success', 'Le parent a bien été détaché');
         }
 
-        return $this->redirectToRoute('enfant_show', array('slugname' => $enfant->getSlugname()));
+        return $this->redirectToRoute('enfant_show', ['slugname' => $enfant->getSlugname()]);
     }
 
     /**
      * Attach un tuteur a l'enfant.
      *
      * @Route("/attach/{id}", name="tuteur_attach", methods={"POST"})
-     *
      */
     public function Attach(Request $request, Enfant $enfant)
     {
@@ -82,7 +78,6 @@ class LinkControllerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $tuteur = $enfant_tuteur->getTuteur();
             if (!$tuteur) {
                 $this->addFlash('danger', "Le tuteur sélectionné n'a pas été trouvé");
@@ -91,15 +86,15 @@ class LinkControllerController extends AbstractController
 
                 $em->flush();
 
-                $this->addFlash('success', "Le tuteur a bien été associé");
+                $this->addFlash('success', 'Le tuteur a bien été associé');
             }
         }
 
         return $this->redirectToRoute(
             'enfant_show',
-            array(
+            [
                 'slugname' => $enfant->getSlugname(),
-            )
+            ]
         );
     }
 }

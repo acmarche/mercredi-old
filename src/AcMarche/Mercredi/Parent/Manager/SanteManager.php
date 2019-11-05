@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 23/08/18
- * Time: 14:57
+ * Time: 14:57.
  */
 
 namespace AcMarche\Mercredi\Parent\Manager;
@@ -56,7 +56,6 @@ class SanteManager
     }
 
     /**
-     * @param Enfant $enfant
      * @return SanteFiche|null
      */
     public function getSanteFiche(Enfant $enfant): SanteFiche
@@ -70,14 +69,12 @@ class SanteManager
     }
 
     /**
-     * @param SanteFiche $santeFiche
      * @return SanteQuestion[]
      */
     public function bindResponses(SanteFiche $santeFiche)
     {
         $questions = $this->getAllQuestions();
         foreach ($questions as $question) {
-
             $reponse = $this->getSanteReponse($santeFiche, $question);
 
             if ($reponse instanceof SanteReponse) {
@@ -93,7 +90,6 @@ class SanteManager
     }
 
     /**
-     * @param SanteFiche $santeFiche
      * @return SanteReponse[]
      */
     public function getReponses(SanteFiche $santeFiche)
@@ -102,7 +98,6 @@ class SanteManager
     }
 
     /**
-     *
      * @return SanteQuestion[]
      */
     public function getAllQuestions()
@@ -111,9 +106,8 @@ class SanteManager
     }
 
     /**
-     * Donne la reponse a une question ou pas
-     * @param SanteFiche $santeFiche
-     * @param SanteQuestion $santeQuestion
+     * Donne la reponse a une question ou pas.
+     *
      * @return SanteReponse
      */
     public function getSanteReponse(SanteFiche $santeFiche, SanteQuestion $santeQuestion)
@@ -124,16 +118,15 @@ class SanteManager
     }
 
     /**
-     * Si pas de reponse ou remarque on ne cree pas la reponse
-     * @param SanteFiche $santeFiche
-     * @param SanteQuestion $santeQuestion
-     * @return null|void
+     * Si pas de reponse ou remarque on ne cree pas la reponse.
+     *
+     * @return void|null
      */
     public function handleReponse(SanteFiche $santeFiche, SanteQuestion $santeQuestion)
     {
         $santeReponse = $this->getSanteReponse($santeFiche, $santeQuestion);
         if (!$santeReponse) {
-            if ($santeQuestion->getReponse() === null && !$santeQuestion->getRemarque()) {
+            if (null === $santeQuestion->getReponse() && !$santeQuestion->getRemarque()) {
                 return null;
             }
             $santeReponse = $this->createSanteReponse($santeFiche, $santeQuestion);
@@ -144,9 +137,6 @@ class SanteManager
     }
 
     /**
-     * @param SanteFiche $santeFiche
-     * @param SanteQuestion $santeQuestion
-     *
      * @return SanteReponse
      */
     public function createSanteReponse(SanteFiche $santeFiche, SanteQuestion $santeQuestion)
@@ -161,7 +151,6 @@ class SanteManager
 
     /**
      * @todo if else necessaire?
-     * @param SanteFiche $santeFiche
      */
     public function saveSanteFiche(SanteFiche $santeFiche)
     {
@@ -178,10 +167,6 @@ class SanteManager
         $this->santeReponseRepository->save();
     }
 
-    /**
-     * @param Enfant $enfant
-     * @return bool
-     */
     public function isComplete(Enfant $enfant): bool
     {
         $santeFiche = $this->getSanteFiche($enfant);
@@ -203,14 +188,13 @@ class SanteManager
     }
 
     /**
-     * @param SanteQuestion $question
      * @return bool
      */
     public function checkQuestionOk(SanteQuestion $question)
     {
         if ($question->getComplement()) {
             if ($question->getReponse()) {
-                if (trim($question->getRemarque() == '')) {
+                if (trim('' == $question->getRemarque())) {
                     return false;
                 }
             }

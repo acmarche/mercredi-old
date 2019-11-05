@@ -11,6 +11,4 @@ class DefaultControllerTest extends BaseUnit
         $crawler = $this->animateur->request('GET', '/animateur/');
         $this->assertGreaterThan(0, $crawler->filter('h3:contains("Bienvenue")')->count());
     }
-
-
 }

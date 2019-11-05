@@ -8,26 +8,25 @@ use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
 use AcMarche\Mercredi\Plaine\Entity\PlaineJour;
 use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PzlainePaiementControllerTest extends BaseUnit
 {
-    private $slugEnfant = "leruth_timeo";
-    private $nomEnfant = "LERUTH Timeo";
-    private $slugParent = "leruth_nat";
-    private $montant = "50.50"; //to disable paiment
-    private $slugPlaine = "carnaval_2020";
+    private $slugEnfant = 'leruth_timeo';
+    private $nomEnfant = 'LERUTH Timeo';
+    private $slugParent = 'leruth_nat';
+    private $montant = '50.50'; //to disable paiment
+    private $slugPlaine = 'carnaval_2020';
 
     /**
-     * ajout paiement
+     * ajout paiement.
      */
     private $paiementMontant = '55,26';
     private $paiementMontantTxt = '55.26';
     private $paiementDate = '24/10/2020';
     private $paiementType = 'Plaine';
-    private $paiementLink = "Plaine du 24-10-2020 (55.26 €)";
+    private $paiementLink = 'Plaine du 24-10-2020 (55.26 €)';
 
-    private $dateSearch = "2020-10-10";
+    private $dateSearch = '2020-10-10';
     private $dateSearch2 = '2020-10-11';
 
     public function testDisabledCheque()
@@ -39,7 +38,7 @@ class PzlainePaiementControllerTest extends BaseUnit
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
         $crawler = $this->admin->click($crawler->selectLink('Editer')->link());
-        $form = $crawler->selectButton('Mettre à jour')->form(array());
+        $form = $crawler->selectButton('Mettre à jour')->form([]);
 
         $form['paiement[cloture]']->tick();
 
@@ -69,11 +68,11 @@ class PzlainePaiementControllerTest extends BaseUnit
         $crawler = $this->admin->click($crawler->selectLink('Ajouter un paiement')->link());
 
         $form = $crawler->selectButton('Ajouter')->form(
-            array(
+            [
                 'paiement[montant]' => $this->paiementMontant,
                 'paiement[date_paiement]' => $this->paiementDate,
                 'paiement[type_paiement]' => $this->paiementType,
-            )
+            ]
         );
 
         $option = $crawler->filter('#paiement_enfant option:contains("'.$this->nomEnfant.'")');
@@ -99,7 +98,7 @@ class PzlainePaiementControllerTest extends BaseUnit
 
         $date = $this->getPresences($this->dateSearch);
 
-        $form = $crawler->selectButton('Valider le paiement')->form(array());
+        $form = $crawler->selectButton('Valider le paiement')->form([]);
         $form['plaine_presence_paiement[plaine_presences][0]'] = $date;
 
         $this->admin->submit($form);
@@ -120,7 +119,7 @@ class PzlainePaiementControllerTest extends BaseUnit
 
         $date = $this->getPresences($this->dateSearch2);
 
-        $form = $crawler->selectButton('Valider le paiement')->form(array());
+        $form = $crawler->selectButton('Valider le paiement')->form([]);
         $form['plaine_presence_paiement[plaine_presences][0]']->untick();
         $form['plaine_presence_paiement[plaine_presences][1]'] = $date;
 
@@ -132,22 +131,22 @@ class PzlainePaiementControllerTest extends BaseUnit
 
     private function getPresences($date)
     {
-        $enfant = $this->em->getRepository(Enfant::class)->findOneBy(array('slugname' => $this->slugEnfant));
-        $plaine = $this->em->getRepository(Plaine::class)->findOneBy(array('slugname' => $this->slugPlaine));
-        $jour = $this->em->getRepository(PlaineJour::class)->findOneBy(array('date_jour' => new \DateTime($date)));
+        $enfant = $this->em->getRepository(Enfant::class)->findOneBy(['slugname' => $this->slugEnfant]);
+        $plaine = $this->em->getRepository(Plaine::class)->findOneBy(['slugname' => $this->slugPlaine]);
+        $jour = $this->em->getRepository(PlaineJour::class)->findOneBy(['date_jour' => new \DateTime($date)]);
 
         $plaineEnfant = $this->em->getRepository(PlaineEnfant::class)->findOneBy(
-            array(
+            [
                 'enfant' => $enfant->getId(),
                 'plaine' => $plaine->getId(),
-            )
+            ]
         );
 
         $presence = $this->em->getRepository(PlainePresence::class)->findOneBy(
-            array(
+            [
                 'plaine_enfant' => $plaineEnfant,
                 'jour' => $jour->getId(),
-            )
+            ]
         );
 
         if ($presence) {

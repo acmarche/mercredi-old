@@ -15,9 +15,9 @@ class SanteControllerTest extends BaseUnit
 
         $form = $crawler->selectButton('Enregistrer')->form(
             [
-                'sante_fiche[medecinNom]' => "Ledoux",
-                'sante_fiche[medecinTelephone]' => "084 52 98 22",
-                'sante_fiche[personneUrgence]' => "Maman et papa",
+                'sante_fiche[medecinNom]' => 'Ledoux',
+                'sante_fiche[medecinTelephone]' => '084 52 98 22',
+                'sante_fiche[personneUrgence]' => 'Maman et papa',
                 'sante_fiche[questions][0][reponse]' => 0,
                 'sante_fiche[questions][1][reponse]' => 1,
                 'sante_fiche[questions][2][reponse]' => 1,
@@ -83,5 +83,4 @@ class SanteControllerTest extends BaseUnit
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('td:contains("Ledoux")')->count());
     }
-
 }

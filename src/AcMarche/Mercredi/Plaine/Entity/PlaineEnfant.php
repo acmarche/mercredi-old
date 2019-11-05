@@ -3,22 +3,21 @@
 namespace AcMarche\Mercredi\Plaine\Entity;
 
 use AcMarche\Mercredi\Admin\Entity\Enfant;
+use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use AcMarche\Mercredi\Admin\Entity\Tuteur;
 
 /**
- * PlaineEnfant
+ * PlaineEnfant.
  *
  * @ORM\Table("plaine_enfant")
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Plaine\Repository\PlaineEnfantRepository")
  */
-
 class PlaineEnfant
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -40,18 +39,19 @@ class PlaineEnfant
 
     /**
      * @ORM\OneToMany(targetEntity="AcMarche\Mercredi\Plaine\Entity\PlainePresence", mappedBy="plaine_enfant", cascade={"remove"})
-     *
      */
     private $presences;
 
     /**
-     * Pour export pdf coordonnees
+     * Pour export pdf coordonnees.
+     *
      * @var Tuteur
      */
     private $tuteur;
-    
+
     /**
-     * Pour export pdf coche present ou pas
+     * Pour export pdf coche present ou pas.
+     *
      * @var array of integer
      */
     private $jour_ids;
@@ -64,6 +64,7 @@ class PlaineEnfant
     public function setTuteur(Tuteur $tuteur)
     {
         $this->tuteur = $tuteur;
+
         return $this;
     }
 
@@ -75,6 +76,7 @@ class PlaineEnfant
     public function addJourIds(array $jour_ids)
     {
         $this->jour_ids = $jour_ids;
+
         return $this;
     }
 
@@ -143,7 +145,7 @@ class PlaineEnfant
         return $this;
     }
 
-    /**
+    /*
      * STOP
      */
 }

@@ -2,19 +2,19 @@
 
 namespace AcMarche\Mercredi\Admin\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
 use AcMarche\Mercredi\Admin\Entity\Paiement;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Paiement|null find($id, $lockMode = null, $lockVersion = null)
- * @method Paiement|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Paiement|null   find($id, $lockMode = null, $lockVersion = null)
+ * @method Paiement|null   findOneBy(array $criteria, array $orderBy = null)
  * @method Paiement[]|null findAll()
- * @method Paiement[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Paiement[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PaiementRepository  extends ServiceEntityRepository
+class PaiementRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -39,8 +39,8 @@ class PaiementRepository  extends ServiceEntityRepository
     }
 
     /**
-     * Retourne les paiments lies a l'enfant tuteur
-     * @param EnfantTuteur $enfant_tuteur
+     * Retourne les paiments lies a l'enfant tuteur.
+     *
      * @return Paiement[]
      */
     public function getByEnfantTuteur(EnfantTuteur $enfant_tuteur, $date = null)
@@ -48,7 +48,7 @@ class PaiementRepository  extends ServiceEntityRepository
         $enfant_id = $enfant_tuteur->getEnfant()->getId();
         $tuteur_id = $enfant_tuteur->getTuteur()->getId();
 
-        $args = array('enfant_id' => $enfant_id, 'tuteur_id' => $tuteur_id);
+        $args = ['enfant_id' => $enfant_id, 'tuteur_id' => $tuteur_id];
         if ($date) {
             $args['date'] = $date;
         }
@@ -59,8 +59,8 @@ class PaiementRepository  extends ServiceEntityRepository
     }
 
     /**
-     *
      * @param [] $args
+     *
      * @return Paiement[]|Paiement
      */
     public function search($args)
@@ -90,13 +90,13 @@ class PaiementRepository  extends ServiceEntityRepository
 
         if ($date) {
             $qb->andwhere('p.date_paiement LIKE :date')
-                ->setParameter('date', '%' . $date . '%');
+                ->setParameter('date', '%'.$date.'%');
         }
 
-        if ($cloture == 1) {
+        if (1 == $cloture) {
             $qb->andwhere('p.cloture = :cloture')
                 ->setParameter('cloture', 1);
-        } elseif ($cloture == -1) {
+        } elseif (-1 == $cloture) {
             $qb->andwhere('p.cloture = :cloture')
                 ->setParameter('cloture', 0);
         }
@@ -111,12 +111,10 @@ class PaiementRepository  extends ServiceEntityRepository
 
         $results = $query->getResult();
 
-
         return $results;
     }
 
     /**
-     * @param Tuteur|null $tuteur
      * @return \Doctrine\ORM\QueryBuilder
      */
     public function getForList(Tuteur $tuteur = null)

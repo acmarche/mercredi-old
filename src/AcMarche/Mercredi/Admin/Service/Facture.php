@@ -10,8 +10,7 @@ use AcMarche\Mercredi\Admin\Repository\PresenceRepository;
 use AcMarche\Mercredi\Commun\Utils\SortUtils;
 
 /**
- * Facture
- *
+ * Facture.
  */
 class Facture
 {
@@ -83,9 +82,10 @@ class Facture
     }
 
     /**
-     * Retourne le prix moins la reduction
-     * @param Presence $presence
+     * Retourne le prix moins la reduction.
+     *
      * @param int $ordre
+     *
      * @return int
      */
     public function getCout(Presence $presence, $ordre)
@@ -94,12 +94,12 @@ class Facture
         $pourcentage = 0;
         if ($reduction) {
             $pourcentage = $reduction->getPourcentage();
-            if ($pourcentage == 100) { //cpas ou - 15 minutes
+            if (100 == $pourcentage) { //cpas ou - 15 minutes
                 return 0;
             }
         }
 
-        if ($presence->getAbsent() == 1) {
+        if (1 == $presence->getAbsent()) {
             return 0;
         }
 
@@ -111,11 +111,11 @@ class Facture
             return $prix - (($prix / 100) * $pourcentage);
         }
 
-      /*  if ($paiement = $presence->getPaiement()) {
-            if ($paiement->getTypePaiement() === 'Abonnement') {
-                return $paiement->getMontant() / 5;
-            }
-        }*/
+        /*  if ($paiement = $presence->getPaiement()) {
+              if ($paiement->getTypePaiement() === 'Abonnement') {
+                  return $paiement->getMontant() / 5;
+              }
+          }*/
 
         return $prix;
     }
@@ -126,12 +126,12 @@ class Facture
         $pourcentage = 0;
         if ($reduction) {
             $pourcentage = $reduction->getPourcentage();
-            if ($pourcentage == 100) { //cpas ou - 15 minutes
+            if (100 == $pourcentage) { //cpas ou - 15 minutes
                 return 0;
             }
         }
 
-        if ($presence->getAbsent() == 1) {
+        if (1 == $presence->getAbsent()) {
             return 0;
         }
 
@@ -151,19 +151,17 @@ class Facture
      * Pour chaque parent je vais chercher :
      * - les presences
      * - la fratrie
-     * Et j'effectue pour chaque presence un traitement
+     * Et j'effectue pour chaque presence un traitement.
      *
      * @return array EnfantTuteur
-     *
      */
     public function traitement(Enfant $enfant)
     {
-        $args = array('enfant_id' => $enfant->getId());
+        $args = ['enfant_id' => $enfant->getId()];
         /**
          * je vais chercher tous les parents
-         * pas entity->getTuteurs() car j'utilise les jointures
+         * pas entity->getTuteurs() car j'utilise les jointures.
          */
-
         $enfant_tuteurs = $this->enfantTuteurRepository->search(
             $args
         );
@@ -191,11 +189,11 @@ class Facture
      * Determine l'ordre
      * Determine la fratrie presente
      * Determine le prix suivant l'ordre
-     * Determine le cout apres reduction
-     * @param Presence $presence
+     * Determine le cout apres reduction.
+     *
      * @param array $fratries
      */
-    public function handlePresence(Presence $presence, $fratries = array())
+    public function handlePresence(Presence $presence, $fratries = [])
     {
         $presenceFratries = $this->fraterieService->getFratrieByPresence($presence, $fratries);
         $presence->addFratries($presenceFratries);
@@ -212,11 +210,11 @@ class Facture
      * Determine l'ordre
      * Determine la fratrie presente
      * Determine le prix suivant l'ordre
-     * Determine le cout apres reduction
-     * @param Presence $presence
+     * Determine le cout apres reduction.
+     *
      * @param array $fratries
      */
-    public function handleTmpPresence(Presence $presence, $fratries = array())
+    public function handleTmpPresence(Presence $presence, $fratries = [])
     {
         $presenceFratries = $this->fraterieService->getFratrieByPresence($presence, $fratries);
         $presence->addFratries($presenceFratries);
@@ -233,6 +231,4 @@ class Facture
         $coutTmp = $this->getCoutTmp($presence, $ordre);
         $presence->setCoutTmp($coutTmp);
     }
-
-
 }

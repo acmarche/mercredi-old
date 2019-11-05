@@ -11,31 +11,23 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ContactType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom', TextType::class, array(
-                'label' => 'Votre nom'
-            ))
-            ->add('email', EmailType::class, array(
-                'attr' => ['Votre email']
-            ))
-            ->add('texte', TextareaType::class, array(
-                'attr' => ['rows' => 5]
-            ));
+            ->add('nom', TextType::class, [
+                'label' => 'Votre nom',
+            ])
+            ->add('email', EmailType::class, [
+                'attr' => ['Votre email'],
+            ])
+            ->add('texte', TextareaType::class, [
+                'attr' => ['rows' => 5],
+            ]);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-
-        ));
+        $resolver->setDefaults([
+        ]);
     }
 }

@@ -39,9 +39,7 @@ class AssocierEcoleController extends AbstractController
     }
 
     /**
-     *
      * @Route("/{id}", name="utilisateur_associate_ecole", methods={"GET","POST"})
-     *
      */
     public function associate(Request $request, User $user)
     {
@@ -57,7 +55,6 @@ class AssocierEcoleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $data = $request->get('associate_ecole');
             $sendmail = $data['sendmail'];
 
@@ -65,7 +62,7 @@ class AssocierEcoleController extends AbstractController
 
             if ($sendmail) {
                 $this->mailer->sendNewAccountToEcole($user);
-                $this->addFlash('success', "Un mail de bienvenue a été envoyé");
+                $this->addFlash('success', 'Un mail de bienvenue a été envoyé');
             }
 
             return $this->redirectToRoute('utilisateur_show', ['id' => $user->getId()]);
@@ -73,10 +70,10 @@ class AssocierEcoleController extends AbstractController
 
         return $this->render(
             'security/utilisateur/associate_ecole.html.twig',
-            array(
+            [
                 'user' => $user,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 }

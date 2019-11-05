@@ -9,10 +9,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class QuickType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -24,20 +20,16 @@ class QuickType extends AbstractType
                 'enfant',
                 EnfantQuickType::class,
                 [
-
                 ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => QuickManager::class,
-            )
+            ]
         );
     }
 }

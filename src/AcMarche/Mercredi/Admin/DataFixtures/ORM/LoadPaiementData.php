@@ -2,17 +2,16 @@
 
 namespace AcMarche\Mercredi\Admin\DataFixtures\ORM;
 
+use AcMarche\Mercredi\Admin\Entity\Paiement;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use AcMarche\Mercredi\Admin\Entity\Paiement;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadPaiementData extends Fixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
@@ -21,7 +20,7 @@ class LoadPaiementData extends Fixture implements ORMFixtureInterface, Dependent
         $paiement->setDatePaiement(new \DateTime('2016-10-01'));
         $paiement->setEnfant($this->getReference('enfant-lisa'));
         $paiement->setTuteur($this->getReference('parent-philippe'));
-        $paiement->setTypePaiement("Abonnement");
+        $paiement->setTypePaiement('Abonnement');
         $this->setJour($paiement);
         $manager->persist($paiement);
         $this->addReference('paiement-abonnement-lisa', $paiement);
@@ -31,7 +30,7 @@ class LoadPaiementData extends Fixture implements ORMFixtureInterface, Dependent
         $paiement->setDatePaiement(new \DateTime('2016-11-01'));
         $paiement->setEnfant($this->getReference('enfant-lisa'));
         $paiement->setTuteur($this->getReference('parent-philippe'));
-        $paiement->setTypePaiement("Plaine");
+        $paiement->setTypePaiement('Plaine');
         $this->setJour($paiement);
         $manager->persist($paiement);
         $this->addReference('paiement-plaine-lisa', $paiement);
@@ -41,7 +40,7 @@ class LoadPaiementData extends Fixture implements ORMFixtureInterface, Dependent
         $paiement->setDatePaiement(new \DateTime('2016-11-01'));
         $paiement->setEnfant($this->getReference('enfant-marie'));
         $paiement->setTuteur($this->getReference('parent-philippe'));
-        $paiement->setTypePaiement("Abonnement");
+        $paiement->setTypePaiement('Abonnement');
         $this->setJour($paiement);
         $manager->persist($paiement);
         $this->addReference('paiement-abonnement-marie', $paiement);
@@ -51,7 +50,7 @@ class LoadPaiementData extends Fixture implements ORMFixtureInterface, Dependent
         $paiement->setDatePaiement(new \DateTime('2016-11-01'));
         $paiement->setEnfant($this->getReference('enfant-marie'));
         $paiement->setTuteur($this->getReference('parent-philippe'));
-        $paiement->setTypePaiement("Plaine");
+        $paiement->setTypePaiement('Plaine');
         $this->setJour($paiement);
         $manager->persist($paiement);
         $this->addReference('paiement-plaine-marie', $paiement);

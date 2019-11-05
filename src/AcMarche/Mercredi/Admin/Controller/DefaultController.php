@@ -8,24 +8,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class DefaultController
- * @package AcMarche\Admin\Admin\Controller
+ * Class DefaultController.
+ *
  * @IsGranted("ROLE_MERCREDI_READ")
  */
 class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="home_admin")
-     *
      */
     public function index()
     {
-        return $this->render('admin/default/index.html.twig', array());
+        return $this->render('admin/default/index.html.twig', []);
     }
 
     /**
      * @Route("/doc", name="doc")
-     *
      */
     public function doc()
     {
@@ -34,13 +32,12 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/checkattach")
-     *
      */
     public function checkAttachement()
     {
         $em = $this->getDoctrine()->getManager();
         $enfants = $em->getRepository(Enfant::class)->findAll();
-        $lost = array();
+        $lost = [];
         foreach ($enfants as $enfant) {
             $ficheName = $enfant->getFicheName();
             $fileName = $enfant->getFileName();
@@ -58,9 +55,9 @@ class DefaultController extends AbstractController
 
         return $this->render(
             'admin/default/check_attachement.html.twig',
-            array(
-                "losts" => $lost,
-            )
+            [
+                'losts' => $lost,
+            ]
         );
     }
 }

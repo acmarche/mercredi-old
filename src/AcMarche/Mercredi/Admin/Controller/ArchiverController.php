@@ -2,14 +2,14 @@
 
 namespace AcMarche\Mercredi\Admin\Controller;
 
+use AcMarche\Mercredi\Admin\Entity\Enfant;
+use AcMarche\Mercredi\Admin\Entity\Jour;
 use AcMarche\Mercredi\Plaine\Entity\Plaine;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
-use AcMarche\Mercredi\Admin\Entity\Jour;
 
 /**
  * Archiver controller.
@@ -20,10 +20,9 @@ use AcMarche\Mercredi\Admin\Entity\Jour;
 class ArchiverController extends AbstractController
 {
     /**
-     * Archive a enfant
+     * Archive a enfant.
      *
      * @Route("/enfant/{slugname}", name="enfant_archiver", methods={"GET","POST"})
-     *
      */
     public function enfant(Request $request, Enfant $enfant)
     {
@@ -45,13 +44,13 @@ class ArchiverController extends AbstractController
 
             $this->addFlash('success', "L'enfant a bien été $label");
 
-            return $this->redirectToRoute('enfant_show', array('slugname' => $enfant->getSlugname()));
+            return $this->redirectToRoute('enfant_show', ['slugname' => $enfant->getSlugname()]);
         }
 
-        return $this->render('admin/archiver/enfant.html.twig', array(
+        return $this->render('admin/archiver/enfant.html.twig', [
             'entity' => $enfant,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     protected function createArchiveEnfant(Enfant $enfant)
@@ -59,17 +58,16 @@ class ArchiverController extends AbstractController
         $label = $enfant->getArchive() ? 'Désarchiver' : 'Archiver';
 
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('enfant_archiver', array('slugname' => $enfant->getSlugname())))
+            ->setAction($this->generateUrl('enfant_archiver', ['slugname' => $enfant->getSlugname()]))
             ->setMethod('POST')
-            ->add('submit', SubmitType::class, array('label' => $label, 'attr' => array('class' => 'btn-success')))
+            ->add('submit', SubmitType::class, ['label' => $label, 'attr' => ['class' => 'btn-success']])
             ->getForm();
     }
 
     /**
-     * Archive a jour
+     * Archive a jour.
      *
      * @Route("/jour/{id}", name="jour_archiver", methods={"GET","POST"})
-     *
      */
     public function jour(Request $request, Jour $jour)
     {
@@ -91,13 +89,13 @@ class ArchiverController extends AbstractController
 
             $this->addFlash('success', "Le jour de garde a bien été $label");
 
-            return $this->redirectToRoute('jour_show', array('id' => $jour->getId()));
+            return $this->redirectToRoute('jour_show', ['id' => $jour->getId()]);
         }
 
-        return $this->render('admin/archiver/jour.html.twig', array(
+        return $this->render('admin/archiver/jour.html.twig', [
             'entity' => $jour,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     protected function createArchiveJour(Jour $jour)
@@ -105,17 +103,16 @@ class ArchiverController extends AbstractController
         $label = $jour->getArchive() ? 'Désarchiver' : 'Archiver';
 
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('jour_archiver', array('id' => $jour->getId())))
+            ->setAction($this->generateUrl('jour_archiver', ['id' => $jour->getId()]))
             ->setMethod('POST')
-            ->add('submit', SubmitType::class, array('label' => $label, 'attr' => array('class' => 'btn-success')))
+            ->add('submit', SubmitType::class, ['label' => $label, 'attr' => ['class' => 'btn-success']])
             ->getForm();
     }
 
     /**
-     * Archive a plaine
+     * Archive a plaine.
      *
      * @Route("/plaine/{slugname}", name="plaine_archiver", methods={"GET","POST"})
-     *
      */
     public function plaine(Request $request, Plaine $plaine)
     {
@@ -137,13 +134,13 @@ class ArchiverController extends AbstractController
 
             $this->addFlash('success', "La plaine a bien été $label");
 
-            return $this->redirectToRoute('plaine_show', array('slugname' => $plaine->getSlugname()));
+            return $this->redirectToRoute('plaine_show', ['slugname' => $plaine->getSlugname()]);
         }
 
-        return $this->render('admin/archiver/plaine.html.twig', array(
+        return $this->render('admin/archiver/plaine.html.twig', [
             'entity' => $plaine,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     protected function createArchivePlaine(Plaine $plaine)
@@ -151,9 +148,9 @@ class ArchiverController extends AbstractController
         $label = $plaine->getArchive() ? 'Désarchiver' : 'Archiver';
 
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('plaine_archiver', array('slugname' => $plaine->getSlugname())))
+            ->setAction($this->generateUrl('plaine_archiver', ['slugname' => $plaine->getSlugname()]))
             ->setMethod('POST')
-            ->add('submit', SubmitType::class, array('label' => $label, 'attr' => array('class' => 'btn-success')))
+            ->add('submit', SubmitType::class, ['label' => $label, 'attr' => ['class' => 'btn-success']])
             ->getForm();
     }
 }

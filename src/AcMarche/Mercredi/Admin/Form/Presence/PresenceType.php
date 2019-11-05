@@ -26,10 +26,6 @@ class PresenceType extends AbstractType
         $this->enfantTuteurRepository = $enfantTuteurRepository;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $enfant = $builder->getData()->getEnfant();
@@ -43,42 +39,39 @@ class PresenceType extends AbstractType
             ->add(
                 'jours',
                 EntityType::class,
-                array(
+                [
                     'class' => Jour::class,
                     'multiple' => true,
-                    'query_builder' => function (JourRepository $cr) use($enfant) {
+                    'query_builder' => function (JourRepository $cr) use ($enfant) {
                         return $cr->getForList($enfant);
                     },
                     'label' => 'Sélectionnez une ou plusieurs dates',
-                    'attr' => array('style' => 'height:150px;'),
-                )
+                    'attr' => ['style' => 'height:150px;'],
+                ]
             );
 
         if (count($tuteurs) > 1) {
             $builder->add(
                 'tuteur',
                 EntityType::class,
-                array(
+                [
                     'choices' => $tuteurs,
                     'placeholder' => 'Sélectionnez un tuteur',
                     'class' => Tuteur::class,
-                )
+                ]
             );
         } else {
             $builder->add('tuteur', TuteurSelectorType::class);
         }
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => Presence::class,
                 'tuteurs' => null,
-            )
+            ]
         );
     }
 }

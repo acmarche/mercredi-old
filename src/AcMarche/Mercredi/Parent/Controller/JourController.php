@@ -8,9 +8,9 @@ use AcMarche\Mercredi\Admin\Service\MailerService;
 use AcMarche\Mercredi\Commun\Utils\DateService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/presence")
@@ -44,7 +44,6 @@ class JourController extends AbstractController
     /**
      * @Route("/{id}", name="parent_presence_show", methods={"GET"})
      * @IsGranted("show", subject="presence")
-     *
      */
     public function show(Presence $presence)
     {
@@ -52,19 +51,19 @@ class JourController extends AbstractController
 
         return $this->render(
             'parent/jour/show.html.twig',
-            array(
+            [
                 'entity' => $presence,
                 'delete_form' => $form->createView(),
-            )
+            ]
         );
     }
 
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('parent_presence_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('parent_presence_delete', ['id' => $id]))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, array('label' => 'Delete', 'attr' => array('class' => 'btn-danger')))
+            ->add('submit', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
             ->getForm();
     }
 
@@ -90,7 +89,7 @@ class JourController extends AbstractController
                 return $this->redirectToRoute('parent_enfants');
             }
 
-            $presenceCopy = clone($presence);
+            $presenceCopy = clone $presence;
 
             $em = $this->getDoctrine()->getManager();
             $em->remove($presence);
@@ -98,10 +97,9 @@ class JourController extends AbstractController
 
             $this->mailerService->sendPresenceDeletedByParent($presenceCopy, $this->getUser());
 
-            $this->addFlash('success', "La présence a bien été effacée");
+            $this->addFlash('success', 'La présence a bien été effacée');
         }
 
         return $this->redirectToRoute('parent_enfants');
     }
-
 }

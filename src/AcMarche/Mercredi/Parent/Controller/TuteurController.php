@@ -7,9 +7,9 @@ use AcMarche\Mercredi\Admin\Service\TuteurUtils;
 use AcMarche\Mercredi\Parent\Form\CoordonneesType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Tuteur controller.
@@ -38,7 +38,7 @@ class TuteurController extends AbstractController
         $user = $this->getUser();
         $tuteur = TuteurUtils::getTuteurByUser($user);
 
-        return $this->render('parent/tuteur/coordonnees.html.twig', array('tuteur' => $tuteur));
+        return $this->render('parent/tuteur/coordonnees.html.twig', ['tuteur' => $tuteur]);
     }
 
     /**
@@ -54,14 +54,14 @@ class TuteurController extends AbstractController
         $oldTuteur = clone $tuteur;
 
         $form = $this->createForm(CoordonneesType::class, $tuteur)
-            ->add('submit', SubmitType::class, array('label' => 'Update'));
+            ->add('submit', SubmitType::class, ['label' => 'Update']);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
-            $this->addFlash('success', "Vos coordonnées ont bien été modifiées");
+            $this->addFlash('success', 'Vos coordonnées ont bien été modifiées');
 
             $this->mailerService->sendContactTuteurChange($tuteur, $oldTuteur, $user->getEmail());
 
@@ -70,13 +70,12 @@ class TuteurController extends AbstractController
 
         return $this->render(
             'parent/tuteur/edit.html.twig',
-            array(
+            [
                 'entity' => $tuteur,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
-
 
     /**
      * @Route("/paiements", name="parent_paiements", methods={"GET"})
@@ -91,12 +90,10 @@ class TuteurController extends AbstractController
 
         return $this->render(
             'parent/tuteur/paiements.html.twig',
-            array(
+            [
                 'paiements' => $paiements,
                 'entity' => $tuteur,
-            )
+            ]
         );
     }
-
-
 }

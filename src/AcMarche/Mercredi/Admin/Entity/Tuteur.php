@@ -11,29 +11,26 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Tuteur
+ * Tuteur.
  *
  * @ORM\Table("tuteur",indexes={@Orm\Index(name="search_idx", columns={"nom", "email"})})
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Admin\Repository\TuteurRepository")
  * @AcMarcheAssert\TelephoneIsComplete()
- *
  */
 class Tuteur implements UserPopulateInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
      */
     protected $id;
 
     /**
      * @Gedmo\Slug(fields={"nom", "prenom"}, separator="_")
      * @ORM\Column(length=62, unique=true)
-     *
      */
     protected $slugname;
 
@@ -41,7 +38,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $civilite;
 
@@ -50,7 +46,6 @@ class Tuteur implements UserPopulateInterface
      *
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
      * @Assert\NotBlank()
-     *
      */
     protected $nom;
 
@@ -59,7 +54,6 @@ class Tuteur implements UserPopulateInterface
      *
      * @ORM\Column(name="prenom", type="string", length=50, nullable=false)
      * @Assert\NotBlank()
-     *
      */
     protected $prenom;
 
@@ -67,7 +61,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $adresse;
 
@@ -75,7 +68,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="integer", length=6, nullable=true)
-     *
      */
     protected $code_postal;
 
@@ -83,7 +75,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $localite;
 
@@ -91,7 +82,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=150, nullable=true, options={"comment" = "tel"})
-     *
      */
     protected $telephone;
 
@@ -99,7 +89,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=150, nullable=true, options={"comment" = "tel bureau"})
-     *
      */
     protected $telephone_bureau;
 
@@ -107,7 +96,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=150, nullable=true, options={"comment" = "gsm"})
-     *
      */
     protected $gsm;
 
@@ -115,8 +103,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=50, nullable=true)
-     *
-     *
      */
     protected $email;
 
@@ -124,7 +110,6 @@ class Tuteur implements UserPopulateInterface
      * @var \DateTime
      *
      * @ORM\Column(name="birthday", type="date", nullable=true)
-     *
      */
     protected $birthday;
 
@@ -132,7 +117,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=150, nullable=true, options={"comment" = "sexe"})
-     *
      */
     protected $sexe;
 
@@ -140,8 +124,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true, options={"comment" = "belle-mere, pere, mere"})
-     *
-     *
      */
     protected $conjoint;
 
@@ -149,7 +131,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $nom_conjoint;
 
@@ -157,7 +138,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $prenom_conjoint;
 
@@ -165,7 +145,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=150, nullable=true, options={"comment" = "tel"})
-     *
      */
     protected $telephone_conjoint;
 
@@ -173,7 +152,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=150, nullable=true, options={"comment" = "tel bureau"})
-     *
      */
     protected $telephone_bureau_conjoint;
 
@@ -181,7 +159,6 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=150, nullable=true, options={"comment" = "gsm"})
-     *
      */
     protected $gsm_conjoint;
 
@@ -189,27 +166,23 @@ class Tuteur implements UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=150, nullable=true, options={"comment" = "email"})
-     *
      */
     protected $email_conjoint;
 
     /**
      * @ORM\Column(type="boolean", nullable=true, options={"default" = 0})
-     *
      */
     protected $composition_menage = false;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="boolean", nullable=false, options={"default" = "0"})
-     *
      */
     protected $archive = false;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     *
      */
     protected $remarques;
 
@@ -233,7 +206,6 @@ class Tuteur implements UserPopulateInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="CaisseAllocation", inversedBy="tuteur")
-     *
      */
     protected $caisse_allocation;
 
@@ -244,7 +216,8 @@ class Tuteur implements UserPopulateInterface
     protected $enfants;
 
     /**
-     * Utilise lorsqu'on ajoute un tuteur avec la ref d'un enfant
+     * Utilise lorsqu'on ajoute un tuteur avec la ref d'un enfant.
+     *
      * @var Enfant
      */
     protected $enfant;
@@ -265,7 +238,6 @@ class Tuteur implements UserPopulateInterface
     /**
      * @ORM\OneToOne(targetEntity="AcMarche\Mercredi\Security\Entity\User", inversedBy="tuteur" )
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-     *
      */
     protected $user;
 
@@ -278,7 +250,7 @@ class Tuteur implements UserPopulateInterface
 
     public function __toString()
     {
-        return mb_strtoupper($this->getNom(), 'UTF-8')." ".$this->getPrenom();
+        return mb_strtoupper($this->getNom(), 'UTF-8').' '.$this->getPrenom();
     }
 
     public function getAdresseComplete()
@@ -296,6 +268,7 @@ class Tuteur implements UserPopulateInterface
 
     /**
      * @param Enfant $enfant
+     *
      * @return Tuteur
      */
     public function setEnfant($enfant)
@@ -307,7 +280,7 @@ class Tuteur implements UserPopulateInterface
 
     public function getPaimentsByYear($year)
     {
-        $paiements = array();
+        $paiements = [];
 
         foreach ($this->getPaiements() as $paiement) {
             $datePaiement = $paiement->getDatePaiement();
@@ -321,7 +294,7 @@ class Tuteur implements UserPopulateInterface
 
     public function getPaimentsNonCloture()
     {
-        $paiements = array();
+        $paiements = [];
 
         foreach ($this->getPaiements() as $paiement) {
             if (!$paiement->getCloture()) {
@@ -333,10 +306,12 @@ class Tuteur implements UserPopulateInterface
     }
 
     /**
-     * pour api
+     * pour api.
+     *
      * @param $id
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 

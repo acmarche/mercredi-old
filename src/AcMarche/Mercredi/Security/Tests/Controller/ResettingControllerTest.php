@@ -11,10 +11,10 @@ class ResettingControllerTest extends BaseUnit
         $crawler = $this->anonyme->request('GET', '/reset/password/request');
         $this->assertEquals(200, $this->anonyme->getResponse()->getStatusCode());
 
-        $form = $crawler->selectButton("Demander un nouveau mot de passe")->form(
-            array(
+        $form = $crawler->selectButton('Demander un nouveau mot de passe')->form(
+            [
                 'lost_password[email_request]' => 'carine@marche.be',
-            )
+            ]
         );
 
         $this->anonyme->submit($form);
@@ -30,11 +30,11 @@ class ResettingControllerTest extends BaseUnit
         $crawler = $this->anonyme->request('GET', '/reset/password/'.$token);
         $this->assertEquals(200, $this->anonyme->getResponse()->getStatusCode());
 
-        $form = $crawler->selectButton("Valider")->form(
-            array(
+        $form = $crawler->selectButton('Valider')->form(
+            [
                 'resetting_form[plainPassword][first]' => '123456789',
                 'resetting_form[plainPassword][second]' => '123456789',
-            )
+            ]
         );
 
         $this->anonyme->submit($form);
@@ -43,5 +43,4 @@ class ResettingControllerTest extends BaseUnit
         $this->assertEquals(200, $this->anonyme->getResponse()->getStatusCode());
         $this->assertTrue($crawler->filter('div:contains("Votre mot de passe a bien été changé")')->count() > 0);
     }
-
 }

@@ -4,13 +4,11 @@ namespace AcMarche\Mercredi\Admin\Controller;
 
 use AcMarche\Mercredi\Admin\Entity\Reduction;
 use AcMarche\Mercredi\Admin\Form\ReductionType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * Reduction controller.
@@ -24,7 +22,6 @@ class ReductionController extends AbstractController
      * Lists all Reduction entities.
      *
      * @Route("/", name="reduction", methods={"GET"})
-     *
      */
     public function index()
     {
@@ -34,9 +31,9 @@ class ReductionController extends AbstractController
 
         return $this->render(
             'admin/reduction/index.html.twig',
-            array(
+            [
                 'entities' => $entities,
-            )
+            ]
         );
     }
 
@@ -52,13 +49,13 @@ class ReductionController extends AbstractController
         $form = $this->createForm(
             ReductionType::class,
             $entity,
-            array(
+            [
                 'action' => $this->generateUrl('reduction_new'),
                 'method' => 'POST',
-            )
+            ]
         );
 
-        $form->add('submit', SubmitType::class, array('label' => 'Create'));
+        $form->add('submit', SubmitType::class, ['label' => 'Create']);
 
         return $form;
     }
@@ -68,7 +65,6 @@ class ReductionController extends AbstractController
      *
      * @Route("/new", name="reduction_new", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function new(Request $request)
     {
@@ -84,17 +80,17 @@ class ReductionController extends AbstractController
             $em->persist($entity);
             $em->flush();
 
-            $this->addFlash('success', "La réduction a bien été ajoutée");
+            $this->addFlash('success', 'La réduction a bien été ajoutée');
 
             return $this->redirectToRoute('reduction');
         }
 
         return $this->render(
             'admin/reduction/new.html.twig',
-            array(
+            [
                 'entity' => $entity,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -110,11 +106,11 @@ class ReductionController extends AbstractController
 
         return $this->render(
             'admin/reduction/show.html.twig',
-            array(
+            [
                 'entity' => $reduction,
                 'presences' => $presences,
                 'delete_form' => $deleteForm->createView(),
-            )
+            ]
         );
     }
 
@@ -128,9 +124,9 @@ class ReductionController extends AbstractController
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('reduction_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('reduction_delete', ['id' => $id]))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, array('label' => 'Delete', 'attr' => array('class' => 'btn-danger')))
+            ->add('submit', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
             ->getForm();
     }
 
@@ -139,7 +135,6 @@ class ReductionController extends AbstractController
      *
      * @Route("/{id}/edit", name="reduction_edit", methods={"GET","PUT"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function edit(Request $request, Reduction $reduction)
     {
@@ -152,17 +147,17 @@ class ReductionController extends AbstractController
         if ($editForm->isSubmitted()) {
             $em->flush();
 
-            $this->addFlash('success', "La réduction a bien été mis à jour");
+            $this->addFlash('success', 'La réduction a bien été mis à jour');
 
             return $this->redirectToRoute('reduction');
         }
 
         return $this->render(
             'admin/reduction/edit.html.twig',
-            array(
+            [
                 'entity' => $reduction,
                 'edit_form' => $editForm->createView(),
-            )
+            ]
         );
     }
 
@@ -178,13 +173,13 @@ class ReductionController extends AbstractController
         $form = $this->createForm(
             ReductionType::class,
             $entity,
-            array(
-                'action' => $this->generateUrl('reduction_edit', array('id' => $entity->getId())),
+            [
+                'action' => $this->generateUrl('reduction_edit', ['id' => $entity->getId()]),
                 'method' => 'PUT',
-            )
+            ]
         );
 
-        $form->add('submit', SubmitType::class, array('label' => 'Update'));
+        $form->add('submit', SubmitType::class, ['label' => 'Update']);
 
         return $form;
     }
@@ -206,7 +201,7 @@ class ReductionController extends AbstractController
             $em->remove($reduction);
             $em->flush();
 
-            $this->addFlash('success', "La réduction a bien été supprimée");
+            $this->addFlash('success', 'La réduction a bien été supprimée');
         }
 
         return $this->redirectToRoute('reduction');

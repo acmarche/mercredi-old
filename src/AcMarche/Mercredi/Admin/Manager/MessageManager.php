@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 26/09/18
- * Time: 16:25
+ * Time: 16:25.
  */
 
 namespace AcMarche\Mercredi\Admin\Manager;
@@ -12,8 +12,6 @@ use AcMarche\Mercredi\Admin\Entity\Message;
 use AcMarche\Mercredi\Admin\Repository\MessageRepository;
 use AcMarche\Mercredi\Admin\Service\MailerService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MessageManager
 {
@@ -68,7 +66,8 @@ class MessageManager
     /**
      * @return Message[]|null
      */
-    public function getAll() {
+    public function getAll()
+    {
         return $this->messageRepository->findAll();
     }
 }

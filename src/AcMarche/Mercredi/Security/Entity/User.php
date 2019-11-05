@@ -29,6 +29,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     *
      * @var string
      */
     protected $username;
@@ -36,18 +37,21 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\Email()
+     *
      * @var string
      */
     protected $email;
 
     /**
      * @ORM\Column(type="boolean")
-     * @var boolean
+     *
+     * @var bool
      */
     protected $enabled;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     *
      * @var string
      */
     protected $salt;
@@ -64,28 +68,34 @@ class User implements UserInterface
      * @Assert\Length(
      *      min = 6
      *     )
+     *
      * @var string
      */
     protected $password;
 
     /**
      * Plain password. Used for model validation. Must not be persisted.
+     *
      * @Assert\Length(
      *      min = 6
      *     )
+     *
      * @var string|null
      */
     protected $plainPassword;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
      * @var \DateTime|null
      */
     protected $lastLogin;
 
     /**
      * Random string sent to the user email address in order to verify it.
+     *
      * @ORM\Column(name="confirmation_token",type="string", length=180, unique=true, nullable=true)
+     *
      * @var string|null
      */
     protected $confirmationToken;
@@ -98,6 +108,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="array")
+     *
      * @var array
      */
     protected $roles;
@@ -105,7 +116,6 @@ class User implements UserInterface
     /**
      * @ORM\ManyToMany(targetEntity="AcMarche\Mercredi\Security\Entity\Group", inversedBy="users")
      * @ORM\JoinTable(name="fos_user_group")
-     *
      */
     protected $groups;
 
@@ -115,6 +125,7 @@ class User implements UserInterface
      * @Assert\Length(
      *     min=3
      * )
+     *
      * @var string|null
      */
     private $nom;
@@ -124,6 +135,7 @@ class User implements UserInterface
      * @Assert\Length(
      *     min=3
      * )
+     *
      * @var string|null
      */
     private $prenom;
@@ -132,7 +144,6 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $adresse;
 
@@ -140,7 +151,6 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(type="integer", length=6, nullable=true)
-     *
      */
     protected $code_postal;
 
@@ -148,7 +158,6 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $localite;
 
@@ -156,7 +165,6 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(type="string", length=150, nullable=true, options={"comment" = "tel"})
-     *
      */
     protected $telephone;
 
@@ -183,31 +191,35 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity="AcMarche\Mercredi\Admin\Entity\Tuteur", mappedBy="user", cascade={"persist"})
-     * @var Tuteur|null $tuteur
+     *
+     * @var Tuteur|null
      */
     protected $tuteur;
 
     /**
      * @ORM\OneToOne(targetEntity="AcMarche\Mercredi\Admin\Entity\Animateur", mappedBy="user", cascade={"persist"})
-     * @var Animateur|null $animateur
+     *
+     * @var Animateur|null
      */
     protected $animateur;
 
     /**
      * @ORM\ManyToMany(targetEntity="AcMarche\Mercredi\Admin\Entity\Ecole", inversedBy="users")
-     *
      */
     protected $ecoles;
 
     /**
-     * Parent ou ecole
+     * Parent ou ecole.
+     *
      * @var string|null
      */
     private $type;
 
     /**
-     * Pour rappel mot de passe, probleme email deja utilise
+     * Pour rappel mot de passe, probleme email deja utilise.
+     *
      * @Assert\Email()
+     *
      * @var string|null
      */
     private $email_request;
@@ -215,7 +227,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->enabled = true;
-        $this->roles = array();
+        $this->roles = [];
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
         $this->accord_date = new \DateTime();
         $this->ecoles = new ArrayCollection();
@@ -226,7 +238,7 @@ class User implements UserInterface
      */
     public function __toString()
     {
-        return (string)mb_strtoupper($this->nom, 'UTF-8')." ".$this->prenom;
+        return (string) mb_strtoupper($this->nom, 'UTF-8').' '.$this->prenom;
     }
 
     public function isParent()
@@ -296,33 +308,21 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
-    /**
-     * @return string|null
-     */
     public function getType(): ?string
     {
         return $this->type;
     }
 
-    /**
-     * @param string|null $type
-     */
     public function setType(?string $type): void
     {
         $this->type = $type;
     }
 
-    /**
-     * @return string|null
-     */
     public function getEmailRequest(): ?string
     {
         return $this->email_request;
     }
 
-    /**
-     * @param string|null $email_request
-     */
     public function setEmailRequest(?string $email_request): void
     {
         $this->email_request = $email_request;
@@ -391,17 +391,16 @@ class User implements UserInterface
     }
 
     /**
-     * Ajout de if ($tuteur !== null) {
-     * @param Tuteur|null $tuteur
+     * Ajout de if ($tuteur !== null) {.
+     *
      * @return User
      */
     public function setTuteur(?Tuteur $tuteur): self
     {
         $this->tuteur = $tuteur;
-        if ($tuteur !== null) {
-
+        if (null !== $tuteur) {
             // set (or unset) the owning side of the relation if necessary
-            $newUser = $tuteur === null ? null : $this;
+            $newUser = null === $tuteur ? null : $this;
             if ($newUser !== $tuteur->getUser()) {
                 $tuteur->setUser($newUser);
             }
@@ -413,9 +412,9 @@ class User implements UserInterface
     public function setAnimateur(?Animateur $animateur): self
     {
         $this->animateur = $animateur;
-        if ($animateur != null) {
+        if (null != $animateur) {
             // set (or unset) the owning side of the relation if necessary
-            $newUser = $animateur === null ? null : $this;
+            $newUser = null === $animateur ? null : $this;
             if ($newUser !== $animateur->getUser()) {
                 $animateur->setUser($newUser);
             }
@@ -698,5 +697,4 @@ class User implements UserInterface
 
         return $this;
     }
-
 }

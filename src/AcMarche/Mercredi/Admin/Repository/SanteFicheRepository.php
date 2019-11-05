@@ -7,10 +7,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method SanteFiche|null find($id, $lockMode = null, $lockVersion = null)
- * @method SanteFiche|null findOneBy(array $criteria, array $orderBy = null)
+ * @method SanteFiche|null   find($id, $lockMode = null, $lockVersion = null)
+ * @method SanteFiche|null   findOneBy(array $criteria, array $orderBy = null)
  * @method SanteFiche[]|null findAll()
- * @method SanteFiche[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method SanteFiche[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class SanteFicheRepository extends ServiceEntityRepository
 {
@@ -40,10 +40,9 @@ class SanteFicheRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('sante_fiche');
 
-        $qb->andWhere("sante_fiche.enfant IN (:enfants)")
+        $qb->andWhere('sante_fiche.enfant IN (:enfants)')
             ->setParameter('enfants', $enfants);
 
         return $qb->getQuery()->getResult();
     }
-
 }

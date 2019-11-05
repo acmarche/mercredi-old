@@ -105,7 +105,6 @@ class MercrediAuthenticator extends AbstractFormLoginAuthenticator
     public function checkCredentials($credentials, UserInterface $user)
     {
         try {
-
             $entry = $this->ldapEmploye->getEntry($user->getUsername());
 
             if ($entry instanceof Entry) {
@@ -115,7 +114,6 @@ class MercrediAuthenticator extends AbstractFormLoginAuthenticator
 
                 return true;
             }
-
         } catch (\Exception $exception) {
             //throw new BadCredentialsException($exception->getMessage());
         }

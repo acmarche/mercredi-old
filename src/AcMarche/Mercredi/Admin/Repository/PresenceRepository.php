@@ -11,10 +11,10 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 
 /**
- * @method Presence|null find($id, $lockMode = null, $lockVersion = null)
- * @method Presence|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Presence|null   find($id, $lockMode = null, $lockVersion = null)
+ * @method Presence|null   findOneBy(array $criteria, array $orderBy = null)
  * @method Presence[]|null findAll()
- * @method Presence[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Presence[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PresenceRepository extends ServiceEntityRepository
 {
@@ -35,10 +35,11 @@ class PresenceRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retour les presences d'un enfant suivant son tuteur
-     * @param EnfantTuteur $enfant_tuteur
+     * Retour les presences d'un enfant suivant son tuteur.
+     *
      * @param null $date
      * @param bool $onlyPaye
+     *
      * @return Presence|Presence[]
      */
     public function getByEnfantTuteur(EnfantTuteur $enfant_tuteur, $date = null, $onlyPaye = false)
@@ -46,7 +47,7 @@ class PresenceRepository extends ServiceEntityRepository
         $enfant_id = $enfant_tuteur->getEnfant()->getId();
         $tuteur_id = $enfant_tuteur->getTuteur()->getId();
 
-        $args = array('enfant_id' => $enfant_id, 'tuteur_id' => $tuteur_id);
+        $args = ['enfant_id' => $enfant_id, 'tuteur_id' => $tuteur_id];
 
         if ($date) {
             $args['date'] = $date;
@@ -65,9 +66,8 @@ class PresenceRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Enfant $enfant
      * @param iterable|Tuteur[] $tuteurs
-     * @param \DateTime $depuisLe
+     *
      * @return mixed
      */
     public function getByTuteurs(Enfant $enfant, iterable $tuteurs, \DateTime $depuisLe)
@@ -101,10 +101,12 @@ class PresenceRepository extends ServiceEntityRepository
 
     /**
      * @param array $args
+     *
      * @return Presence[]|Presence
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function search($args = array())
+    public function search($args = [])
     {
         $enfant_id = isset($args['enfant_id']) ? $args['enfant_id'] : null;
         $tuteur_id = isset($args['tuteur_id']) ? $args['tuteur_id'] : null;
@@ -170,7 +172,7 @@ class PresenceRepository extends ServiceEntityRepository
 
         if (is_array($enfantIn)) {
             $qb->andwhere('p.enfant IN :enfant')
-                ->setParameter('enfant', "(".join(",", $enfantIn).")");
+                ->setParameter('enfant', '('.join(',', $enfantIn).')');
         }
 
         if ($tuteur) {
@@ -202,7 +204,7 @@ class PresenceRepository extends ServiceEntityRepository
             $qb->andwhere('p.paiement IS NULL');
         }
 
-        if ($ordre == 'enfant') {
+        if ('enfant' == $ordre) {
             $qb->orderBy('e.nom');
         } else {
             $qb->orderBy('j.date_jour', 'DESC');
@@ -221,9 +223,10 @@ class PresenceRepository extends ServiceEntityRepository
     }
 
     /**
-     * Pour une presence je vais voir si fratrie la
-     * @param Presence $presence
+     * Pour une presence je vais voir si fratrie la.
+     *
      * @param iterable|Enfant[] $fratries
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function setFratriesByPresence(Presence $presence, iterable $fratries)
@@ -235,7 +238,7 @@ class PresenceRepository extends ServiceEntityRepository
         $tuteur_id = $tuteur->getId();
 
         foreach ($fratries as $fratrie) {
-            $args = array('jour_id' => $jour_id, 'enfant_id' => $fratrie->getId(), 'tuteur_id' => $tuteur_id);
+            $args = ['jour_id' => $jour_id, 'enfant_id' => $fratrie->getId(), 'tuteur_id' => $tuteur_id];
             $presences_fratries = $this->search($args);
 
             if (count($presences_fratries) > 0) {
@@ -250,7 +253,9 @@ class PresenceRepository extends ServiceEntityRepository
     /**
      * Retourne les presences non payes et
      * qui ne sont pas a payer (gratuite) !
+     *
      * @param $args
+     *
      * @return Presence[]|\Doctrine\ORM\QueryBuilder
      */
     public function getPresencesNonPayes($args)
@@ -281,12 +286,12 @@ class PresenceRepository extends ServiceEntityRepository
                 ->setParameter('tuteur', $tuteur_id);
         }
 
-        $qb->andwhere("r.pourcentage IS NULL OR r.pourcentage != :pourcent")
+        $qb->andwhere('r.pourcentage IS NULL OR r.pourcentage != :pourcent')
             ->setParameter('pourcent', 100);
 
         $qb->andWhere('p.absent != 1'); //absent avec certificat
 
-        /**
+        /*
          * je desire avoir aussi celles qui sont payes
          * (utilise pour modifier les presences sur un paiement
          */
@@ -345,7 +350,7 @@ class PresenceRepository extends ServiceEntityRepository
                 ->setParameter('tuteur', $tuteur);
         }
 
-        $qb->andwhere("reduction.pourcentage IS NULL OR reduction.pourcentage != :pourcent")
+        $qb->andwhere('reduction.pourcentage IS NULL OR reduction.pourcentage != :pourcent')
             ->setParameter('pourcent', 100);
 
         $qb->andWhere('presence.absent != 1'); //absent avec certificat
@@ -355,7 +360,6 @@ class PresenceRepository extends ServiceEntityRepository
         $qb->addOrderBy('jour.date_jour');
 
         return $query = $qb->getQuery()->getResult();
-
     }
 
     public function searchForEcole(iterable $args)
@@ -392,7 +396,5 @@ class PresenceRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
 
         return $query->getResult();
-
     }
-
 }

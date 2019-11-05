@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 17/01/19
- * Time: 10:38
+ * Time: 10:38.
  */
 
 namespace AcMarche\Mercredi\Api\Controller;
@@ -17,8 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * Class DefaultController
- * @package AcMarche\Mercredi\Api\Controller
+ * Class DefaultController.
+ *
  * @Route("/logapi")
  */
 class LoginApiController extends AbstractController
@@ -47,9 +47,7 @@ class LoginApiController extends AbstractController
     }
 
     /**
-     *
      * @Route("/", methods={"POST"})
-     *
      */
     public function login(Request $request)
     {
@@ -57,7 +55,6 @@ class LoginApiController extends AbstractController
         $username = $request->request->get('username');
         $password = $request->request->get('password');
         if (!$username || !$password) {
-
             $error['message'] = 'Champs non remplis';
 
             return new JsonResponse($error, 401);
@@ -66,7 +63,6 @@ class LoginApiController extends AbstractController
         $user = $this->userRepository->findOneBy(['username' => $username]);
         if ($user) {
             if ($this->userPasswordEncoder->isPasswordValid($user, $password)) {
-
                 $user = $this->serializer->serializeUser($user);
                 $this->userRepository->save();
 
@@ -76,12 +72,9 @@ class LoginApiController extends AbstractController
             $error['message'] = 'Mauvais mot de passe';
 
             return new JsonResponse($error, 401);
-
         }
         $error['message'] = 'Utilisateur non trouvé';
 
         return new JsonResponse($error, 401);
     }
-
-
 }

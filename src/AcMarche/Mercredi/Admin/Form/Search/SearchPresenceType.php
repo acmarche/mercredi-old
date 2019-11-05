@@ -22,17 +22,12 @@ class SearchPresenceType extends AbstractType
      */
     private $jourService;
 
-
     public function __construct(EcoleRepository $ecoleRepository, JourService $jourService)
     {
         $this->ecoleRepository = $ecoleRepository;
         $this->jourService = $jourService;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $jours = array_flip($this->jourService->getAllDaysGardesAndPlaines());
@@ -42,7 +37,7 @@ class SearchPresenceType extends AbstractType
             ->add(
                 'jour',
                 ChoiceType::class,
-                array(
+                [
                     'choices' => $jours,
                     'placeholder' => 'Choisissez une date',
                     'group_by' => function ($choiceValue, $key, $value) {
@@ -51,33 +46,32 @@ class SearchPresenceType extends AbstractType
 
                         return $dateTime->format('Y');
                     },
-                )
+                ]
             )
             ->add(
                 'ecole',
                 ChoiceType::class,
-                array(
+                [
                     'required' => false,
                     'placeholder' => 'Choisissez une école',
-                    'attr' => array('class' => 'sr-only'),
+                    'attr' => ['class' => 'sr-only'],
                     'choices' => $ecoles,
-                )
+                ]
             )
             ->add(
                 'remarques',
                 CheckboxType::class,
-                array(
+                [
                     'label' => 'Afficher les remarques',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'submit',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'Rechercher',
-                )
+                ]
             );
     }
-
 }

@@ -5,42 +5,36 @@ namespace AcMarche\Mercredi\Admin\Entity\Sante;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *
  * @ORM\Table("sante_reponse")
  * @ORM\Entity()
- *
  */
 class SanteReponse
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
      */
     protected $id;
 
     /**
-     * @var SanteQuestion $question
+     * @var SanteQuestion
      * @ORM\ManyToOne(targetEntity="AcMarche\Mercredi\Admin\Entity\Sante\SanteQuestion" )
-     *
      */
     protected $question;
 
     /**
-     * @var SanteFiche $sante_fiche
+     * @var SanteFiche
      * @ORM\ManyToOne(targetEntity="AcMarche\Mercredi\Admin\Entity\Sante\SanteFiche", inversedBy="reponses", cascade={"remove"})
-     *
      */
     protected $sante_fiche;
 
     /**
-     * @var boolean|null
+     * @var bool|null
      *
      * @ORM\Column(type="boolean", nullable=true)
-     *
      */
     protected $reponse;
 
@@ -48,7 +42,6 @@ class SanteReponse
      * @var string|null
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      */
     protected $remarque;
 
@@ -104,5 +97,4 @@ class SanteReponse
 
         return $this;
     }
-
 }

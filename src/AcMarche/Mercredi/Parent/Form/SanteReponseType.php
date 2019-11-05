@@ -11,10 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SanteReponseType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choices = array_flip(['Non', 'Oui']);
@@ -40,15 +36,12 @@ class SanteReponseType extends AbstractType
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => SanteQuestion::class,
-            )
+            ]
         );
     }
 }

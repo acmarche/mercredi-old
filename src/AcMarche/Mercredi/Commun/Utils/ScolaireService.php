@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 16/08/18
- * Time: 17:23
+ * Time: 17:23.
  */
 
 namespace AcMarche\Mercredi\Commun\Utils;
@@ -27,7 +27,7 @@ class ScolaireService
 
     public static function getAnneesScolaires()
     {
-        $annees = ["PM", "1M", "2M", "3M", "1P", "2P", "3P", "4P", "5P", "6P"];
+        $annees = ['PM', '1M', '2M', '3M', '1P', '2P', '3P', '4P', '5P', '6P'];
 
         return array_combine($annees, $annees);
     }
@@ -36,11 +36,11 @@ class ScolaireService
     {
         $annee_scolaire = $enfant->getAnneeScolaire();
 
-        if (in_array($annee_scolaire, array("PM", "1M", "2M"))) {
+        if (in_array($annee_scolaire, ['PM', '1M', '2M'])) {
             return 'petits';
         }
 
-        if (in_array($annee_scolaire, array("3M", "1P", "2P"))) {
+        if (in_array($annee_scolaire, ['3M', '1P', '2P'])) {
             return 'moyens';
         }
 
@@ -49,7 +49,7 @@ class ScolaireService
 
     public static function getGroupesScolaires()
     {
-        $groupes = array('premats', 'petits', 'moyens', 'grands');
+        $groupes = ['premats', 'petits', 'moyens', 'grands'];
 
         return array_combine($groupes, $groupes);
     }
@@ -61,10 +61,10 @@ class ScolaireService
      */
     public function groupPresences($presences, string $type)
     {
-        $petits = $moyens = $grands = array();
+        $petits = $moyens = $grands = [];
 
         foreach ($presences as $presence) {
-            if ($type == 'plaine') {
+            if ('plaine' == $type) {
                 $plaine_enfant = $presence->getPlaineEnfant();
                 $enfant = $plaine_enfant->getEnfant();
             } else {
@@ -105,6 +105,4 @@ class ScolaireService
 
         return ['petits' => $petits, 'moyens' => $moyens, 'grands' => $grands];
     }
-
-
 }

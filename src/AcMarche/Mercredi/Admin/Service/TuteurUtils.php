@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 17/08/18
- * Time: 10:25
+ * Time: 10:25.
  */
 
 namespace AcMarche\Mercredi\Admin\Service;
@@ -26,7 +26,6 @@ class TuteurUtils
     }
 
     /**
-     * @param User $user
      * @return Tuteur|null
      */
     public static function getTuteurByUser(User $user)
@@ -36,7 +35,7 @@ class TuteurUtils
 
     public static function hasEnfants(Tuteur $tuteur)
     {
-        $enfants = array();
+        $enfants = [];
         $tuteur_enfants = $tuteur->getEnfants();
         foreach ($tuteur_enfants as $tuteur_enfant) {
             $enfant = $tuteur_enfant->getEnfant();
@@ -67,10 +66,6 @@ class TuteurUtils
         return $telephones;
     }
 
-    /**
-     * @param Tuteur $tuteur
-     * @return bool
-     */
     public static function hasTelephone(Tuteur $tuteur): bool
     {
         if ($tuteur->getGsm()) {
@@ -102,7 +97,7 @@ class TuteurUtils
 
     public static function coordonneesIsComplete(Tuteur $tuteur)
     {
-        if (self::hasTelephone($tuteur) === false) {
+        if (false === self::hasTelephone($tuteur)) {
             return false;
         }
 
@@ -130,8 +125,10 @@ class TuteurUtils
     }
 
     /**
-     * Retourne un tableau de string contentant les emails
+     * Retourne un tableau de string contentant les emails.
+     *
      * @param Tuteur[]|ArrayCollection $tuteurs
+     *
      * @return array
      */
     public function getEmails($tuteurs)
@@ -147,8 +144,10 @@ class TuteurUtils
     }
 
     /**
-     * Retourne la liste des tuteurs qui n'ont pas d'emails
+     * Retourne la liste des tuteurs qui n'ont pas d'emails.
+     *
      * @param Tuteur[]|ArrayCollection $tuteurs
+     *
      * @return Tuteur[]
      */
     public function filterTuteursWithOutEmails($tuteurs)
@@ -156,7 +155,7 @@ class TuteurUtils
         $data = [];
         foreach ($tuteurs as $tuteur) {
             if ($this->tuteurIsActif($tuteur)) {
-                if (count($this->getEmailsOfOneTuteur($tuteur)) == 0) {
+                if (0 == count($this->getEmailsOfOneTuteur($tuteur))) {
                     $data[] = $tuteur;
                 }
             }
@@ -171,7 +170,6 @@ class TuteurUtils
     }
 
     /**
-     * @param Tuteur $tuteur
      * @return array
      */
     public function getEmailsOfOneTuteur(Tuteur $tuteur)

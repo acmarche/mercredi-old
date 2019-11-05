@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 18/01/19
- * Time: 18:04
+ * Time: 18:04.
  */
 
 namespace AcMarche\Mercredi\Security\Authenticator;
-
 
 use AcMarche\Mercredi\Security\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -48,7 +47,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      *
      *     return new Response('Auth header required', 401);
      *
-     * @param Request $request The request that resulted in an AuthenticationException
+     * @param Request                 $request       The request that resulted in an AuthenticationException
      * @param AuthenticationException $authException The exception that started the authentication process
      *
      * @return Response
@@ -67,8 +66,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      * Does the authenticator support the given Request?
      *
      * If this returns false, the authenticator will be skipped.
-     *
-     * @param Request $request
      *
      * @return bool
      */
@@ -94,8 +91,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      *
      *      return array('api_key' => $request->headers->get('X-API-TOKEN'));
      *
-     * @param Request $request
-     *
      * @return mixed Any non-null value
      *
      * @throws \UnexpectedValueException If null is returned
@@ -116,7 +111,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      * null, then a UsernameNotFoundException is thrown for you.
      *
      * @param mixed $credentials
-     * @param UserProviderInterface $userProvider
      *
      * @throws AuthenticationException
      *
@@ -145,7 +139,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      * The *credentials* are the return value from getCredentials()
      *
      * @param mixed $credentials
-     * @param UserInterface $user
      *
      * @return bool
      *
@@ -169,15 +162,12 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      * If you return null, the request will continue, but the user will
      * not be authenticated. This is probably not what you want to do.
      *
-     * @param Request $request
-     * @param AuthenticationException $exception
-     *
      * @return Response|null
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $data = [
-            'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
+            'message' => strtr($exception->getMessageKey(), $exception->getMessageData()),
 
             // or to translate this message
             // $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
@@ -195,8 +185,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      * If you return null, the current request will continue, and the user
      * will be authenticated. This makes sense, for example, with an API.
      *
-     * @param Request $request
-     * @param TokenInterface $token
      * @param string $providerKey The provider (i.e. firewall) key
      *
      * @return Response|null

@@ -3,38 +3,34 @@
 namespace AcMarche\Mercredi\Admin\Entity\Sante;
 
 use AcMarche\Mercredi\Admin\Entity\Enfant;
+use AcMarche\Mercredi\Parent\Validator\Constraints as AcMarcheAssert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use AcMarche\Mercredi\Parent\Validator\Constraints as AcMarcheAssert;
 
 /**
- *
  * @ORM\Table("sante_fiche")
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Admin\Repository\SanteFicheRepository")
- 
  */
 class SanteFiche
 {
     use TimestampableEntity;
 
     /**
-     * @var integer|null
+     * @var int|null
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * 
      */
     protected $id;
 
     /**
      * @ORM\Column(type="text", nullable=false)
      * @Assert\NotBlank()
-     *
      */
     protected $personne_urgence;
 
@@ -43,7 +39,6 @@ class SanteFiche
      *
      * @ORM\Column(type="string", length=200, nullable=false)
      * @Assert\NotBlank()
-     *
      */
     protected $medecin_nom;
 
@@ -52,7 +47,6 @@ class SanteFiche
      *
      * @ORM\Column(type="string", length=200, nullable=false)
      * @Assert\NotBlank()
-     *
      */
     protected $medecin_telephone;
 
@@ -64,23 +58,20 @@ class SanteFiche
     protected $remarques;
 
     /**
-     * @var Enfant $enfant
+     * @var Enfant
      * @ORM\OneToOne(targetEntity="AcMarche\Mercredi\Admin\Entity\Enfant", inversedBy="sante_fiche")
-     * 
      */
     protected $enfant;
 
     /**
      * @var SanteReponse[]
      * @ORM\OneToMany(targetEntity="AcMarche\Mercredi\Admin\Entity\Sante\SanteReponse", mappedBy="sante_fiche", cascade={"remove"})
-     *
      */
     protected $reponses;
 
     /**
      * @var SanteQuestion[]|ArrayCollection
      * @AcMarcheAssert\QuestionIsComplete()
-     *
      */
     protected $questions;
 
@@ -92,7 +83,7 @@ class SanteFiche
 
     public function __toString()
     {
-        return "Fiche ".$this->id;
+        return 'Fiche '.$this->id;
     }
 
     public function getId(): ?int
@@ -237,5 +228,4 @@ class SanteFiche
 
         return $this;
     }
-
 }

@@ -16,6 +16,4 @@ class PresenceControllerTest extends BaseUnit
 
         $this->assertGreaterThan(0, $crawler->filter('td:contains("Zora")')->count());
     }
-
-
 }

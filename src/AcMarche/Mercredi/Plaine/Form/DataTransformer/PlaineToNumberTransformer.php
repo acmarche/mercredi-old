@@ -2,8 +2,8 @@
 
 namespace AcMarche\Mercredi\Plaine\Form\DataTransformer;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use AcMarche\Mercredi\Plaine\Entity\Plaine;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
@@ -14,9 +14,6 @@ class PlaineToNumberTransformer implements DataTransformerInterface
      */
     private $om;
 
-    /**
-     * @param ObjectManager $om
-     */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;
@@ -25,13 +22,14 @@ class PlaineToNumberTransformer implements DataTransformerInterface
     /**
      * Transforms an object (plaine) to a string (number).
      *
-     * @param  Plaine|null $plaine
+     * @param Plaine|null $plaine
+     *
      * @return string
      */
     public function transform($plaine)
     {
         if (null === $plaine) {
-            return "";
+            return '';
         }
 
         return $plaine->getId();
@@ -40,11 +38,11 @@ class PlaineToNumberTransformer implements DataTransformerInterface
     /**
      * Transforms a string (number) to an object (plaine).
      *
-     * @param  string $number
+     * @param string $number
      *
      * @return Plaine|null
      *
-     * @throws TransformationFailedException if object (plaine) is not found.
+     * @throws TransformationFailedException if object (plaine) is not found
      */
     public function reverseTransform($number)
     {
@@ -57,10 +55,7 @@ class PlaineToNumberTransformer implements DataTransformerInterface
             ->find($number);
 
         if (null === $plaine) {
-            throw new TransformationFailedException(sprintf(
-                'An plaine with number "%s" does not exist!',
-                $number
-            ));
+            throw new TransformationFailedException(sprintf('An plaine with number "%s" does not exist!', $number));
         }
 
         return $plaine;

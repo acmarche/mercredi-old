@@ -8,10 +8,13 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 class CheckAttachmentCommand extends Command
 {
+    /**
+     * @var Environment
+     */
     private $template;
     private $mailer;
     /**
@@ -27,7 +30,7 @@ class CheckAttachmentCommand extends Command
         EnfantRepository $enfantRepository,
         \Swift_Mailer $mailer,
         ParameterBagInterface $parameterBag,
-        EngineInterface $template
+        Environment $template
     ) {
         parent::__construct();
         $this->mailer = $mailer;
@@ -35,7 +38,6 @@ class CheckAttachmentCommand extends Command
         $this->enfantRepository = $enfantRepository;
         $this->parameterBag = $parameterBag;
     }
-
 
     protected function configure()
     {
@@ -50,24 +52,24 @@ class CheckAttachmentCommand extends Command
         $directoryInscription = $this->parameterBag->get('enfant_inscription');
 
         $enfants = $this->enfantRepository->findAll();
-        $lost = array();
+        $lost = [];
         foreach ($enfants as $enfant) {
             if ($enfant->getFicheName()) {
-                $fileSante = $directorySante."/".$enfant->getId()."/".$enfant->getFicheName();
+                $fileSante = $directorySante.'/'.$enfant->getId().'/'.$enfant->getFicheName();
 
                 if (!is_readable($fileSante)) {
-                    $lost[] = $fileSante." id: => ".$enfant->getId();
-                    $this->sendMail("pas de fichier sante", $enfant);
+                    $lost[] = $fileSante.' id: => '.$enfant->getId();
+                    $this->sendMail('pas de fichier sante', $enfant);
                 }
             }
 
             if ($enfant->getFileName()) {
-                $fileInsc = $directoryInscription."/".$enfant->getId()."/".$enfant->getFileName();
+                $fileInsc = $directoryInscription.'/'.$enfant->getId().'/'.$enfant->getFileName();
 
                 if (!is_readable($fileInsc)) {
                     $lost[] = $fileInsc;
 
-                    $this->sendMail("pas de fichier inscription", $enfant);
+                    $this->sendMail('pas de fichier inscription', $enfant);
                 }
             }
         }
@@ -75,15 +77,15 @@ class CheckAttachmentCommand extends Command
 
     private function sendMail($sujet, Enfant $enfant)
     {
-        $message = (new \Swift_Message("Admin pas ".$sujet))
-            ->setFrom("jf@marche.be")
-            ->setTo("webmaster@marche.be")
+        $message = (new \Swift_Message('Admin pas '.$sujet))
+            ->setFrom('jf@marche.be')
+            ->setTo('webmaster@marche.be')
             ->setBody(
                 $this->template->render(
                     'admin/default/mail.check.text.twig',
-                    array(
+                    [
                         'enfant' => $enfant,
-                    )
+                    ]
                 )
             );
         $this->mailer->send($message);

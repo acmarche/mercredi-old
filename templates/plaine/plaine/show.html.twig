@@ -49,6 +49,12 @@
                             <li class="list-group-item">{{ groupe }} : {{ key|length }}</li>
                         {% endfor %}
                     </ul>
+                    <span class="text-muted">Simulation suivant l'âge: </span>
+                     <ul class="list-inline">
+                        {% for groupe, key in groupes2 %}
+                            <li class="list-group-item text-muted">{{ groupe }} : {{ key|length }}</li>
+                        {% endfor %}
+                    </ul>
                 </td>
                 <td>
                     <h4 class="text-success">Maximum par groupe</h4>

@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 7/11/18
- * Time: 16:35
+ * Time: 16:35.
  */
 
 namespace AcMarche\Mercredi\Admin\Service;
-
 
 use AcMarche\Mercredi\Admin\Entity\Animateur;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -34,23 +33,23 @@ class AnimateurFileHelper
 
     public function traitementFiles(Animateur $animateur)
     {
-        if ($cvName = $this->traitementFile($animateur->getFile(), $animateur, "cv")) {
+        if ($cvName = $this->traitementFile($animateur->getFile(), $animateur, 'cv')) {
             $animateur->setFileName($cvName);
         }
 
-        if ($diplomeName = $this->traitementFile($animateur->getDiplomeFile(), $animateur, "diplome")) {
+        if ($diplomeName = $this->traitementFile($animateur->getDiplomeFile(), $animateur, 'diplome')) {
             $animateur->setDiplomeName($diplomeName);
         }
 
-        if ($certificatName = $this->traitementFile($animateur->getCertificat(), $animateur, "certificat")) {
+        if ($certificatName = $this->traitementFile($animateur->getCertificat(), $animateur, 'certificat')) {
             $animateur->setCertificatName($certificatName);
         }
 
-        if ($casierName = $this->traitementFile($animateur->getCasier(), $animateur, "casier")) {
+        if ($casierName = $this->traitementFile($animateur->getCasier(), $animateur, 'casier')) {
             $animateur->setCasierName($casierName);
         }
 
-        if ($photoName = $this->traitementFile($animateur->getImage(), $animateur, "photo")) {
+        if ($photoName = $this->traitementFile($animateur->getImage(), $animateur, 'photo')) {
             $animateur->setImageName($photoName);
         }
     }
@@ -91,7 +90,7 @@ class AnimateurFileHelper
                 $directory = $this->parameterBag->get('animateur_photo');
                 break;
             default:
-                $directory = "lost-animateur".DIRECTORY_SEPARATOR.$id;
+                $directory = 'lost-animateur'.DIRECTORY_SEPARATOR.$id;
                 break;
         }
 

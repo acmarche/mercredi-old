@@ -3,15 +3,15 @@
 namespace AcMarche\Mercredi\Plaine\Controller;
 
 use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
+use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use AcMarche\Mercredi\Plaine\Entity\Plaine;
 
 /**
  * Plaine controller.
@@ -38,8 +38,8 @@ class ExportController extends AbstractController
 
     /**
      * Lists all Employe entities.
-     * @Route("/pdf/{slugname}", name="plaine_pdf", methods={"GET"})
      *
+     * @Route("/pdf/{slugname}", name="plaine_pdf", methods={"GET"})
      */
     public function pdf(Plaine $plaine)
     {
@@ -49,32 +49,33 @@ class ExportController extends AbstractController
         $dates = $plaine->getJours();
         $premat = $plaine->isPremat();
         $annee_premat = '';
-        $filter_petit = array("PM", "1M", "2M");
+        $filter_petit = ['PM', '1M', '2M'];
         //si on separe les premats le filtre petit change
         if ($premat) {
-            $filter_petit = array("1M", "2M");
+            $filter_petit = ['1M', '2M'];
             //je prend le premier jour des dates pour obtenir l'annee de la plaine
             $plaine_jour = $dates[0];
             //get datetime object
             $jour = $plaine_jour->getDateJour();
             /**
-             * je clone sinon modifie objet original
-             * @var \DateTime $jour_copy
+             * je clone sinon modifie objet original.
+             *
+             * @var \DateTime
              */
             $jour_copy = clone $jour;
             //je retire 3 ans
-            $annee_plaine = $jour_copy->modify("-3 Year");
-            $annee_premat = $annee_plaine->format("Y");
+            $annee_plaine = $jour_copy->modify('-3 Year');
+            $annee_premat = $annee_plaine->format('Y');
         }
 
-        $groupes = array();
+        $groupes = [];
 
         /**
          * Pour chaque enfant je vais chercher ces jours de presences
-         * et j'ajoutes les ids des jours presents
+         * et j'ajoutes les ids des jours presents.
          */
         $plaine_enfants = $em->getRepository(PlaineEnfant::class)->search(
-            array('plaine_id' => $plaine->getId())
+            ['plaine_id' => $plaine->getId()]
         );
 
         foreach ($plaine_enfants as $plaine_enfant) {
@@ -96,7 +97,7 @@ class ExportController extends AbstractController
             //si la plaine a un groupe premat
             if ($premat) {
                 $birthday = $enfant->getBirthday();
-                $birthdayYear = $birthday ? $birthday->format("Y") : '';
+                $birthdayYear = $birthday ? $birthday->format('Y') : '';
                 if ($annee_premat == $birthdayYear) {
                     $groupes['premats'][] = $plaine_enfant;
                     continue;
@@ -108,7 +109,7 @@ class ExportController extends AbstractController
                 continue;
             }
 
-            if (in_array($annee_scolaire, array("3M", "1P", "2P"))) {
+            if (in_array($annee_scolaire, ['3M', '1P', '2P'])) {
                 $groupes['moyens'][] = $plaine_enfant;
                 continue;
             }
@@ -118,22 +119,21 @@ class ExportController extends AbstractController
 
         $html = $this->renderView(
             'plaine/export/pdf/head.html.twig',
-            array(
+            [
                 'plaine' => $plaine,
-            )
+            ]
         );
-
 
         foreach ($groupes as $taille => $groupe) {
             $html .= $this->renderView(
                 'plaine/export/pdf/line.html.twig',
-                array(
+                [
                     'plaine' => $plaine,
                     'taille' => ucfirst($taille),
                     'dates' => $dates,
                     'plaine_enfants' => $groupe,
-                    'images'=>$images
-                )
+                    'images' => $images,
+                ]
             );
             //je remet compteur a zero
             foreach ($dates as $date) {
@@ -144,7 +144,7 @@ class ExportController extends AbstractController
 
         $html .= $this->renderView(
             'plaine/export/pdf/foot.html.twig',
-            array()
+            []
         );
 
         //  return new Response($html);
@@ -164,17 +164,19 @@ class ExportController extends AbstractController
 
     /**
      * Ajoute un tableau d'ids des jours a la presence
-     * de l'enfant
+     * de l'enfant.
+     *
      * @param PlaineEnfant $plaine_enfant
+     *
      * @return PlaineEnfant
      */
     private function getJourIdsByPresence($plaine_enfant, $tuteur)
     {
         /**
-         * Pour savoir si present ou pas
+         * Pour savoir si present ou pas.
          */
         $presences_object = $plaine_enfant->getPresences();
-        $presence_jour_ids = array();
+        $presence_jour_ids = [];
         foreach ($presences_object as $object) {
             $absent = $object->getAbsent();
             if (!$absent) {

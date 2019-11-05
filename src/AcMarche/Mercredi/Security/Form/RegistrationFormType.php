@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 9/07/18
- * Time: 13:43
+ * Time: 13:43.
  */
 
 namespace AcMarche\Mercredi\Security\Form;
@@ -33,31 +33,31 @@ class RegistrationFormType extends AbstractType
             ->add(
                 'nom',
                 TextType::class,
-                array(
+                [
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'prenom',
                 TextType::class,
-                array(
+                [
                     'required' => true,
-                )
+                ]
             )
-            ->add('email', EmailType::class, array())
+            ->add('email', EmailType::class, [])
             ->add(
                 'plainPassword',
                 RepeatedType::class,
-                array(
+                [
                     'type' => PasswordType::class,
-                    'options' => array(
-                        'attr' => array(
+                    'options' => [
+                        'attr' => [
                             'autocomplete' => 'new-password',
-                        ),
-                    ),
-                    'first_options' => array('label' => 'Mot de passe'),
-                    'second_options' => array('label' => 'Répéter le mot de passe'),
-                )
+                        ],
+                    ],
+                    'first_options' => ['label' => 'Mot de passe'],
+                    'second_options' => ['label' => 'Répéter le mot de passe'],
+                ]
             )
             ->add(
                 'type',
@@ -83,10 +83,10 @@ class RegistrationFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => User::class,
                 'csrf_token_id' => 'registration',
-            )
+            ]
         );
     }
 }

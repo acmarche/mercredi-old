@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Pour ajouter une date a un enfant a une plaine
+ * Pour ajouter une date a un enfant a une plaine.
  */
 
 namespace AcMarche\Mercredi\Plaine\Form;
@@ -19,34 +19,27 @@ class PlainePresenceJoursType extends AbstractType
 {
     private $jours_plaine;
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->jours_plaine = $options['jours_plaine'];
         $builder
             ->add('plaine', PlaineSelectorType::class)
             ->add('enfant', EnfantSelectorType::class)
-            ->add('jours', EntityType::class, array(
+            ->add('jours', EntityType::class, [
                 'class' => PlaineJour::class,
                 'multiple' => true,
                 'expanded' => true,
                 'choices' => $this->jours_plaine,
                 'label' => 'Jour(s)',
-                'attr' => array()
-            ));
+                'attr' => [],
+            ]);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => PlainePresence::class,
-            'jours_plaine' => null
-        ));
+            'jours_plaine' => null,
+        ]);
     }
 }

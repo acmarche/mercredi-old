@@ -11,45 +11,38 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SearchPresenceByMonthType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $quois = array('Mercredi et Plaines' => 1, 'Mercredi' => 2, 'Plaines' => 3);
+        $quois = ['Mercredi et Plaines' => 1, 'Mercredi' => 2, 'Plaines' => 3];
 
         $builder
             ->add(
                 'mois',
                 TextType::class,
-                array(
-                    'attr' => array('placeholder' => 'mm/yyyy'),
-                )
+                [
+                    'attr' => ['placeholder' => 'mm/yyyy'],
+                ]
             )
             ->add(
                 'quoi',
                 ChoiceType::class,
-                array(
+                [
                     'required' => true,
-                    'attr' => array('class' => 'sr-only'),
+                    'attr' => ['class' => 'sr-only'],
                     'choices' => $quois,
-                )
+                ]
             )
             ->add(
                 'submit',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'Rechercher',
-                )
+                ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array());
+        $resolver->setDefaults([]);
     }
 }

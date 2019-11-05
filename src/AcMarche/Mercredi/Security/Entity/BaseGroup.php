@@ -13,12 +13,14 @@ abstract class BaseGroup implements GroupInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     *
      * @var string
      */
     protected $name;
 
     /**
      * @ORM\Column(type="array")
+     *
      * @var array
      */
     protected $roles;
@@ -29,7 +31,7 @@ abstract class BaseGroup implements GroupInterface
      * @param string $name
      * @param array  $roles
      */
-    public function __construct($name, $roles = array())
+    public function __construct($name, $roles = [])
     {
         $this->name = $name;
         $this->roles = $roles;

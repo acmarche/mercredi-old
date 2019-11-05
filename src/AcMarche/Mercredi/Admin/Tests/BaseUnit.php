@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 2/09/17
- * Time: 17:17
+ * Time: 17:17.
  */
 
 namespace AcMarche\Mercredi\Admin\Tests;
@@ -17,41 +17,41 @@ use AcMarche\Mercredi\Plaine\Entity\PlaineJour;
 use AcMarche\Mercredi\Security\Entity\Group;
 use AcMarche\Mercredi\Security\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BaseUnit extends WebTestCase
 {
     /**
-     * @var Client $admin
+     * @var Client
      */
     protected $admin;
     /**
-     * @var Client $animateur
+     * @var Client
      */
     protected $animateur;
     /**
-     * @var Client $ecole
+     * @var Client
      */
     protected $ecole;
     /**
-     * @var Client $parent
+     * @var Client
      */
     protected $parent;
     /**
-     * @var Client $read
+     * @var Client
      */
     protected $read;
     /**
-     * @var Client $solo
+     * @var Client
      */
     protected $solo;
     /**
-     * @var Client $rleffe
+     * @var Client
      */
     protected $rleffe;
     /**
-     * @var Client $uharvard
+     * @var Client
      */
     protected $uharvard;
     /**
@@ -100,32 +100,32 @@ class BaseUnit extends WebTestCase
             ]
         );
         $this->solo = static::createClient(
-            array(),
-            array(
+            [],
+            [
                 'PHP_AUTH_USER' => 'solo@marche.be',
                 'PHP_AUTH_PW' => 'homer123',
-            )
+            ]
         );
         $this->rleffe = static::createClient(
-            array(),
-            array(
+            [],
+            [
                 'PHP_AUTH_USER' => 'rleffe@marche.be',
                 'PHP_AUTH_PW' => 'homer123',
-            )
+            ]
         );
         $this->uharvard = static::createClient(
-            array(),
-            array(
+            [],
+            [
                 'PHP_AUTH_USER' => 'uharvard@marche.be',
                 'PHP_AUTH_PW' => 'homer123',
-            )
+            ]
         );
 
         $this->anonyme = static::createClient();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function setUp()
     {
@@ -138,8 +138,8 @@ class BaseUnit extends WebTestCase
 
     /**
      * @param $url
-     * @param Client $user
      * @param $codeAttendu
+     *
      * @return \Symfony\Component\DomCrawler\Crawler
      */
     public function executeUrl($url, Client $user, $codeAttendu)
@@ -147,7 +147,7 @@ class BaseUnit extends WebTestCase
         $crawler = $user->request('GET', $url);
         $code = $user->getResponse()->getStatusCode();
 
-        if ($code == 404) {
+        if (404 == $code) {
             // var_dump($url);
         }
 
@@ -158,7 +158,8 @@ class BaseUnit extends WebTestCase
 
     /**
      * @param $args
-     * @return bool|null|Enfant
+     *
+     * @return bool|Enfant|null
      */
     protected function getEnfant($args)
     {
@@ -177,7 +178,8 @@ class BaseUnit extends WebTestCase
 
     /**
      * @param $args
-     * @return bool|null|Tuteur
+     *
+     * @return bool|Tuteur|null
      */
     protected function getTuteur($args)
     {
@@ -196,7 +198,8 @@ class BaseUnit extends WebTestCase
 
     /**
      * @param $args
-     * @return bool|null|Note
+     *
+     * @return bool|Note|null
      */
     protected function getNote($args)
     {
@@ -215,7 +218,8 @@ class BaseUnit extends WebTestCase
 
     /**
      * @param $args
-     * @return bool|null|PlaineJour
+     *
+     * @return bool|PlaineJour|null
      */
     protected function getPlaineJour($args)
     {
@@ -234,6 +238,7 @@ class BaseUnit extends WebTestCase
 
     /**
      * @param $nom
+     *
      * @return bool|Ecole
      */
     protected function getEcole($nom)
@@ -252,7 +257,7 @@ class BaseUnit extends WebTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function tearDown()
     {
@@ -267,7 +272,7 @@ class BaseUnit extends WebTestCase
         $jour = $date->format('D');
         $jourFr = $this->getFr($jour);
 
-        return $date->format('d-m-Y')." ".$jourFr;
+        return $date->format('d-m-Y').' '.$jourFr;
     }
 
     public function getFr($jour)
@@ -303,7 +308,8 @@ class BaseUnit extends WebTestCase
     }
 
     /**
-     * @param  array $args
+     * @param array $args
+     *
      * @return SanteQuestion[]|bool
      */
     protected function getQuestions($args)
@@ -323,7 +329,8 @@ class BaseUnit extends WebTestCase
 
     /**
      * @param $args
-     * @return bool|null|Group
+     *
+     * @return bool|Group|null
      */
     protected function getGroup($args)
     {
@@ -342,7 +349,8 @@ class BaseUnit extends WebTestCase
 
     /**
      * @param $args
-     * @return bool|null|User
+     *
+     * @return bool|User|null
      */
     protected function getUser($args)
     {

@@ -50,15 +50,11 @@ class UserProvider implements UserProviderInterface
     public function refreshUser(SecurityUserInterface $user)
     {
         if (!$user instanceof User) {
-            throw new UnsupportedUserException(
-                sprintf('Expected an instance of FOS\UserBundle\Model\UserInterface, but got "%s".', get_class($user))
-            );
+            throw new UnsupportedUserException(sprintf('Expected an instance of FOS\UserBundle\Model\UserInterface, but got "%s".', get_class($user)));
         }
 
         if (!$this->supportsClass(get_class($user))) {
-            throw new UnsupportedUserException(
-                sprintf('Expected an instance of %s, but got "%s".', 'maclasse', get_class($user))
-            );
+            throw new UnsupportedUserException(sprintf('Expected an instance of %s, but got "%s".', 'maclasse', get_class($user)));
         }
 
         if (null === $reloadedUser = $this->userRepository->find($user->getId())) {

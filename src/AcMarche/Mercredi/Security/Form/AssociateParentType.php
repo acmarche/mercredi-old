@@ -13,17 +13,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AssociateParentType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add(
                 'tuteur',
                 EntityType::class,
-                array(
+                [
                     'label' => 'Parent',
                     'class' => Tuteur::class,
                     'placeholder' => 'Sélectionnez le parent',
@@ -31,7 +27,7 @@ class AssociateParentType extends AbstractType
                     'query_builder' => function (TuteurRepository $cr) {
                         return $cr->getForAssociateParent();
                     },
-                )
+                ]
             )
             ->add(
                 'dissocier',
@@ -53,15 +49,12 @@ class AssociateParentType extends AbstractType
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => User::class,
-            )
+            ]
         );
     }
 }

@@ -3,21 +3,20 @@
 namespace AcMarche\Mercredi\Plaine\DataFixtures\ORM;
 
 use AcMarche\Mercredi\Admin\DataFixtures\ORM\LoadUtilisateur;
+use AcMarche\Mercredi\Plaine\Entity\PlaineJour;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use AcMarche\Mercredi\Plaine\Entity\PlaineJour;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadJoursData extends Fixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
-        $dates = array("2020-11-09", "2020-11-10", "2020-11-11", "2020-11-12", "2020-11-13");
+        $dates = ['2020-11-09', '2020-11-10', '2020-11-11', '2020-11-12', '2020-11-13'];
 
         foreach ($dates as $date) {
             $jour1 = new PlaineJour();
@@ -44,7 +43,7 @@ class LoadJoursData extends Fixture implements ORMFixtureInterface, DependentFix
 
     /**
      * This method must return an array of fixtures classes
-     * on which the implementing class depends on
+     * on which the implementing class depends on.
      *
      * @return array
      */

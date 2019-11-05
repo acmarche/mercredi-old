@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 28/08/18
- * Time: 10:04
+ * Time: 10:04.
  */
 
 namespace AcMarche\Mercredi\Admin\Form\DataTransformer;
@@ -23,13 +23,12 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
  * Tuteur::class,
  * 'id'
  * )
- * );
+ * );.
  */
 
 /**
- * Class EntityHiddenTransformer
+ * Class EntityHiddenTransformer.
  *
- * @package AppBundle\Form
  * @author  Francesco Casula <fra.casula@gmail.com>
  */
 class EntityHiddenTransformer implements DataTransformerInterface
@@ -52,7 +51,6 @@ class EntityHiddenTransformer implements DataTransformerInterface
     /**
      * EntityHiddenType constructor.
      *
-     * @param ObjectManager $objectManager
      * @param string $className
      * @param string $primaryKey
      */
@@ -90,7 +88,7 @@ class EntityHiddenTransformer implements DataTransformerInterface
     /**
      * Transforms an object (entity) to a string (number).
      *
-     * @param  object|null $entity
+     * @param object|null $entity
      *
      * @return string
      */
@@ -111,10 +109,11 @@ class EntityHiddenTransformer implements DataTransformerInterface
     /**
      * Transforms a string (number) to an object (entity).
      *
-     * @param  string $identifier
+     * @param string $identifier
      *
      * @return object|null
-     * @throws TransformationFailedException if object (entity) is not found.
+     *
+     * @throws TransformationFailedException if object (entity) is not found
      */
     public function reverseTransform($identifier)
     {
@@ -130,12 +129,7 @@ class EntityHiddenTransformer implements DataTransformerInterface
             // causes a validation error
             // this message is not shown to the user
             // see the invalid_message option
-            throw new TransformationFailedException(
-                sprintf(
-                    'An entity with ID "%s" does not exist!',
-                    $identifier
-                )
-            );
+            throw new TransformationFailedException(sprintf('An entity with ID "%s" does not exist!', $identifier));
         }
 
         return $entity;

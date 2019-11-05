@@ -11,15 +11,15 @@ use AcMarche\Mercredi\Admin\Repository\PresenceRepository;
 use AcMarche\Mercredi\Admin\Service\EnfantUtils;
 use AcMarche\Mercredi\Admin\Service\PresenceService;
 use AcMarche\Mercredi\Admin\Service\TuteurUtils;
-use AcMarche\Mercredi\Parent\Form\PresenceType;
 use AcMarche\Mercredi\Commun\Utils\DateService;
+use AcMarche\Mercredi\Parent\Form\PresenceType;
 use AcMarche\Mercredi\Parent\Manager\SanteManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Presence controller.
@@ -71,7 +71,8 @@ class PresenceController extends AbstractController
     }
 
     /**
-     * Etape 1 select enfant
+     * Etape 1 select enfant.
+     *
      * @Route("/select/enfant", name="parent_presence_select_enfant", methods={"GET"})
      * @IsGranted("index_enfant")
      */
@@ -82,14 +83,14 @@ class PresenceController extends AbstractController
 
         $enfants = $this->enfantUtils->getEnfantsByTuteur($tuteur);
 
-        return $this->render('parent/presence/select_enfant.html.twig', array('enfants' => $enfants));
+        return $this->render('parent/presence/select_enfant.html.twig', ['enfants' => $enfants]);
     }
 
     /**
-     * Etape 1 select enfant
+     * Etape 1 select enfant.
+     *
      * @Route("/select/jour/{uuid}", name="parent_presence_select_jour", methods={"GET"})
      * @IsGranted("add_presence", subject="enfant")
-     *
      */
     public function selectJour(Enfant $enfant)
     {
@@ -104,10 +105,10 @@ class PresenceController extends AbstractController
 
         return $this->render(
             'parent/presence/select_jour.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'jours' => $jours,
-            )
+            ]
         );
     }
 
@@ -116,11 +117,10 @@ class PresenceController extends AbstractController
      * @ParamConverter("jour", class="AcMarche\Mercredi\Admin\Entity\Jour", options={"mapping":{"id" = "id"}})
      * @ParamConverter("enfant", class="AcMarche\Mercredi\Admin\Entity\Enfant", options={"mapping":{"uuid" = "uuid"}})
      * @IsGranted("add_presence", subject="enfant")
-     *
      */
     public function new(Request $request, Enfant $enfant, Jour $jour)
     {
-         if (!$this->santeManager->isComplete($enfant)) {
+        if (!$this->santeManager->isComplete($enfant)) {
             $this->addFlash('danger', 'La fiche santé de votre enfant doit être complétée');
 
             return $this->redirectToRoute('parent_sante_show', ['uuid' => $enfant->getUuid()]);
@@ -146,7 +146,7 @@ class PresenceController extends AbstractController
         $presence->setTuteur($tuteur);
 
         $form = $this->createForm(PresenceType::class, $presence)
-            ->add('submit', SubmitType::class, array('label' => 'Confirmer sa présence'));
+            ->add('submit', SubmitType::class, ['label' => 'Confirmer sa présence']);
 
         $form->handleRequest($request);
 
@@ -155,19 +155,19 @@ class PresenceController extends AbstractController
 
             $this->presenceRepository->insert($presence);
 
-            $this->addFlash('success', "La présence a bien été ajoutée");
+            $this->addFlash('success', 'La présence a bien été ajoutée');
 
             return $this->redirectToRoute('parent_enfant_show', ['uuid' => $enfant->getUuid()]);
         }
 
         return $this->render(
             'parent/presence/new.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'entity' => $presence,
                 'jour' => $jour,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -175,8 +175,9 @@ class PresenceController extends AbstractController
      * Affiche les presences par tuteur.
      *
      * @Route("/rend/{enfant_tuteur}/{year}", name="render_presences", methods={"GET"})
-     * @param EnfantTuteur $enfant_tuteur
+     *
      * @param $year
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function renderPresence(EnfantTuteur $enfant_tuteur, $year)
@@ -185,11 +186,11 @@ class PresenceController extends AbstractController
 
         /**
          * Pour chaque parent je vais chercher
-         * les presences
+         * les presences.
          */
         $presences_by_tuteur = $this->presenceRepository->getByEnfantTuteur($enfant_tuteur, $year);
 
-        /**
+        /*
          * Pour chaque presence je vais enregistrer
          * le detail du calcul
          */
@@ -201,21 +202,21 @@ class PresenceController extends AbstractController
 
         /**
          * pour le tuteur, je vais chercher les paiements de l'enfant
-         * et je memorise la liste pour la reafficher
+         * et je memorise la liste pour la reafficher.
          */
         $paiements = $this->paiementRepository->getByEnfantTuteur($enfant_tuteur);
         $enfant_tuteur->addPaiements($paiements);
 
         /**
-         * Je trie les présences par mois
+         * Je trie les présences par mois.
          */
-        $prencesGroupByMonth = array();
+        $prencesGroupByMonth = [];
         /**
-         * @var Presence[] $presences
+         * @var Presence[]
          */
         $presences = $enfant_tuteur->getPresences();
 
-        if ($presences != null) {
+        if (null != $presences) {
             foreach ($presences as $presence) {
                 $jour = $presence->getJour();
                 $mois = $jour->getDateJour()->format('n');
@@ -227,13 +228,11 @@ class PresenceController extends AbstractController
 
         return $this->render(
             'parent/presence/render_presence.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'enfant_tuteur' => $enfant_tuteur,
                 'prencesgroupbymonth' => $prencesGroupByMonth,
-            )
+            ]
         );
     }
-
-
 }

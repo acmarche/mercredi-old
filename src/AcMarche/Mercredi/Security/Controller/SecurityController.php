@@ -21,9 +21,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     *
      * @Route("/login", name="mercredi_login")
-     * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {

@@ -2,21 +2,22 @@
 
 namespace AcMarche\Mercredi\Plaine\Controller;
 
-use AcMarche\Mercredi\Plaine\Manager\PlaineManager;
-use AcMarche\Mercredi\Plaine\Repository\PlaineRepository;
-use AcMarche\Mercredi\Plaine\Service\PlaineService;
-use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
 use AcMarche\Mercredi\Commun\Utils\DateService;
 use AcMarche\Mercredi\Commun\Utils\ScolaireService;
+use AcMarche\Mercredi\Plaine\Entity\Plaine;
+use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
+use AcMarche\Mercredi\Plaine\Form\PlaineEditType;
+use AcMarche\Mercredi\Plaine\Form\PlaineType;
+use AcMarche\Mercredi\Plaine\Form\Search\SearchPlaineType;
+use AcMarche\Mercredi\Plaine\Manager\PlaineManager;
+use AcMarche\Mercredi\Plaine\Repository\PlaineRepository;
+use AcMarche\Mercredi\Plaine\Service\GroupeScolaireService;
+use AcMarche\Mercredi\Plaine\Service\PlaineService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use AcMarche\Mercredi\Plaine\Entity\Plaine;
-use AcMarche\Mercredi\Plaine\Form\PlaineEditType;
-use AcMarche\Mercredi\Plaine\Form\PlaineType;
-use AcMarche\Mercredi\Plaine\Form\Search\SearchPlaineType;
 
 /**
  * Plaine controller.
@@ -46,44 +47,49 @@ class PlaineController extends AbstractController
      * @var PlaineManager
      */
     private $plaineManager;
+    /**
+     * @var GroupeScolaireService
+     */
+    private $groupeScolaireService;
 
     public function __construct(
         PlaineManager $plaineManager,
         PlaineRepository $plaineRepository,
         DateService $dateService,
         ScolaireService $scolaireService,
-        PlaineService $plaineService
+        PlaineService $plaineService,
+        GroupeScolaireService $groupeScolaireService
     ) {
         $this->plaineRepository = $plaineRepository;
         $this->dateService = $dateService;
         $this->plaineService = $plaineService;
         $this->scolaireService = $scolaireService;
         $this->plaineManager = $plaineManager;
+        $this->groupeScolaireService = $groupeScolaireService;
     }
 
     /**
      * Lists all Plaine entities.
      *
      * @Route("/", name="plaine", methods={"GET"})
-     *
      */
     public function index(Request $request)
     {
         $session = $request->getSession();
 
-        $data = array();
+        $data = [];
 
-        if ($session->has("plaine_search")) {
-            $data = unserialize($session->get("plaine_search"));
+        if ($session->has('plaine_search')) {
+            $data = unserialize($session->get('plaine_search'));
         }
 
         $search_form = $this->createForm(
             SearchPlaineType::class,
             $data,
-            array(
+            [
                 'action' => $this->generateUrl('plaine'),
                 'method' => 'GET',
-            )
+            ]
         );
 
         $search_form->handleRequest($request);
@@ -91,7 +97,7 @@ class PlaineController extends AbstractController
         if ($search_form->isSubmitted() && $search_form->isValid()) {
             $data = $search_form->getData();
             if ($search_form->get('raz')->isClicked()) {
-                $session->remove("plaine_search");
+                $session->remove('plaine_search');
                 $this->addFlash('success', 'La recherche a bien été réinitialisée.');
 
                 return $this->redirectToRoute('plaine');
@@ -103,10 +109,10 @@ class PlaineController extends AbstractController
 
         return $this->render(
             'plaine/plaine/index.html.twig',
-            array(
+            [
                 'form' => $search_form->createView(),
                 'plaines' => $plaines,
-            )
+            ]
         );
     }
 
@@ -115,19 +121,17 @@ class PlaineController extends AbstractController
      *
      * @Route("/new", name="plaine_new", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function new(Request $request)
     {
         $plaine = $this->plaineManager->newInstance();
 
         $form = $form = $this->createForm(PlaineType::class, $plaine)
-            ->add('submit', SubmitType::class, array('label' => 'Create'));
+            ->add('submit', SubmitType::class, ['label' => 'Create']);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user = $this->getUser();
             $plaine->setUserAdd($user);
 
@@ -135,17 +139,17 @@ class PlaineController extends AbstractController
             $this->plaineManager->setJours($plaine, $form->getData()->getJours());
             $this->plaineRepository->insert($plaine);
 
-            $this->addFlash('success', "La plaine a bien été ajoutée");
+            $this->addFlash('success', 'La plaine a bien été ajoutée');
 
-            return $this->redirectToRoute('plaine_show', array('slugname' => $plaine->getSlugname()));
+            return $this->redirectToRoute('plaine_show', ['slugname' => $plaine->getSlugname()]);
         }
 
         return $this->render(
             'plaine/plaine/new.html.twig',
-            array(
+            [
                 'plaine' => $plaine,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -153,7 +157,6 @@ class PlaineController extends AbstractController
      * Finds and displays a Plaine entity.
      *
      * @Route("/{slugname}", name="plaine_show", methods={"GET"})
-     *
      */
     public function show(Plaine $plaine)
     {
@@ -161,21 +164,26 @@ class PlaineController extends AbstractController
 
         $groupes = $this->plaineService->getEnfantsByGroupeScolaire($plaine);
 
-        $plaine_enfants = $em->getRepository(PlaineEnfant::class)->search(array('plaine_id' => $plaine->getId()));
+        $plaine_enfants = $em->getRepository(PlaineEnfant::class)->search(['plaine_id' => $plaine->getId()]);
         $maxs = $this->plaineService->getGroupesMax($plaine);
 
         $deleteForm = $this->createDeleteForm($plaine->getId());
 
+        $firstDate = $this->plaineService->getFirstDatePlaine($plaine);
+
+        $groupes2 = $this->groupeScolaireService->getEnfantsByGroupeScolaire($plaine_enfants, $firstDate);
+
         return $this->render(
             'plaine/plaine/show.html.twig',
-            array(
+            [
                 'plaine' => $plaine,
                 'groupes' => $groupes,
+                'groupes2' => $groupes2,
                 'maxs' => $maxs,
                 'plaine_enfants' => $plaine_enfants,
                 'plaineService' => $this->plaineService,
                 'delete_form' => $deleteForm->createView(),
-            )
+            ]
         );
     }
 
@@ -184,11 +192,10 @@ class PlaineController extends AbstractController
      *
      * @Route("/{slugname}/edit", name="plaine_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function edit(Plaine $plaine, Request $request)
     {
-        if (count($plaine->getMax()) == 0) {
+        if (0 == count($plaine->getMax())) {
             $this->plaineManager->initMax($plaine);
         }
 
@@ -198,20 +205,19 @@ class PlaineController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->plaineRepository->save();
 
-            $this->addFlash('success', "La plaine a bien été modifiée");
+            $this->addFlash('success', 'La plaine a bien été modifiée');
 
-            return $this->redirectToRoute('plaine_show', array('slugname' => $plaine->getSlugname()));
+            return $this->redirectToRoute('plaine_show', ['slugname' => $plaine->getSlugname()]);
         }
 
         return $this->render(
             'plaine/plaine/edit.html.twig',
-            array(
+            [
                 'plaine' => $plaine,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -225,12 +231,12 @@ class PlaineController extends AbstractController
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('plaine_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('plaine_delete', ['id' => $id]))
             ->setMethod('DELETE')
             ->add(
                 'submit',
                 SubmitType::class,
-                array('label' => 'Supprimer la plaine', 'attr' => array('class' => 'btn-danger'))
+                ['label' => 'Supprimer la plaine', 'attr' => ['class' => 'btn-danger']]
             )
             ->getForm();
     }
@@ -247,13 +253,11 @@ class PlaineController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->plaineRepository->remove($plaine);
 
-            $this->addFlash('success', "La plaine a bien été supprimée");
+            $this->addFlash('success', 'La plaine a bien été supprimée');
         }
 
         return $this->redirectToRoute('plaine');
     }
-
 }

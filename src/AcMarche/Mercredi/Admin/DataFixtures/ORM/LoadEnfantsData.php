@@ -2,17 +2,16 @@
 
 namespace AcMarche\Mercredi\Admin\DataFixtures\ORM;
 
+use AcMarche\Mercredi\Admin\Entity\Enfant;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadEnfantsData extends Fixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
@@ -20,7 +19,7 @@ class LoadEnfantsData extends Fixture implements ORMFixtureInterface, DependentF
         $lisa->setNom('Michel');
         $lisa->setPrenom('Lisa');
         $lisa->setSexe('Féminin');
-        $lisa->setBirthday(new \DateTime("1995-03-15"));
+        $lisa->setBirthday(new \DateTime('1995-03-15'));
         $lisa->setSlugname('michel_lisa');
         $lisa->setAnneeScolaire('1M');
         $lisa->setOrdre(2);
@@ -35,7 +34,7 @@ class LoadEnfantsData extends Fixture implements ORMFixtureInterface, DependentF
         $marie->setNom('Michel');
         $marie->setPrenom('Marie');
         $marie->setSexe('Féminin');
-        $marie->setBirthday(new \DateTime("1989-12-23"));
+        $marie->setBirthday(new \DateTime('1989-12-23'));
         $marie->setSlugname('michel_marie');
         $marie->setAnneeScolaire('6P');
         $marie->setOrdre(1);
@@ -50,7 +49,7 @@ class LoadEnfantsData extends Fixture implements ORMFixtureInterface, DependentF
         $arwen->setNom('Michel');
         $arwen->setPrenom('Arwen');
         $arwen->setSexe('Féminin');
-        $arwen->setBirthday(new \DateTime("2010-12-23"));
+        $arwen->setBirthday(new \DateTime('2010-12-23'));
         $arwen->setSlugname('michel_arwen');
         $arwen->setAnneeScolaire('1P');
         $arwen->setOrdre(3);
@@ -65,7 +64,7 @@ class LoadEnfantsData extends Fixture implements ORMFixtureInterface, DependentF
         $zora->setNom('Michel');
         $zora->setPrenom('Zora');
         $zora->setSexe('Féminin');
-        $zora->setBirthday(new \DateTime("2013-12-23"));
+        $zora->setBirthday(new \DateTime('2013-12-23'));
         $zora->setSlugname('michel_zora');
         $zora->setAnneeScolaire('1P');
         $zora->setOrdre(3);
@@ -80,7 +79,7 @@ class LoadEnfantsData extends Fixture implements ORMFixtureInterface, DependentF
         $paulie->setNom('Pennino');
         $paulie->setPrenom('Paulie');
         $paulie->setSexe('Féminin');
-        $paulie->setBirthday(new \DateTime("1995-03-15"));
+        $paulie->setBirthday(new \DateTime('1995-03-15'));
         $paulie->setSlugname('pennino_paulie');
         $paulie->setAnneeScolaire('1M');
         $paulie->setOrdre(1);
@@ -94,7 +93,7 @@ class LoadEnfantsData extends Fixture implements ORMFixtureInterface, DependentF
 
     /**
      * This method must return an array of fixtures classes
-     * on which the implementing class depends on
+     * on which the implementing class depends on.
      *
      * @return array
      */

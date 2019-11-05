@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Pour ajouter une date a un enfant a une plaine
+ * Pour ajouter une date a un enfant a une plaine.
  */
 
 namespace AcMarche\Mercredi\Plaine\Form;
@@ -18,10 +18,6 @@ class PlainePresenceTuteurType extends AbstractType
 {
     private $plaine_presence;
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->plaine_presence = $options['plaine_presence'];
@@ -31,29 +27,26 @@ class PlainePresenceTuteurType extends AbstractType
         $builder
             ->add('plaine', 'plaine_selector')
             ->add('enfant', 'enfant_selector')
-            ->add('tuteur', EntityType::class, array(
+            ->add('tuteur', EntityType::class, [
                 'class' => Tuteur::class,
                 'multiple' => false,
                 'choices' => $tuteurs,
                 'label' => 'Tuteur',
-            ))
-            ->add('jours', EntityType::class, array(
+            ])
+            ->add('jours', EntityType::class, [
                 'class' => PlaineJour::class,
                 'multiple' => true,
                 'choices' => $jours_enfant,
                 'label' => 'Jour(s) attribués',
-                'attr' => array()
-            ));
+                'attr' => [],
+            ]);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => PlainePresence::class,
-            'plaine_presence' => null
-        ));
+            'plaine_presence' => null,
+        ]);
     }
 }

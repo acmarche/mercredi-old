@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class PlaineMax
 {
     /**
-     * @var integer|null $id
+     * @var int|null
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -24,76 +24,55 @@ class PlaineMax
     private $id;
 
     /**
-     * @var string|null $groupe
+     * @var string|null
      *
      * @ORM\Column(type="string", length=50)
      */
     private $groupe;
 
     /**
-     * @var Plaine|null $plaine
+     * @var Plaine|null
      * @ORM\ManyToOne(targetEntity="AcMarche\Mercredi\Plaine\Entity\Plaine", inversedBy="max", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $plaine;
 
     /**
-     * @var integer|null
+     * @var int|null
      * @ORM\Column(type="integer")
      */
     private $maximum;
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getGroupe(): ?string
     {
         return $this->groupe;
     }
 
-    /**
-     * @param null|string $groupe
-     */
     public function setGroupe(?string $groupe): void
     {
         $this->groupe = $groupe;
     }
 
-    /**
-     * @return Plaine|null
-     */
     public function getPlaine(): ?Plaine
     {
         return $this->plaine;
     }
 
-    /**
-     * @param Plaine|null $plaine
-     */
     public function setPlaine(?Plaine $plaine): void
     {
         $this->plaine = $plaine;
     }
 
-    /**
-     * @return int|null
-     */
     public function getMaximum(): ?int
     {
         return $this->maximum;
     }
 
-    /**
-     * @param int|null $maximum
-     */
     public function setMaximum(?int $maximum): void
     {
         $this->maximum = $maximum;

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 16/01/18
- * Time: 16:11
+ * Time: 16:11.
  */
 
 namespace AcMarche\Mercredi\Logger\Entity;
@@ -63,7 +63,7 @@ class Log
     }
 
     /**
-     * STOP
+     * STOP.
      */
 
     /**

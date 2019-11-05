@@ -31,10 +31,10 @@ class LdapEmploye
     {
         $this->ldap = Ldap::create(
             'ext_ldap',
-            array(
+            [
                 'host' => $host,
                 'encryption' => 'ssl',
-            )
+            ]
         );
 
         $this->user = $user;
@@ -45,8 +45,8 @@ class LdapEmploye
 
     /**
      * @param $uid
-     * @return \Symfony\Component\Ldap\Entry|null
      *
+     * @return \Symfony\Component\Ldap\Entry|null
      */
     public function getEntry($uid)
     {
@@ -65,6 +65,7 @@ class LdapEmploye
     /**
      * @param $user
      * @param $password
+     *
      * @throws LdapException
      */
     public function bind($user, $password)

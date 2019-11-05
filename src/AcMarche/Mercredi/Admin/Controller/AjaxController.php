@@ -12,47 +12,45 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class AjaxController
- * @package AcMarche\Admin\Admin\Controller
+ * Class AjaxController.
+ *
  * @IsGranted("ROLE_MERCREDI_READ")
  */
 class AjaxController extends AbstractController
 {
     /**
-     * Pour remplir l'auto completion
+     * Pour remplir l'auto completion.
      *
      * @Route("/tuteurcomplete/{query}", name="tuteur_autocomplete", methods={"GET"})
-     *
-     *
      */
     public function autocompleteTuteur($query = null)
     {
         $response = new JsonResponse();
 
         if (!$query) {
-            $response->setData(array("results" => array()));
+            $response->setData(['results' => []]);
 
             return $response;
         }
 
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository(Tuteur::class)->findForAutoComplete($query);
-        $tuteurs = array();
+        $tuteurs = [];
 
         $i = 0;
         foreach ($entities as $tuteur) {
-            $tuteurs[$i]["id"] = $tuteur->getId();
-            $tuteurs[$i]["value"] = $tuteur->getId();
-            $tuteurs[$i]["nom"] = $tuteur->getNom();
-            $tuteurs[$i]["prenom"] = $tuteur->getPrenom();
-            $tuteurs[$i]["label"] = $tuteur->getNom().' '.$tuteur->getPrenom();
+            $tuteurs[$i]['id'] = $tuteur->getId();
+            $tuteurs[$i]['value'] = $tuteur->getId();
+            $tuteurs[$i]['nom'] = $tuteur->getNom();
+            $tuteurs[$i]['prenom'] = $tuteur->getPrenom();
+            $tuteurs[$i]['label'] = $tuteur->getNom().' '.$tuteur->getPrenom();
             $birthday = '';
             if ($tuteur->getBirthday()) {
-                $birthday = $tuteur->getBirthday()->format("d-m-Y");
+                $birthday = $tuteur->getBirthday()->format('d-m-Y');
             }
 
-            $tuteurs[$i]["birthday"] = $birthday;
-            $i++;
+            $tuteurs[$i]['birthday'] = $birthday;
+            ++$i;
         }
 
         $response->setData($tuteurs);
@@ -61,11 +59,10 @@ class AjaxController extends AbstractController
     }
 
     /**
-     * Associe un tuteur a un enfant
+     * Associe un tuteur a un enfant.
      *
      * @Route("/setenfant", name="tuteur_enfant", methods={"POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function setEnfant(Request $request)
     {
@@ -73,49 +70,48 @@ class AjaxController extends AbstractController
         $idenfant = $request->request->get('idenfant');
         $idtuteur = $request->request->get('idtuteur');
 
-        $message = array("error" => false, "message" => "");
+        $message = ['error' => false, 'message' => ''];
 
         $em = $this->getDoctrine()->getManager();
 
         $enfant = $em->getRepository(Enfant::class)->find($idenfant);
 
         if (!$enfant) {
-            $message = array("error" => true, "message" => "Veuillez choisir un enfant");
+            $message = ['error' => true, 'message' => 'Veuillez choisir un enfant'];
         }
 
         $tuteur = $em->getRepository(Tuteur::class)->find($idtuteur);
 
         if (!$tuteur) {
-            $message = array("error" => true, "message" => "Le tuteur est introuvable");
+            $message = ['error' => true, 'message' => 'Le tuteur est introuvable'];
         }
 
-        if ($message["error"] == false) {
+        if (false == $message['error']) {
             $enfant_tuteur = new EnfantTuteur();
             $enfant_tuteur->setEnfant($enfant);
             $enfant_tuteur->setTuteur($tuteur);
 
             $em->persist($enfant_tuteur);
             $em->flush();
-            $message["message"] = "L'enfant a bien été associé";
+            $message['message'] = "L'enfant a bien été associé";
 
             //    return $this->redirect($this->generateUrl('tuteur_show', array('slugname' => $tuteur->getSlugname())));
         }
 
-        return $this->render('admin/ajax/ajax.html.twig', array("message" => $message));
+        return $this->render('admin/ajax/ajax.html.twig', ['message' => $message]);
     }
 
     /**
-     * Pour remplir l'auto completion
+     * Pour remplir l'auto completion.
      *
      * @Route("/enfantcomplete/{query}", name="enfant_autocomplete", methods={"GET"})
-     *
      */
     public function autocompleteEnfant($query = null)
     {
         $response = new JsonResponse();
 
         if (!$query) {
-            $response->setData(array("results" => array()));
+            $response->setData(['results' => []]);
 
             return $response;
         }
@@ -123,23 +119,23 @@ class AjaxController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository(Enfant::class)->findForAutoComplete($query);
-        $enfants = array();
+        $enfants = [];
 
         $i = 0;
         foreach ($entities as $enfant) {
-            $enfants[$i]["id"] = $enfant->getId();
-            $enfants[$i]["value"] = $enfant->getId();
-            $enfants[$i]["nom"] = $enfant->getNom();
-            $enfants[$i]["prenom"] = $enfant->getPrenom();
-            $enfants[$i]["slugname"] = $enfant->getSlugname();
-            $enfants[$i]["label"] = $enfant->getNom().' '.$enfant->getPrenom();
+            $enfants[$i]['id'] = $enfant->getId();
+            $enfants[$i]['value'] = $enfant->getId();
+            $enfants[$i]['nom'] = $enfant->getNom();
+            $enfants[$i]['prenom'] = $enfant->getPrenom();
+            $enfants[$i]['slugname'] = $enfant->getSlugname();
+            $enfants[$i]['label'] = $enfant->getNom().' '.$enfant->getPrenom();
             $birthday = '';
             if ($enfant->getBirthday()) {
-                $birthday = $enfant->getBirthday()->format("d-m-Y");
+                $birthday = $enfant->getBirthday()->format('d-m-Y');
             }
 
-            $enfants[$i]["birthday"] = $birthday;
-            $i++;
+            $enfants[$i]['birthday'] = $birthday;
+            ++$i;
         }
 
         $response->setData($enfants);
@@ -152,7 +148,6 @@ class AjaxController extends AbstractController
      *
      * @Route("/settuteur", name="enfant_tuteur", methods={"POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function setTuteur(Request $request)
     {
@@ -160,23 +155,23 @@ class AjaxController extends AbstractController
         $idenfant = $request->request->get('idenfant');
         $idtuteur = $request->request->get('idtuteur');
 
-        $message = array("error" => false, "message" => "");
+        $message = ['error' => false, 'message' => ''];
 
         $em = $this->getDoctrine()->getManager();
 
         $enfant = $em->getRepository(Enfant::class)->find($idenfant);
 
         if (!$enfant) {
-            $message = array("error" => true, "message" => "Veuillez choisir un enfant");
+            $message = ['error' => true, 'message' => 'Veuillez choisir un enfant'];
         }
 
         $tuteur = $em->getRepository(Tuteur::class)->find($idtuteur);
 
         if (!$tuteur) {
-            $message = array("error" => true, "message" => "Le tuteur est introuvable");
+            $message = ['error' => true, 'message' => 'Le tuteur est introuvable'];
         }
 
-        if ($message["error"] == false) {
+        if (false == $message['error']) {
             $enfant_tuteur = new EnfantTuteur();
             $enfant_tuteur->setEnfant($enfant);
             $enfant_tuteur->setTuteur($tuteur);
@@ -184,11 +179,11 @@ class AjaxController extends AbstractController
             $em->persist($enfant_tuteur);
 
             $em->flush();
-            $message["message"] = "Le tuteur a bien été associé";
+            $message['message'] = 'Le tuteur a bien été associé';
 
             //    return $this->redirect($this->generateUrl('tuteur_show', array('slugname' => $tuteur->getSlugname())));
         }
 
-        return $this->render('admin/ajax/ajax.html.twig', array("message" => $message));
+        return $this->render('admin/ajax/ajax.html.twig', ['message' => $message]);
     }
 }

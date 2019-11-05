@@ -29,10 +29,7 @@ class QuestionController extends AbstractController
     }
 
     /**
-     *
-     *
      * @Route("/", name="question", methods={"GET"})
-     *
      */
     public function index()
     {
@@ -40,42 +37,37 @@ class QuestionController extends AbstractController
 
         return $this->render(
             'admin/question/index.html.twig',
-            array(
+            [
                 'questions' => $questions,
-            )
+            ]
         );
     }
 
     /**
-     *
-     *
      * @Route("/new", name="question_new", methods={"GET","POST"})
-     *
-     *
      */
     public function new(Request $request)
     {
         $question = new SanteQuestion();
         $form = $form = $this->createForm(SanteQuestionType::class, $question)
-            ->add('submit', SubmitType::class, array('label' => 'Create'));
+            ->add('submit', SubmitType::class, ['label' => 'Create']);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->santeQuestionRepository->insert($question);
 
-            $this->addFlash('success', "La question a bien été ajoutée");
+            $this->addFlash('success', 'La question a bien été ajoutée');
 
             return $this->redirectToRoute('question_show', ['id' => $question->getId()]);
         }
 
         return $this->render(
             'admin/question/new.html.twig',
-            array(
+            [
                 'question' => $question,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -88,10 +80,10 @@ class QuestionController extends AbstractController
 
         return $this->render(
             'admin/question/show.html.twig',
-            array(
+            [
                 'question' => $santeQuestion,
                 'delete_form' => $deleteForm->createView(),
-            )
+            ]
         );
     }
 
@@ -103,9 +95,9 @@ class QuestionController extends AbstractController
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('question_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('question_delete', ['id' => $id]))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, array('label' => 'Delete', 'attr' => array('class' => 'btn-danger')))
+            ->add('submit', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
             ->getForm();
     }
 
@@ -115,32 +107,29 @@ class QuestionController extends AbstractController
     public function edit(Request $request, SanteQuestion $question)
     {
         $editForm = $form = $this->createForm(SanteQuestionType::class, $question)
-            ->add('submit', SubmitType::class, array('label' => 'Update'));
+            ->add('submit', SubmitType::class, ['label' => 'Update']);
 
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted()) {
-
             $this->santeQuestionRepository->save();
 
-            $this->addFlash('success', "La question a bien été mis à jour");
+            $this->addFlash('success', 'La question a bien été mis à jour');
 
             return $this->redirectToRoute('question_show', ['id' => $question->getId()]);
         }
 
         return $this->render(
             'admin/question/edit.html.twig',
-            array(
+            [
                 'question' => $question,
                 'edit_form' => $editForm->createView(),
-            )
+            ]
         );
     }
 
     /**
-     *
      * @Route("/{id}", name="question_delete", methods={"DELETE"})
-     *
      */
     public function delete(Request $request, SanteQuestion $question)
     {
@@ -148,24 +137,21 @@ class QuestionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->santeQuestionRepository->remove($question);
 
-            $this->addFlash('success', "La question a bien été supprimée");
+            $this->addFlash('success', 'La question a bien été supprimée');
         }
 
         return $this->redirectToRoute('question');
     }
 
     /**
-     *
      * @Route("/trier", name="question_trier", methods={"GET","POST"})
-     *
      */
     public function trier(Request $request)
     {
         if ($request->isXmlHttpRequest()) {
-            $questions = $request->request->get("questions");
+            $questions = $request->request->get('questions');
             if (is_array($questions)) {
                 foreach ($questions as $position => $questionId) {
                     $santeQuestion = $this->santeQuestionRepository->find($questionId);
@@ -185,9 +171,9 @@ class QuestionController extends AbstractController
 
         return $this->render(
             'admin/question/trier.html.twig',
-            array(
+            [
                 'questions' => $questions,
-            )
+            ]
         );
     }
 }

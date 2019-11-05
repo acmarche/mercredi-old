@@ -3,7 +3,6 @@
 namespace AcMarche\Mercredi\Plaine\Tests\Z;
 
 use AcMarche\Mercredi\Admin\Tests\BaseUnit;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ZDeletePlaineTest extends BaseUnit
 {
@@ -11,11 +10,11 @@ class ZDeletePlaineTest extends BaseUnit
     {
         //je vais sur carnaval
         $crawler = $this->admin->request('GET', '/plaine/plaine/carnaval_2020');
-        $this->assertEquals(200, $this->admin->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET plaine/plaine/carnaval_2020");
+        $this->assertEquals(200, $this->admin->getResponse()->getStatusCode(), 'Unexpected HTTP status code for GET plaine/plaine/carnaval_2020');
 
         //je vais sur dineur
         $crawler = $this->admin->click($crawler->selectLink('LERUTH Timeo')->link());
-        $this->assertEquals(200, $this->admin->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET enfant LERUTH Timeo");
+        $this->assertEquals(200, $this->admin->getResponse()->getStatusCode(), 'Unexpected HTTP status code for GET enfant LERUTH Timeo');
 
         $crawler = $this->admin->click($crawler->selectLink("Retirer l'enfant de la plaine")->link());
         $this->admin->submit($crawler->selectButton('Supprimer')->form());
@@ -23,13 +22,13 @@ class ZDeletePlaineTest extends BaseUnit
         $crawler = $this->admin->followRedirect();
 
         // Check the entity has been delete on the list
-        $this->assertNotRegExp('/LERUTH/', "Leruth Timeo tjs dans plaine");
+        $this->assertNotRegExp('/LERUTH/', 'Leruth Timeo tjs dans plaine');
     }
 
     public function testDeleteTimeo()
     {
         $crawler = $this->admin->request('GET', '/admin/enfant/leruth_timeo');
-        $this->assertEquals(200, $this->admin->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /admin/enfant/leruth_timeo");
+        $this->assertEquals(200, $this->admin->getResponse()->getStatusCode(), 'Unexpected HTTP status code for GET /admin/enfant/leruth_timeo');
 
         $crawler = $this->admin->click($crawler->selectLink("Supprimer l'enfant")->link());
 
@@ -42,7 +41,7 @@ class ZDeletePlaineTest extends BaseUnit
 
     /**
      * Je supprime les deux dates ajoutees
-     * a carnaval
+     * a carnaval.
      */
     public function testDeleteDatesCarvanal()
     {

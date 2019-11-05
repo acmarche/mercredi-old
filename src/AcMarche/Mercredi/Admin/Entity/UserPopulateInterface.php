@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 20/11/18
- * Time: 9:44
+ * Time: 9:44.
  */
 
 namespace AcMarche\Mercredi\Admin\Entity;
-
 
 interface UserPopulateInterface
 {
@@ -24,5 +23,4 @@ interface UserPopulateInterface
     public function setEmail(?string $email);
 
     public function getRoleByDefault(): string;
-
 }

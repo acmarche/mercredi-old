@@ -57,14 +57,13 @@ class UtilisateurController extends AbstractController
 
     /**
      * @Route("/", name="utilisateur")
-     *
      */
     public function index(Request $request)
     {
         $session = $request->getSession();
 
-        $key = "utilisateur_search";
-        $data = $utilisateurs = array();
+        $key = 'utilisateur_search';
+        $data = $utilisateurs = [];
         $search = false;
 
         if ($session->has($key)) {
@@ -75,9 +74,9 @@ class UtilisateurController extends AbstractController
         $search_form = $this->createForm(
             SearchUtilisateurType::class,
             $data,
-            array(
+            [
                 'method' => 'GET',
-            )
+            ]
         );
 
         $search_form->handleRequest($request);
@@ -102,15 +101,14 @@ class UtilisateurController extends AbstractController
 
         return $this->render(
             'security/utilisateur/index.html.twig',
-            array(
+            [
                 'search_form' => $search_form->createView(),
                 'users' => $utilisateurs,
-            )
+            ]
         );
     }
 
     /**
-     *
      * @Route("/new", name="utilisateur_new", methods={"GET","POST"})
      */
     public function new(Request $request)
@@ -123,31 +121,29 @@ class UtilisateurController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->userManager->insert($user);
             $this->addFlash('success', "L'utilisateur a bien été ajouté");
 
-            $this->addFlash('info', sprintf("Mot de passe généré: %s:", $user->getPlainPassword()));
+            $this->addFlash('info', sprintf('Mot de passe généré: %s:', $user->getPlainPassword()));
 
             $this->mailer->sendNewAccountToUser($user);
 
             $this->addFlash('info', "Un email contenant le nom d'utilisateur et le mot de passe a été envoyé");
 
-            return $this->redirectToRoute('utilisateur_show', array('id' => $user->getId()));
+            return $this->redirectToRoute('utilisateur_show', ['id' => $user->getId()]);
         }
 
         return $this->render(
             'security/utilisateur/new.html.twig',
-            array(
+            [
                 'user' => $user,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
     /**
      * @Route("/new/fromtuteur/{id}", name="utilisateur_new_tuteur", methods={"GET","POST"})
-     *
      */
     public function newFromTuteur(Request $request, Tuteur $tuteur)
     {
@@ -160,29 +156,27 @@ class UtilisateurController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user = $this->userManager->newFromTuteur($tuteur, $user);
             $this->mailer->sendNewAccountToParent($user, $tuteur, $user->getPlainPassword());
-            $this->addFlash('success', "Un mail de bienvenue a été envoyé");
+            $this->addFlash('success', 'Un mail de bienvenue a été envoyé');
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté");
 
-            return $this->redirectToRoute('utilisateur_show', array('id' => $user->getId()));
+            return $this->redirectToRoute('utilisateur_show', ['id' => $user->getId()]);
         }
 
         return $this->render(
             'security/utilisateur/new.html.twig',
-            array(
+            [
                 'user' => $user,
                 'entity' => $tuteur,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
     /**
      * @Route("/new/fromanimateur/{id}", name="utilisateur_new_animateur", methods={"GET","POST"})
-     *
      */
     public function newFromAnimateur(Request $request, Animateur $animateur)
     {
@@ -195,22 +189,21 @@ class UtilisateurController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->userManager->newFromAnimateur($animateur, $user);
             $this->mailer->sendNewAccountToAnimateur($user, $animateur, $user->getPlainPassword());
-            $this->addFlash('success', "Un mail de bienvenue a été envoyé");
+            $this->addFlash('success', 'Un mail de bienvenue a été envoyé');
             $this->addFlash('success', "L'utilisateur a bien été ajouté");
 
-            return $this->redirectToRoute('utilisateur_show', array('id' => $user->getId()));
+            return $this->redirectToRoute('utilisateur_show', ['id' => $user->getId()]);
         }
 
         return $this->render(
             'security/utilisateur/new.html.twig',
-            array(
+            [
                 'user' => $user,
                 'entity' => $animateur,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -218,20 +211,19 @@ class UtilisateurController extends AbstractController
      * Finds and displays a User entity.
      *
      * @Route("/{id}", name="utilisateur_show", methods={"GET"})
-     *
      */
     public function show(User $user)
     {
         $deleteForm = $this->createDeleteForm($user->getId());
-        $presences = $this->presenceRepository->search(array('user' => $user));
+        $presences = $this->presenceRepository->search(['user' => $user]);
 
         return $this->render(
             'security/utilisateur/show.html.twig',
-            array(
+            [
                 'user' => $user,
                 'presences' => $presences,
                 'delete_form' => $deleteForm->createView(),
-            )
+            ]
         );
     }
 
@@ -239,7 +231,6 @@ class UtilisateurController extends AbstractController
      * Displays a form to edit an existing Abonnement entity.
      *
      * @Route("/{id}/edit", name="utilisateur_edit", methods={"GET","POST"})
-     *
      */
     public function edit(Request $request, User $user)
     {
@@ -258,10 +249,10 @@ class UtilisateurController extends AbstractController
 
         return $this->render(
             'security/utilisateur/edit.html.twig',
-            array(
+            [
                 'user' => $user,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -269,7 +260,6 @@ class UtilisateurController extends AbstractController
      * Deletes a user entity.
      *
      * @Route("/{id}", name="utilisateur_delete", methods={"DELETE"})
-     *
      */
     public function delete(Request $request, User $user)
     {
@@ -277,7 +267,7 @@ class UtilisateurController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $presences = $this->presenceRepository->search(array('user' => $user));
+            $presences = $this->presenceRepository->search(['user' => $user]);
 
             if (count($presences) > 0) {
                 $this->addFlash(
@@ -306,9 +296,9 @@ class UtilisateurController extends AbstractController
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('utilisateur_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('utilisateur_delete', ['id' => $id]))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, array('label' => 'Delete', 'attr' => array('class' => 'btn-danger')))
+            ->add('submit', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
             ->getForm();
     }
 }

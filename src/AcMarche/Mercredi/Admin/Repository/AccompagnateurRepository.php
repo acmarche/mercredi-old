@@ -20,7 +20,6 @@ class AccompagnateurRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param array $ecoles
      * @return Accompagnateur[]
      */
     public function findByEcoles(array $ecoles)

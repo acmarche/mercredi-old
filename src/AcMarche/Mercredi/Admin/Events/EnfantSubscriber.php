@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 17/01/18
- * Time: 11:19
+ * Time: 11:19.
  */
 
 namespace AcMarche\Mercredi\Admin\Events;
@@ -25,9 +25,6 @@ class EnfantSubscriber extends AbstractLoggerEntitySubscriber implements EventSu
         ];
     }
 
-    /**
-     * @param EnfantEvent $event
-     */
     public function onEnfantShow(EnfantEvent $event)
     {
         $this->logEntity(
@@ -38,9 +35,6 @@ class EnfantSubscriber extends AbstractLoggerEntitySubscriber implements EventSu
         );
     }
 
-    /**
-     * @param EnfantEvent $event
-     */
     public function onEnfantEdit(EnfantEvent $event)
     {
         $this->logEntity(
@@ -51,9 +45,6 @@ class EnfantSubscriber extends AbstractLoggerEntitySubscriber implements EventSu
         );
     }
 
-    /**
-     * @param EnfantEvent $event
-     */
     public function onEnfantDownload(EnfantEvent $event)
     {
         $this->logEntity(

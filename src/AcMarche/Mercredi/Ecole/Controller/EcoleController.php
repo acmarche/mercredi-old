@@ -11,7 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 /**
  * Ecole controller.
  *
@@ -24,22 +23,21 @@ class EcoleController extends AbstractController
      * Lists all Ecole entities.
      *
      * @Route("/", name="ecole_ecole_index", methods={"GET"})
-     *
      */
     public function index()
     {
         $user = $this->getUser();
 
         /**
-         * @var Ecole[] $ecoles
+         * @var Ecole[]
          */
         $ecoles = $user->getEcoles();
 
         return $this->render(
             'ecole/ecole/index.html.twig',
-            array(
+            [
                 'ecoles' => $ecoles,
-            )
+            ]
         );
     }
 
@@ -53,9 +51,9 @@ class EcoleController extends AbstractController
     {
         return $this->render(
             'ecole/ecole/show.html.twig',
-            array(
+            [
                 'ecole' => $ecole,
-            )
+            ]
         );
     }
 
@@ -74,7 +72,7 @@ class EcoleController extends AbstractController
             ->add(
                 'submit',
                 SubmitType::class,
-                ['label' => 'Update',]
+                ['label' => 'Update']
             );
 
         $editForm->handleRequest($request);
@@ -89,11 +87,10 @@ class EcoleController extends AbstractController
 
         return $this->render(
             'ecole/ecole/edit.html.twig',
-            array(
+            [
                 'ecole' => $ecole,
                 'edit_form' => $editForm->createView(),
-            )
+            ]
         );
     }
-
 }

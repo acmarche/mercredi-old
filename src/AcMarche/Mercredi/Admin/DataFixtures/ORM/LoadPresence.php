@@ -4,19 +4,18 @@ namespace AcMarche\Mercredi\Admin\DataFixtures\ORM;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadPresence extends Fixture implements ORMFixtureInterface, DependentFixtureInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
-
         /**
-         * Le 2016-10-05 lisa marie arwen
+         * Le 2016-10-05 lisa marie arwen.
          */
         $presence = new \AcMarche\Mercredi\Admin\Entity\Presence();
         $presence->setJour($this->getReference('2016-10-05'));
@@ -38,7 +37,7 @@ class LoadPresence extends Fixture implements ORMFixtureInterface, DependentFixt
         $manager->persist($presence);
 
         /**
-         * le 2016-10-17 arwen seul
+         * le 2016-10-17 arwen seul.
          */
         $presence = new \AcMarche\Mercredi\Admin\Entity\Presence();
         $presence->setJour($this->getReference('2016-10-17'));
@@ -48,7 +47,7 @@ class LoadPresence extends Fixture implements ORMFixtureInterface, DependentFixt
         $manager->persist($presence);
 
         /**
-         * le 2016-10-19 lisa et arwen
+         * le 2016-10-19 lisa et arwen.
          */
         $presence = new \AcMarche\Mercredi\Admin\Entity\Presence();
         $presence->setJour($this->getReference('2016-10-19'));
@@ -64,7 +63,7 @@ class LoadPresence extends Fixture implements ORMFixtureInterface, DependentFixt
         $manager->persist($presence);
 
         /**
-         * le 2016-10-26 Marie et arwen
+         * le 2016-10-26 Marie et arwen.
          */
         $presence = new \AcMarche\Mercredi\Admin\Entity\Presence();
         $presence->setJour($this->getReference('2016-10-26'));
@@ -80,7 +79,7 @@ class LoadPresence extends Fixture implements ORMFixtureInterface, DependentFixt
         $manager->persist($presence);
 
         /**
-         * le 2016-10-29 Lisa et Marie absente
+         * le 2016-10-29 Lisa et Marie absente.
          */
         $presence = new \AcMarche\Mercredi\Admin\Entity\Presence();
         $presence->setJour($this->getReference('2016-10-29'));
@@ -97,7 +96,7 @@ class LoadPresence extends Fixture implements ORMFixtureInterface, DependentFixt
         $manager->persist($presence);
 
         /**
-         * le 2016-10-12 zora avec lisa
+         * le 2016-10-12 zora avec lisa.
          */
         $presence = new \AcMarche\Mercredi\Admin\Entity\Presence();
         $presence->setJour($this->getReference('2016-10-12'));
@@ -112,7 +111,7 @@ class LoadPresence extends Fixture implements ORMFixtureInterface, DependentFixt
         $manager->persist($presence);
 
         /**
-         * le 2016-11-01 zora seul
+         * le 2016-11-01 zora seul.
          */
         $presence = new \AcMarche\Mercredi\Admin\Entity\Presence();
         $presence->setJour($this->getReference('2016-11-01'));
@@ -121,7 +120,7 @@ class LoadPresence extends Fixture implements ORMFixtureInterface, DependentFixt
         $manager->persist($presence);
 
         /**
-         * le 2016-11-05 zora avec arwen
+         * le 2016-11-05 zora avec arwen.
          */
         $presence = new \AcMarche\Mercredi\Admin\Entity\Presence();
         $presence->setJour($this->getReference('2016-11-05'));
@@ -136,7 +135,7 @@ class LoadPresence extends Fixture implements ORMFixtureInterface, DependentFixt
         $manager->persist($presence);
 
         /**
-         * 2016-10-08 lisa et marie
+         * 2016-10-08 lisa et marie.
          */
         $presence = new \AcMarche\Mercredi\Admin\Entity\Presence();
         $presence->setJour($this->getReference('2016-11-08'));
@@ -152,7 +151,7 @@ class LoadPresence extends Fixture implements ORMFixtureInterface, DependentFixt
         $manager->persist($presence);
 
         /**
-         * 2016-11-11 lisa seule
+         * 2016-11-11 lisa seule.
          */
         $presence = new \AcMarche\Mercredi\Admin\Entity\Presence();
         $presence->setJour($this->getReference('2016-11-11'));

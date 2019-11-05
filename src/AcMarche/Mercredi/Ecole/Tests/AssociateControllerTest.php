@@ -16,7 +16,7 @@ class AssociateControllerTest extends BaseUnit
         $crawler = $this->admin->click($crawler->selectLink('Associer une école')->link());
 
         $form = $crawler->selectButton('Mettre à jour')->form(
-            array()
+            []
         );
 
         $ecole = $this->getEcole('Athénée');

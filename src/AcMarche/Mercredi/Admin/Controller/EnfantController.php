@@ -2,24 +2,24 @@
 
 namespace AcMarche\Mercredi\Admin\Controller;
 
+use AcMarche\Mercredi\Admin\Entity\Enfant;
+use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Admin\Events\EnfantEvent;
+use AcMarche\Mercredi\Admin\Form\Enfant\EnfantType;
+use AcMarche\Mercredi\Admin\Form\Search\SearchEnfantType;
 use AcMarche\Mercredi\Admin\Repository\EnfantRepository;
+use AcMarche\Mercredi\Admin\Service\Facture;
 use AcMarche\Mercredi\Admin\Service\FileUploader;
 use AcMarche\Mercredi\Admin\Service\FormService;
 use AcMarche\Mercredi\Admin\Service\FraterieService;
 use AcMarche\Mercredi\Plaine\Repository\PlaineEnfantRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
-use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
-use AcMarche\Mercredi\Admin\Form\Enfant\EnfantType;
-use AcMarche\Mercredi\Admin\Form\Search\SearchEnfantType;
-use AcMarche\Mercredi\Admin\Service\Facture;
 
 /**
  * Enfant controller.
@@ -81,14 +81,13 @@ class EnfantController extends AbstractController
      *
      * @Route("/", name="enfant", methods={"GET"})
      * @Route("/all/{all}", name="enfant_all")
-     *
      */
     public function index(Request $request, $all = false)
     {
         $session = $request->getSession();
-        $key = "enfant_search";
+        $key = 'enfant_search';
 
-        $data = array();
+        $data = [];
         $search = false;
 
         if ($session->has($key)) {
@@ -99,10 +98,10 @@ class EnfantController extends AbstractController
         $search_form = $this->createForm(
             SearchEnfantType::class,
             $data,
-            array(
+            [
                 'action' => $this->generateUrl('enfant'),
                 'method' => 'GET',
-            )
+            ]
         );
 
         $search_form->handleRequest($request);
@@ -130,11 +129,11 @@ class EnfantController extends AbstractController
 
         return $this->render(
             'admin/enfant/index.html.twig',
-            array(
+            [
                 'search_form' => $search_form->createView(),
                 'enfants' => $enfants,
                 'search' => $search,
-            )
+            ]
         );
     }
 
@@ -144,7 +143,6 @@ class EnfantController extends AbstractController
      * @Route("/new", name="enfant_new", methods={"GET","POST"})
      * @Route("/new/{id}", name="enfant_new_with_tuteur", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function new(Request $request, Tuteur $tuteur = null)
     {
@@ -156,7 +154,7 @@ class EnfantController extends AbstractController
         }
 
         $form = $this->createForm(EnfantType::class, $enfant)
-            ->add('submit', SubmitType::class, array('label' => 'Create'));
+            ->add('submit', SubmitType::class, ['label' => 'Create']);
 
         $form->handleRequest($request);
 
@@ -182,16 +180,16 @@ class EnfantController extends AbstractController
 
             $this->addFlash('success', "L'enfant a bien été ajouté");
 
-            return $this->redirectToRoute('enfant_show', array('slugname' => $enfant->getSlugname()));
+            return $this->redirectToRoute('enfant_show', ['slugname' => $enfant->getSlugname()]);
         }
 
         return $this->render(
             'admin/enfant/new.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'tuteur' => $tuteur,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -199,7 +197,6 @@ class EnfantController extends AbstractController
      * Finds and displays a Enfant entity.
      *
      * @Route("/{slugname}", name="enfant_show", methods={"GET"})
-     *
      */
     public function show(Enfant $enfant)
     {
@@ -221,7 +218,7 @@ class EnfantController extends AbstractController
         $allFratries = $this->fraterieService->getFratrie($enfant);
         $enfant_tuteurs = $this->facture->traitement($enfant);
 
-        $plaines = $this->plaineEnfantRepository->search(array('enfant_id' => $enfant->getId()));
+        $plaines = $this->plaineEnfantRepository->search(['enfant_id' => $enfant->getId()]);
 
         $deleteForm = $this->createDeleteForm($enfant->getId());
         $form_detach = $this->formService->createDetachForm($enfant);
@@ -230,7 +227,7 @@ class EnfantController extends AbstractController
 
         return $this->render(
             'admin/enfant/show.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'plaines' => $plaines,
                 'fratries' => $allFratries,
@@ -240,27 +237,24 @@ class EnfantController extends AbstractController
                 'form_detach' => $form_detach->createView(),
                 'form_attach' => $form_attach->createView(),
                 'form_delete_presences' => $deletePresencesForm->createView(),
-            )
+            ]
         );
     }
-
 
     /**
      * Displays a form to edit an existing Enfant entity.
      *
      * @Route("/{slugname}/edit", name="enfant_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function edit(Request $request, Enfant $enfant)
     {
         $form = $this->createForm(EnfantType::class, $enfant)
-            ->add('submit', SubmitType::class, array('label' => 'Update'));
+            ->add('submit', SubmitType::class, ['label' => 'Update']);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $newList = $form->get('accompagnateurs')->getData();
             $enfant->setAccompagnateurs($newList);
             $this->fileUploader->traitementFiles($enfant);
@@ -269,7 +263,7 @@ class EnfantController extends AbstractController
 
             $this->addFlash('success', "L'enfant a bien été mis à jour");
 
-            return $this->redirectToRoute('enfant_show', array('slugname' => $enfant->getSlugname()));
+            return $this->redirectToRoute('enfant_show', ['slugname' => $enfant->getSlugname()]);
         }
 
         $this->eventDispatcher->dispatch(
@@ -279,10 +273,10 @@ class EnfantController extends AbstractController
 
         return $this->render(
             'admin/enfant/edit.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'edit_form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -296,9 +290,9 @@ class EnfantController extends AbstractController
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('enfant_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('enfant_delete', ['id' => $id]))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, array('label' => 'Delete', 'attr' => array('class' => 'btn-danger')))
+            ->add('submit', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
             ->getForm();
     }
 
@@ -314,7 +308,6 @@ class EnfantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->enfantRepository->remove($enfant);
 
             $this->addFlash('success', "L'enfant a bien été supprimé");
@@ -322,5 +315,4 @@ class EnfantController extends AbstractController
 
         return $this->redirectToRoute('enfant');
     }
-
 }

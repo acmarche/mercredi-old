@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 30/03/18
- * Time: 13:02
+ * Time: 13:02.
  */
 
 namespace AcMarche\Mercredi\Plaine\Validator\Constraints;

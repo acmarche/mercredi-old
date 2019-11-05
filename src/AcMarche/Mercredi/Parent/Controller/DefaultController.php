@@ -16,9 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
- * Class DefaultController
- * @package Enfance\ParentBundle\Controller
- *
+ * Class DefaultController.
  */
 class DefaultController extends AbstractController
 {
@@ -73,7 +71,6 @@ class DefaultController extends AbstractController
     }
 
     /**
-     *
      * @Route("/", name="home_parent")
      */
     public function index()
@@ -110,24 +107,23 @@ class DefaultController extends AbstractController
 
         $plaine = $this->plaineService->getPlaineOuverte();
 
-        $year = date('Y')-1;
+        $year = date('Y') - 1;
 
         return $this->render(
             'parent/default/index.html.twig',
-            array(
+            [
                 'presences' => $presences,
                 'enfants' => $enfants,
                 'presencesPlaines' => $presencesPlaines,
                 'plaine' => $plaine,
                 'tuteurIsComplete' => $tuteurIsComplete,
                 'year' => $year,
-            )
+            ]
         );
     }
 
     /**
      * @Route("/nouveau", name="parent_nouveau")
-     *
      */
     public function nouveau()
     {

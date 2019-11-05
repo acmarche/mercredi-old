@@ -1,8 +1,9 @@
 <?php
+
 namespace AcMarche\Mercredi\Admin\Form\DataTransformer;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use AcMarche\Mercredi\Admin\Entity\Enfant;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
@@ -13,9 +14,6 @@ class EnfantToNumberTransformer implements DataTransformerInterface
      */
     private $om;
 
-    /**
-     * @param ObjectManager $om
-     */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;
@@ -24,13 +22,14 @@ class EnfantToNumberTransformer implements DataTransformerInterface
     /**
      * Transforms an object (enfant) to a string (number).
      *
-     * @param  Enfant|null $enfant
+     * @param Enfant|null $enfant
+     *
      * @return string
      */
     public function transform($enfant)
     {
         if (null === $enfant) {
-            return "";
+            return '';
         }
 
         return $enfant->getId();
@@ -39,11 +38,11 @@ class EnfantToNumberTransformer implements DataTransformerInterface
     /**
      * Transforms a string (number) to an object (enfant).
      *
-     * @param  string $number
+     * @param string $number
      *
      * @return Enfant|null
      *
-     * @throws TransformationFailedException if object (enfant) is not found.
+     * @throws TransformationFailedException if object (enfant) is not found
      */
     public function reverseTransform($number)
     {
@@ -56,10 +55,7 @@ class EnfantToNumberTransformer implements DataTransformerInterface
             ->find($number);
 
         if (null === $enfant) {
-            throw new TransformationFailedException(sprintf(
-                'An enfant with number "%s" does not exist!',
-                $number
-            ));
+            throw new TransformationFailedException(sprintf('An enfant with number "%s" does not exist!', $number));
         }
 
         return $enfant;

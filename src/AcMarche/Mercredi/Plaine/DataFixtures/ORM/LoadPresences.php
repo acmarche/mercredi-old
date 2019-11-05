@@ -3,18 +3,17 @@
 namespace AcMarche\Mercredi\Plaine\DataFixtures\ORM;
 
 use AcMarche\Mercredi\Admin\DataFixtures\ORM\LoadUtilisateur;
-use AcMarche\Mercredi\Plaine\Entity\Plaine;
+use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
+use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
-use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadPresences extends Fixture implements ORMFixtureInterface, DependentFixtureInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
@@ -34,7 +33,7 @@ class LoadPresences extends Fixture implements ORMFixtureInterface, DependentFix
         $manager->persist($plaineEnfant);
         $this->addReference('plaine-marie-philippe', $plaineEnfant);
 
-        $dates = array("2020-11-09", "2020-11-10");
+        $dates = ['2020-11-09', '2020-11-10'];
 
         foreach ($dates as $date) {
             $presence = new PlainePresence();
@@ -56,7 +55,7 @@ class LoadPresences extends Fixture implements ORMFixtureInterface, DependentFix
             $manager->persist($presence);
         }
 
-        $dates = array("2020-11-11");
+        $dates = ['2020-11-11'];
 
         foreach ($dates as $date) {
             $presence = new PlainePresence();

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 10/07/18
- * Time: 14:16
+ * Time: 14:16.
  */
 
 namespace AcMarche\Mercredi\Security;
@@ -11,11 +11,14 @@ namespace AcMarche\Mercredi\Security;
 use AcMarche\Mercredi\Security\Entity\User;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 class MailerSecurity
 {
     protected $mail;
+    /**
+     * @var Environment
+     */
     protected $twig;
     protected $rootPath;
     protected $emailFrom;
@@ -28,7 +31,7 @@ class MailerSecurity
      */
     private $router;
 
-    public function __construct(\Swift_Mailer $mailer, EngineInterface $twigEngine, ParameterBagInterface $parameterBag, RouterInterface $router)
+    public function __construct(\Swift_Mailer $mailer, Environment $twigEngine, ParameterBagInterface $parameterBag, RouterInterface $router)
     {
         $this->mailer = $mailer;
         $this->twig = $twigEngine;
@@ -58,10 +61,9 @@ class MailerSecurity
         $this->mailer->send($mail);
     }
 
-
     public function sendRequestNewPassword(User $user)
     {
-        $url = $this->router->generate('mercredi_password_reset', ['token'=>$user->getConfirmationToken()]);
+        $url = $this->router->generate('mercredi_password_reset', ['token' => $user->getConfirmationToken()]);
         $body = $this->twig->render(
             'security/mail/request_password.txt.twig',
             [

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 22/08/18
- * Time: 13:17
+ * Time: 13:17.
  */
 
 namespace AcMarche\Mercredi\Security\Manager;
@@ -104,7 +104,7 @@ class UserManager
     public function insert(User $user)
     {
         $user->setEmail($user->getEmail());
-        $user->setUsername($user->getEmail());//pour setUsername();
+        $user->setUsername($user->getEmail()); //pour setUsername();
         $this->passwordManager->generateNewPasswordAndSetPlainPassword($user);
         $this->passwordManager->changePassword($user, $user->getPlainPassword());
         $this->userRepository->insert($user);
@@ -143,7 +143,6 @@ class UserManager
     }
 
     /**
-     * @param string $email
      * @return User|null
      */
     public function findOneByEmail(string $email)
@@ -154,17 +153,15 @@ class UserManager
     public function getRolesForProfile(User $user): iterable
     {
         $roles = $user->getRoles();
-        if (($key = array_search('ROLE_USER', $roles)) !== false) {
+        if (false !== ($key = array_search('ROLE_USER', $roles))) {
             unset($roles[$key]);
         }
         if ($user->hasRole('ROLE_MERCREDI_ADMIN')) {
-            if (($key = array_search('ROLE_MERCREDI_READ', $roles)) !== false) {
+            if (false !== ($key = array_search('ROLE_MERCREDI_READ', $roles))) {
                 unset($roles[$key]);
             }
-
         }
 
         return $roles;
     }
-
 }

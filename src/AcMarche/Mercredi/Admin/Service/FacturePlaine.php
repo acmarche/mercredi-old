@@ -2,19 +2,18 @@
 
 namespace AcMarche\Mercredi\Admin\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
+use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
 use AcMarche\Mercredi\Admin\Entity\Paiement;
-use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
 use AcMarche\Mercredi\Admin\Entity\Presence;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
-use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
-use AcMarche\Mercredi\Plaine\Entity\PlaineJour;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
+use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
+use AcMarche\Mercredi\Plaine\Entity\PlaineJour;
+use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Facture
- *
+ * Facture.
  */
 class FacturePlaine
 {
@@ -31,11 +30,11 @@ class FacturePlaine
      * Traitement de la presence
      * Ajouter la fratrie presente le meme jour
      * Change l'ordre de l'enfant suivant la fratrie
-     * Calcul le cout de la journee
-     * @param PlainePresence $presence
+     * Calcul le cout de la journee.
+     *
      * @param [] $fratries
      */
-    public function handlePresence(PlainePresence $presence, $fratries = array())
+    public function handlePresence(PlainePresence $presence, $fratries = [])
     {
         $presenceFratries = $this->getFratrieByPresence($presence, $fratries);
 
@@ -50,9 +49,10 @@ class FacturePlaine
     }
 
     /**
-     * Pour obtenir l'ordre, j'ai besoin de la fratrie ce jour la
-     * @param PlainePresence $presence
-     * @param null|array $fratries
+     * Pour obtenir l'ordre, j'ai besoin de la fratrie ce jour la.
+     *
+     * @param array|null $fratries
+     *
      * @return int
      */
     public function getOrdre(PlainePresence $presence, $fratries = null)
@@ -61,7 +61,7 @@ class FacturePlaine
         $tuteur = $presence->getTuteur();
         $enfant = $plaineEnfant->getEnfant();
 
-        /**
+        /*
          * si ordre sur presence
          */
         if ($presence->getOrdre()) {
@@ -70,11 +70,11 @@ class FacturePlaine
 
         $ordreBase = $enfant->getOrdre();
 
-        /**
+        /*
          * si ordre definit dans la relation tuteur enfant
          */
         if ($tuteur) {
-            $args = array('enfant_id' => $enfant->getId(), 'tuteur_id' => $tuteur->getId(), 'one' => 1);
+            $args = ['enfant_id' => $enfant->getId(), 'tuteur_id' => $tuteur->getId(), 'one' => 1];
             $enfantTuteur = $this->em->getRepository(EnfantTuteur::class)->search($args);
 
             if ($enfantTuteur->getOrdre()) {
@@ -82,10 +82,10 @@ class FacturePlaine
             }
         }
 
-        /**
+        /*
          * ordre change pas quand vaut 1
          */
-        if ($ordreBase == 1) {
+        if (1 == $ordreBase) {
             return $ordreBase;
         }
 
@@ -93,32 +93,31 @@ class FacturePlaine
             $fratries = $this->getFratrieByPresence($presence, null, false);
         }
 
-
         /**
          * s'il y a des fratries le meme jour
-         * l'ordre va changer
+         * l'ordre va changer.
          */
         $countFratrie = count($fratries);
         //   echo "count $countFratrie \n ";
 
-        /**
+        /*
          * l'enfant est seul
          */
-        if ($countFratrie == 0) {
+        if (0 == $countFratrie) {
             return 1;
         }
 
-        /**
+        /*
          * si arwen en 3 et que au moins 2 fratries
          */
-        if ($ordreBase == 3 && $countFratrie > 1) {
+        if (3 == $ordreBase && $countFratrie > 1) {
             return 3;
         }
 
-        /**
+        /*
          * si arwen en 3 et que lisa la
          */
-        if ($ordreBase == 3 && $countFratrie == 1) {
+        if (3 == $ordreBase && 1 == $countFratrie) {
             $frere = $fratries[0];
 
             //deux enfants à 3, un des deux doit passer a un
@@ -131,7 +130,7 @@ class FacturePlaine
             return 2;
         }
 
-        /**
+        /*
          * si lisa en 2 et arwen en 3
          * count = 1
          * si marie en 1 lisa en 2
@@ -144,7 +143,7 @@ class FacturePlaine
             foreach ($fratries as $fratrie) {
                 $ordreFratrie = $fratrie->getOrdre();
                 //si marie en 1, lisa en 2
-                if ($ordreBase == 2 && $ordreFratrie == 1) {
+                if (2 == $ordreBase && 1 == $ordreFratrie) {
                     return 2;
                 }
 
@@ -177,9 +176,11 @@ class FacturePlaine
     }
 
     /**
-     * Retourne le prix suivant l'ordre
+     * Retourne le prix suivant l'ordre.
+     *
      * @param Presence $presence
-     * @param int $ordre
+     * @param int      $ordre
+     *
      * @return int
      */
     public function getCout(PlainePresence $presence, $ordre)
@@ -193,15 +194,16 @@ class FacturePlaine
     /**
      * Retourne la liste des fratrie presente sur une presence
      * Je prends toute la fratrie de tous les tuteurs
-     * puis je retire ceux qui ne sont pas presents
-     * @param PlainePresence $presence
+     * puis je retire ceux qui ne sont pas presents.
+     *
      * @param null $fratries
      * @param bool $withAbsent
+     *
      * @return array
      */
     public function getFratrieByPresence(PlainePresence $presence, $fratries = null, $withAbsent = true)
     {
-        $fratriesNew = array();
+        $fratriesNew = [];
 
         $plaineEnfant = $presence->getPlaineEnfant();
         $tuteur = $presence->getTuteur();
@@ -213,23 +215,23 @@ class FacturePlaine
             $fratries = $fratries = $this->getFratrie($enfant);
         }
 
-        /**
+        /*
          * frere inscrit a la plaine ?
          */
         foreach ($fratries as $fratrie) {
-            $args = array('plaine_id' => $plaine->getId(), 'enfant_id' => $fratrie->getId());
+            $args = ['plaine_id' => $plaine->getId(), 'enfant_id' => $fratrie->getId()];
             $present = $this->em->getRepository(PlaineEnfant::class)->search($args);
 
             if ($present) {
                 $fratrieClone = clone $fratrie; //je clone sinon modifie objet pour toutes les presences
 
                 $presenceFratrie = $this->em->getRepository(PlainePresence::class)->search(
-                    array(
+                    [
                         'jour' => $jour,
                         'tuteur' => $tuteur,
                         'plaine_enfant' => $present,
                         'one' => true,
-                    )
+                    ]
                 );
 
                 if ($presenceFratrie) {
@@ -251,9 +253,10 @@ class FacturePlaine
     }
 
     /**
-     * Retourne la fratrie
-     * @param Enfant $enfant
+     * Retourne la fratrie.
+     *
      * @param Tuteur $tuteur
+     *
      * @return array(Object Enfant)
      */
     public function getFratrie(Enfant $enfant, Tuteur $tuteur = null)
@@ -274,15 +277,14 @@ class FacturePlaine
      *      - Je vais chercher les presences du admin
      *      - Je vais chercher les presences des plaines
      *      Et j'effectue pour chaque presence un traitement
-     * - Je vais chercher les presences non payes (admin et plaines)
-     *
+     * - Je vais chercher les presences non payes (admin et plaines).
      */
     public function traitement(Tuteur $tuteur)
     {
-        $args = array('tuteur_id' => $tuteur->getId());
+        $args = ['tuteur_id' => $tuteur->getId()];
 
         /**
-         * je parcours tous les enfants du tuteur
+         * je parcours tous les enfants du tuteur.
          */
         $tuteurEnfants = $this->em->getRepository(EnfantTuteur::class)->search($args);
 
@@ -309,30 +311,29 @@ class FacturePlaine
     }
 
     /**
-     *
-     * @param Tuteur $tuteur
-     * @param Enfant $enfant
+     * @param Tuteur       $tuteur
+     * @param Enfant       $enfant
      * @param EnfantTuteur $tuteurEnfant
-     * @param Facture $facture
+     * @param Facture      $facture
      */
     protected function getNonPayes($tuteur, $enfant, $tuteurEnfant)
     {
-        $args2 = array('enfant_id' => $enfant->getId(), 'tuteur_id' => $tuteur->getId(), 'result' => true);
+        $args2 = ['enfant_id' => $enfant->getId(), 'tuteur_id' => $tuteur->getId(), 'result' => true];
         $nonpayes = $this->em->getRepository(Presence::class)->getPresencesNonPayes($args2);
         foreach ($nonpayes as $nonpaye) {
             $this->facture->handlePresence($nonpaye);
         }
 
         /**
-         * plaines non payes
+         * plaines non payes.
          */
-        $plainesnonpayes = array();
+        $plainesnonpayes = [];
 
         $plaines = $this->em->getRepository(PlaineEnfant::class)->search(
-            array('enfant_id' => $enfant->getId())
+            ['enfant_id' => $enfant->getId()]
         );
         foreach ($plaines as $plaine) {
-            $args3 = array('tuteur' => $tuteur, 'plaine_enfant' => $plaine);
+            $args3 = ['tuteur' => $tuteur, 'plaine_enfant' => $plaine];
             $tmp = $this->em->getRepository(PlainePresence::class)->getPresencesNonPayes($args3);
             foreach ($tmp as $presenceTmp) {
                 $plainesnonpayes[] = $presenceTmp;

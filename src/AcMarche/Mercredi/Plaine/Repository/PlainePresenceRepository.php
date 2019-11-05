@@ -2,18 +2,18 @@
 
 namespace AcMarche\Mercredi\Plaine\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Admin\Entity\Jour;
 use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
 use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method PlainePresence|null find($id, $lockMode = null, $lockVersion = null)
- * @method PlainePresence|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PlainePresence|null   find($id, $lockMode = null, $lockVersion = null)
+ * @method PlainePresence|null   findOneBy(array $criteria, array $orderBy = null)
  * @method PlainePresence[]|null findAll()
- * @method PlainePresence[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PlainePresence[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PlainePresenceRepository extends ServiceEntityRepository
 {
@@ -121,14 +121,16 @@ class PlainePresenceRepository extends ServiceEntityRepository
 
     /**
      * Donne la liste des enfants inscrits a la plaine
-     * Util quand j'ajoute une date a une plaine
-     * @param integer $plaine_id
+     * Util quand j'ajoute une date a une plaine.
+     *
+     * @param int $plaine_id
+     *
      * @return Enfant[]
      */
     public function getEnfantsByPlaineId($plaine_id = null)
     {
         if (!$plaine_id) {
-            return array();
+            return [];
         }
 
         $qb = $this->createQueryBuilder('p');
@@ -146,7 +148,7 @@ class PlainePresenceRepository extends ServiceEntityRepository
 
         $results = $query->getResult();
 
-        $enfants = array();
+        $enfants = [];
 
         foreach ($results as $result) {
             $enfants[] = $result->getEnfant();
@@ -157,15 +159,17 @@ class PlainePresenceRepository extends ServiceEntityRepository
 
     /**
      * Donne la liste des enfants inscrits a la plaine
-     * Util quand j'ajoute une date a une plaine
+     * Util quand j'ajoute une date a une plaine.
+     *
      * @param array $plaineEnfantIds
-     * @param integer $plaine_id
+     * @param int   $plaine_id
+     *
      * @return Enfant[]
      */
     public function getEnfantsByPlaineAndByJour($plaineEnfantIds, $jour_id)
     {
         if (!$jour_id) {
-            return array();
+            return [];
         }
 
         $qb = $this->createQueryBuilder('pp');
@@ -186,7 +190,7 @@ class PlainePresenceRepository extends ServiceEntityRepository
 
         $presences = $query->getResult();
 
-        $enfants = array();
+        $enfants = [];
 
         foreach ($presences as $presence) {
             $plaine_enfant = $presence->getPlaineEnfant();
@@ -198,16 +202,16 @@ class PlainePresenceRepository extends ServiceEntityRepository
 
     /**
      * Retoure la liste des jour pour lequels
-     * l'enfant est inscrit
-     * @param PlaineEnfant $plaine_enfant
+     * l'enfant est inscrit.
+     *
      * @return Jour[]
      */
     public function getJoursInscrits(PlaineEnfant $plaine_enfant)
     {
         $plaine_enfant_id = $plaine_enfant->getId();
-        $presences = $this->search(array('plaine_enfant_id' => $plaine_enfant_id));
+        $presences = $this->search(['plaine_enfant_id' => $plaine_enfant_id]);
 
-        $jours_enfant = array();
+        $jours_enfant = [];
         foreach ($presences as $presence) {
             $jours_enfant[] = $presence->getJour();
         }
@@ -217,6 +221,7 @@ class PlainePresenceRepository extends ServiceEntityRepository
 
     /**
      * @param $args
+     *
      * @return PlainePresence[]|PlainePresence
      */
     public function search($args)
@@ -241,6 +246,7 @@ class PlainePresenceRepository extends ServiceEntityRepository
 
     /**
      * @param $args
+     *
      * @return PlainePresence[]
      */
     public function getPresencesNonPayes($args)
@@ -267,8 +273,10 @@ class PlainePresenceRepository extends ServiceEntityRepository
     }
 
     /**
-     * Utiliser pour form plainePresencePaiementType
+     * Utiliser pour form plainePresencePaiementType.
+     *
      * @param $args
+     *
      * @return \Doctrine\ORM\QueryBuilder
      */
     public function getPresencesNonPayes2($args)
@@ -281,6 +289,7 @@ class PlainePresenceRepository extends ServiceEntityRepository
 
     /**
      * @param $args
+     *
      * @return PlainePresence[]
      */
     public function getPresences($args)
@@ -290,17 +299,17 @@ class PlainePresenceRepository extends ServiceEntityRepository
         $date = isset($args['date']) ? $args['date'] : null;
         $onlypaye = isset($args['onlypaye']) ? $args['onlypaye'] : null;
 
-        $results = array();
+        $results = [];
 
         if (!$enfant or !$tuteur) {
             return $results;
         }
 
-        $args = array('enfant_id' => $enfant->getId());
+        $args = ['enfant_id' => $enfant->getId()];
         $enfantPlaines = $this->getEntityManager()->getRepository(PlaineEnfant::class)->search($args);
 
         foreach ($enfantPlaines as $enfantPlaine) {
-            $args = array();
+            $args = [];
             if ($date) {
                 $args['date'] = $date;
             }

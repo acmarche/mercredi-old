@@ -5,10 +5,6 @@ namespace AcMarche\Mercredi\Parent\Tests;
 use AcMarche\Mercredi\Commun\Utils\DateService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-/**
- *
- *
- */
 class ServiceTest extends KernelTestCase
 {
     /**
@@ -17,7 +13,7 @@ class ServiceTest extends KernelTestCase
     private $dateService;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function setUp()
     {
@@ -26,8 +22,7 @@ class ServiceTest extends KernelTestCase
     }
 
     /**
-     * Presence = Admin 21
-     *
+     * Presence = Admin 21.
      */
     public function testMercredi()
     {
@@ -64,7 +59,7 @@ class ServiceTest extends KernelTestCase
     }
 
     /**
-     * Mardi 20
+     * Mardi 20.
      */
     public function testJourneePedagogique()
     {
@@ -84,7 +79,7 @@ class ServiceTest extends KernelTestCase
     }
 
     /**
-     * Mercredi 08/02/2017
+     * Mercredi 08/02/2017.
      */
     public function testMercredi17()
     {
@@ -110,7 +105,7 @@ class ServiceTest extends KernelTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function tearDown()
     {

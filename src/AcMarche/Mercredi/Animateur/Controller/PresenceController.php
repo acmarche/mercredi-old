@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 /**
  * Presence controller.
  *
@@ -68,8 +67,6 @@ class PresenceController extends AbstractController
      * Lists all Presence entities.
      *
      * @Route("/", name="animateur_presence", methods={"GET"})
-     *
-     *
      */
     public function index(Request $request)
     {
@@ -93,13 +90,12 @@ class PresenceController extends AbstractController
      * Finds and displays a Presence entity.
      *
      * @Route("/{id}/{type}", name="animateur_presence_show", methods={"GET"})
-     *
      */
     public function show(int $id, string $type)
     {
         $petits = $grands = $moyens = [];
         $remarques = '';
-        if ($type === 'plaine') {
+        if ('plaine' === $type) {
             $jour = $this->plaineJourRepository->find($id);
             $presences = $this->plainePresenceRepository->findBy(['jour' => $jour]);
             foreach ($presences as $presence) {
@@ -108,7 +104,6 @@ class PresenceController extends AbstractController
         } else {
             $jour = $this->jourRepository->find($id);
             $presences = $this->presenceRepository->findBy(['jour' => $jour]);
-
         }
 
         if (!$jour) {
@@ -123,7 +118,7 @@ class PresenceController extends AbstractController
 
         return $this->render(
             'animateur/presence/show.html.twig',
-            array(
+            [
                 'datejour' => $jour->getDateJour(),
                 'petits' => $petits,
                 'moyens' => $moyens,
@@ -131,9 +126,7 @@ class PresenceController extends AbstractController
                 'remarques' => $remarques,
                 'display_remarques' => true,
                 'presences' => $presences,
-            )
+            ]
         );
     }
-
-
 }

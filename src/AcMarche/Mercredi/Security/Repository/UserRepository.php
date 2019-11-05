@@ -26,7 +26,8 @@ class UserRepository extends ServiceEntityRepository
         $this->save();
     }
 
-    public function persist(User $user) {
+    public function persist(User $user)
+    {
         $this->_em->persist($user);
     }
 
@@ -43,7 +44,9 @@ class UserRepository extends ServiceEntityRepository
 
     /**
      * @param $username
+     *
      * @return User
+     *
      * @throws NonUniqueResultException
      */
     public function loadUserByUsername($username)
@@ -67,9 +70,8 @@ class UserRepository extends ServiceEntityRepository
 
         /**
          * SELECT * FROM `users` LEFT JOIN fos_user_group ON users.`id` = fos_user_group.`user_id`
-         * WHERE fos_user_group.`group_id` = 1
+         * WHERE fos_user_group.`group_id` = 1.
          */
-
         $qb = $this->createQueryBuilder('user');
         $qb->leftJoin('user.groups', 'groups', 'WITH');
         $qb->addSelect('groups');
@@ -116,13 +118,13 @@ class UserRepository extends ServiceEntityRepository
         $qb->orderBy('u.nom, u.prenom');
         $query = $qb->getQuery();
         /**
-         * @var User[] $results
+         * @var User[]
          */
         $results = $query->getResult();
 
-        $users = array();
+        $users = [];
         foreach ($results as $result) {
-            $users[$result->getUsername()] = mb_strtoupper($result->getNom(), 'UTF-8')." ".$result->getPrenom();
+            $users[$result->getUsername()] = mb_strtoupper($result->getNom(), 'UTF-8').' '.$result->getPrenom();
         }
 
         return $users;

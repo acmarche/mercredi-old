@@ -3,9 +3,8 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 18/01/19
- * Time: 20:45
+ * Time: 20:45.
  */
-
 
 namespace AcMarche\Mercredi\Api\Tests;
 

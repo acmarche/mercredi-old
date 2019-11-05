@@ -3,10 +3,10 @@
 namespace AcMarche\Mercredi\Security\Form\Type;
 
 use AcSecurityBundle\Form\DataTransformer\UserToNumberTransformer;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserHiddenType extends AbstractType
@@ -16,9 +16,6 @@ class UserHiddenType extends AbstractType
      */
     private $om;
 
-    /**
-     * @param ObjectManager $om
-     */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;
@@ -32,9 +29,9 @@ class UserHiddenType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'invalid_message' => 'The selected user does not exist',
-        ));
+        ]);
     }
 
     public function getParent()

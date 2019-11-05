@@ -3,13 +3,11 @@
 namespace AcMarche\Mercredi\Plaine\Controller;
 
 use AcMarche\Mercredi\Plaine\Entity\Plaine;
+use AcMarche\Mercredi\Plaine\Form\Search\SearchPlaineType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-
-
 use Symfony\Component\HttpFoundation\Request;
-use AcMarche\Mercredi\Plaine\Form\Search\SearchPlaineType;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Archive controller.
@@ -29,24 +27,25 @@ class ArchiveController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
 
-        $data = array('archive' => 1);
+        $data = ['archive' => 1];
 
-        if ($session->has("plaine_archive_search")) {
-            $data = unserialize($session->get("plaine_archive_search"));
+        if ($session->has('plaine_archive_search')) {
+            $data = unserialize($session->get('plaine_archive_search'));
         }
 
-        $search_form = $this->createForm(SearchPlaineType::class, $data, array(
+        $search_form = $this->createForm(SearchPlaineType::class, $data, [
             'action' => $this->generateUrl('archive_plaines'),
             'method' => 'GET',
-        ));
+        ]);
 
         $search_form->handleRequest($request);
 
         if ($search_form->isSubmitted() && $search_form->isValid()) {
             $data = $search_form->getData();
             if ($search_form->get('raz')->isClicked()) {
-                $session->remove("plaine_archive_search");
+                $session->remove('plaine_archive_search');
                 $this->addFlash('success', 'La recherche a bien été réinitialisée.');
+
                 return $this->redirectToRoute('archive_plaines');
             }
         }
@@ -54,9 +53,9 @@ class ArchiveController extends AbstractController
         $session->set('plaine_archive_search', serialize($data));
         $entities = $em->getRepository(Plaine::class)->search($data);
 
-        return $this->render('plaine/archive/plaines.html.twig', array(
+        return $this->render('plaine/archive/plaines.html.twig', [
             'search_form' => $search_form->createView(),
             'entities' => $entities,
-        ));
+        ]);
     }
 }

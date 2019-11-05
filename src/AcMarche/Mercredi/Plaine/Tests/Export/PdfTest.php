@@ -21,7 +21,7 @@ class PdfTest extends BaseUnit
         $this->assertEquals(
             200,
             $this->admin->getResponse()->getStatusCode(),
-            "Unexpected HTTP status code for GET /plaine/plaine/carnaval_2020"
+            'Unexpected HTTP status code for GET /plaine/plaine/carnaval_2020'
         );
 
         $crawler = $this->admin->click($crawler->selectLink('Exporter en pdf')->link());

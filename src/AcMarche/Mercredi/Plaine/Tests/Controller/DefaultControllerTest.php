@@ -3,7 +3,6 @@
 namespace AcMarche\Mercredi\Plaine\Tests\Controller;
 
 use AcMarche\Mercredi\Admin\Tests\BaseUnit;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DefaultControllerTest extends BaseUnit
 {

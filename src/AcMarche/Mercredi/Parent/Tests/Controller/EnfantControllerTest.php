@@ -14,8 +14,8 @@ class EnfantControllerTest extends BaseUnit
 
         $form = $crawler->selectButton('Mettre à jour')->form(
             [
-                'enfant_edit[numero_national]' => "123456",
-                'enfant_edit[accompagnateurs][0]' => "Papy jf",
+                'enfant_edit[numero_national]' => '123456',
+                'enfant_edit[accompagnateurs][0]' => 'Papy jf',
             ]
         );
 
@@ -35,6 +35,5 @@ class EnfantControllerTest extends BaseUnit
 
         $crawler = $this->parent->request('GET', '/parent/enfants/edit/'.$enfant->getUuid());
         $this->assertEquals(403, $this->parent->getResponse()->getStatusCode());
-
     }
 }

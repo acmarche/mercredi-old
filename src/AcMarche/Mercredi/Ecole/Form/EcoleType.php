@@ -13,74 +13,66 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EcoleType extends AbstractType
 {
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add(
                 'adresse',
                 TextType::class,
-                array(
+                [
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'code_postal',
                 IntegerType::class,
-                array(
+                [
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'localite',
                 TextType::class,
-                array(
+                [
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'email',
                 EmailType::class,
-                array(
+                [
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'telephone',
                 TextType::class,
-                array(
+                [
                     'required' => false,
-                )
+                ]
             )->add(
                 'gsm',
                 TextType::class,
-                array(
+                [
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'remarques',
                 TextareaType::class,
-                array(
+                [
                     'required' => false,
-                    'attr' => array('rows' => 8),
-                )
+                    'attr' => ['rows' => 8],
+                ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => Ecole::class,
-            )
+            ]
         );
     }
 }

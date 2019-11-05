@@ -19,8 +19,6 @@ class EnfantSetTuteurType extends AbstractType
 
     /**
      * JustAFormType constructor.
-     *
-     * @param ObjectManager $objectManager
      */
     public function __construct(ObjectManager $objectManager)
     {
@@ -35,10 +33,6 @@ class EnfantSetTuteurType extends AbstractType
         return $this->objectManager;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -46,26 +40,23 @@ class EnfantSetTuteurType extends AbstractType
             ->add(
                 'autocompletion',
                 TextType::class,
-                array(
+                [
                     'mapped' => false,
                     'label' => ' ',
                     'required' => true,
-                    'attr' => array(
+                    'attr' => [
                         'placeholder' => 'Nom',
-                    ),
-                )
+                    ],
+                ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => EnfantTuteur::class,
-            )
+            ]
         );
     }
 }

@@ -17,11 +17,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 // gedmo annotations
 
 /**
- * Enfant
+ * Enfant.
  *
  * @ORM\Table("enfant")
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Admin\Repository\EnfantRepository")
- *
  */
 class Enfant implements \Serializable
 {
@@ -29,17 +28,17 @@ class Enfant implements \Serializable
 
     /**
      * Oblige override sinon bug
-     * https://github.com/doctrine/doctrine2/issues/7215
+     * https://github.com/doctrine/doctrine2/issues/7215.
+     *
      * @var Uuid
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     * 
      */
     private $uuid;
 
     /**
-     * @var integer
+     * @var int
      *
      * IMPORTANT! This field annotation must be the last one in order to prevent
      * that Doctrine will use UuidGenerator as $`class->idGenerator`!
@@ -47,14 +46,12 @@ class Enfant implements \Serializable
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * 
      */
     protected $id;
 
     /**
      * @Gedmo\Slug(fields={"nom", "prenom"}, separator="_")
      * @ORM\Column(length=62, unique=true)
-     * 
      */
     protected $slugname;
 
@@ -63,7 +60,6 @@ class Enfant implements \Serializable
      *
      * @ORM\Column(name="nom", type="string", length=200, nullable=false)
      * @Assert\NotBlank()
-     * 
      */
     protected $nom;
 
@@ -72,7 +68,6 @@ class Enfant implements \Serializable
      *
      * @ORM\Column(name="prenom", type="string", length=200, nullable=false)
      * @Assert\NotBlank()
-     *
      */
     protected $prenom;
 
@@ -80,7 +75,6 @@ class Enfant implements \Serializable
      * @var \DateTime
      *
      * @ORM\Column(name="birthday", type="date", nullable=true)
-     *
      */
     protected $birthday;
 
@@ -88,7 +82,6 @@ class Enfant implements \Serializable
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
-     *
      */
     protected $numero_national;
 
@@ -96,23 +89,20 @@ class Enfant implements \Serializable
      * @var string
      *
      * @ORM\Column(type="string", length=150, nullable=true, options={"comment" = "sexe"})
-     *
      */
     protected $sexe;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="smallint", length=2, nullable=true, options={"comment" = "1,2, suviant", "default" = "0"})
      * @Assert\NotBlank()
-     *
      */
     protected $ordre = 0;
 
     /**
      * @var Ecole
      * @ORM\ManyToOne(targetEntity="AcMarche\Mercredi\Admin\Entity\Ecole", inversedBy="enfants")
-     *
      */
     protected $ecole;
 
@@ -121,22 +111,19 @@ class Enfant implements \Serializable
      *
      * @ORM\Column(type="string", length=200, nullable=false)
      * @Assert\NotBlank()
-     *
      */
     protected $annee_scolaire;
 
     /**
      * @var string
-     * Forcer le groupe scolaire
+     *             Forcer le groupe scolaire
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $groupe_scolaire;
 
     /**
      * @var string
      * @ORM\Column(type="text", nullable=true)
-     *
      */
     protected $remarques;
 
@@ -150,35 +137,30 @@ class Enfant implements \Serializable
     /**
      * @var Presence[]|null
      * @ORM\OneToMany(targetEntity="AcMarche\Mercredi\Admin\Entity\Presence", mappedBy="enfant", cascade={"remove"})
-     *
      */
     protected $presences;
 
     /**
      * @var PlaineEnfant[]|null
      * @ORM\OneToMany(targetEntity="AcMarche\Mercredi\Plaine\Entity\PlaineEnfant", mappedBy="enfant", cascade={"remove"})
-     *
      */
     protected $plaines;
 
     /**
      * @var Paiement[]|null
      * @ORM\OneToMany(targetEntity="Paiement", mappedBy="enfant")
-     *
      */
     protected $paiements;
 
     /**
      * @var Note[]|null
      * @ORM\OneToMany(targetEntity="AcMarche\Mercredi\Admin\Entity\Note", mappedBy="enfant", cascade={"remove"})
-     *
      */
     protected $notes;
 
     /**
-     * @var SanteFiche $sante_fiche |null
+     * @var SanteFiche |null
      * @ORM\OneToOne(targetEntity="AcMarche\Mercredi\Admin\Entity\Sante\SanteFiche", mappedBy="enfant", cascade={"remove"} )
-     *
      */
     protected $sante_fiche;
 
@@ -204,35 +186,35 @@ class Enfant implements \Serializable
     protected $updated;
 
     /**
-     * Utilise lorsqu'on ajoute un enfant avec la ref d'un tuteur
+     * Utilise lorsqu'on ajoute un enfant avec la ref d'un tuteur.
+     *
      * @var Tuteur
      */
     protected $tuteur;
 
     /**
-     * Pour autocompletion
+     * Pour autocompletion.
      */
     protected $nom_birthday;
 
     /**
-     * Pour listing
+     * Pour listing.
+     *
      * @var string
      */
     protected $telephones;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean", nullable=false, options={"default" = "0"})
-     *
      */
     protected $archive = false;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean", nullable=false, options={"default" = "0"})
-     *
      */
     protected $photo_autorisation = false;
 
@@ -240,23 +222,21 @@ class Enfant implements \Serializable
      * @var string[]
      *
      * @ORM\Column(type="simple_array", nullable=true)
-     *
      */
     protected $accompagnateurs = [];
 
     /**
-     * pour changement niveau scolaire 1x/an
+     * pour changement niveau scolaire 1x/an.
      */
     protected $new_scolaire;
 
     /**
-     * @var boolean $sante_fiche_complete
-     * 
+     * @var bool
      */
     protected $sante_fiche_complete = false;
 
     /**
-     * @var boolean $fiche_complete
+     * @var bool
      */
     protected $fiche_complete = false;
 
@@ -273,8 +253,9 @@ class Enfant implements \Serializable
     }
 
     /**
-     * pour affichage presence fratrie
-     * @var boolean
+     * pour affichage presence fratrie.
+     *
+     * @var bool
      */
     protected $absent;
 
@@ -291,24 +272,25 @@ class Enfant implements \Serializable
     }
 
     /**
-     * PIECE JOINTE
+     * PIECE JOINTE.
      */
 
     /**
      * note This is not a mapped field of entity metadata, just a simple property.
+     *
      * @Assert\File(
      *     maxSize = "7M",
      *     mimeTypes={ "application/pdf", "image/*" }
      * )
-     * @var UploadedFile $file
+     *
+     * @var UploadedFile
      */
     protected $file;
 
     /**
      * @ORM\Column(type="string", length=255, name="file_name", nullable=true)
      *
-     * @var string $fileName
-     *
+     * @var string
      */
     protected $fileName;
 
@@ -341,25 +323,24 @@ class Enfant implements \Serializable
     }
 
     /**
-     * PHOTO
+     * PHOTO.
      */
 
     /**
-     *
-     *
      * note This is not a mapped field of entity metadata, just a simple property.
+     *
      * @Assert\Image(
      *     maxSize = "5M"
      * )
-     * @var UploadedFile $image
+     *
+     * @var UploadedFile
      */
     protected $image;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      *
-     * @var string $imageName
-     *
+     * @var string
      */
     protected $imageName;
 
@@ -392,25 +373,25 @@ class Enfant implements \Serializable
     }
 
     /**
-     * Fiche inscription
+     * Fiche inscription.
      */
 
     /**
-     *
-     *
      * note This is not a mapped field of entity metadata, just a simple property.
+     *
      * @Assert\File(
      *     maxSize = "7M",
      *     mimeTypes={ "application/pdf", "image/*" }
      * )
-     * @var UploadedFile $fiche
+     *
+     * @var UploadedFile
      */
     protected $fiche;
 
     /**
      * @ORM\Column(type="string", length=255, name="fiche_name", nullable=true)
      *
-     * @var string $ficheName
+     * @var string
      */
     protected $ficheName;
 
@@ -444,7 +425,7 @@ class Enfant implements \Serializable
 
     public function __toString()
     {
-        $txt = mb_strtoupper($this->getNom(), 'UTF-8')." ".$this->getPrenom();
+        $txt = mb_strtoupper($this->getNom(), 'UTF-8').' '.$this->getPrenom();
 
         return $txt;
     }
@@ -455,11 +436,11 @@ class Enfant implements \Serializable
 
     public function getNomBirthday()
     {
-        return $this->getNom()." ".$this->getPrenom()." ".$this->getBirthday()->format("m-d-Y");
+        return $this->getNom().' '.$this->getPrenom().' '.$this->getBirthday()->format('m-d-Y');
     }
 
     /**
-     * quand ajoute tuteur
+     * quand ajoute tuteur.
      */
     public function getTuteur()
     {
@@ -468,6 +449,7 @@ class Enfant implements \Serializable
 
     /**
      * @param $tuteur
+     *
      * @return $this
      */
     public function setTuteur($tuteur)
@@ -535,19 +517,22 @@ class Enfant implements \Serializable
     }
 
     /**
-     * Utilise pour inscription plaine par un parent
+     * Utilise pour inscription plaine par un parent.
+     *
      * @var
      */
     protected $inscrit = false;
 
     /**
-     * Utilise pour inscription plaine par un parent
+     * Utilise pour inscription plaine par un parent.
+     *
      * @var
      */
     protected $presencesPlaine;
 
     /**
-     * Utilise pour inscription plaine par un parent
+     * Utilise pour inscription plaine par un parent.
+     *
      * @var
      */
     protected $totalPlaine;
@@ -1028,7 +1013,7 @@ class Enfant implements \Serializable
         $this->sante_fiche = $sante_fiche;
 
         // set (or unset) the owning side of the relation if necessary
-        $newEnfant = $sante_fiche === null ? null : $this;
+        $newEnfant = null === $sante_fiche ? null : $this;
         if ($newEnfant !== $sante_fiche->getEnfant()) {
             $sante_fiche->setEnfant($newEnfant);
         }
@@ -1036,71 +1021,63 @@ class Enfant implements \Serializable
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isSanteFicheComplete(): bool
     {
         return $this->sante_fiche_complete;
     }
 
-    /**
-     * @param bool $sante_fiche_complete
-     */
     public function setSanteFicheComplete(bool $sante_fiche_complete): void
     {
         $this->sante_fiche_complete = $sante_fiche_complete;
     }
 
-    /**
-     * @return bool
-     */
     public function isFicheComplete(): bool
     {
         return $this->fiche_complete;
     }
 
-    /**
-     * @param bool $fiche_complete
-     */
     public function setFicheComplete(bool $fiche_complete): void
     {
         $this->fiche_complete = $fiche_complete;
     }
 
     /**
-     * String representation of object
-     * @link https://php.net/manual/en/serializable.serialize.php
+     * String representation of object.
+     *
+     * @see https://php.net/manual/en/serializable.serialize.php
+     *
      * @return string the string representation of the object or null
+     *
      * @since 5.1.0
      */
     public function serialize()
     {
         return serialize(
-            array(
+            [
                 $this->id,
                 $this->ecole,
                 $this->imageName,
                 $this->numero_national,
-
-            )
+            ]
         );
     }
 
     /**
-     * Constructs the object
-     * @link https://php.net/manual/en/serializable.unserialize.php
+     * Constructs the object.
+     *
+     * @see https://php.net/manual/en/serializable.unserialize.php
+     *
      * @param string $serialized <p>
-     * The string representation of the object.
-     * </p>
+     *                           The string representation of the object.
+     *                           </p>
+     *
      * @return void
+     *
      * @since 5.1.0
      */
     public function unserialize($serialized)
     {
-        list (
-            $this->id,
-
-            ) = unserialize($serialized);
+        list(
+            $this->id) = unserialize($serialized);
     }
 }

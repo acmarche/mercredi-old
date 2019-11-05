@@ -4,7 +4,6 @@ namespace AcMarche\Mercredi\Admin\Form;
 
 use AcMarche\Mercredi\Admin\Entity\Paiement;
 use AcMarche\Mercredi\Admin\Entity\Presence;
-use AcMarche\Mercredi\Admin\Entity\Repository\PresenceRepository;
 use AcMarche\Mercredi\Plaine\Form\Type\EnfantSelectorType;
 use AcMarche\Mercredi\Plaine\Form\Type\TuteurSelectorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -16,10 +15,6 @@ class PayerType extends AbstractType
 {
     private $presences;
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->presences = $options['presences'];
@@ -28,26 +23,23 @@ class PayerType extends AbstractType
         $builder->add('enfant', EnfantSelectorType::class);
 
         $builder
-            ->add('presences', EntityType::class, array(
+            ->add('presences', EntityType::class, [
                 'class' => Presence::class,
                 'choices' => $this->presences,
                 'choice_label' => 'avecPrix',
                 'multiple' => true,
                 'expanded' => true,
                 'label' => 'Choisissez une ou plusieurs dates',
-                'attr' => array('style' => 'height:150px;')
-            ));
+                'attr' => ['style' => 'height:150px;'],
+            ]);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Paiement::class,
             'paiement' => null,
-            'presences' => []
-        ));
+            'presences' => [],
+        ]);
     }
 }

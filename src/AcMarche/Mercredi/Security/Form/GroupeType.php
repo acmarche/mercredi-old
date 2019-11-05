@@ -11,34 +11,27 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GroupeType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, array(
-                'required' => true
-            ))
-            ->add('roles', CollectionType::class, array(
+            ->add('name', TextType::class, [
+                'required' => true,
+            ])
+            ->add('roles', CollectionType::class, [
                 'allow_add' => true,
                 'prototype' => true,
-                'options' => array(
+                'options' => [
                     'required' => false,
-                    'attr' => array('size' => '40px;')
-                ),
+                    'attr' => ['size' => '40px;'],
+                ],
                 'required' => true,
-            ));
+            ]);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => Group::class
-        ));
+        $resolver->setDefaults([
+            'data_class' => Group::class,
+        ]);
     }
 }

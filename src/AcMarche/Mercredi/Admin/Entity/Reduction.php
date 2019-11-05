@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Reduction
+ * Reduction.
  *
  * @ORM\Table("reduction")
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Admin\Repository\ReductionRepository")
@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Reduction
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -54,7 +54,6 @@ class Reduction
 
     /**
      * @ORM\OneToMany(targetEntity="Presence", mappedBy="reduction")
-     *
      */
     protected $presence;
 
@@ -211,7 +210,7 @@ class Reduction
         return $this;
     }
 
-    /**
+    /*
      * STOP
      */
 }

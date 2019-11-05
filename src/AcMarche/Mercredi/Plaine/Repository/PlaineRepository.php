@@ -2,16 +2,15 @@
 
 namespace AcMarche\Mercredi\Plaine\Repository;
 
+use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityRepository;
-use AcMarche\Mercredi\Plaine\Entity\Plaine;
 
 /**
- * @method Plaine|null find($id, $lockMode = null, $lockVersion = null)
- * @method Plaine|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Plaine|null   find($id, $lockMode = null, $lockVersion = null)
+ * @method Plaine|null   findOneBy(array $criteria, array $orderBy = null)
  * @method Plaine[]|null findAll()
- * @method Plaine[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Plaine[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PlaineRepository extends ServiceEntityRepository
 {
@@ -39,6 +38,7 @@ class PlaineRepository extends ServiceEntityRepository
 
     /**
      * @param $args
+     *
      * @return Plaine[]
      */
     public function search($args)
@@ -99,10 +99,10 @@ class PlaineRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
 
         /**
-         * @var Plaine[] $results
+         * @var Plaine[]
          */
         $results = $query->getResult();
-        $plaines = array();
+        $plaines = [];
 
         foreach ($results as $plaine) {
             $plaines[$plaine->getIntitule()] = $plaine->getId();

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 21/01/19
- * Time: 17:05
+ * Time: 17:05.
  */
 
 namespace AcMarche\Mercredi\Api\Service;
@@ -35,6 +35,7 @@ class Serializer
 
     /**
      * @param Jour[] $jours
+     *
      * @return Jour[]
      */
     public function serializeJour(iterable $jours, Enfant $enfant)
@@ -45,7 +46,7 @@ class Serializer
             $std = new \stdClass();
             $std->id = $jour->getId();
             $std->enfantId = $enfant->getId();
-            $std->date_jour = $date->format("Y-m-d");
+            $std->date_jour = $date->format('Y-m-d');
             $std->date_jour_fr = $this->dateService->getFr($date, true);
             $std->prix1 = $jour->getPrix1();
             $std->prix2 = $jour->getPrix2();
@@ -58,9 +59,7 @@ class Serializer
         return $data;
     }
 
-
     /**
-     * @param Tuteur $tuteur
      * @return Tuteur|\stdClass
      */
     public function serializeTuteur(Tuteur $tuteur)
@@ -89,9 +88,9 @@ class Serializer
         return $std;
     }
 
-
     /**
      * @param Enfant[] $enfants
+     *
      * @return Enfant[]
      */
     public function serializeEnfant(iterable $enfants)
@@ -103,22 +102,22 @@ class Serializer
             $std->nom = $enfant->getNom();
             $std->prenom = $enfant->getPrenom();
             $std->numero_national = $enfant->getNumeroNational();
-            $std->birthday = $enfant->getBirthday()->format("Y-m-d");
+            $std->birthday = $enfant->getBirthday()->format('Y-m-d');
             $ecole = $enfant->getEcole();
             $std->ecole_id = $ecole ? $ecole->getId() : 0;
             $std->annee_scolaire = $enfant->getAnneeScolaire();
             $std->sexe = $enfant->getSexe();
             $std->remarques = $enfant->getRemarques();
-            $std->photo_url = "http://lorempixel.com/80/80/people/";
+            $std->photo_url = 'http://lorempixel.com/80/80/people/';
             $data[] = $std;
         }
 
         return $data;
     }
 
-
     /**
      * @param Presence[] $presences
+     *
      * @return Presence[]
      */
     public function serializePresences(iterable $presences)
@@ -132,7 +131,7 @@ class Serializer
             $std->payer = $presence->getPaiement() ? true : false;
             $jour = $presence->getJour();
             $date = $jour->getDateJour();
-            $std->date = $date ? $date->format("Y-m-d") : null;
+            $std->date = $date ? $date->format('Y-m-d') : null;
             $std->date_fr = $date ? $this->dateService->getFr($date, true) : null;
             $data[] = $std;
         }
@@ -142,6 +141,7 @@ class Serializer
 
     /**
      * @param Paiement[] $paiments
+     *
      * @return Paiement[]
      */
     public function serializePaiement(iterable $paiments)
@@ -160,9 +160,9 @@ class Serializer
         return $data;
     }
 
-
     /**
      * @param Plaine $plaine
+     *
      * @return Plaine| \stdClass|null
      */
     public function serializePlaine(?Plaine $plaine)
@@ -180,6 +180,7 @@ class Serializer
 
     /**
      * @param Ecole[] $ecoles
+     *
      * @return Ecole[]
      */
     public function serializeEcole(array $ecoles)
@@ -204,19 +205,18 @@ class Serializer
             $std->id = $i;
             $std->nom = $nom;
             $data[] = $std;
-            $i++;
+            ++$i;
         }
 
         return $data;
     }
 
     /**
-     * @param User $user
      * @return \stdClass
      */
     public function serializeUser(User $user)
     {
-        $token = "123456";
+        $token = '123456';
         $std = new \stdClass();
         $std->id = $user->getId();
         $std->nom = $user->getNom();
@@ -229,9 +229,9 @@ class Serializer
         return $std;
     }
 
-
     /**
      * @param SanteFiche[] $santeFiches
+     *
      * @return \stdClass[]
      */
     public function serializeSanteFiche(iterable $santeFiches)
@@ -253,6 +253,7 @@ class Serializer
 
     /**
      * @param SanteQuestion[] $questions
+     *
      * @return \stdClass[]
      */
     public function serializeQuestion(iterable $questions)
@@ -272,6 +273,7 @@ class Serializer
 
     /**
      * @param SanteReponse[] $reponses
+     *
      * @return \stdClass[]
      */
     public function serializeReponse(iterable $reponses)

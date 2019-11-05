@@ -2,16 +2,16 @@
 
 namespace AcMarche\Mercredi\Plaine\Controller;
 
+use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
+use AcMarche\Mercredi\Plaine\Entity\PlaineJour;
 use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
+use AcMarche\Mercredi\Plaine\Form\PlaineJourType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use AcMarche\Mercredi\Plaine\Entity\PlaineJour;
-use AcMarche\Mercredi\Plaine\Form\PlaineJourType;
-use AcMarche\Mercredi\Plaine\Entity\Plaine;
 
 /**
  * PlaineJour controller.
@@ -25,7 +25,6 @@ class PlaineJourController extends AbstractController
      * Lists all PlaineJour entities.
      *
      * @Route("/", name="plainejour", methods={"GET"})
-     *
      */
     public function index()
     {
@@ -35,12 +34,11 @@ class PlaineJourController extends AbstractController
 
         return $this->render(
             'plaine/plaine_jour/index.html.twig',
-            array(
+            [
                 'entities' => $entities,
-            )
+            ]
         );
     }
-
 
     /**
      * Displays a form to create a new PlaineJour entity.
@@ -48,7 +46,6 @@ class PlaineJourController extends AbstractController
      * @Route("/new/{id}", name="plainejour_new", methods={"GET","POST"})
      *
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function new(Request $request, Plaine $plaine)
     {
@@ -69,29 +66,28 @@ class PlaineJourController extends AbstractController
             $plaine = $plaineJour->getPlaine();
 
             if ($em->getRepository(PlaineJour::class)->findOneBy(['date_jour' => $jour])) {
-                $this->addFlash('danger', "Cette date existe déjà dans la plaine");
+                $this->addFlash('danger', 'Cette date existe déjà dans la plaine');
 
-                return $this->redirectToRoute('plaine_show', array('slugname' => $plaine->getSlugname()));
+                return $this->redirectToRoute('plaine_show', ['slugname' => $plaine->getSlugname()]);
             }
 
             $user = $this->getUser();
 
             /**
              * lorsque j'ajoute une date a une plaine
-             * je dois ajouter cette date a tous les inscrits
+             * je dois ajouter cette date a tous les inscrits.
              */
-            $plaine_enfants = $em->getRepository(PlaineEnfant::class)->search(array('plaine_id' => $plaine->getId()));
+            $plaine_enfants = $em->getRepository(PlaineEnfant::class)->search(['plaine_id' => $plaine->getId()]);
 
             foreach ($plaine_enfants as $plaineEnfant) {
-
                 /**
-                 * si qu' un tuteur pour l'enfant je l'ajoute d'office
+                 * si qu' un tuteur pour l'enfant je l'ajoute d'office.
                  */
                 $enfant = $plaineEnfant->getEnfant();
                 $tuteur = false;
                 if ($enfant) {
                     $enfant_tuteur = $enfant->getTuteurs();
-                    if (count($enfant_tuteur) == 1) {
+                    if (1 == count($enfant_tuteur)) {
                         $tuteur = $enfant_tuteur[0]->getTuteur();
                     }
                 }
@@ -110,18 +106,18 @@ class PlaineJourController extends AbstractController
             $em->persist($plaineJour);
             $em->flush();
 
-            $this->addFlash('success', "La date a bien été ajoutée");
+            $this->addFlash('success', 'La date a bien été ajoutée');
 
-            return $this->redirectToRoute('plaine_show', array('slugname' => $plaine->getSlugname()));
+            return $this->redirectToRoute('plaine_show', ['slugname' => $plaine->getSlugname()]);
         }
 
         return $this->render(
             'plaine/plaine_jour/new.html.twig',
-            array(
+            [
                 'entity' => $plaineJour,
                 'plaine' => $plaine,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -129,7 +125,6 @@ class PlaineJourController extends AbstractController
      * Finds and displays a PlaineJour entity.
      *
      * @Route("/{id}", name="plainejour_show", methods={"GET"})
-     *
      */
     public function show(PlaineJour $plaineJour)
     {
@@ -138,23 +133,23 @@ class PlaineJourController extends AbstractController
         $plaine = $plaineJour->getPlaine();
         $plaine_id = $plaine->getId();
 
-        $args = array('plaine_id' => $plaine_id);
+        $args = ['plaine_id' => $plaine_id];
         $plaine_enfants = $em->getRepository(PlaineEnfant::class)->search($args);
-        $peIds = array();
+        $peIds = [];
         foreach ($plaine_enfants as $plaine_enfant) {
             $peIds[] = $plaine_enfant->getId();
         }
 
         $enfants = $em->getRepository(PlainePresence::class)->getEnfantsByPlaineAndByJour($peIds, $plaineJour->getId());
 
-        $petits = $moyens = $grands = array();
+        $petits = $moyens = $grands = [];
 
         foreach ($enfants as $enfant) {
             $annee_scolaire = $enfant->getAnneeScolaire();
 
-            if (in_array($annee_scolaire, array("PM", "1M", "2M"))) {
+            if (in_array($annee_scolaire, ['PM', '1M', '2M'])) {
                 $petits[] = $enfant;
-            } elseif (in_array($annee_scolaire, array("3M", "1P", "2P"))) {
+            } elseif (in_array($annee_scolaire, ['3M', '1P', '2P'])) {
                 $moyens[] = $enfant;
             } else {
                 $grands[] = $enfant;
@@ -165,14 +160,14 @@ class PlaineJourController extends AbstractController
 
         return $this->render(
             'plaine/plaine_jour/show.html.twig',
-            array(
+            [
                 'entity' => $plaineJour,
                 'plaine' => $plaine,
                 'petits' => $petits,
                 'moyens' => $moyens,
                 'grands' => $grands,
                 'delete_form' => $deleteForm->createView(),
-            )
+            ]
         );
     }
 
@@ -186,9 +181,9 @@ class PlaineJourController extends AbstractController
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('plainejour_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('plainejour_delete', ['id' => $id]))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, array('label' => 'Delete', 'attr' => array('class' => 'btn-danger')))
+            ->add('submit', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
             ->getForm();
     }
 
@@ -210,9 +205,9 @@ class PlaineJourController extends AbstractController
             $em->remove($plaineJour);
             $em->flush();
 
-            $this->addFlash('success', "La date a bien été supprimée");
+            $this->addFlash('success', 'La date a bien été supprimée');
 
-            return $this->redirectToRoute('plaine_show', array('slugname' => $plaine->getSlugname()));
+            return $this->redirectToRoute('plaine_show', ['slugname' => $plaine->getSlugname()]);
         }
 
         return $this->redirectToRoute('plainejour');

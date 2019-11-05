@@ -2,16 +2,15 @@
 
 namespace AcMarche\Mercredi\Admin\Repository;
 
+use AcMarche\Mercredi\Admin\Entity\Note;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityRepository;
-use AcMarche\Mercredi\Admin\Entity\Note;
 
 /**
- * @method Note|null find($id, $lockMode = null, $lockVersion = null)
- * @method Note|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Note|null   find($id, $lockMode = null, $lockVersion = null)
+ * @method Note|null   findOneBy(array $criteria, array $orderBy = null)
  * @method Note[]|null findAll()
- * @method Note[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Note[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class NoteRepository extends ServiceEntityRepository
 {
@@ -31,14 +30,13 @@ class NoteRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-    public function delete(Note $note) {
-
+    public function delete(Note $note)
+    {
         $this->_em->remove($note);
         $this->save();
     }
 
     /**
-     * @param array $args
      * @return Note[]|Note
      */
     public function search(array $args)

@@ -46,9 +46,7 @@ class AssocierAnimateurController extends AbstractController
     }
 
     /**
-     *
      * @Route("/{id}", name="utilisateur_associate_animateur", methods={"GET","POST"})
-     *
      */
     public function associate(Request $request, User $user)
     {
@@ -71,7 +69,7 @@ class AssocierAnimateurController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('dissocier')->getData()) {
-                if ($oldAnimateur != null) {
+                if (null != $oldAnimateur) {
                     $this->dissociateAnimateur($oldAnimateur);
                 }
             } else {
@@ -80,7 +78,7 @@ class AssocierAnimateurController extends AbstractController
                     $this->associerAnimateur($user, $animateur, $oldAnimateur);
                     if ($request->request->get('Sendmail')) {
                         $this->mailer->sendNewAccountToAnimateur($user, $animateur, null);
-                        $this->addFlash('success', "Un mail de bienvenue a été envoyé");
+                        $this->addFlash('success', 'Un mail de bienvenue a été envoyé');
                     }
                 }
             }
@@ -90,10 +88,10 @@ class AssocierAnimateurController extends AbstractController
 
         return $this->render(
             'security/utilisateur/associate_animateur.html.twig',
-            array(
+            [
                 'user' => $user,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -106,7 +104,7 @@ class AssocierAnimateurController extends AbstractController
 
     private function associerAnimateur(User $user, Animateur $animateur, Animateur $oldAnimateur = null)
     {
-        /**
+        /*
          * si deja associe sinon duplicate key
          */
         if ($oldAnimateur) {

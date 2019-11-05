@@ -2,10 +2,8 @@
 
 namespace AcMarche\Mercredi\Admin\Security;
 
-use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Security\Entity\User;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
@@ -22,21 +20,21 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class TuteurVoter extends Voter
 {
     /**
-     * @var User $user
+     * @var User
      */
     private $user;
 
     /**
-     * @var Tuteur $tuteurOfUser
+     * @var Tuteur
      */
     private $tuteurOfUser;
 
     /**
-     * @var Tuteur $tuteurToCheck
+     * @var Tuteur
      */
     private $tuteurToCheck;
     /**
-     * @var TokenInterface $token
+     * @var TokenInterface
      */
     private $token;
     const INDEX = 'index_tuteur';
@@ -111,7 +109,8 @@ class TuteurVoter extends Voter
 
     /**
      * Utiliser par parent car tuteur pas en parametre
-     * mais via user->getTuteur
+     * mais via user->getTuteur.
+     *
      * @return bool
      */
     private function canIndex()

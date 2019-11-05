@@ -22,10 +22,6 @@ class SearchUtilisateurType extends AbstractType
         $this->groupRepository = $groupRepository;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $groupes = $this->groupRepository->getForSearch();
@@ -34,47 +30,44 @@ class SearchUtilisateurType extends AbstractType
             ->add(
                 'nom',
                 TextType::class,
-                array(
+                [
                     'required' => false,
-                    'attr' => array('placeholder' => 'Nom'),
-                )
+                    'attr' => ['placeholder' => 'Nom'],
+                ]
             )
             ->add(
                 'groupe',
                 ChoiceType::class,
-                array(
+                [
                     'required' => false,
                     'placeholder' => 'Choisissez un groupe',
                     'choices' => $groupes,
-                )
+                ]
             )
             ->add(
                 'submit',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'Rechercher',
-                )
+                ]
             )
             ->add(
                 'raz',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'raz',
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'btn-sm btn-success',
                         'title' => 'Search raz',
-                    ),
-                )
+                    ],
+                ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array()
+            []
         );
     }
 }

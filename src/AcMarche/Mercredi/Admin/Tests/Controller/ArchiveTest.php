@@ -10,25 +10,25 @@ class ArchiveTest extends BaseUnit
      * Balboa est
      *  Ajoute
      *  Archive
-     *  Desarchive
+     *  Desarchive.
      */
-    private $nom = "Balboa";
-    private $prenom = "Rocky";
-    private $sexe = "Masculin";
-    private $ecoleHargi = "Hargimont communal";
-    private $anneescolaire = "3M";
+    private $nom = 'Balboa';
+    private $prenom = 'Rocky';
+    private $sexe = 'Masculin';
+    private $ecoleHargi = 'Hargimont communal';
+    private $anneescolaire = '3M';
 
     /**
      * Le jour est
      *  Ajoute
      *  Archive
-     *  Desarchive
+     *  Desarchive.
      */
-    private $date1 = "06/12/2015";
-    private $date1LinkJour = "06-12-2015 Dimanche";
-    private $prix1 = "15";
-    private $prix2 = "3";
-    private $prix3 = "2";
+    private $date1 = '06/12/2015';
+    private $date1LinkJour = '06-12-2015 Dimanche';
+    private $prix1 = '15';
+    private $prix2 = '3';
+    private $prix3 = '2';
 
     public function testArchiveEnfant()
     {
@@ -39,11 +39,11 @@ class ArchiveTest extends BaseUnit
 
         $ecole = $this->getEcole($this->ecoleHargi);
 
-        $form["enfant[nom]"] = $this->nom;
-        $form["enfant[prenom]"] = $this->prenom;
-        $form["enfant[sexe]"] = $this->sexe;
+        $form['enfant[nom]'] = $this->nom;
+        $form['enfant[prenom]'] = $this->prenom;
+        $form['enfant[sexe]'] = $this->sexe;
         $form['enfant[ecole]'] = $ecole->getId();
-        $form["enfant[annee_scolaire]"] = $this->anneescolaire;
+        $form['enfant[annee_scolaire]'] = $this->anneescolaire;
 
         $this->admin->submit($form);
         $crawler = $this->admin->followRedirect();
@@ -52,7 +52,7 @@ class ArchiveTest extends BaseUnit
 
         $crawler = $this->admin->click($crawler->selectLink('Archiver')->link());
 
-        $form = $crawler->selectButton('Archiver')->form(array());
+        $form = $crawler->selectButton('Archiver')->form([]);
 
         $this->admin->submit($form);
         $crawler = $this->admin->followRedirect();
@@ -61,12 +61,12 @@ class ArchiveTest extends BaseUnit
 
     public function testDesarchiveEnfant()
     {
-        $crawler = $this->admin->request('GET', '/admin/enfant/'.$this->nom."_".$this->prenom);
+        $crawler = $this->admin->request('GET', '/admin/enfant/'.$this->nom.'_'.$this->prenom);
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
         $crawler = $this->admin->click($crawler->selectLink('Désarchiver')->link());
 
-        $form = $crawler->selectButton('Désarchiver')->form(array());
+        $form = $crawler->selectButton('Désarchiver')->form([]);
 
         $this->admin->submit($form);
         $crawler = $this->admin->followRedirect();
@@ -79,13 +79,12 @@ class ArchiveTest extends BaseUnit
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
         $form = $crawler->selectButton('Ajouter')->form(
-            array(
+            [
                 'jour[date_jour]' => $this->date1,
                 'jour[prix1]' => $this->prix1,
                 'jour[prix2]' => $this->prix2,
                 'jour[prix3]' => $this->prix3,
-
-            )
+            ]
         );
 
         $this->admin->submit($form);
@@ -97,7 +96,7 @@ class ArchiveTest extends BaseUnit
 
         $crawler = $this->admin->click($crawler->selectLink('Archiver')->link());
 
-        $form = $crawler->selectButton('Archiver')->form(array());
+        $form = $crawler->selectButton('Archiver')->form([]);
 
         $this->admin->submit($form);
         $crawler = $this->admin->followRedirect();
@@ -112,7 +111,7 @@ class ArchiveTest extends BaseUnit
 
         $crawler = $this->admin->click($crawler->selectLink('Désarchiver')->link());
 
-        $form = $crawler->selectButton('Désarchiver')->form(array());
+        $form = $crawler->selectButton('Désarchiver')->form([]);
 
         $this->admin->submit($form);
         $crawler = $this->admin->followRedirect();

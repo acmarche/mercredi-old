@@ -19,8 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- *
- * @package AcMarche\Mercredi\Admin\Controller
  * @Route("/quick")
  * @IsGranted("ROLE_MERCREDI_ADMIN")
  */
@@ -69,7 +67,6 @@ class QuickController extends AbstractController
 
     /**
      * @Route("/", name="home_mercredi_quick")
-     *
      */
     public function new(Request $request)
     {
@@ -80,13 +77,12 @@ class QuickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             /**
-             * @var Tuteur $tuteur
+             * @var Tuteur
              */
             $tuteur = $form->getData()->getTuteur();
             /**
-             * @var Enfant $enfant
+             * @var Enfant
              */
             $enfant = $form->getData()->getEnfant();
 
@@ -106,7 +102,7 @@ class QuickController extends AbstractController
                 $user = $this->userManager->newFromTuteur($tuteur);
                 $password = $user->getPlainPassword();
                 $this->mailer->sendNewAccountToParent($user, $tuteur, $password);
-                $this->addFlash('success', "Un compte a été créé pour le parent");
+                $this->addFlash('success', 'Un compte a été créé pour le parent');
             }
 
             return $this->render(
@@ -118,7 +114,6 @@ class QuickController extends AbstractController
                     'password' => $password,
                 ]
             );
-
         }
 
         return $this->render('admin/quick/new.html.twig', ['form' => $form->createView()]);

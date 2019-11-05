@@ -9,19 +9,18 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * AnimateurPlaine
+ * AnimateurPlaine.
  *
  * @ORM\Table("animateur_plaine", uniqueConstraints={
  *     @ORM\UniqueConstraint(columns={"animateur_id", "plaine_id"})
  * })))
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Plaine\Repository\AnimateurPlaineRepository")
  * @UniqueEntity(fields={"animateur","plaine"}, message="add.animateur.plaine")
- *
  */
 class AnimateurPlaine
 {
     /**
-     * @var integer|null $id
+     * @var int|null
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -30,21 +29,21 @@ class AnimateurPlaine
     private $id;
 
     /**
-     * @var Animateur|null $animateur
+     * @var Animateur|null
      * @ORM\ManyToOne(targetEntity="AcMarche\Mercredi\Admin\Entity\Animateur", inversedBy="plaines")
      * @ORM\JoinColumn(nullable=false)
      */
     private $animateur;
 
     /**
-     * @var Plaine|null $plaine
+     * @var Plaine|null
      * @ORM\ManyToOne(targetEntity="AcMarche\Mercredi\Plaine\Entity\Plaine", inversedBy="animateurs")
      * @ORM\JoinColumn(nullable=false)
      */
     private $plaine;
 
     /**
-     * @var PlaineJour[]|null $jours
+     * @var PlaineJour[]|null
      * @ORM\ManyToMany(targetEntity="AcMarche\Mercredi\Plaine\Entity\PlaineJour", inversedBy="animateurPlaines")
      * @ORM\JoinTable(name="animateur_plaine_jours")
      */

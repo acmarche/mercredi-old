@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 23/01/18
- * Time: 9:07
+ * Time: 9:07.
  */
 
 namespace AcMarche\Mercredi\Admin\Exception;

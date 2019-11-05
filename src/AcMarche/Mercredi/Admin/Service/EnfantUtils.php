@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 20/09/16
- * Time: 13:21
+ * Time: 13:21.
  */
 
 namespace AcMarche\Mercredi\Admin\Service;
@@ -15,7 +15,7 @@ class EnfantUtils
 {
     public static function hasParents(Enfant $enfant)
     {
-        $tuteurs = array();
+        $tuteurs = [];
         $enfant_tuteurs = $enfant->getTuteurs();
         foreach ($enfant_tuteurs as $enfant_tuteur) {
             $tuteur = $enfant_tuteur->getTuteur();
@@ -26,13 +26,12 @@ class EnfantUtils
     }
 
     /**
-     * @param Tuteur $tuteur
      * @return Enfant[]
      */
     public function getEnfantsByTuteur(Tuteur $tuteur)
     {
         $enfant_tuteurs = $tuteur->getEnfants();
-        $enfants = array();
+        $enfants = [];
 
         foreach ($enfant_tuteurs as $enfant_tuteur) {
             $enfants[] = $enfant_tuteur->getEnfant();
@@ -77,13 +76,15 @@ class EnfantUtils
      *
      * @return Tuteur[]
      */
-    public function extractTuteurs($enfants) {
+    public function extractTuteurs($enfants)
+    {
         $tuteurs = [];
         foreach ($enfants as $enfant) {
             foreach ($enfant->getTuteurs() as $enfantTuteur) {
-             $tuteurs[] = $enfantTuteur->getTuteur();
+                $tuteurs[] = $enfantTuteur->getTuteur();
             }
         }
+
         return $tuteurs;
     }
 }

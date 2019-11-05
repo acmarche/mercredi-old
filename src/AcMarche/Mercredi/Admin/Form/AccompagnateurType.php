@@ -17,7 +17,7 @@ class AccompagnateurType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('email', EmailType::class, [
-                'required'=>false
+                'required' => false,
             ])
         ;
     }

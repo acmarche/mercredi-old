@@ -2,19 +2,19 @@
 
 namespace AcMarche\Mercredi\Admin\Repository;
 
+use AcMarche\Mercredi\Admin\Entity\Enfant;
+use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
+use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
-use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
-use AcMarche\Mercredi\Admin\Entity\Tuteur;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
 
 /**
- * @method Enfant|null find($id, $lockMode = null, $lockVersion = null)
- * @method Enfant|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Enfant|null   find($id, $lockMode = null, $lockVersion = null)
+ * @method Enfant|null   findOneBy(array $criteria, array $orderBy = null)
  * @method Enfant[]|null findAll()
- * @method Enfant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Enfant[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class EnfantRepository extends ServiceEntityRepository
 {
@@ -42,6 +42,7 @@ class EnfantRepository extends ServiceEntityRepository
 
     /**
      * @param $nom
+     *
      * @return Enfant[]
      */
     public function findForAutoComplete($nom)
@@ -66,9 +67,10 @@ class EnfantRepository extends ServiceEntityRepository
      * Recherche d'un enfant suivant son nom
      * ou pas
      * Recuper sa liste de presence
-     * et ses enfant_tuteurs
-     * @param array $args
+     * et ses enfant_tuteurs.
+     *
      * @return Enfant[] | Enfant
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function search(array $args)
@@ -119,7 +121,7 @@ class EnfantRepository extends ServiceEntityRepository
             );
             $ids = join(',', $ids->toArray());
 
-            $qb->andwhere("enfant.ecole IN (:ecoles)")
+            $qb->andwhere('enfant.ecole IN (:ecoles)')
                 ->setParameter('ecoles', "$ids");
         }
 
@@ -158,10 +160,7 @@ class EnfantRepository extends ServiceEntityRepository
         return $results;
     }
 
-
     /**
-     *
-     * @param array $args
      * @return Enfant[]
      */
     public function quickSearchActif(array $args)
@@ -199,7 +198,8 @@ class EnfantRepository extends ServiceEntityRepository
     }
 
     /**
-     * Pour formulaire avec liste deroulante
+     * Pour formulaire avec liste deroulante.
+     *
      * @return QueryBuilder
      */
     public function getForList()
@@ -211,35 +211,36 @@ class EnfantRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retourne un tableau d'objet Enfant
+     * Retourne un tableau d'objet Enfant.
+     *
      * @param int $enfant_id
      * @param EnfantTuteur []
+     *
      * @return Enfant[]|Enfant
      */
-    public function getFratries($enfant_id, $enfant_tuteurs = array())
+    public function getFratries($enfant_id, $enfant_tuteurs = [])
     {
         $em = $this->getEntityManager();
 
         //get id parents of enfant
-        if (count($enfant_tuteurs) == 0) {
-            $enfant_tuteurs = $em->getRepository(EnfantTuteur::class)->search(array('enfant_id' => $enfant_id));
+        if (0 == count($enfant_tuteurs)) {
+            $enfant_tuteurs = $em->getRepository(EnfantTuteur::class)->search(['enfant_id' => $enfant_id]);
         }
 
-        $tuteurs_id = array();
+        $tuteurs_id = [];
 
         foreach ($enfant_tuteurs as $enfant_tuteur) {
             $tuteur = $enfant_tuteur->getTuteur();
             $tuteurs_id[] = $tuteur->getId();
         }
 
-        $fratries = array();
+        $fratries = [];
 
         if (count($tuteurs_id) > 0) {
-
             /**
-             * je vais chercher tous les enfants des parents
+             * je vais chercher tous les enfants des parents.
              */
-            $enfant_tuteurs2 = $em->getRepository(EnfantTuteur::class)->search(array('tuteur_id' => $tuteurs_id));
+            $enfant_tuteurs2 = $em->getRepository(EnfantTuteur::class)->search(['tuteur_id' => $tuteurs_id]);
 
             foreach ($enfant_tuteurs2 as $enfant_tuteur) {
                 $child = $enfant_tuteur->getEnfant();
@@ -255,31 +256,32 @@ class EnfantRepository extends ServiceEntityRepository
     /**
      * Retourne la fratrie
      * Si pas de tuteur donner, va chercher tous les parents
-     * Si tuteur ne donne que la fratrie de celui ci
-     * @param Enfant $enfant
+     * Si tuteur ne donne que la fratrie de celui ci.
+     *
      * @param Tuteur $tuteur
+     *
      * @return Enfant[]
      */
     public function getFratriesBy(Enfant $enfant, Tuteur $tuteur = null)
     {
         $em = $this->getEntityManager();
 
-        $fratries = array();
-        $tuteurs = array();
+        $fratries = [];
+        $tuteurs = [];
         if ($tuteur) {
-            $tuteurs = array($tuteur->getId());
+            $tuteurs = [$tuteur->getId()];
         } else {
-            $parents = $em->getRepository(EnfantTuteur::class)->search(array('enfant_id' => $enfant->getId()));
+            $parents = $em->getRepository(EnfantTuteur::class)->search(['enfant_id' => $enfant->getId()]);
             foreach ($parents as $parent) {
                 $tuteurs[] = $parent->getTuteur()->getId();
             }
         }
 
-        if (count($tuteurs) == 0) {
-            return array();
+        if (0 == count($tuteurs)) {
+            return [];
         }
 
-        $enfant_tuteurs = $em->getRepository(EnfantTuteur::class)->search(array('tuteur_id' => $tuteurs));
+        $enfant_tuteurs = $em->getRepository(EnfantTuteur::class)->search(['tuteur_id' => $tuteurs]);
 
         foreach ($enfant_tuteurs as $enfant_tuteur) {
             $fratrie = $enfant_tuteur->getEnfant();
@@ -292,8 +294,10 @@ class EnfantRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retourne la liste des enfants non inscrits a la plaine
+     * Retourne la liste des enfants non inscrits a la plaine.
+     *
      * @param Plaine $plaine
+     *
      * @return QueryBuilder
      */
     public function getListEnfantsNonInscrits(Plaine $plaine = null)
@@ -309,7 +313,7 @@ class EnfantRepository extends ServiceEntityRepository
         $qb->leftJoin('enfant.plaines', 'enfantPlaines', 'WITH');
         $qb->addSelect('enfantPlaines', 'enfant');
 
-        /**
+        /*
          * je retire les enfants
          * deja inscrits
          */
@@ -324,7 +328,6 @@ class EnfantRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param array $args
      * @return Enfant[]
      */
     public function searchForEcole(array $args)

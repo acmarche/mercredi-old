@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class AccompagnateurVoter extends Voter
 {
     /**
-     * @var User $user
+     * @var User
      */
     private $user;
     const INDEX = 'index_accompagnateur';
@@ -44,7 +44,6 @@ class AccompagnateurVoter extends Voter
      * @var Accompagnateur
      */
     private $accompagnateur;
-
 
     public function __construct(AccessDecisionManagerInterface $decisionManager, FlashBagInterface $flashBag)
     {
@@ -156,7 +155,6 @@ class AccompagnateurVoter extends Voter
     private function checkEcoles($token)
     {
         if ($this->decisionManager->decide($token, ['ROLE_MERCREDI_ECOLE'])) {
-
             if (count($this->ecoles) > 0) {
                 return true;
             }

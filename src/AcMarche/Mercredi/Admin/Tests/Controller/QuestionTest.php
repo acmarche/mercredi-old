@@ -18,9 +18,9 @@ class QuestionTest extends BaseUnit
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
         $form = $crawler->selectButton('Ajouter')->form(
-            array(
+            [
                 'sante_question[intitule]' => 'Votre enfant sait-il nage',
-            )
+            ]
         );
 
         $this->admin->submit($form);
@@ -36,9 +36,9 @@ class QuestionTest extends BaseUnit
         $crawler = $this->admin->click($crawler->selectLink('Editer')->link());
 
         $form = $crawler->selectButton('Mettre à jour')->form(
-            array(
+            [
                 'sante_question[intitule]' => 'Votre enfant sait-il nager',
-            )
+            ]
         );
 
         $this->admin->submit($form);
@@ -66,11 +66,11 @@ class QuestionTest extends BaseUnit
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
         $form = $crawler->selectButton('Ajouter')->form(
-            array(
+            [
                 'sante_question[intitule]' => "L'enfant est-il atteint de diabète?",
                 'sante_question[complement]' => 1,
-                'sante_question[complementLabel]' => "Quel type de diabète?",
-            )
+                'sante_question[complementLabel]' => 'Quel type de diabète?',
+            ]
         );
 
         $this->admin->submit($form);
@@ -79,7 +79,6 @@ class QuestionTest extends BaseUnit
         $this->assertGreaterThan(0, $crawler->filter('h3:contains("L\'enfant est-il atteint de diabète?")')->count());
         $this->assertGreaterThan(0, $crawler->filter('td:contains("Quel type de diabète?")')->count());
     }
-
 
     public function testTrier()
     {
@@ -99,6 +98,5 @@ class QuestionTest extends BaseUnit
 
         $crawler = $this->admin->request('POST', '/admin/question/trier', $questions);
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
-
     }
 }

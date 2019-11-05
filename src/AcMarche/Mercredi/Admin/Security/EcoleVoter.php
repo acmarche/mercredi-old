@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class EcoleVoter extends Voter
 {
     /**
-     * @var User $user
+     * @var User
      */
     private $user;
     const INDEX = 'index_ecole';

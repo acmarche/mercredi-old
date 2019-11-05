@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 17/01/18
- * Time: 11:18
+ * Time: 11:18.
  */
 
 namespace AcMarche\Mercredi\Logger\Events;
@@ -19,6 +19,7 @@ abstract class AbstractLoggerEvent extends Event
 
     /**
      * AbstractEvent constructor.
+     *
      * @param null $entity
      */
     public function __construct($entity = null)
@@ -31,9 +32,10 @@ abstract class AbstractLoggerEvent extends Event
      */
     public function getEntity()
     {
-        if ($this->entity != null) {
+        if (null != $this->entity) {
             return $this->entity;
         }
+
         return false;
     }
 }

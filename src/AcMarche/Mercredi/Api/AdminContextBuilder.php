@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 18/01/19
- * Time: 20:55
+ * Time: 20:55.
  */
 
 namespace AcMarche\Mercredi\Api;
@@ -14,15 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
- * Class AdminContextBuilder
- * @package AcMarche\Mercredi\Api\Controller
- * services.yaml.
- * services:
- *'App\Serializer\AdminContextBuilder':
- * decorates: 'api_platform.serializer.context_builder'
- * arguments: [ '@App\Serializer\AdminContextBuilder.inner' ]
- * autoconfigure: false
- *
+ * Class AdminContextBuilder.
  */
 class AdminContextBuilder implements SerializerContextBuilderInterface
 {
@@ -39,7 +31,6 @@ class AdminContextBuilder implements SerializerContextBuilderInterface
         SerializerContextBuilderInterface $decorated,
         AuthorizationCheckerInterface $authorizationChecker
     ) {
-
         $this->decorated = $decorated;
         $this->authorizationChecker = $authorizationChecker;
     }

@@ -11,10 +11,10 @@ use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Attestation controller.
@@ -35,37 +35,37 @@ class AttestationController extends AbstractController
     }
 
     /**
-     * Pdf
+     * Pdf.
+     *
      * @Route("/{tuteurslugname}/{enfantslugname}/{annee}", name="tuteur_attestation", methods={"GET"})
      * @Route("/all/{annee}", name="tuteurs_attestation", methods={"GET"})
      * Entity("enfant", expr="repository.findBy(enfant)")
      * @ParamConverter("tuteur", class="AcMarche\Mercredi\Admin\Entity\Tuteur", options={"mapping": {"tuteurslugname": "slugname" }})
      * @ParamConverter("enfant", class="AcMarche\Mercredi\Admin\Entity\Enfant", options={"mapping": {"enfantslugname": "slugname" }})
-     *
      */
     public function index(Request $request, Tuteur $tuteur = null, Enfant $enfant = null, $annee)
     {
         $em = $this->getDoctrine()->getManager();
         $name = 'Attestations-'.$annee;
-        $html = $this->renderView('admin/tuteur/fiscale/head.html.twig', array());
+        $html = $this->renderView('admin/tuteur/fiscale/head.html.twig', []);
 
         if (!$tuteur or !$enfant) {
-            $args = array();
+            $args = [];
             $enfantsTuteur = $em->getRepository(EnfantTuteur::class)->search($args);
 
             foreach ($enfantsTuteur as $enfantTuteur) {
                 $html .= $this->getHtml($enfantTuteur, $annee);
             }
         } else {
-            $args = array('enfant_id' => $enfant->getId(), 'tuteur_id' => $tuteur->getId(), 'one' => true);
+            $args = ['enfant_id' => $enfant->getId(), 'tuteur_id' => $tuteur->getId(), 'one' => true];
             $enfantTuteur = $em->getRepository(EnfantTuteur::class)->search($args);
-            /**
+            /*
              * Relation parent enfant
              */
             if (!$enfantTuteur) {
-                $this->addFlash('danger', "Relation parent enfant non trouve");
+                $this->addFlash('danger', 'Relation parent enfant non trouve');
 
-                return $this->redirectToRoute('tuteur_show', array('slugname' => $tuteur->getSlugname()));
+                return $this->redirectToRoute('tuteur_show', ['slugname' => $tuteur->getSlugname()]);
             }
 
             $name = $enfant->getSlugname().'-'.$annee;
@@ -73,7 +73,7 @@ class AttestationController extends AbstractController
             $html .= $this->getHtml($enfantTuteur, $annee);
         }
 
-        $html .= $this->renderView('admin/tuteur/fiscale/foot.html.twig', array());
+        $html .= $this->renderView('admin/tuteur/fiscale/foot.html.twig', []);
 
         return new PdfResponse(
             $this->pdf->getOutputFromHtml($html),
@@ -88,7 +88,7 @@ class AttestationController extends AbstractController
         $enfant = $enfantTuteur->getEnfant();
 
         /**
-         * Paiements
+         * Paiements.
          */
         $paiments = $em->getRepository(Paiement::class)->getByEnfantTuteur($enfantTuteur, $annee);
 
@@ -98,19 +98,19 @@ class AttestationController extends AbstractController
         }
 
         /**
-         * jours de gardes
+         * jours de gardes.
          */
         $onlyPaye = true;
         $gardes = $em->getRepository(Presence::class)->getByEnfantTuteur($enfantTuteur, $annee, $onlyPaye);
-        $presences = array();
+        $presences = [];
         foreach ($gardes as $presence) {
             $presences[] = $presence->getJour();
         }
 
         /**
-         * get presences plaines
+         * get presences plaines.
          */
-        $args = array('enfant' => $enfant, 'tuteur' => $tuteur, 'date' => $annee, 'onlypaye' => true);
+        $args = ['enfant' => $enfant, 'tuteur' => $tuteur, 'date' => $annee, 'onlypaye' => true];
         $presencesPlaines = $em->getRepository(PlainePresence::class)->getPresences($args);
         // var_dump($presencesPlaines);
 
@@ -118,19 +118,19 @@ class AttestationController extends AbstractController
             $presences[] = $presence->getJour();
         }
 
-        if (count($paiments) == 0) {
+        if (0 == count($paiments)) {
             return 'Aucun paiement en '.$annee.'<div class="page-breaker"></div>';
         }
 
         $html = $this->renderView(
             'admin/tuteur/fiscale/content.html.twig',
-            array(
+            [
                 'tuteur' => $tuteur,
                 'enfant' => $enfant,
                 'annee' => $annee,
                 'presences' => $presences,
                 'totalpaiement' => $totalPaiement,
-            )
+            ]
         );
 
         return $html;

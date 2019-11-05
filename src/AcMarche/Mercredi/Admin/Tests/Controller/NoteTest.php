@@ -3,14 +3,13 @@
 namespace AcMarche\Mercredi\Admin\Tests\Controller;
 
 use AcMarche\Mercredi\Admin\Tests\BaseUnit;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class NoteTest extends BaseUnit
 {
     //j'ajoute a liste la presence 1-11 en cherchant natacha
-    private $urlLisa = "michel_lisa";
+    private $urlLisa = 'michel_lisa';
 
-     public function testAddNote()
+    public function testAddNote()
     {
         $crawler = $this->admin->request('GET', '/admin/enfant/'.$this->urlLisa);
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());

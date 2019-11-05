@@ -9,7 +9,6 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 /**
  * @method SanteQuestion|null find($id, $lockMode = null, $lockVersion = null)
  * @method SanteQuestion|null findOneBy(array $criteria, array $orderBy = null)
- *
  * @method SanteQuestion[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class SanteQuestionRepository extends ServiceEntityRepository
@@ -38,7 +37,7 @@ class SanteQuestionRepository extends ServiceEntityRepository
 
     public function findAll()
     {
-        return $this->findBy(array(), array('display_order' => 'ASC'));
+        return $this->findBy([], ['display_order' => 'ASC']);
     }
 
     /**
@@ -61,5 +60,4 @@ class SanteQuestionRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
-
 }

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 14/08/18
- * Time: 10:31
+ * Time: 10:31.
  */
 
 namespace AcMarche\Mercredi\Plaine\Service;
@@ -11,10 +11,13 @@ namespace AcMarche\Mercredi\Plaine\Service;
 use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 class Mailer
 {
+    /**
+     * @var Environment
+     */
     private $twig;
     private $rootPath;
     private $emailFrom;
@@ -25,7 +28,7 @@ class Mailer
 
     public function __construct(
         \Swift_Mailer $mailer,
-        EngineInterface $twigEngine,
+        Environment $twigEngine,
         RouterInterface $router,
         $emailFrom,
         $rootPath
@@ -63,11 +66,11 @@ class Mailer
     }
 
     /**
-     * Confirmation plaine
+     * Confirmation plaine.
+     *
      * @param Enfant $enfant
      * @param string $email
-     * @param null $groupeScolaire
-     *
+     * @param null   $groupeScolaire
      */
     public function sendConfirmationInscription($plaine, $enfant, $email, $groupe)
     {
@@ -94,11 +97,11 @@ class Mailer
 
     public function sendPasEmailPaine(Plaine $plaine, Enfant $enfant)
     {
-        $body = "Validation paiment, attention pas de email";
+        $body = 'Validation paiment, attention pas de email';
         $attach = [];
 
         $destinataires = [$this->emailFrom];
-        $sujet = " ! Pas de email pour ".$enfant->getPrenom()." à ".$plaine->getIntitule();
+        $sujet = ' ! Pas de email pour '.$enfant->getPrenom().' à '.$plaine->getIntitule();
 
         try {
             $this->send($this->emailFrom, $destinataires, $sujet, $body, $attach);

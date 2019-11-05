@@ -20,17 +20,17 @@ class FicheControllerTest extends BaseUnit
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
         $form = $crawler->selectButton('Ajouter')->form(
-            array(
-                'animateur[nom]' => "Chirac",
-                'animateur[prenom]' => "Patrick",
-                'animateur[email]' => "animateur@marche.be",
-            )
+            [
+                'animateur[nom]' => 'Chirac',
+                'animateur[prenom]' => 'Patrick',
+                'animateur[email]' => 'animateur@marche.be',
+            ]
         );
 
         $this->admin->submit($form);
 
         $crawler = $this->admin->followRedirect();
-        $this->assertGreaterThan(0, $crawler->filter('h3:contains("'.strtoupper("chirac").'")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('h3:contains("'.strtoupper('chirac').'")')->count());
         $this->assertGreaterThan(
             0,
             $crawler->filter('div:contains("Un compte a été créé pour l\'animateur")')->count()
@@ -39,7 +39,7 @@ class FicheControllerTest extends BaseUnit
 
     public function testFiche()
     {
-        $this->changePassword("animateur@marche.be", "animateur");
+        $this->changePassword('animateur@marche.be', 'animateur');
         $crawler = $this->animateur->request('GET', '/animateur/');
         $this->assertEquals(200, $this->animateur->getResponse()->getStatusCode());
 
@@ -49,9 +49,9 @@ class FicheControllerTest extends BaseUnit
         $crawler = $this->animateur->click($crawler->selectLink('Editer')->link());
 
         $form = $crawler->selectButton('Mettre à jour')->form(
-            array(
-                'animateur_edit[adresse]' => "Rue du Lac",
-            )
+            [
+                'animateur_edit[adresse]' => 'Rue du Lac',
+            ]
         );
 
         $this->animateur->submit($form);
@@ -69,14 +69,13 @@ class FicheControllerTest extends BaseUnit
         $crawler = $this->admin->click($crawler->selectLink('Changer le mot de passe')->link());
 
         $form = $crawler->selectButton('Mettre à jour')->form(
-            array(
+            [
                 'user_password[password]' => $password,
-            )
+            ]
         );
 
         $this->admin->submit($form);
         $crawler = $this->admin->followRedirect();
-
 
         $this->assertTrue($crawler->filter('div:contains("Le mot de passe a bien été modifié.")')->count() > 0);
     }

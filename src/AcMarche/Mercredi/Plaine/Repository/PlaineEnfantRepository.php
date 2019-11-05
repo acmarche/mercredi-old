@@ -2,16 +2,15 @@
 
 namespace AcMarche\Mercredi\Plaine\Repository;
 
+use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityRepository;
-use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
 
 /**
- * @method PlaineEnfant|null find($id, $lockMode = null, $lockVersion = null)
- * @method PlaineEnfant|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PlaineEnfant|null   find($id, $lockMode = null, $lockVersion = null)
+ * @method PlaineEnfant|null   findOneBy(array $criteria, array $orderBy = null)
  * @method PlaineEnfant[]|null findAll()
- * @method PlaineEnfant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PlaineEnfant[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PlaineEnfantRepository extends ServiceEntityRepository
 {
@@ -33,6 +32,7 @@ class PlaineEnfantRepository extends ServiceEntityRepository
 
     /**
      * @param $args
+     *
      * @return PlaineEnfant[]
      */
     public function search($args)
@@ -50,6 +50,7 @@ class PlaineEnfantRepository extends ServiceEntityRepository
 
     /**
      * @param $args
+     *
      * @return \Doctrine\ORM\QueryBuilder
      */
     public function makeCritere($args)

@@ -40,7 +40,6 @@ class NoteController extends AbstractController
      * Lists all Note entities.
      *
      * @Route("/{slugname}", name="note", methods={"GET"})
-     *
      */
     public function index(Enfant $enfant)
     {
@@ -50,10 +49,10 @@ class NoteController extends AbstractController
 
         return $this->render(
             'admin/note/index.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'notes' => $notes,
-            )
+            ]
         );
     }
 
@@ -68,29 +67,28 @@ class NoteController extends AbstractController
         $note->setEnfant($enfant);
 
         $form = $this->createForm(NoteType::class, $note)
-            ->add('submit', SubmitType::class, array('label' => 'Create'));
+            ->add('submit', SubmitType::class, ['label' => 'Create']);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user = $this->getUser();
             $note->setUserAdd($user);
 
             $this->noteRepository->insert($note);
 
-            $this->addFlash('success', "La note a bien été ajoutée");
+            $this->addFlash('success', 'La note a bien été ajoutée');
 
             return $this->redirectToRoute('note_show', ['id' => $note->getId()]);
         }
 
         return $this->render(
             'admin/note/new.html.twig',
-            array(
+            [
                 'entity' => $note,
                 'enfant' => $enfant,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -98,7 +96,6 @@ class NoteController extends AbstractController
      * Finds and displays a Note entity.
      *
      * @Route("/detail/{id}", name="note_show", methods={"GET"})
-     *
      */
     public function show(Note $note)
     {
@@ -106,10 +103,10 @@ class NoteController extends AbstractController
 
         return $this->render(
             'admin/note/show.html.twig',
-            array(
+            [
                 'entity' => $note,
                 'delete_form' => $deleteForm->createView(),
-            )
+            ]
         );
     }
 
@@ -123,9 +120,9 @@ class NoteController extends AbstractController
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('note_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('note_delete', ['id' => $id]))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, array('label' => 'Clôturer', 'attr' => array('class' => 'btn-danger')))
+            ->add('submit', SubmitType::class, ['label' => 'Clôturer', 'attr' => ['class' => 'btn-danger']])
             ->getForm();
     }
 
@@ -133,30 +130,28 @@ class NoteController extends AbstractController
      * Displays a form to edit an existing Note entity.
      *
      * @Route("/{id}/edit", name="note_edit", methods={"GET","POST"})
-     *
      */
     public function edit(Request $request, Note $note)
     {
         $editForm = $this->createForm(NoteType::class, $note)
-            ->add('submit', SubmitType::class, array('label' => 'Update'));
+            ->add('submit', SubmitType::class, ['label' => 'Update']);
 
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted()) {
-
             $this->noteRepository->save();
 
-            $this->addFlash('success', "La note a bien été mis à jour");
+            $this->addFlash('success', 'La note a bien été mis à jour');
 
             return $this->redirectToRoute('note_show', ['id' => $note->getId()]);
         }
 
         return $this->render(
             'admin/note/edit.html.twig',
-            array(
+            [
                 'entity' => $note,
                 'edit_form' => $editForm->createView(),
-            )
+            ]
         );
     }
 
@@ -171,18 +166,15 @@ class NoteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $enfant = $note->getEnfant();
 
             $this->noteRepository->delete($note);
 
             $this->mailerService->sendNote($note);
 
-            $this->addFlash('success', "La note a bien été supprimée");
+            $this->addFlash('success', 'La note a bien été supprimée');
         }
 
         return $this->redirectToRoute('enfant_show', ['slugname' => $enfant->getSlugname()]);
     }
-
-
 }

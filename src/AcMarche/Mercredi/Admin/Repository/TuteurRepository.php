@@ -2,11 +2,11 @@
 
 namespace AcMarche\Mercredi\Admin\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 
 /**
@@ -37,11 +37,12 @@ class TuteurRepository extends ServiceEntityRepository
      */
     public function findAll()
     {
-        return $this->findBy(array(), array('nom' => 'ASC'));
+        return $this->findBy([], ['nom' => 'ASC']);
     }
 
     /**
      * @param $nom
+     *
      * @return Tuteur[]
      */
     public function findForAutoComplete($nom)
@@ -63,7 +64,8 @@ class TuteurRepository extends ServiceEntityRepository
     }
 
     /**
-     * Pour la page index pour plus de rapidite
+     * Pour la page index pour plus de rapidite.
+     *
      * @return Tuteur[]
      */
     public function getAll()
@@ -81,9 +83,12 @@ class TuteurRepository extends ServiceEntityRepository
     }
 
     /**
-     * Recherche d'un tuteur suivant son nom
+     * Recherche d'un tuteur suivant son nom.
+     *
      * @param array $args
+     *
      * @return Tuteur[]|Tuteur
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function search($args)
@@ -132,8 +137,10 @@ class TuteurRepository extends ServiceEntityRepository
     }
 
     /**
-     * Recherche d'un tuteur suivant son nom
+     * Recherche d'un tuteur suivant son nom.
+     *
      * @param array $args
+     *
      * @return Tuteur[]|Tuteur
      */
     public function quickSearch($args)
@@ -164,14 +171,15 @@ class TuteurRepository extends ServiceEntityRepository
 
     /**
      * @param $tuteur_id
+     *
      * @return Enfant[]
      */
     public function getEnfants($tuteur_id)
     {
         $em = $this->getEntityManager();
 
-        $enfant_tuteurs = $em->getRepository(EnfantTuteur::class)->search(array('tuteur_id' => $tuteur_id));
-        $enfants = array();
+        $enfant_tuteurs = $em->getRepository(EnfantTuteur::class)->search(['tuteur_id' => $tuteur_id]);
+        $enfants = [];
 
         foreach ($enfant_tuteurs as $enfant_tuteur) {
             $enfant = $enfant_tuteur->getEnfant();
@@ -182,17 +190,16 @@ class TuteurRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Enfant $enfant
      * @return \Doctrine\ORM\QueryBuilder
      */
     public function getTuteursForList(Enfant $enfant)
     {
         $qb = $this->createQueryBuilder('t');
         $em = $this->getEntityManager();
-        $args = array('enfant_id' => $enfant->getId());
+        $args = ['enfant_id' => $enfant->getId()];
 
         $enfantTuteurs = $em->getRepository(EnfantTuteur::class)->search($args);
-        if (count($enfantTuteurs) == 0) {
+        if (0 == count($enfantTuteurs)) {
             $qb->andwhere('t.id IN ('. 0 .')');
 
             return $qb;
@@ -205,7 +212,7 @@ class TuteurRepository extends ServiceEntityRepository
             $enfantTuteurs
         );
 
-        $ids = join(",", $tuteurIds);
+        $ids = join(',', $tuteurIds);
 
         $qb->andwhere('t.id IN ('.$ids.')');
 
@@ -229,7 +236,7 @@ class TuteurRepository extends ServiceEntityRepository
     public function getForAssociateParent()
     {
         $qb = $this->createQueryBuilder('t');
-        $qb->andWhere("t.user IS NULL");
+        $qb->andWhere('t.user IS NULL');
         $qb->orderBy('t.nom');
 
         return $qb;
@@ -248,7 +255,6 @@ class TuteurRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $email
      * @return Tuteur|null
      */
     public function findOneByEmail(string $email)

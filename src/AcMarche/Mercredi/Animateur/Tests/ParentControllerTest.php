@@ -16,6 +16,4 @@ class ParentControllerTest extends BaseUnit
 
         $this->assertGreaterThan(0, $crawler->filter('td:contains("0475 52 33")')->count());
     }
-
-
 }

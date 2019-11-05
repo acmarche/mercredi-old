@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 12/11/18
- * Time: 12:03
+ * Time: 12:03.
  */
 
 namespace AcMarche\Mercredi\Commun\Utils;
@@ -40,6 +40,6 @@ class PasswordManager
     {
         $passwordCrypted = $this->userPasswordEncoder->encodePassword($user, $plainPassword);
         $user->setPassword($passwordCrypted);
-        $user->setPlainPassword($plainPassword);//pour envoie par mail
+        $user->setPlainPassword($plainPassword); //pour envoie par mail
     }
 }

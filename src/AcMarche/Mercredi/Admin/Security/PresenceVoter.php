@@ -2,9 +2,9 @@
 
 namespace AcMarche\Mercredi\Admin\Security;
 
+use AcMarche\Mercredi\Admin\Entity\Presence;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Security\Entity\User;
-use AcMarche\Mercredi\Admin\Entity\Presence;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -88,9 +88,8 @@ class PresenceVoter extends Voter
     }
 
     /**
-     * Uniquement l'admin, droit donne plus haut
-     * @param Presence $presence
-     * @param TokenInterface $token
+     * Uniquement l'admin, droit donne plus haut.
+     *
      * @return bool
      */
     private function canEdit(Presence $presence, TokenInterface $token)
@@ -124,7 +123,7 @@ class PresenceVoter extends Voter
     {
         $user = $token->getUser();
         /**
-         * @var Tuteur $tuteur
+         * @var Tuteur
          */
         $tuteur = $user->getTuteur();
         $tuteurPresence = $presence->getTuteur();

@@ -3,7 +3,6 @@
 namespace AcMarche\Mercredi\Admin\Tests\Controller;
 
 use AcMarche\Mercredi\Admin\Tests\BaseUnit;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /*
  * Ajouter
@@ -13,8 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class EcoleTest extends BaseUnit
 {
-    private $nomBad = "Ecole de Spingfield";
-    private $nom = "Ecole de Springfield";
+    private $nomBad = 'Ecole de Spingfield';
+    private $nom = 'Ecole de Springfield';
 
     public function testindex()
     {
@@ -24,7 +23,7 @@ class EcoleTest extends BaseUnit
 
     /**
      * Test page new
-     * Test edit
+     * Test edit.
      */
     public function testAdd()
     {
@@ -33,9 +32,9 @@ class EcoleTest extends BaseUnit
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Ajouter')->form(
-            array(
+            [
                 'ecole[nom]' => $this->nomBad,
-            )
+            ]
         );
 
         $this->admin->submit($form);
@@ -51,9 +50,9 @@ class EcoleTest extends BaseUnit
         $crawler = $this->admin->click($crawler->selectLink('Editer')->link());
 
         $form = $crawler->selectButton('Mettre à jour')->form(
-            array(
+            [
                 'ecole[nom]' => $this->nom,
-            )
+            ]
         );
 
         $this->admin->submit($form);

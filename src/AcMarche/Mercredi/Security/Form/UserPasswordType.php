@@ -10,25 +10,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserPasswordType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('password', PasswordType::class, [
-                'label'=>'Nouveau mot de passe'
+                'label' => 'Nouveau mot de passe',
             ]);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => User::class
-        ));
+        $resolver->setDefaults([
+            'data_class' => User::class,
+        ]);
     }
 }

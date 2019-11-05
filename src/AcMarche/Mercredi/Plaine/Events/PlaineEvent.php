@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 17/01/18
- * Time: 11:27
+ * Time: 11:27.
  */
 
 namespace AcMarche\Mercredi\Plaine\Events;

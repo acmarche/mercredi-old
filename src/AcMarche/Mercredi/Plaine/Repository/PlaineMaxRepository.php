@@ -7,10 +7,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method PlaineMax|null find($id, $lockMode = null, $lockVersion = null)
- * @method PlaineMax|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PlaineMax|null   find($id, $lockMode = null, $lockVersion = null)
+ * @method PlaineMax|null   findOneBy(array $criteria, array $orderBy = null)
  * @method PlaineMax[]|null findAll()
- * @method PlaineMax[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PlaineMax[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PlaineMaxRepository extends ServiceEntityRepository
 {
@@ -29,5 +29,4 @@ class PlaineMaxRepository extends ServiceEntityRepository
     {
         $this->_em->flush();
     }
-
 }

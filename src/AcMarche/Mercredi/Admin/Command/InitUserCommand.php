@@ -6,8 +6,8 @@ use AcMarche\Mercredi\Security\Entity\Group;
 use AcMarche\Mercredi\Security\Entity\User;
 use AcMarche\Mercredi\Security\Repository\GroupRepository;
 use AcMarche\Mercredi\Security\Repository\UserRepository;
-use Symfony\Component\Console\Command\Command;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -65,17 +65,17 @@ class InitUserCommand extends Command
         $parentUser = $this->userRepository->findOneBy(['username' => 'parent']);
 
         if (!$groupAdmin) {
-            $groupAdmin = new Group("MERCREDI_ADMIN");
-            $groupAdmin->addRole("ROLE_MERCREDI_ADMIN");
-            $groupAdmin->addRole("ROLE_MERCREDI_READ");
+            $groupAdmin = new Group('MERCREDI_ADMIN');
+            $groupAdmin->addRole('ROLE_MERCREDI_ADMIN');
+            $groupAdmin->addRole('ROLE_MERCREDI_READ');
             $entityManager->persist($groupAdmin);
             $entityManager->flush();
             $output->writeln('Groupe MERCREDI_ADMIN créé');
         }
 
         if (!$groupParent) {
-            $groupParent = new Group("MERCREDI_PARENT");
-            $groupParent->addRole("ROLE_MERCREDI_PARENT");
+            $groupParent = new Group('MERCREDI_PARENT');
+            $groupParent->addRole('ROLE_MERCREDI_PARENT');
             $entityManager->persist($groupParent);
             $this->addReference('group-parent', $groupParent);
             $entityManager->flush();
@@ -83,8 +83,8 @@ class InitUserCommand extends Command
         }
 
         if (!$groupAnimateur) {
-            $groupAnimateur = new Group("MERCREDI_ANIMATEUR");
-            $groupAnimateur->addRole("ROLE_MERCREDI_ANIMATEUR");
+            $groupAnimateur = new Group('MERCREDI_ANIMATEUR');
+            $groupAnimateur->addRole('ROLE_MERCREDI_ANIMATEUR');
             $entityManager->persist($groupAnimateur);
             $this->addReference('group-animateur', $groupAnimateur);
             $entityManager->flush();
@@ -92,8 +92,8 @@ class InitUserCommand extends Command
         }
 
         if (!$groupEcole) {
-            $groupEcole = new Group("MERCREDI_ECOLE");
-            $groupEcole->addRole("ROLE_MERCREDI_ECOLE");
+            $groupEcole = new Group('MERCREDI_ECOLE');
+            $groupEcole->addRole('ROLE_MERCREDI_ECOLE');
             $entityManager->persist($groupEcole);
             $this->addReference('group-ecole', $groupEcole);
             $entityManager->flush();
@@ -101,8 +101,8 @@ class InitUserCommand extends Command
         }
 
         if (!$groupRead) {
-            $groupRead = new Group("MERCREDI_READ");
-            $groupRead->addRole("ROLE_MERCREDI_READ");
+            $groupRead = new Group('MERCREDI_READ');
+            $groupRead->addRole('ROLE_MERCREDI_READ');
             $entityManager->persist($groupRead);
             $this->addReference('group-read', $groupRead);
             $entityManager->flush();
@@ -116,7 +116,7 @@ class InitUserCommand extends Command
             $admin->setPrenom('Zeze');
             $admin->setPlainPassword('admin');
             $admin->setEnabled(1);
-            $admin->setEmail("jf@marche.be");
+            $admin->setEmail('jf@marche.be');
             $admin->addGroup($groupAdmin);
             $entityManager->persist($admin);
             $this->addReference('admin-user', $admin);
@@ -130,7 +130,7 @@ class InitUserCommand extends Command
             $pmi->setPrenom('Phili');
             $pmi->setPlainPassword('admin');
             $pmi->setEnabled(1);
-            $pmi->setEmail("webmaster@marche.be");
+            $pmi->setEmail('webmaster@marche.be');
             $pmi->addGroup($groupParent);
             $entityManager->persist($pmi);
             $this->addReference('pmi', $pmi);
@@ -144,7 +144,7 @@ class InitUserCommand extends Command
             $animateur->setPrenom('John');
             $animateur->setPlainPassword('animateur');
             $animateur->setEnabled(1);
-            $animateur->setEmail("animateur@marche.be");
+            $animateur->setEmail('animateur@marche.be');
             $animateur->addGroup($groupAnimateur);
             $entityManager->persist($animateur);
             $output->writeln("L'utilisateur animateur a bien été créé");
@@ -157,7 +157,7 @@ class InitUserCommand extends Command
             $ecole->setPrenom('Aye');
             $ecole->setPlainPassword('ecole');
             $ecole->setEnabled(1);
-            $ecole->setEmail("ecole@marche.be");
+            $ecole->setEmail('ecole@marche.be');
             $ecole->addGroup($groupEcole);
             $entityManager->persist($ecole);
             $output->writeln("L'utilisateur ecole a bien été créé");
@@ -170,7 +170,7 @@ class InitUserCommand extends Command
             $read->setPrenom('Ipod');
             $read->setPlainPassword('read');
             $read->setEnabled(1);
-            $read->setEmail("read@marche.be");
+            $read->setEmail('read@marche.be');
             $read->addGroup($groupRead);
             $entityManager->persist($read);
         }

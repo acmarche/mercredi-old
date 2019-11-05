@@ -16,6 +16,4 @@ class EnfantControllerTest extends BaseUnit
         $crawler = $this->animateur->click($crawler->selectLink('Fiche santé')->link());
         $this->assertEquals(200, $this->animateur->getResponse()->getStatusCode());
     }
-
-
 }

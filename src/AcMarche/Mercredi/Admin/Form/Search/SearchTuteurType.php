@@ -10,47 +10,39 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SearchTuteurType extends AbstractType
 {
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add(
                 'nom',
                 TextType::class,
-                array(
+                [
                     'required' => false,
-                    'attr' => array('placeholder' => 'Nom'),
-                )
+                    'attr' => ['placeholder' => 'Nom'],
+                ]
             )
             ->add(
                 'submit',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'Rechercher',
-                )
+                ]
             )
             ->add(
                 'raz',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'raz',
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'btn-sm btn-success',
                         'title' => 'Search raz',
-                    ),
-                )
+                    ],
+                ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array());
+        $resolver->setDefaults([]);
     }
 }

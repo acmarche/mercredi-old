@@ -3,9 +3,9 @@
 namespace AcMarche\Mercredi\Security\Form\DataTransformer;
 
 use AcMarche\Mercredi\Security\Entity\User;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
-use Doctrine\Common\Persistence\ObjectManager;
 
 class UserToNumberTransformer implements DataTransformerInterface
 {
@@ -14,9 +14,6 @@ class UserToNumberTransformer implements DataTransformerInterface
      */
     private $om;
 
-    /**
-     * @param ObjectManager $om
-     */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;
@@ -25,13 +22,14 @@ class UserToNumberTransformer implements DataTransformerInterface
     /**
      * Transforms an object (issue) to a string (number).
      *
-     * @param  User|null $issue
+     * @param User|null $issue
+     *
      * @return string
      */
     public function transform($issue)
     {
         if (null === $issue) {
-            return "";
+            return '';
         }
 
         return $issue->getId();
@@ -40,11 +38,11 @@ class UserToNumberTransformer implements DataTransformerInterface
     /**
      * Transforms a string (number) to an object (issue).
      *
-     * @param  string $number
+     * @param string $number
      *
      * @return User|null
      *
-     * @throws TransformationFailedException if object (issue) is not found.
+     * @throws TransformationFailedException if object (issue) is not found
      */
     public function reverseTransform($number)
     {
@@ -54,15 +52,10 @@ class UserToNumberTransformer implements DataTransformerInterface
 
         $issue = $this->om
             ->getRepository(User::class)
-            ->findOneBy(array('id' => $number));
+            ->findOneBy(['id' => $number]);
 
         if (null === $issue) {
-            throw new TransformationFailedException(
-                sprintf(
-                    'An issue with number "%s" does not exist!',
-                    $number
-                )
-            );
+            throw new TransformationFailedException(sprintf('An issue with number "%s" does not exist!', $number));
         }
 
         return $issue;

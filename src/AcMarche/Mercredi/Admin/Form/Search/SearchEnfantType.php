@@ -23,10 +23,6 @@ class SearchEnfantType extends AbstractType
         $this->ecoleRepository = $ecoleRepository;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $scolaires = ScolaireService::getAnneesScolaires();
@@ -36,59 +32,56 @@ class SearchEnfantType extends AbstractType
             ->add(
                 'nom',
                 TextType::class,
-                array(
+                [
                     'required' => false,
-                    'attr' => array('placeholder' => 'Nom'),
-                )
+                    'attr' => ['placeholder' => 'Nom'],
+                ]
             )
             ->add(
                 'ecole',
                 ChoiceType::class,
-                array(
+                [
                     'required' => false,
                     'placeholder' => 'Choisissez son école',
                     'choices' => $ecoles,
-                    'attr' => array(),
-                )
+                    'attr' => [],
+                ]
             )
             ->add(
                 'annee_scolaire',
                 ChoiceType::class,
-                array(
+                [
                     'choices' => $scolaires,
                     'required' => false,
                     'label' => 'Année scolaire',
                     'placeholder' => 'Choisissez son année scolaire',
-                    'attr' => array(),
-                )
+                    'attr' => [],
+                ]
             )
             ->add(
                 'submit',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'Rechercher',
-                )
+                ]
             )
             ->add(
                 'raz',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'raz',
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'btn-sm btn-success',
                         'title' => 'Search raz',
-                    ),
-                )
+                    ],
+                ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array()
+            []
         );
     }
 }

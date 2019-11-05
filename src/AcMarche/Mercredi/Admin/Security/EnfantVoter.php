@@ -2,11 +2,11 @@
 
 namespace AcMarche\Mercredi\Admin\Security;
 
+use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Admin\Exception\RedirectException;
 use AcMarche\Mercredi\Security\Entity\User;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -25,20 +25,20 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class EnfantVoter extends Voter
 {
     /**
-     * @var User $user
+     * @var User
      */
     private $user;
     /**
-     * @var Enfant $enfant
+     * @var Enfant
      */
     private $enfant;
     /**
-     * @var Tuteur $tuteurOfUser
+     * @var Tuteur
      */
     private $tuteurOfUser;
 
     /**
-     * @var TokenInterface $token
+     * @var TokenInterface
      */
     private $token;
     const INDEX = 'index_enfant';
@@ -83,7 +83,6 @@ class EnfantVoter extends Voter
             $attribute,
             [self::INDEX, self::ADD, self::SHOW, self::EDIT, self::DELETE, self::ADD_PRESENCE]
         );
-
     }
 
     /**
@@ -186,16 +185,14 @@ class EnfantVoter extends Voter
 
         if (!$tuteur) {
             $this->flashBag->add('danger', 'Aucun parent associé à votre compte');
-            throw new RedirectException(
-                new RedirectResponse($this->router->generate('parent_nouveau'))
-            );
+            throw new RedirectException(new RedirectResponse($this->router->generate('parent_nouveau')));
         }
 
         /**
-         * @var EnfantTuteur[] $enfant_tuteurs
+         * @var EnfantTuteur[]
          */
         $enfant_tuteurs = $tuteur->getEnfants();
-        $enfants = array();
+        $enfants = [];
 
         foreach ($enfant_tuteurs as $enfant_tuteur) {
             $enfants[] = $enfant_tuteur->getEnfant()->getId();

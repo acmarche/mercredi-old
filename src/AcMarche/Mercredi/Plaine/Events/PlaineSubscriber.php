@@ -3,14 +3,14 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 17/01/18
- * Time: 11:19
+ * Time: 11:19.
  */
 
 namespace AcMarche\Mercredi\Plaine\Events;
 
+use AcMarche\Mercredi\Commun\Utils\ScolaireService;
 use AcMarche\Mercredi\Plaine\Service\Mailer;
 use AcMarche\Mercredi\Plaine\Service\PlaineService;
-use AcMarche\Mercredi\Commun\Utils\ScolaireService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class PlaineSubscriber implements EventSubscriberInterface
@@ -47,22 +47,15 @@ class PlaineSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param PlaineEvent $event
-     */
     public function onPlaineShow(PlaineEvent $event)
     {
     }
 
-    /**
-     * @param PlaineEvent $event
-     */
     public function onPlaineEdit(PlaineEvent $event)
     {
     }
 
     /**
-     * @param PlaineEvent $event
      * @throws \Exception
      */
     public function onPlainePaiement(PlaineEvent $event)
@@ -70,7 +63,6 @@ class PlaineSubscriber implements EventSubscriberInterface
         $plaine = $event->getPlaine();
 
         if ($plaine->isInscriptionOuverture()) {
-
             $plainePresence = $event->getPlainePresence();
 
             $plaine_enfant = $plainePresence->getPlaineEnfant();
@@ -80,9 +72,9 @@ class PlaineSubscriber implements EventSubscriberInterface
             $groupe = $this->scolaireService->getGroupeScolaire($enfant);
 
             if ($email) {
-                   $this->mailer->sendConfirmationInscription($plaine, $enfant, $email, $groupe);
+                $this->mailer->sendConfirmationInscription($plaine, $enfant, $email, $groupe);
             } else {
-                    $this->mailer->sendPasEmailPaine($plaine, $enfant);
+                $this->mailer->sendPasEmailPaine($plaine, $enfant);
             }
         }
     }

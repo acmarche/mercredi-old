@@ -12,11 +12,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MessageType extends AbstractType
 {
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -31,17 +26,17 @@ class MessageType extends AbstractType
             ->add(
                 'sujet',
                 TextType::class,
-                array(
-                    "required" => true,
-                )
+                [
+                    'required' => true,
+                ]
             )
             ->add(
                 'texte',
                 TextareaType::class,
-                array(
-                    "required" => true,
-                    "attr" => array('rows' => 10, 'cols' => 50),
-                )
+                [
+                    'required' => true,
+                    'attr' => ['rows' => 10, 'cols' => 50],
+                ]
             )
             ->add(
                 'file',
@@ -56,12 +51,9 @@ class MessageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => Message::class,
-            )
+            ]
         );
-
     }
-
-
 }

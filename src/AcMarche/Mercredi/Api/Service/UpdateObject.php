@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 22/01/19
- * Time: 11:08
+ * Time: 11:08.
  */
 
 namespace AcMarche\Mercredi\Api\Service;
@@ -66,8 +66,7 @@ class UpdateObject
     }
 
     /**
-     * @param Tuteur $tuteur
-     * @param Enfant $enfant
+     * @param Tuteur   $tuteur
      * @param iterable $presences
      */
     public function insertPresences(User $user, Enfant $enfant, iterable $joursIds)

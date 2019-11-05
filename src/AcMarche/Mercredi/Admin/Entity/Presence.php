@@ -3,38 +3,36 @@
 namespace AcMarche\Mercredi\Admin\Entity;
 
 use AcMarche\Mercredi\Security\Entity\User;
-
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Presence
+ * Presence.
  *
  * @ORM\Table("presence", uniqueConstraints={
  *     @ORM\UniqueConstraint(columns={"jour_id", "enfant_id"})
  * })
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Admin\Repository\PresenceRepository")
  * @UniqueEntity(fields={"jour", "enfant"}, message="L'enfant est déjà inscrit à cette date")
- *
  */
 class Presence
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
      */
     protected $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="Jour", inversedBy="presences")
      * @ORM\JoinColumn(name="jour_id", referencedColumnName="id", nullable=false)
+     *
      * @var Jour
      *
      * */
@@ -58,36 +56,31 @@ class Presence
 
     /**
      * @ORM\ManyToOne(targetEntity="Reduction", inversedBy="presence")
-     *
      */
     protected $reduction;
 
     /**
      * @ORM\ManyToOne(targetEntity="Paiement", inversedBy="presences", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-     *
      */
     protected $paiement;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="smallint", length=2, nullable=true, options={"comment" = "1,2, suviant", "default" = "0"})
-     *
      */
     protected $ordre = 0;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="smallint", length=2, nullable=false, options={"comment" = "-1 sans certif, 1 avec certfi", "default" = "0"})
-     *
      */
     protected $absent = 0;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     *
      */
     protected $remarques;
 
@@ -115,7 +108,8 @@ class Presence
 
     /**
      * Tableau contenant le detail du cout de la presence
-     * Voir Enfance::Calcul
+     * Voir Enfance::Calcul.
+     *
      * @var array
      */
     protected $calcul;
@@ -134,7 +128,7 @@ class Presence
         $date_jour = $this->jour->getDateJour();
 
         if (is_a($date_jour, 'DateTime')) {
-            $jour = $date_jour->format("D");
+            $jour = $date_jour->format('D');
             switch ($jour) {
                 case 'Mon':
                     $jourFr = 'Lundi';
@@ -162,7 +156,7 @@ class Presence
                     break;
             }
 
-            return $date_jour->format("d-m-Y").' '.$jourFr;
+            return $date_jour->format('d-m-Y').' '.$jourFr;
         } else {
             return '';
         }
@@ -236,18 +230,19 @@ class Presence
     }
 
     /**
-     * Pas besoin de paiement sur la presence
+     * Pas besoin de paiement sur la presence.
+     *
      * @return mixed
      */
     public function isGratuite()
     {
         if ($reduction = $this->getReduction()) {
-            if ($reduction->getPourcentage() == 100) {
+            if (100 == $reduction->getPourcentage()) {
                 return true;
             }
         }
 
-        if ($this->getAbsent() == 1) {
+        if (1 == $this->getAbsent()) {
             return true;
         }
 
@@ -287,7 +282,8 @@ class Presence
     }
 
     /**
-     * Utiliser dans form payerType
+     * Utiliser dans form payerType.
+     *
      * @return string
      */
     public function getAvecPrix()
@@ -301,7 +297,7 @@ class Presence
     {
         $this->jours = new ArrayCollection();
         $this->fratries = new ArrayCollection();
-        $this->calcul = array();
+        $this->calcul = [];
     }
 
     public function getId(): ?int
@@ -441,7 +437,7 @@ class Presence
         return $this;
     }
 
-    /**
+    /*
      * STOP
      */
 }

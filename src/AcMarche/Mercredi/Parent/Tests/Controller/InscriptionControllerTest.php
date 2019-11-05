@@ -13,12 +13,12 @@ class InscriptionControllerTest extends BaseUnit
 
         $groupParent = $this->getGroup(['name' => 'MERCREDI_PARENT']);
 
-        $form = $crawler->selectButton("Ajouter")->form(
-            array(
+        $form = $crawler->selectButton('Ajouter')->form(
+            [
                 'utilisateur[nom]' => 'Sans',
                 'utilisateur[prenom]' => 'Enfants',
                 'utilisateur[email]' => 'solo@marche.be',
-            )
+            ]
         );
 
         $form['utilisateur[groups][1]'] = $groupParent->getId();
@@ -39,7 +39,7 @@ class InscriptionControllerTest extends BaseUnit
 
         $crawler = $this->admin->click($crawler->selectLink('Associer un parent')->link());
 
-        $form = $crawler->selectButton('Mettre à jour')->form(array());
+        $form = $crawler->selectButton('Mettre à jour')->form([]);
 
         $this->admin->submit($form);
         $crawler = $this->admin->followRedirect();
@@ -68,8 +68,7 @@ class InscriptionControllerTest extends BaseUnit
     }
 
     /**
-     * pas de compte tuteur lie
-     *
+     * pas de compte tuteur lie.
      */
     public function testDroitParent()
     {

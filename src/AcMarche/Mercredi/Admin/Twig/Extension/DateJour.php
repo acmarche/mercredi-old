@@ -3,8 +3,10 @@
 namespace AcMarche\Mercredi\Admin\Twig\Extension;
 
 use AcMarche\Mercredi\Commun\Utils\DateService;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
-class DateJour extends \Twig_Extension
+class DateJour extends AbstractExtension
 {
     /**
      * @var DateService
@@ -18,16 +20,15 @@ class DateJour extends \Twig_Extension
 
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('datefr', array($this, 'dateFilter')),
-        );
+        return [
+            new TwigFilter('datefr', [$this, 'dateFilter']),
+        ];
     }
 
     public function dateFilter(\DateTime $date, $jourFirst = false)
     {
         return $this->dateService->getFr($date, $jourFirst);
     }
-
 
     /**
      * {@inheritdoc}

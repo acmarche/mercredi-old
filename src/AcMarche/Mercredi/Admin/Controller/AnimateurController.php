@@ -3,24 +3,24 @@
 namespace AcMarche\Mercredi\Admin\Controller;
 
 use AcMarche\Mercredi\Admin\Entity\Animateur;
-use AcMarche\Mercredi\Admin\Form\Animateur\AnimateurType;
-use AcMarche\Mercredi\Admin\Repository\AnimateurRepository;
-use AcMarche\Mercredi\Admin\Service\AnimateurFileHelper;
-use AcMarche\Mercredi\Security\Service\Mailer;
-use AcMarche\Mercredi\Security\Manager\UserManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use AcMarche\Mercredi\Admin\Form\Animateur\AnimateurEditType;
-use AcMarche\Mercredi\Admin\Form\Search\SearchAnimateurType;
 use AcMarche\Mercredi\Admin\Form\Animateur\AnimateurJoursType;
 use AcMarche\Mercredi\Admin\Form\Animateur\AnimateurPlainesType;
+use AcMarche\Mercredi\Admin\Form\Animateur\AnimateurType;
+use AcMarche\Mercredi\Admin\Form\Search\SearchAnimateurType;
+use AcMarche\Mercredi\Admin\Repository\AnimateurRepository;
+use AcMarche\Mercredi\Admin\Service\AnimateurFileHelper;
 use AcMarche\Mercredi\Plaine\Entity\AnimateurPlaine;
+use AcMarche\Mercredi\Plaine\Entity\Plaine;
+use AcMarche\Mercredi\Security\Manager\UserManager;
+use AcMarche\Mercredi\Security\Service\Mailer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Animateur controller.
@@ -67,23 +67,24 @@ class AnimateurController extends AbstractController
 
     /**
      * Lists all Animateur entities.
+     *
      * @Route("/", name="admin_animateur", methods={"GET"})
      */
     public function index(Request $request)
     {
-        $data = array();
+        $data = [];
 
-        if ($this->session->has("animateur_search")) {
-            $data = unserialize($this->session->get("animateur_search"));
+        if ($this->session->has('animateur_search')) {
+            $data = unserialize($this->session->get('animateur_search'));
         }
 
         $search_form = $this->createForm(
             SearchAnimateurType::class,
             $data,
-            array(
+            [
                 'action' => $this->generateUrl('admin_animateur'),
                 'method' => 'GET',
-            )
+            ]
         );
 
         $search_form->handleRequest($request);
@@ -91,7 +92,7 @@ class AnimateurController extends AbstractController
         if ($search_form->isSubmitted() && $search_form->isValid()) {
             $data = $search_form->getData();
             if ($search_form->get('raz')->isClicked()) {
-                $this->session->remove("animateur_search");
+                $this->session->remove('animateur_search');
                 $this->addFlash('success', 'La recherche a bien été réinitialisée.');
 
                 return $this->redirectToRoute('admin_animateur');
@@ -103,10 +104,10 @@ class AnimateurController extends AbstractController
 
         return $this->render(
             'admin/animateur/index.html.twig',
-            array(
+            [
                 'search_form' => $search_form->createView(),
                 'animateurs' => $animateurs,
-            )
+            ]
         );
     }
 
@@ -114,19 +115,17 @@ class AnimateurController extends AbstractController
      * Displays a form to create a new Animateur entity.
      *
      * @Route("/new", name="admin_animateur_new", methods={"GET","POST"})
-     *
      */
     public function new(Request $request)
     {
         $animateur = new Animateur();
 
         $form = $form = $this->createForm(AnimateurType::class, $animateur)
-            ->add('submit', SubmitType::class, array('label' => 'Create'));
+            ->add('submit', SubmitType::class, ['label' => 'Create']);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $animateur->setUserAdd($this->getUser());
 
             $this->animateurRepository->insert($animateur);
@@ -141,16 +140,16 @@ class AnimateurController extends AbstractController
             $this->addFlash('success', "L'animateur a bien été ajouté");
 
             return $this->redirect(
-                $this->generateUrl('admin_animateur_show', array('slugname' => $animateur->getSlugname()))
+                $this->generateUrl('admin_animateur_show', ['slugname' => $animateur->getSlugname()])
             );
         }
 
         return $this->render(
             'admin/animateur/new.html.twig',
-            array(
+            [
                 'animateur' => $animateur,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -158,7 +157,6 @@ class AnimateurController extends AbstractController
      * Finds and displays a Animateur entity.
      *
      * @Route("/{slugname}", name="admin_animateur_show", methods={"GET"})
-     *
      */
     public function show(Animateur $animateur)
     {
@@ -166,10 +164,10 @@ class AnimateurController extends AbstractController
 
         return $this->render(
             'admin/animateur/show.html.twig',
-            array(
+            [
                 'animateur' => $animateur,
                 'delete_form' => $deleteForm->createView(),
-            )
+            ]
         );
     }
 
@@ -177,33 +175,31 @@ class AnimateurController extends AbstractController
      * Displays a form to edit an existing Animateur entity.
      *
      * @Route("/{slugname}/edit", name="admin_animateur_edit", methods={"GET","POST"})
-     *
      */
     public function edit(Request $request, Animateur $animateur)
     {
         $editForm = $form = $this->createForm(AnimateurEditType::class, $animateur)
-            ->add('submit', SubmitType::class, array('label' => 'Update'));
+            ->add('submit', SubmitType::class, ['label' => 'Update']);
 
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-
             $this->animateurFileHelper->traitementFiles($animateur);
             $this->animateurRepository->save();
 
             $this->addFlash('success', "L'animateur a bien été modifié");
 
             return $this->redirect(
-                $this->generateUrl('admin_animateur_show', array('slugname' => $animateur->getSlugname()))
+                $this->generateUrl('admin_animateur_show', ['slugname' => $animateur->getSlugname()])
             );
         }
 
         return $this->render(
             'admin/animateur/edit.html.twig',
-            array(
+            [
                 'animateur' => $animateur,
                 'form' => $editForm->createView(),
-            )
+            ]
         );
     }
 
@@ -211,7 +207,6 @@ class AnimateurController extends AbstractController
      * Deletes a Animateur entity.
      *
      * @Route("/{id}", name="admin_animateur_delete", methods={"DELETE"})
-     *
      */
     public function delete(Request $request, Animateur $animateur)
     {
@@ -219,7 +214,6 @@ class AnimateurController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->animateurRepository->remove($animateur);
 
             $this->addFlash('success', "L'animateur a bien été supprimé");
@@ -230,20 +224,21 @@ class AnimateurController extends AbstractController
 
     /**
      * @param $id
+     *
      * @return \Symfony\Component\Form\FormInterface
      */
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_animateur_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('admin_animateur_delete', ['id' => $id]))
             ->setMethod('DELETE')
             ->add(
                 'submit',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'Delete',
-                    'attr' => array('class' => 'btn-danger'),
-                )
+                    'attr' => ['class' => 'btn-danger'],
+                ]
             )
             ->getForm();
     }
@@ -252,7 +247,6 @@ class AnimateurController extends AbstractController
      * Displays a form to edit an existing Animateur entity.
      *
      * @Route("/{slugname}/jours", name="animateur_jours", methods={"GET","POST"})
-     *
      */
     public function jours(Request $request, Animateur $animateur)
     {
@@ -264,19 +258,19 @@ class AnimateurController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
-            $this->addFlash('success', "Les jours de présences ont bien été modifiés");
+            $this->addFlash('success', 'Les jours de présences ont bien été modifiés');
 
             return $this->redirect(
-                $this->generateUrl('admin_animateur_show', array('slugname' => $animateur->getSlugname()))
+                $this->generateUrl('admin_animateur_show', ['slugname' => $animateur->getSlugname()])
             );
         }
 
         return $this->render(
             'admin/animateur/jours.html.twig',
-            array(
+            [
                 'animateur' => $animateur,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -285,12 +279,12 @@ class AnimateurController extends AbstractController
         $form = $this->createForm(
             AnimateurJoursType::class,
             $entity,
-            array(
+            [
                 'method' => 'POST',
-            )
+            ]
         );
 
-        $form->add('submit', SubmitType::class, array('label' => 'Update'));
+        $form->add('submit', SubmitType::class, ['label' => 'Update']);
 
         return $form;
     }
@@ -301,7 +295,6 @@ class AnimateurController extends AbstractController
      * @Route("/{slugname}/plaines", name="animateur_plaines", methods={"GET","POST"})
      * @Route("/{slugname}/plaines/{plaine_id}", name="animateur_plaine", methods={"GET","POST"})
      * @ParamConverter("plaine", class="AcMarche\Mercredi\Plaine\Entity\Plaine", options={"id" = "plaine_id"})
-     *
      */
     public function plaines(Request $request, Animateur $animateur, Plaine $plaine = null)
     {
@@ -322,20 +315,20 @@ class AnimateurController extends AbstractController
             $em->persist($animateurPlaine);
             $em->flush();
 
-            $this->addFlash('success', "Les jours de garde ont bien été modifiés");
+            $this->addFlash('success', 'Les jours de garde ont bien été modifiés');
 
             return $this->redirect(
-                $this->generateUrl('admin_animateur_show', array('slugname' => $animateur->getSlugname()))
+                $this->generateUrl('admin_animateur_show', ['slugname' => $animateur->getSlugname()])
             );
         }
 
         return $this->render(
             'admin/animateur/plaines.html.twig',
-            array(
+            [
                 'animateur' => $animateur,
                 'plaine' => $plaine,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -343,7 +336,7 @@ class AnimateurController extends AbstractController
     {
         $animateur = $entity->getAnimateur();
         $plaine = $entity->getPlaine();
-        $args = array('slugname' => $animateur->getSlugname());
+        $args = ['slugname' => $animateur->getSlugname()];
 
         if ($plaine) {
             $args['plaine_id'] = $plaine->getId();
@@ -354,16 +347,14 @@ class AnimateurController extends AbstractController
         $form = $this->createForm(
             AnimateurPlainesType::class,
             $entity,
-            array(
+            [
                 'action' => $url,
                 'method' => 'POST',
-            )
+            ]
         );
 
-        $form->add('submit', SubmitType::class, array('label' => 'Update'));
+        $form->add('submit', SubmitType::class, ['label' => 'Update']);
 
         return $form;
     }
-
-
 }

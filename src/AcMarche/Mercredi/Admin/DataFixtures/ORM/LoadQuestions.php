@@ -15,22 +15,22 @@ class LoadQuestions extends Fixture implements ORMFixtureInterface
     private $manager;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
         $this->manager = $manager;
         foreach ($this->getDataMedecine() as $order => $question) {
-            $this->newQuestion($question, "Informations médicales confidentielles", $order);
+            $this->newQuestion($question, 'Informations médicales confidentielles', $order);
         }
 
         foreach ($this->getDataAutres() as $order => $question) {
-            $this->newQuestion($question, "Informations additionnelles", $order);
+            $this->newQuestion($question, 'Informations additionnelles', $order);
         }
 
         $question = $this->newQuestion(
-            "Est-il allergique à certains aliments?",
-            "Informations additionnelles",
+            'Est-il allergique à certains aliments?',
+            'Informations additionnelles',
             9
         );
         $question->setComplement(true);
@@ -40,9 +40,8 @@ class LoadQuestions extends Fixture implements ORMFixtureInterface
     }
 
     /**
-     * @param string $intitule
-     * @param string $categorie
      * @param $order
+     *
      * @return SanteQuestion
      */
     public function newQuestion(string $intitule, string $categorie, $order)
@@ -58,7 +57,7 @@ class LoadQuestions extends Fixture implements ORMFixtureInterface
 
     /**
      * This method must return an array of fixtures classes
-     * on which the implementing class depends on
+     * on which the implementing class depends on.
      *
      * @return array
      */
@@ -68,17 +67,16 @@ class LoadQuestions extends Fixture implements ORMFixtureInterface
             0 => "L'enfant souffre-t-il d'asthme?",
             1 => "L'enfant est-il épileptique?",
             2 => "Souffre-t-il d'une affection cardiaque?",
-            3 => "Est-il allergique à certaines matières?",
+            3 => 'Est-il allergique à certaines matières?',
         ];
     }
 
     public function getDataAutres()
     {
         return [
-            4 => "Photos autorisées ?",
-            5 => "Publication des photos par le(s) partenaire(s)",
-            6 => "Transport autorisé ?",
+            4 => 'Photos autorisées ?',
+            5 => 'Publication des photos par le(s) partenaire(s)',
+            6 => 'Transport autorisé ?',
         ];
     }
-
 }

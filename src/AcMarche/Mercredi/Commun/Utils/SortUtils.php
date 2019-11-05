@@ -3,16 +3,14 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 20/08/18
- * Time: 14:16
+ * Time: 14:16.
  */
 
 namespace AcMarche\Mercredi\Commun\Utils;
 
-
 use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
 use AcMarche\Mercredi\Admin\Entity\Jour;
-use AcMarche\Mercredi\Admin\Entity\Presence;
 use AcMarche\Mercredi\Admin\Entity\Sante\SanteQuestion;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
 
@@ -25,7 +23,7 @@ class SortUtils
      */
     public function sortObjectsByName($data)
     {
-        /**
+        /*
          * Je trie le tableau enfants
          */
         usort(
@@ -51,6 +49,7 @@ class SortUtils
 
     /**
      * @param array[\DateTime] $data
+     *
      * @return array[\DateTime]
      */
     public function sortByDateTime($data)
@@ -100,16 +99,16 @@ class SortUtils
     }
 
     /**
-     * Je trie les présences par mois
-     * @param EnfantTuteur $enfantTuteur
+     * Je trie les présences par mois.
+     *
      * @return array
      */
     public function sortPresence(EnfantTuteur $enfantTuteur)
     {
-        $prencesGroupByMonth = array();
+        $prencesGroupByMonth = [];
         $presences = $enfantTuteur->getPresences();
 
-        if ($presences != null) {
+        if (null != $presences) {
             foreach ($presences as $presence) {
                 $jour = $presence->getJour();
                 $year = $jour->getDateJour()->format('Y');
@@ -125,6 +124,7 @@ class SortUtils
 
     /**
      * @param Jour[] $jours
+     *
      * @return mixed
      */
     public function sortJours($presences)

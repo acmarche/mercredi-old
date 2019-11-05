@@ -35,9 +35,9 @@ class PresenceControllerTest extends BaseUnit
 
         $crawler = $this->parent->click($crawler->selectLink($jourFr)->link());
         //print_r($this->parent->getResponse()->getContent());
-        $form = $crawler->selectButton('Confirmer sa présence')->form(array());
+        $form = $crawler->selectButton('Confirmer sa présence')->form([]);
 
-        $form['presence[remarques]'] = "Mamy va le chercher";
+        $form['presence[remarques]'] = 'Mamy va le chercher';
 
         $this->parent->submit($form);
         $crawler = $this->parent->followRedirect();
@@ -58,9 +58,9 @@ class PresenceControllerTest extends BaseUnit
 
         $crawler = $this->parent->click($crawler->selectLink($jourFr)->link());
         //print_r($this->parent->getResponse()->getContent());
-        $form = $crawler->selectButton('Confirmer sa présence')->form(array());
+        $form = $crawler->selectButton('Confirmer sa présence')->form([]);
 
-        $form['presence[remarques]'] = "Papy va le chercher";
+        $form['presence[remarques]'] = 'Papy va le chercher';
 
         $this->parent->submit($form);
         $crawler = $this->parent->followRedirect();
@@ -77,9 +77,9 @@ class PresenceControllerTest extends BaseUnit
 
         $form = $crawler->selectButton('Enregistrer')->form(
             [
-                'sante_fiche[medecinNom]' => "Ledoux",
-                'sante_fiche[medecinTelephone]' => "084 52 98 22",
-                'sante_fiche[personneUrgence]' => "Maman et papa",
+                'sante_fiche[medecinNom]' => 'Ledoux',
+                'sante_fiche[medecinTelephone]' => '084 52 98 22',
+                'sante_fiche[personneUrgence]' => 'Maman et papa',
                 'sante_fiche[questions][0][reponse]' => 0,
                 'sante_fiche[questions][1][reponse]' => 0,
                 'sante_fiche[questions][2][reponse]' => 0,

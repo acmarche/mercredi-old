@@ -12,10 +12,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SanteFicheType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -54,15 +50,12 @@ class SanteFicheType extends AbstractType
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => SanteFiche::class,
-            )
+            ]
         );
     }
 }

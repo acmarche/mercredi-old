@@ -4,14 +4,13 @@ namespace AcMarche\Mercredi\Logger\Controller;
 
 use AcMarche\Mercredi\Logger\Entity\Log;
 use AcMarche\Mercredi\Logger\Repository\LogRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class DefaultController
- * @package AcMarche\LoggerBundle\Controller
+ * Class DefaultController.
+ *
  * @Security("has_role('LOGGER_READ')")
  */
 class DefaultController extends AbstractController

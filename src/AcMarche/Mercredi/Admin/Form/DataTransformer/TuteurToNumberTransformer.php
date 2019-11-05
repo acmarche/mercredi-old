@@ -2,22 +2,18 @@
 
 namespace AcMarche\Mercredi\Admin\Form\DataTransformer;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class TuteurToNumberTransformer implements DataTransformerInterface
 {
-
     /**
      * @var ObjectManager
      */
     private $om;
 
-    /**
-     * @param ObjectManager $om
-     */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;
@@ -26,13 +22,14 @@ class TuteurToNumberTransformer implements DataTransformerInterface
     /**
      * Transforms an object (enfant) to a string (number).
      *
-     * @param  Tuteur|null $tuteur
+     * @param Tuteur|null $tuteur
+     *
      * @return string
      */
     public function transform($tuteur)
     {
         if (null === $tuteur) {
-            return "";
+            return '';
         }
 
         return $tuteur->getId();
@@ -41,11 +38,11 @@ class TuteurToNumberTransformer implements DataTransformerInterface
     /**
      * Transforms a string (number) to an object (enfant).
      *
-     * @param  string $number
+     * @param string $number
      *
      * @return Tuteur|null
      *
-     * @throws TransformationFailedException if object (enfant) is not found.
+     * @throws TransformationFailedException if object (enfant) is not found
      */
     public function reverseTransform($number)
     {
@@ -58,10 +55,7 @@ class TuteurToNumberTransformer implements DataTransformerInterface
             ->find($number);
 
         if (null === $tuteur) {
-            throw new TransformationFailedException(sprintf(
-                'An Tuteur with number "%s" does not exist!',
-                $number
-            ));
+            throw new TransformationFailedException(sprintf('An Tuteur with number "%s" does not exist!', $number));
         }
 
         return $tuteur;

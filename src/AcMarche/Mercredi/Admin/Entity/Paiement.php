@@ -11,28 +11,25 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Presence
+ * Presence.
  *
  * @ORM\Table("paiement")
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Admin\Repository\PaiementRepository")
- *
  */
 class Paiement
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
      */
     protected $id;
 
     /**
      * @ORM\Column(type="decimal", precision=6, scale=2, nullable=false)
      * @Assert\NotBlank()
-     *
      */
     protected $montant;
 
@@ -40,37 +37,34 @@ class Paiement
      * @var \DateTime
      *
      * @ORM\Column(type="date", nullable=false)
-     *
      */
     protected $date_paiement;
 
     /**
      * @ORM\Column(type="string", nullable=true, length=150)
-     * @var string?
      *
+     * @var string?
      */
     protected $type_paiement;
 
     /**
      * @ORM\Column(type="string", nullable=true, length=150)
-     * @var string?
      *
+     * @var string?
      */
     protected $mode_paiement;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="smallint", length=2, nullable=true, options={"comment" = "1,2, suviant", "default" = "0"})
-     *
      */
     protected $ordre = 0;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean", options={"default" = "0"})
-     *
      */
     protected $cloture = false;
 
@@ -78,7 +72,6 @@ class Paiement
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
-     *
      */
     protected $remarques;
 
@@ -96,13 +89,11 @@ class Paiement
 
     /**
      * @ORM\OneToMany(targetEntity="Presence", mappedBy="paiement")
-     *
      */
     protected $presences;
 
     /**
      * @ORM\OneToMany(targetEntity="AcMarche\Mercredi\Plaine\Entity\PlainePresence", mappedBy="paiement")
-     *
      */
     protected $plaine_presences;
 
@@ -352,7 +343,7 @@ class Paiement
         return $this;
     }
 
-    /**
+    /*
      * STOP
      */
 }

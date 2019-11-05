@@ -3,15 +3,13 @@
 namespace AcMarche\Mercredi\Admin\Tests\Controller;
 
 use AcMarche\Mercredi\Admin\Tests\BaseUnit;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Test joindre paiement a presence
- * Test suppression de ce paiement
+ * Test suppression de ce paiement.
  *
  * Test de la page principale
  */
-
 class DefaultTest extends BaseUnit
 {
     public function testSecuredHello()

@@ -33,9 +33,9 @@ class AttestationController extends AbstractController
     }
 
     /**
-     * Pdf
-     * @Route("/{uuid}/{annee}", name="parent_attestation", methods={"GET"})
+     * Pdf.
      *
+     * @Route("/{uuid}/{annee}", name="parent_attestation", methods={"GET"})
      */
     public function index(Enfant $enfant, $annee)
     {
@@ -44,16 +44,16 @@ class AttestationController extends AbstractController
         $user = $this->getUser();
         $tuteur = TuteurUtils::getTuteurByUser($user);
 
-        $html = $this->renderView('admin/tuteur/fiscale/head.html.twig', array());
+        $html = $this->renderView('admin/tuteur/fiscale/head.html.twig', []);
 
-        $args = array('enfant' => $enfant, 'tuteur' => $tuteur);
+        $args = ['enfant' => $enfant, 'tuteur' => $tuteur];
         $enfantTuteur = $em->getRepository(EnfantTuteur::class)->findOneBy($args);
 
-        /**
+        /*
          * Relation parent enfant
          */
         if (!$enfantTuteur) {
-            $this->addFlash('danger', "Relation parent enfant non trouve");
+            $this->addFlash('danger', 'Relation parent enfant non trouve');
 
             return $this->redirectToRoute('parent_enfants');
         }
@@ -62,7 +62,7 @@ class AttestationController extends AbstractController
 
         $html .= $this->getHtml($enfantTuteur, $annee);
 
-        $html .= $this->renderView('admin/tuteur/fiscale/foot.html.twig', array());
+        $html .= $this->renderView('admin/tuteur/fiscale/foot.html.twig', []);
 
         return new PdfResponse(
             $this->pdf->getOutputFromHtml($html),
@@ -77,7 +77,7 @@ class AttestationController extends AbstractController
         $enfant = $enfantTuteur->getEnfant();
 
         /**
-         * Paiements
+         * Paiements.
          */
         $paiments = $em->getRepository(Paiement::class)->getByEnfantTuteur($enfantTuteur, $annee);
 
@@ -87,19 +87,19 @@ class AttestationController extends AbstractController
         }
 
         /**
-         * jours de gardes
+         * jours de gardes.
          */
         $onlyPaye = true;
         $gardes = $em->getRepository(Presence::class)->getByEnfantTuteur($enfantTuteur, $annee, $onlyPaye);
-        $presences = array();
+        $presences = [];
         foreach ($gardes as $presence) {
             $presences[] = $presence->getJour();
         }
 
         /**
-         * get presences plaines
+         * get presences plaines.
          */
-        $args = array('enfant' => $enfant, 'tuteur' => $tuteur, 'date' => $annee, 'onlypaye' => true);
+        $args = ['enfant' => $enfant, 'tuteur' => $tuteur, 'date' => $annee, 'onlypaye' => true];
         $presencesPlaines = $em->getRepository(PlainePresence::class)->getPresences($args);
         // var_dump($presencesPlaines);
 
@@ -107,19 +107,19 @@ class AttestationController extends AbstractController
             $presences[] = $presence->getJour();
         }
 
-        if (count($paiments) == 0) {
+        if (0 == count($paiments)) {
             return 'Aucun paiement en '.$annee.'<div class="page-breaker"></div>';
         }
 
         $html = $this->renderView(
             'admin/tuteur/fiscale/content.html.twig',
-            array(
+            [
                 'tuteur' => $tuteur,
                 'enfant' => $enfant,
                 'annee' => $annee,
                 'presences' => $presences,
                 'totalpaiement' => $totalPaiement,
-            )
+            ]
         );
 
         return $html;

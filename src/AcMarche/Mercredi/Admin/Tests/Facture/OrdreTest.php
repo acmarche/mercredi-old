@@ -14,54 +14,53 @@ use AcMarche\Mercredi\Admin\Service\OrdreService;
 use AcMarche\Mercredi\Admin\Tests\BaseUnit;
 
 /**
- *
- * Test le calcul de l'ordre suivant les presences
+ * Test le calcul de l'ordre suivant les presences.
  */
 class OrdreTest extends BaseUnit
 {
     /**
-     * @var JourRepository $jourRepository
+     * @var JourRepository
      */
     private $jourRepository;
     /**
-     * @var EnfantRepository $enfantRepository
+     * @var EnfantRepository
      */
     private $enfantRepository;
     /**
-     * @var TuteurRepository $tuteurRepository
+     * @var TuteurRepository
      */
     private $tuteurRepository;
     /**
-     * @var PresenceRepository $presenceRepository
+     * @var PresenceRepository
      */
     private $presenceRepository;
     /**
-     * @var Tuteur $philippe
+     * @var Tuteur
      */
     private $philippe;
     /**
-     * @var Enfant $lisa
+     * @var Enfant
      */
     private $lisa;
     /**
-     * @var Enfant $marie
+     * @var Enfant
      */
     private $marie;
     /**
-     * @var Enfant $arwen
+     * @var Enfant
      */
     private $arwen;
     /**
-     * @var Enfant $zora
+     * @var Enfant
      */
     private $zora;
     /**
-     * @var OrdreService $ordreService
+     * @var OrdreService
      */
     private $ordreService;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function setUp()
     {
@@ -94,7 +93,7 @@ class OrdreTest extends BaseUnit
 
     /**
      * Arwen (3) Lisa(2) Marie(1)
-     * Tous la
+     * Tous la.
      */
     public function testOrdreTous()
     {
@@ -132,8 +131,7 @@ class OrdreTest extends BaseUnit
     }
 
     /**
-     *
-     * Lisa seul doit valoir 1
+     * Lisa seul doit valoir 1.
      */
     public function testOrdreLisa()
     {
@@ -156,8 +154,7 @@ class OrdreTest extends BaseUnit
 
     /**
      * Arwen(3) est seul
-     * Doit valoir 1
-     *
+     * Doit valoir 1.
      */
     public function testOrdreArwen()
     {
@@ -187,7 +184,7 @@ class OrdreTest extends BaseUnit
     /**
      * Lisa(2) et Arwen(3) le 2016-10-19
      * Lisa doit valoir 1
-     * Arwen doit valoir 2
+     * Arwen doit valoir 2.
      */
     public function testOrdreLisaArwen()
     {
@@ -217,7 +214,7 @@ class OrdreTest extends BaseUnit
     /**
      * Marie(1) et Arwen(3) le 2016-10-26
      * Marie doit valoir 1
-     * Arwen doit valoir 2
+     * Arwen doit valoir 2.
      */
     public function testOrdreMarieArwen()
     {
@@ -247,7 +244,7 @@ class OrdreTest extends BaseUnit
     /**
      * Marie(1) et lisa(2) le 2016-10-29
      * Marie absente
-     * Lisa doit valoir 1
+     * Lisa doit valoir 1.
      */
     public function testOrdreMarieAbsent()
     {
@@ -277,8 +274,7 @@ class OrdreTest extends BaseUnit
 
     /**
      * Lisa (2) Zora(3)
-     * Doit valoir 1 et 2
-     *
+     * Doit valoir 1 et 2.
      */
     public function testOrdreZoraLisa()
     {
@@ -322,8 +318,7 @@ class OrdreTest extends BaseUnit
 
     /**
      * Zora(3) seul
-     * Doit valoir 1
-     *
+     * Doit valoir 1.
      */
     public function testOrdreZora()
     {
@@ -352,8 +347,7 @@ class OrdreTest extends BaseUnit
 
     /**
      * Zora(3) Arwen (3)
-     * 1 et 2
-     *
+     * 1 et 2.
      */
     public function testOrdreZoraArwen()
     {
@@ -397,7 +391,7 @@ class OrdreTest extends BaseUnit
 
     /**
      * Marie(1) et Lisa(2) le 2016-11-08
-     * Lisa doit valoir 2
+     * Lisa doit valoir 2.
      */
     public function testOrdreMarieLisa()
     {
@@ -426,6 +420,7 @@ class OrdreTest extends BaseUnit
 
     /**
      * @param $datePresence
+     *
      * @return Jour|null
      */
     public function getJour($datePresence)
@@ -441,16 +436,14 @@ class OrdreTest extends BaseUnit
     }
 
     /**
-     * Retoure une presence suivant le jour, l'enfant et le tuteur
-     * @param Jour $jour
-     * @param Enfant $enfant
-     * @param Tuteur $tuteur
-     * @return Presence|boolean
+     * Retoure une presence suivant le jour, l'enfant et le tuteur.
+     *
+     * @return Presence|bool
      */
     public function getPresence(Jour $jour, Enfant $enfant, Tuteur $tuteur)
     {
         $presence = $this->presenceRepository->findOneBy(
-            array('jour' => $jour, 'enfant' => $enfant, 'tuteur' => $tuteur)
+            ['jour' => $jour, 'enfant' => $enfant, 'tuteur' => $tuteur]
         );
         if ($presence) {
             return $presence;
@@ -464,5 +457,4 @@ class OrdreTest extends BaseUnit
 
         return false;
     }
-
 }

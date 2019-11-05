@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 30/03/18
- * Time: 13:02
+ * Time: 13:02.
  */
 
 namespace AcMarche\Mercredi\Parent\Validator\Constraints;
@@ -28,10 +28,9 @@ class QuestionIsCompleteValidator extends ConstraintValidator
     /**
      * Si une question demande un complement
      * Si la reponse est oui
-     * Si champ remarque remplis
+     * Si champ remarque remplis.
      *
      * @param SanteQuestion[] $questions
-     * @param Constraint $constraint
      */
     public function validate($questions, Constraint $constraint)
     {

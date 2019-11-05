@@ -100,16 +100,15 @@ class EnfantController extends AbstractController
 
         return $this->render(
             'parent/enfant/index.html.twig',
-            array(
+            [
                 'enfants' => $enfants,
-            )
+            ]
         );
     }
 
     /**
      * @Route("/enfant/{uuid}", name="parent_enfant_show", methods={"GET"})
      * @IsGranted("show", subject="enfant")
-     *
      */
     public function show(Enfant $enfant)
     {
@@ -144,17 +143,17 @@ class EnfantController extends AbstractController
 
         $allFratries = $this->fraterieService->getFratrie($enfant);
 
-        $plaines = $this->plaineEnfantRepository->search(array('enfant_id' => $enfant->getId()));
+        $plaines = $this->plaineEnfantRepository->search(['enfant_id' => $enfant->getId()]);
 
         return $this->render(
             'parent/enfant/show.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'enfantTuteur' => $enfantTuteur,
                 'plaines' => $plaines,
                 'fratries' => $allFratries,
                 'years' => $years,
-            )
+            ]
         );
     }
 
@@ -164,7 +163,7 @@ class EnfantController extends AbstractController
      */
     public function edit(Request $request, Enfant $enfant)
     {
-        if (count($enfant->getAccompagnateurs()) == 0) {
+        if (0 == count($enfant->getAccompagnateurs())) {
             $enfant->addAccompagnateur(' ');
         }
 
@@ -174,7 +173,6 @@ class EnfantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $newList = $form->get('accompagnateurs')->getData();
             $enfant->setAccompagnateurs($newList);
             $this->fileUploader->traitementFiles($enfant);
@@ -188,10 +186,10 @@ class EnfantController extends AbstractController
 
         return $this->render(
             'parent/enfant/edit.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 }

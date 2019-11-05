@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 19/09/16
- * Time: 15:09
+ * Time: 15:09.
  */
 
 namespace AcMarche\Mercredi\Admin\Service;
@@ -44,7 +44,7 @@ class FileUploader
                 $directory = $this->parameterBag->get('enfant_photo');
                 break;
             default:
-                $directory = "lost".DIRECTORY_SEPARATOR.$id;
+                $directory = 'lost'.DIRECTORY_SEPARATOR.$id;
                 break;
         }
 
@@ -55,15 +55,15 @@ class FileUploader
 
     public function traitementFiles(Enfant $enfant)
     {
-        if ($santeName = $this->traitementFile($enfant->getFile(), $enfant, "sante")) {
+        if ($santeName = $this->traitementFile($enfant->getFile(), $enfant, 'sante')) {
             $enfant->setFicheName($santeName);
         }
 
-        if ($inscriptionName = $this->traitementFile($enfant->getFiche(), $enfant, "inscription")) {
+        if ($inscriptionName = $this->traitementFile($enfant->getFiche(), $enfant, 'inscription')) {
             $enfant->setFileName($inscriptionName);
         }
 
-        if ($photoName = $this->traitementFile($enfant->getImage(), $enfant, "photo")) {
+        if ($photoName = $this->traitementFile($enfant->getImage(), $enfant, 'photo')) {
             $enfant->setImageName($photoName);
         }
     }

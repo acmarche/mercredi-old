@@ -28,7 +28,6 @@ class AutoArchiveCommand extends Command
         $this->tuteurRepository = $tuteurRepository;
     }
 
-
     protected function configure()
     {
         $this
@@ -44,7 +43,7 @@ class AutoArchiveCommand extends Command
             $inActifs = 0;
             foreach ($enfants as $enfant) {
                 if ($enfant->getArchive()) {
-                    $inActifs++;
+                    ++$inActifs;
                 }
             }
             if (count($enfants) == $inActifs) {
@@ -53,5 +52,4 @@ class AutoArchiveCommand extends Command
             }
         }
     }
-
 }

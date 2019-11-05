@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 23/01/18
- * Time: 11:42
+ * Time: 11:42.
  */
 
 namespace AcMarche\Mercredi\Admin\Service;
@@ -16,7 +16,7 @@ use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use AcMarche\Mercredi\Security\Entity\User;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 class MailerService
 {
@@ -25,7 +25,7 @@ class MailerService
     protected $rootPath;
     protected $emailFrom;
 
-    public function __construct(\Swift_Mailer $mailer, EngineInterface $twigEngine, $emailFrom, $rootPath)
+    public function __construct(\Swift_Mailer $mailer, Environment $twigEngine, $emailFrom, $rootPath)
     {
         $this->mailer = $mailer;
         $this->twig = $twigEngine;
@@ -68,7 +68,7 @@ class MailerService
 
     public function sendNote(Note $note)
     {
-        $message = (new \Swift_Message("Note clôturée pour ".$note->getEnfant()))
+        $message = (new \Swift_Message('Note clôturée pour '.$note->getEnfant()))
             ->setFrom($this->emailFrom)
             ->setBody($note->getContenu())
             ->setTo($this->emailFrom);
@@ -80,13 +80,13 @@ class MailerService
     {
         $body = $this->twig->render(
             'parent/jour/mail.html.twig',
-            array(
+            [
                 'presence' => $presence,
                 'user' => $user,
-            )
+            ]
         );
 
-        $sujet = $user->getNom()." ".$user->getPrenom()." a supprimé une présence";
+        $sujet = $user->getNom().' '.$user->getPrenom().' a supprimé une présence';
 
         $message = (new \Swift_Message($sujet))
             ->setFrom($user->getEmail())
@@ -102,10 +102,10 @@ class MailerService
 
         $body = $this->twig->render(
             'parent/tuteur/mail.html.twig',
-            array(
+            [
                 'new' => $tuteur,
                 'old' => $oldTuteur,
-            )
+            ]
         );
 
         $message = (new \Swift_Message($sujet))
@@ -119,7 +119,7 @@ class MailerService
     public function sendTuteurAddEnfantToPlaine(Enfant $enfant, Tuteur $tuteur, Plaine $plaine, User $user)
     {
         $sujet = $tuteur->getNom().' '.$tuteur->getPrenom().' a inscrit à la plaine '.$plaine->getIntitule();
-        $body = "Pour ".$enfant->getPrenom().' '.$enfant->getNom();
+        $body = 'Pour '.$enfant->getPrenom().' '.$enfant->getNom();
         $from = $user->getEmail();
 
         $message = (new \Swift_Message($sujet))
@@ -133,7 +133,7 @@ class MailerService
     public function sendPlaineFull(Enfant $enfant, Tuteur $tuteur, Plaine $plaine, User $user)
     {
         $sujet = $tuteur->getNom().' '.$tuteur->getPrenom().' ! plus de place ! '.$plaine->getIntitule();
-        $body = "Pour ".$enfant->getPrenom().' '.$enfant->getNom();
+        $body = 'Pour '.$enfant->getPrenom().' '.$enfant->getNom();
         $from = $user->getEmail();
 
         $message = (new \Swift_Message($sujet))
@@ -163,11 +163,11 @@ class MailerService
 
         $body = $this->twig->render(
             'parent/sante/mail.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'santeFiche' => $santeFiche,
                 'user' => $user,
-            )
+            ]
         );
 
         $message = (new \Swift_Message($sujet))
@@ -177,5 +177,4 @@ class MailerService
 
         $this->mailer->send($message);
     }
-
 }

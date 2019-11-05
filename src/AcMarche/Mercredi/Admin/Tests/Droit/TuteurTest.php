@@ -5,8 +5,7 @@ namespace AcMarche\Mercredi\Admin\Tests\Droit;
 use AcMarche\Mercredi\Admin\Tests\BaseUnit;
 
 /**
- * Class TuteurTest
- * @package AcMarche\Admin\Admin\Tests\Droit
+ * Class TuteurTest.
  */
 class TuteurTest extends BaseUnit
 {

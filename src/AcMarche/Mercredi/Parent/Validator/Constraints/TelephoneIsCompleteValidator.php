@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 30/03/18
- * Time: 13:02
+ * Time: 13:02.
  */
 
 namespace AcMarche\Mercredi\Parent\Validator\Constraints;
@@ -17,11 +17,10 @@ class TelephoneIsCompleteValidator extends ConstraintValidator
 {
     /**
      * @param Tuteur $tuteur
-     * @param Constraint $constraint
      */
     public function validate($tuteur, Constraint $constraint)
     {
-        if (TuteurUtils::hasTelephone($tuteur) === false) {
+        if (false === TuteurUtils::hasTelephone($tuteur)) {
             $this->context->buildViolation($constraint->message)
                 //->atPath('telephone')
                 // ->atPath('gsm')

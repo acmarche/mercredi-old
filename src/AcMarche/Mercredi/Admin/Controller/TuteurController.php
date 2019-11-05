@@ -3,23 +3,23 @@
 namespace AcMarche\Mercredi\Admin\Controller;
 
 use AcMarche\Mercredi\Admin\Entity\Enfant;
+use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
 use AcMarche\Mercredi\Admin\Entity\Paiement;
 use AcMarche\Mercredi\Admin\Entity\Presence;
+use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Admin\Events\TuteurEvent;
+use AcMarche\Mercredi\Admin\Form\Search\SearchTuteurType;
+use AcMarche\Mercredi\Admin\Form\Tuteur\TuteurSetEnfantType;
+use AcMarche\Mercredi\Admin\Form\Tuteur\TuteurType;
 use AcMarche\Mercredi\Admin\Repository\TuteurRepository;
 use AcMarche\Mercredi\Admin\Service\FacturePlaine;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
-use AcMarche\Mercredi\Admin\Entity\Tuteur;
-use AcMarche\Mercredi\Admin\Form\Search\SearchTuteurType;
-use AcMarche\Mercredi\Admin\Form\Tuteur\TuteurSetEnfantType;
-use AcMarche\Mercredi\Admin\Form\Tuteur\TuteurType;
 
 /**
  * Tuteur controller.
@@ -57,15 +57,14 @@ class TuteurController extends AbstractController
      *
      * @Route("/", name="tuteur", methods={"GET"})
      * @Route("/all/{all}", name="tuteur_all")
-     *
      */
     public function index(Request $request, $all = false)
     {
         $session = $request->getSession();
 
-        $data = array();
+        $data = [];
         $search = false;
-        $key = "tuteur_search";
+        $key = 'tuteur_search';
 
         if ($session->has($key)) {
             $data = unserialize($session->get($key));
@@ -75,10 +74,10 @@ class TuteurController extends AbstractController
         $search_form = $this->createForm(
             SearchTuteurType::class,
             $data,
-            array(
+            [
                 'action' => $this->generateUrl('tuteur'),
                 'method' => 'GET',
-            )
+            ]
         );
 
         $search_form->handleRequest($request);
@@ -108,16 +107,15 @@ class TuteurController extends AbstractController
 
         return $this->render(
             'admin/tuteur/index.html.twig',
-            array(
+            [
                 'search_form' => $search_form->createView(),
                 'tuteurs' => $tuteurs,
                 'years' => $years,
                 'search' => $search,
                 'all' => $all,
-            )
+            ]
         );
     }
-
 
     /**
      * Displays a form to create a new Tuteur entity.
@@ -125,7 +123,6 @@ class TuteurController extends AbstractController
      * @Route("/new", name="tuteur_new", methods={"GET","POST"})
      * @Route("/new/{id}", name="tuteur_new_with_enfant", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function new(Request $request, Enfant $enfant = null)
     {
@@ -137,12 +134,11 @@ class TuteurController extends AbstractController
         }
 
         $form = $this->createForm(TuteurType::class, $tuteur)
-            ->add('submit', SubmitType::class, array('label' => 'Create'));
+            ->add('submit', SubmitType::class, ['label' => 'Create']);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user = $this->getUser();
             $tuteur->setUserAdd($user);
 
@@ -159,21 +155,21 @@ class TuteurController extends AbstractController
             $em->persist($tuteur);
             $em->flush();
 
-            $this->addFlash('success', "Le parent a bien été ajouté");
+            $this->addFlash('success', 'Le parent a bien été ajouté');
 
             if ($enfant) {
-                return $this->redirectToRoute('enfant_show', array('slugname' => $enfant->getSlugname()));
+                return $this->redirectToRoute('enfant_show', ['slugname' => $enfant->getSlugname()]);
             }
 
-            return $this->redirectToRoute('tuteur_show', array('slugname' => $tuteur->getSlugname()));
+            return $this->redirectToRoute('tuteur_show', ['slugname' => $tuteur->getSlugname()]);
         }
 
         return $this->render(
             'admin/tuteur/new.html.twig',
-            array(
+            [
                 'tuteur' => $tuteur,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -181,7 +177,6 @@ class TuteurController extends AbstractController
      * Finds and displays a Tuteur entity.
      *
      * @Route("/{slugname}", name="tuteur_show", methods={"GET"})
-     *
      */
     public function show(Tuteur $tuteur)
     {
@@ -203,14 +198,14 @@ class TuteurController extends AbstractController
 
         return $this->render(
             'admin/tuteur/show.html.twig',
-            array(
+            [
                 'tuteur' => $tuteur,
                 'years' => $years,
                 'tuteurenfants' => $tuteurEnfants,
                 'delete_form' => $deleteForm->createView(),
                 'form_detach' => $form_detach->createView(),
                 'form_attach' => $form_attach->createView(),
-            )
+            ]
         );
     }
 
@@ -224,10 +219,10 @@ class TuteurController extends AbstractController
     private function createDetachForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('enfant_detach', array('id' => $id)))
+            ->setAction($this->generateUrl('enfant_detach', ['id' => $id]))
             ->setMethod('POST')
             ->add('tuteur_enfant_id', HiddenType::class)
-            ->add('submit', SubmitType::class, array('label' => 'Détacher', 'attr' => array('class' => 'btn-warning')))
+            ->add('submit', SubmitType::class, ['label' => 'Détacher', 'attr' => ['class' => 'btn-warning']])
             ->getForm();
     }
 
@@ -241,9 +236,9 @@ class TuteurController extends AbstractController
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tuteur_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('tuteur_delete', ['id' => $id]))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger')))
+            ->add('submit', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn btn-danger']])
             ->getForm();
     }
 
@@ -260,16 +255,16 @@ class TuteurController extends AbstractController
         $form = $this->createForm(
             TuteurSetEnfantType::class,
             $enfant_tuteur,
-            array(
-                'action' => $this->generateUrl('enfant_attach', array('id' => $tuteur->getId())),
+            [
+                'action' => $this->generateUrl('enfant_attach', ['id' => $tuteur->getId()]),
                 'method' => 'POST',
-            )
+            ]
         );
 
         $form->add(
             'submit',
             SubmitType::class,
-            array('label' => 'Définir comme enfant', 'attr' => array('class' => 'btn-primary'))
+            ['label' => 'Définir comme enfant', 'attr' => ['class' => 'btn-primary']]
         );
 
         return $form;
@@ -280,12 +275,11 @@ class TuteurController extends AbstractController
      *
      * @Route("/{slugname}/edit", name="tuteur_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function edit(Request $request, Tuteur $tuteur)
     {
         $editForm = $form = $this->createForm(TuteurType::class, $tuteur)
-            ->add('submit', SubmitType::class, array('label' => 'Update'));
+            ->add('submit', SubmitType::class, ['label' => 'Update']);
 
         $editForm->handleRequest($request);
 
@@ -293,9 +287,9 @@ class TuteurController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $this->addFlash('success', "Le parent a bien été mis à jour");
+            $this->addFlash('success', 'Le parent a bien été mis à jour');
 
-            return $this->redirectToRoute('tuteur_show', array('slugname' => $tuteur->getSlugname()));
+            return $this->redirectToRoute('tuteur_show', ['slugname' => $tuteur->getSlugname()]);
         }
 
         $this->eventDispatcher->dispatch(
@@ -305,10 +299,10 @@ class TuteurController extends AbstractController
 
         return $this->render(
             'admin/tuteur/edit.html.twig',
-            array(
+            [
                 'tuteur' => $tuteur,
                 'edit_form' => $editForm->createView(),
-            )
+            ]
         );
     }
 
@@ -329,7 +323,7 @@ class TuteurController extends AbstractController
             $em->remove($tuteur);
             $em->flush();
 
-            $this->addFlash('success', "Le parent a bien été supprimé");
+            $this->addFlash('success', 'Le parent a bien été supprimé');
         }
 
         return $this->redirectToRoute('tuteur');
@@ -340,7 +334,6 @@ class TuteurController extends AbstractController
      *
      * @Route("/detach/{id}", name="enfant_detach", methods={"POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function detach(Request $request, Tuteur $tuteur)
     {
@@ -362,7 +355,7 @@ class TuteurController extends AbstractController
 
             $tuteur = $enfant_tuteur->getTuteur();
             /**
-             * je retire les presences lies
+             * je retire les presences lies.
              */
             $presences = $em->getRepository(Presence::class)->getByEnfantTuteur($enfant_tuteur);
 
@@ -370,7 +363,7 @@ class TuteurController extends AbstractController
                 $em->remove($presence);
             }
             /**
-             * je retire les paiements lies
+             * je retire les paiements lies.
              */
             $paiements = $em->getRepository(Paiement::class)->getByEnfantTuteur($enfant_tuteur);
             foreach ($paiements as $paiement) {
@@ -383,23 +376,22 @@ class TuteurController extends AbstractController
 
             $this->addFlash('success', "L'enfant a bien été détaché");
 
-            return $this->redirectToRoute('tuteur_show', array('slugname' => $tuteur->getSlugname()));
+            return $this->redirectToRoute('tuteur_show', ['slugname' => $tuteur->getSlugname()]);
         }
 
         return $this->render(
             'admin/tuteur/detacher.html.twig',
-            array(
+            [
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
     /**
-     * Attach un enfant a un tuteur
+     * Attach un enfant a un tuteur.
      *
      * @Route("/attach/{id}", name="enfant_attach", methods={"POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function Attach(Request $request, Tuteur $tuteur)
     {
@@ -425,22 +417,22 @@ class TuteurController extends AbstractController
                 $this->addFlash('success', "L'enfant a bien été associé");
             }
 
-            return $this->redirectToRoute('tuteur_show', array('slugname' => $tuteur->getSlugname()));
+            return $this->redirectToRoute('tuteur_show', ['slugname' => $tuteur->getSlugname()]);
         }
 
         $form_detach = $this->createDetachForm($tuteur->getId());
 
-        $tuteurs = $fratries = array();
+        $tuteurs = $fratries = [];
 
         return $this->render(
             'admin/tuteur/add_enfant.html.twig',
-            array(
+            [
                 'tuteur' => $tuteur,
                 'tuteurs' => $tuteurs,
                 'fratries' => $fratries,
                 'form' => $form_detach->createView(),
                 'form_attach' => $form_attach->createView(),
-            )
+            ]
         );
     }
 }

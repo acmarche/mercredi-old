@@ -3,38 +3,34 @@
 namespace AcMarche\Mercredi\Admin\Entity;
 
 use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Relation en le parent et son enfant
+ * Relation en le parent et son enfant.
  *
  * @ORM\Table("enfant_tuteur", uniqueConstraints={
  *     @ORM\UniqueConstraint(columns={"tuteur_id", "enfant_id"})
  * })
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Admin\Repository\EnfantTuteurRepository")
  * @UniqueEntity(fields={"tuteur", "enfant"}, message="Cette enfant est déjà lié à ce parent")
- *
  */
 class EnfantTuteur
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
      */
     protected $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="smallint", length=2, nullable=true, options={"comment" = "1,2, suviant", "default" = "0"})
-     *
      */
     protected $ordre = 0;
 
@@ -42,7 +38,6 @@ class EnfantTuteur
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true, options={"comment" = "pere,mere,beau pere.."})
-     *
      */
     protected $relation;
 
@@ -54,7 +49,7 @@ class EnfantTuteur
     protected $enfant;
 
     /**
-     * @var Tuteur $tuteur
+     * @var Tuteur
      * @ORM\ManyToOne(targetEntity="Tuteur", inversedBy="enfants", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      *
@@ -62,19 +57,19 @@ class EnfantTuteur
     protected $tuteur;
 
     /**
-     * @var Presence[]|ArrayCollection $presences
+     * @var Presence[]|ArrayCollection
      */
     protected $presences;
     /**
-     * @var Presence[]|ArrayCollection $presences_non_payes
+     * @var Presence[]|ArrayCollection
      */
     protected $presences_non_payes;
     /**
-     * @var PlainePresence[]|ArrayCollection $plaine_presences_non_payes
+     * @var PlainePresence[]|ArrayCollection
      */
     protected $plaine_presences_non_payes;
     /**
-     * @var Paiement[]|ArrayCollection $presences
+     * @var Paiement[]|ArrayCollection
      */
     protected $paiements;
     protected $presencesByMonth;
@@ -117,7 +112,6 @@ class EnfantTuteur
     }
 
     /**
-     * @param Presence $presence
      * @return $this
      */
     public function addPresence(Presence $presence)
@@ -191,7 +185,6 @@ class EnfantTuteur
     }
 
     /**
-     * @param Paiement $paiement
      * @return $this
      */
     public function addPaiement(Paiement $paiement)
@@ -211,7 +204,7 @@ class EnfantTuteur
     public function getPresencesByMonth($year = null)
     {
         if ($year) {
-            $presences = isset($this->presencesByMonth[$year]) ? $this->presencesByMonth[$year] : array();
+            $presences = isset($this->presencesByMonth[$year]) ? $this->presencesByMonth[$year] : [];
 
             return $presences;
         }
@@ -272,7 +265,7 @@ class EnfantTuteur
         return $this;
     }
 
-    /**
+    /*
      * STOP
      */
 }

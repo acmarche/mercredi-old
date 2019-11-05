@@ -11,30 +11,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TuteurSetEnfantType extends AbstractType
 {
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('enfant', EnfantSelectorType::class);
 
-        $builder->add('autocompletion', TextType::class, array(
+        $builder->add('autocompletion', TextType::class, [
             'mapped' => false,
             'label' => ' ',
             'required' => true,
-            'attr' => array(
-                'placeholder' => 'Nom')));
+            'attr' => [
+                'placeholder' => 'Nom', ], ]);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => EnfantTuteur::class
-        ));
+        $resolver->setDefaults([
+            'data_class' => EnfantTuteur::class,
+        ]);
     }
 }

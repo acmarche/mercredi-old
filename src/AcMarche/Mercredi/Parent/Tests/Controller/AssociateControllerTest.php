@@ -16,10 +16,10 @@ class AssociateControllerTest extends BaseUnit
         $crawler = $this->admin->click($crawler->selectLink('Editer')->link());
 
         $form = $crawler->selectButton('Mettre à jour')->form(
-            array(
+            [
                 'utilisateur_edit[nom]' => 'Michel',
                 'utilisateur_edit[prenom]' => 'Philippe',
-            )
+            ]
         );
 
         $this->admin->submit($form);
@@ -38,7 +38,7 @@ class AssociateControllerTest extends BaseUnit
         $crawler = $this->admin->click($crawler->selectLink('Associer un parent')->link());
 
         $form = $crawler->selectButton('Mettre à jour')->form(
-            array()
+            []
         );
 
         $form['associate_parent[dissocier]'] = 1;
@@ -64,7 +64,7 @@ class AssociateControllerTest extends BaseUnit
         $crawler = $this->admin->click($crawler->selectLink('Associer un parent')->link());
 
         $form = $crawler->selectButton('Mettre à jour')->form(
-            array()
+            []
         );
 
         $option = $crawler->filter('#associate_parent_tuteur option:contains("MICHEL Philippe")');

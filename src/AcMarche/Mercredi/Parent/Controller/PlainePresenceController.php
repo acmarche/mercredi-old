@@ -2,10 +2,13 @@
 
 namespace AcMarche\Mercredi\Parent\Controller;
 
+use AcMarche\Mercredi\Admin\Entity\Enfant;
+use AcMarche\Mercredi\Admin\Service\FacturePlaine;
 use AcMarche\Mercredi\Admin\Service\MailerService;
 use AcMarche\Mercredi\Admin\Service\TuteurUtils;
 use AcMarche\Mercredi\Parent\Form\PlainePresenceType;
 use AcMarche\Mercredi\Parent\Manager\SanteManager;
+use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use AcMarche\Mercredi\Plaine\Service\PlaineService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -13,9 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
-use AcMarche\Mercredi\Plaine\Entity\Plaine;
-use AcMarche\Mercredi\Admin\Service\FacturePlaine;
 
 /**
  * PlainePresence controller.
@@ -91,14 +91,13 @@ class PlainePresenceController extends AbstractController
 
         return $this->render(
             'parent/plaine_presence/show.html.twig',
-            array(
+            [
                 'plaine' => $plaine,
                 'enfants' => $enfants,
                 'totalAPayer' => $totalAPayer,
-            )
+            ]
         );
     }
-
 
     /**
      * Creates a new PlainePresence entity.
@@ -107,7 +106,6 @@ class PlainePresenceController extends AbstractController
      * @Entity("enfant", expr="repository.findOneByUuid(uuid)")
      * @Entity("plaine", expr="repository.find(plaineid)")
      * @IsGranted("add_presence", subject="enfant")
-     *
      */
     public function new(Request $request, Enfant $enfant, Plaine $plaine)
     {
@@ -120,8 +118,8 @@ class PlainePresenceController extends AbstractController
             return $this->redirectToRoute('parent_sante_show', ['uuid' => $enfant->getUuid()]);
         }
 
-        $form = $this->createForm(PlainePresenceType::class, [], ['plaine' => $plaine, 'enfant'=>$enfant])
-            ->add('submit', SubmitType::class, array('label' => 'Inscrire'));
+        $form = $this->createForm(PlainePresenceType::class, [], ['plaine' => $plaine, 'enfant' => $enfant])
+            ->add('submit', SubmitType::class, ['label' => 'Inscrire']);
 
         $form->handleRequest($request);
 
@@ -129,15 +127,15 @@ class PlainePresenceController extends AbstractController
             $data = $form->getData();
             $jours = $data['jours'];
 
-            if (count($jours) == 0) {
-                $this->addFlash('danger', "Aucun jour sélectionné");
+            if (0 == count($jours)) {
+                $this->addFlash('danger', 'Aucun jour sélectionné');
 
                 return $this->redirectToRoute(
                     'parent_plainepresence_create',
-                    array(
+                    [
                         'slugname' => $enfant->getSlugname(),
                         'plaineid' => $plaine->getId(),
-                    )
+                    ]
                 );
             }
 
@@ -156,19 +154,17 @@ class PlainePresenceController extends AbstractController
 
             return $this->redirectToRoute(
                 'parent_plaine_inscription',
-                array('id' => $plaine->getId())
+                ['id' => $plaine->getId()]
             );
         }
 
         return $this->render(
             'parent/plaine_presence/new.html.twig',
-            array(
+            [
                 'plaine' => $plaine,
                 'enfant' => $enfant,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
-
-
 }

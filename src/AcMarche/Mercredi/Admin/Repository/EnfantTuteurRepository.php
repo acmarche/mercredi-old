@@ -9,10 +9,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method EnfantTuteur|null find($id, $lockMode = null, $lockVersion = null)
- * @method EnfantTuteur|null findOneBy(array $criteria, array $orderBy = null)
+ * @method EnfantTuteur|null   find($id, $lockMode = null, $lockVersion = null)
+ * @method EnfantTuteur|null   findOneBy(array $criteria, array $orderBy = null)
  * @method EnfantTuteur[]|null findAll()
- * @method EnfantTuteur[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method EnfantTuteur[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class EnfantTuteurRepository extends ServiceEntityRepository
 {
@@ -39,13 +39,12 @@ class EnfantTuteurRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Enfant $enfant
      * @return Tuteur[]
      */
     public function getTuteursByEnfant(Enfant $enfant)
     {
-        $results = $this->findBy(array('enfant' => $enfant));
-        $tuteurs = array();
+        $results = $this->findBy(['enfant' => $enfant]);
+        $tuteurs = [];
 
         foreach ($results as $result) {
             $tuteurs[] = $result->getTuteur();
@@ -56,12 +55,13 @@ class EnfantTuteurRepository extends ServiceEntityRepository
 
     /**
      * @param Enfant[] $enfants
+     *
      * @return Tuteur[]
      */
     public function getTuteursByEnfants($enfants)
     {
-        $results = $this->findBy(array('enfant' => $enfants));
-        $tuteurs = array();
+        $results = $this->findBy(['enfant' => $enfants]);
+        $tuteurs = [];
 
         foreach ($results as $result) {
             $tuteurs[] = $result->getTuteur();
@@ -72,6 +72,7 @@ class EnfantTuteurRepository extends ServiceEntityRepository
 
     /**
      * @param $args
+     *
      * @return EnfantTuteur[]|EnfantTuteur
      */
     public function search($args)
@@ -94,9 +95,9 @@ class EnfantTuteurRepository extends ServiceEntityRepository
         if ($tuteur_id) {
             if (is_array($tuteur_id)) {
                 $tuteur_id = array_unique($tuteur_id);
-                $tuteurs_string = implode(",", $tuteur_id);
+                $tuteurs_string = implode(',', $tuteur_id);
                 $qb->andWhere('enfantTuteur.tuteur IN ('.$tuteurs_string.')');
-                //  $qb->groupBy('et.enfant'); //sinon jai doublon
+            //  $qb->groupBy('et.enfant'); //sinon jai doublon
             } else {
                 $qb->andwhere('enfantTuteur.tuteur = :tuteur')
                     ->setParameter('tuteur', $tuteur_id);

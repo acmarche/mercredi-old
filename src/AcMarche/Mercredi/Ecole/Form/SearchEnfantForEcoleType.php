@@ -45,10 +45,6 @@ class SearchEnfantForEcoleType extends AbstractType
         $this->user = $this->tokenStorage->getToken()->getUser();
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $ecoles = $this->ecoleRepository->getForSearchByUser($this->user);
@@ -58,42 +54,38 @@ class SearchEnfantForEcoleType extends AbstractType
             ->add(
                 'jour',
                 ChoiceType::class,
-                array(
+                [
                     'choices' => $jours,
                     'placeholder' => 'Choisissez une date',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'nom',
                 TextType::class,
                 [
                     'required' => false,
-                    'attr' => array('placeholder' => 'Nom'),
+                    'attr' => ['placeholder' => 'Nom'],
                 ]
             )
             ->add(
                 'ecole',
                 ChoiceType::class,
-                array(
+                [
                     'required' => true,
                     'choices' => $ecoles,
-                )
+                ]
             )
             ->add(
                 'submit',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'Rechercher',
-                )
+                ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-
     }
 }

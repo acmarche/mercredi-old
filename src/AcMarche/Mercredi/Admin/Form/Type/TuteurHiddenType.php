@@ -3,30 +3,29 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 28/08/18
- * Time: 10:09
+ * Time: 10:09.
  */
 
 namespace AcMarche\Mercredi\Admin\Form\Type;
 
-
 use AcMarche\Mercredi\Admin\Form\DataTransformer\TuteurToNumberTransformer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\DataTransformerInterface;
 
 /**
- * Entity hidden custom type class definition
+ * Entity hidden custom type class definition.
  */
 class TuteurHiddenType extends AbstractType
 {
     /**
-     * @var DataTransformerInterface $transformer
+     * @var DataTransformerInterface
      */
     private $transformer;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param DataTransformerInterface $transformer
      */
@@ -36,7 +35,7 @@ class TuteurHiddenType extends AbstractType
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -46,12 +45,10 @@ class TuteurHiddenType extends AbstractType
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getParent()
     {
         return HiddenType::class;
     }
-
-
 }

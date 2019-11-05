@@ -14,9 +14,9 @@ class DefaultControllerTest extends BaseUnit
         $crawler = $this->admin->click($crawler->selectLink('Editer')->link());
 
         $form = $crawler->selectButton('Mettre à jour')->form(
-            array(
+            [
                 'plaine_edit[inscriptionOuverture]' => 1,
-            )
+            ]
         );
 
         $this->admin->submit($form);
@@ -38,10 +38,10 @@ class DefaultControllerTest extends BaseUnit
         $mardi = $this->getPlaineJour(['date_jour' => $mardi]);
 
         $form = $crawler->selectButton('Inscrire')->form(
-            array(
+            [
                 'plaine_presence[jours][0]' => $lundi->getId(),
                 'plaine_presence[jours][1]' => $mardi->getId(),
-            )
+            ]
         );
 
         $this->parent->submit($form);
@@ -57,11 +57,11 @@ class DefaultControllerTest extends BaseUnit
         $crawler = $this->admin->click($crawler->selectLink('Toussaint 2016')->link());
         $crawler = $this->admin->click($crawler->selectLink('Editer')->link());
         $form = $crawler->selectButton('Mettre à jour')->form(
-            array(
+            [
                 'plaine_edit[max][0][maximum]' => 1,
                 'plaine_edit[max][1][maximum]' => 1,
                 'plaine_edit[max][2][maximum]' => 1,
-            )
+            ]
         );
 
         $this->admin->submit($form);
@@ -70,7 +70,6 @@ class DefaultControllerTest extends BaseUnit
         $this->assertEquals(2, $crawler->filter('li:contains("petits : 1")')->count());
         $this->assertEquals(2, $crawler->filter('li:contains("moyens : 1")')->count());
         $this->assertEquals(2, $crawler->filter('li:contains("grands : 1")')->count());
-
     }
 
     public function testArwen()
@@ -89,9 +88,9 @@ class DefaultControllerTest extends BaseUnit
         $crawler = $this->parent->click($crawler->selectLink('Modifier')->link());
         $form = $crawler->selectButton('Enregistrer')->form(
             [
-                'sante_fiche[medecinNom]' => "Ledoux",
-                'sante_fiche[medecinTelephone]' => "084 52 98 22",
-                'sante_fiche[personneUrgence]' => "Maman et papa",
+                'sante_fiche[medecinNom]' => 'Ledoux',
+                'sante_fiche[medecinTelephone]' => '084 52 98 22',
+                'sante_fiche[personneUrgence]' => 'Maman et papa',
                 'sante_fiche[questions][0][reponse]' => 0,
                 'sante_fiche[questions][1][reponse]' => 0,
                 'sante_fiche[questions][2][reponse]' => 0,
@@ -120,10 +119,10 @@ class DefaultControllerTest extends BaseUnit
         $mardi = $this->getPlaineJour(['date_jour' => $mardi]);
 
         $form = $crawler->selectButton('Inscrire')->form(
-            array(
+            [
                 'plaine_presence[jours][0]' => $lundi->getId(),
                 'plaine_presence[jours][1]' => $mardi->getId(),
-            )
+            ]
         );
 
         $crawler = $this->parent->submit($form);
@@ -136,7 +135,5 @@ class DefaultControllerTest extends BaseUnit
             0,
             $crawler->filter('li:contains("La journée du 10-11-2020 Mardi est déjà complète.")')->count()
         );
-
     }
-
 }

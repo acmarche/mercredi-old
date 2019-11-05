@@ -4,15 +4,13 @@ namespace AcMarche\Mercredi\Admin\Controller;
 
 use AcMarche\Mercredi\Admin\Entity\CaisseAllocation;
 use AcMarche\Mercredi\Admin\Form\CaisseAllocationType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * CaisseAllocation controller.
@@ -22,12 +20,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class CaisseAllocationController extends AbstractController
 {
-
     /**
      * Lists all CaisseAllocation entities.
      *
      * @Route("/", name="caisseallocation", methods={"GET"})
-     *
      */
     public function index()
     {
@@ -35,9 +31,9 @@ class CaisseAllocationController extends AbstractController
 
         $entities = $em->getRepository(CaisseAllocation::class)->search();
 
-        return $this->render('admin/caisse_allocation/index.html.twig', array(
+        return $this->render('admin/caisse_allocation/index.html.twig', [
             'entities' => $entities,
-        ));
+        ]);
     }
 
     /**
@@ -49,12 +45,12 @@ class CaisseAllocationController extends AbstractController
      */
     private function createCreateForm(CaisseAllocation $entity)
     {
-        $form = $this->createForm(CaisseAllocationType::class, $entity, array(
+        $form = $this->createForm(CaisseAllocationType::class, $entity, [
             'action' => $this->generateUrl('caisseallocation_new'),
             'method' => 'POST',
-        ));
+        ]);
 
-        $form->add('submit', SubmitType::class, array('label' => 'Create'));
+        $form->add('submit', SubmitType::class, ['label' => 'Create']);
 
         return $form;
     }
@@ -64,7 +60,6 @@ class CaisseAllocationController extends AbstractController
      *
      * @Route("/new", name="caisseallocation_new", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function new(Request $request)
     {
@@ -87,26 +82,25 @@ class CaisseAllocationController extends AbstractController
             return $this->redirectToRoute('caisseallocation');
         }
 
-        return $this->render('admin/caisse_allocation/new.html.twig', array(
+        return $this->render('admin/caisse_allocation/new.html.twig', [
             'entity' => $entity,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
      * Finds and displays a CaisseAllocation entity.
      *
      * @Route("/{slugname}", name="caisseallocation_show", methods={"GET"})
-     *
      */
     public function show(CaisseAllocation $caisse = null)
     {
         $deleteForm = $this->createDeleteForm($caisse->getId());
 
-        return $this->render('admin/caisse_allocation/show.html.twig', array(
+        return $this->render('admin/caisse_allocation/show.html.twig', [
             'entity' => $caisse,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -119,9 +113,9 @@ class CaisseAllocationController extends AbstractController
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('caisseallocation_delete', array('id' => $id)))
+                        ->setAction($this->generateUrl('caisseallocation_delete', ['id' => $id]))
                         ->setMethod('DELETE')
-                        ->add('submit', SubmitType::class, array('label' => 'Delete', 'attr' => array('class' => 'btn-danger')))
+                        ->add('submit', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
                         ->getForm()
         ;
     }
@@ -131,7 +125,6 @@ class CaisseAllocationController extends AbstractController
      *
      * @Route("/{id}/edit", name="caisseallocation_edit", methods={"GET","PUT"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function edit(Request $request, CaisseAllocation $caisse)
     {
@@ -149,10 +142,10 @@ class CaisseAllocationController extends AbstractController
             return $this->redirectToRoute('caisseallocation');
         }
 
-        return $this->render('admin/caisse_allocation/edit.html.twig', array(
+        return $this->render('admin/caisse_allocation/edit.html.twig', [
             'entity' => $caisse,
             'edit_form' => $editForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -164,12 +157,12 @@ class CaisseAllocationController extends AbstractController
      */
     private function createEditForm(CaisseAllocation $entity)
     {
-        $form = $this->createForm(CaisseAllocationType::class, $entity, array(
-            'action' => $this->generateUrl('caisseallocation_edit', array('id' => $entity->getId())),
+        $form = $this->createForm(CaisseAllocationType::class, $entity, [
+            'action' => $this->generateUrl('caisseallocation_edit', ['id' => $entity->getId()]),
             'method' => 'PUT',
-        ));
+        ]);
 
-        $form->add('submit', SubmitType::class, array('label' => 'Update'));
+        $form->add('submit', SubmitType::class, ['label' => 'Update']);
 
         return $form;
     }

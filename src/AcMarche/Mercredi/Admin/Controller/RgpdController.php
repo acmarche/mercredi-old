@@ -8,15 +8,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class DefaultController
- * @package AcMarche\Admin\Admin\Controller
+ * Class DefaultController.
+ *
  * @IsGranted("ROLE_MERCREDI_READ")
  */
 class RgpdController extends AbstractController
 {
     /**
      * @Route("/rgpd", name="rgpd")
-     *
      */
     public function rgpd()
     {

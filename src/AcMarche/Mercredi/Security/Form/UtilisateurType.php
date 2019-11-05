@@ -14,26 +14,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UtilisateurType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add(
                 'nom',
                 TextType::class,
-                array(
+                [
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'prenom',
                 TextType::class,
-                array(
+                [
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'email',
@@ -42,32 +38,32 @@ class UtilisateurType extends AbstractType
             ->add(
                 'adresse',
                 TextType::class,
-                array(
+                [
                     'required' => false,
                     'help' => "L'adresse est utile pour les comptes écoles",
-                )
+                ]
             )
             ->add(
                 'code_postal',
                 IntegerType::class,
-                array(
-                    'required' => false
-                )
+                [
+                    'required' => false,
+                ]
             )
             ->add(
                 'localite',
                 TextType::class,
-                array(
+                [
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'telephone',
                 TextType::class,
-                array(
+                [
                     'required' => false,
                     'help' => 'Le téléphone est utile pour les comptes écoles',
-                )
+                ]
             )
             ->add(
                 'groups',
@@ -82,16 +78,12 @@ class UtilisateurType extends AbstractType
             );
     }
 
-
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => User::class,
-            )
+            ]
         );
     }
 }

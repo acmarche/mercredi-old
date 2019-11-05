@@ -2,17 +2,17 @@
 
 namespace AcMarche\Mercredi\Plaine\Entity;
 
+use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Admin\Entity\Paiement;
+use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Security\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
-use AcMarche\Mercredi\Admin\Entity\Tuteur;
 
 /**
- * Presence
+ * Presence.
  *
  * @ORM\Table("plaine_presences", uniqueConstraints={
  *     @ORM\UniqueConstraint(columns={"jour_id", "plaine_enfant_id"})
@@ -23,7 +23,7 @@ use AcMarche\Mercredi\Admin\Entity\Tuteur;
 class PlainePresence
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -34,7 +34,6 @@ class PlainePresence
     /**
      * @ORM\ManyToOne(targetEntity="PlaineJour", inversedBy="presences")
      * @ORM\JoinColumn(nullable=false)
-     *
      */
     private $jour;
 
@@ -52,18 +51,16 @@ class PlainePresence
     private $tuteur;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="smallint", length=2, nullable=true, options={"comment" = "1,2, suviant", "default" = "0"})
-     *
      */
     private $ordre = 0;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="smallint", length=2, nullable=false, options={"comment" = "-1 sans certif, 1 avec certfi", "default" = "0"})
-     *
      */
     private $absent = 0;
 
@@ -98,45 +95,47 @@ class PlainePresence
 
     /**
      * Pour garder la ref de la plaine
-     * lors de ajout enfant
+     * lors de ajout enfant.
      */
     private $plaine;
 
     /**
      * Pour garder la ref de la plaine
-     * lors de ajout enfant
+     * lors de ajout enfant.
      */
     private $enfant;
 
     /**
-     * Pour ajouter plusieurs jours d'un coup
+     * Pour ajouter plusieurs jours d'un coup.
      */
     private $jours;
 
     /**
-     * Pour attribuer un tuteur a des dates
+     * Pour attribuer un tuteur a des dates.
      */
     private $tuteurs;
 
     /**
-     * pour savoir si present le meme jour
+     * pour savoir si present le meme jour.
      */
     private $fratries;
 
     /**
-     * Prix de la journee suivant l'ordre
+     * Prix de la journee suivant l'ordre.
+     *
      * @var float
      */
     private $prix;
 
     /**
-     * cout apres reduction
+     * cout apres reduction.
      */
     private $cout;
 
     /**
-     * Ordre en tenant compte de la fratrie
-     * @var boolean
+     * Ordre en tenant compte de la fratrie.
+     *
+     * @var bool
      */
     private $ordreNew;
 
@@ -162,12 +161,14 @@ class PlainePresence
     public function setPlaine(Plaine $plaine)
     {
         $this->plaine = $plaine;
+
         return $this;
     }
 
     public function setEnfant(Enfant $enfant)
     {
         $this->enfant = $enfant;
+
         return $this;
     }
 
@@ -187,6 +188,7 @@ class PlainePresence
     public function addJour(PlaineJour $jour)
     {
         $this->jours[] = $jour;
+
         return $this;
     }
 
@@ -195,6 +197,7 @@ class PlainePresence
         foreach ($jours as $jour) {
             $this->addJour($jour);
         }
+
         return $this;
     }
 
@@ -211,6 +214,7 @@ class PlainePresence
     public function addTuteur(Tuteur $tuteur)
     {
         $this->tuteurs[] = $tuteur;
+
         return $this;
     }
 
@@ -219,6 +223,7 @@ class PlainePresence
         foreach ($tuteurs as $tuteur) {
             $this->addTuteur($tuteur);
         }
+
         return $this;
     }
 
@@ -392,7 +397,7 @@ class PlainePresence
         return $this;
     }
 
-    /**
+    /*
      * STOP
      */
 }

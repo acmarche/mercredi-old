@@ -3,25 +3,24 @@
 namespace AcMarche\Mercredi\Plaine\Tests\Controller;
 
 use AcMarche\Mercredi\Admin\Tests\BaseUnit;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PlaineJourControllerTest extends BaseUnit
 {
     /**
      * J'ajoute la plaine et la date
-     * puis je la supprime
+     * puis je la supprime.
      */
     private $nom = 'Adddates';
-    private $dateAdd = "05/10/2020";
-    private $dateAddTxt = "05-10-2020 Lundi";
-    private $urlCarnaval = "carnaval_2020";
-    private $dateToDel = "09-10-2020 Vendredi";
-    private $dateAddCarva = "11/10/2020";
-    private $dateAddCarvaTxt = "11-10-2020 Dimanche";
+    private $dateAdd = '05/10/2020';
+    private $dateAddTxt = '05-10-2020 Lundi';
+    private $urlCarnaval = 'carnaval_2020';
+    private $dateToDel = '09-10-2020 Vendredi';
+    private $dateAddCarva = '11/10/2020';
+    private $dateAddCarvaTxt = '11-10-2020 Dimanche';
 
     /**
      * Test la page index
-     * Test une page show
+     * Test une page show.
      */
     public function testPage()
     {
@@ -31,7 +30,7 @@ class PlaineJourControllerTest extends BaseUnit
     }
 
     /**
-     * Add date to paque
+     * Add date to paque.
      */
     public function testAddDate()
     {
@@ -39,32 +38,32 @@ class PlaineJourControllerTest extends BaseUnit
         $crawler = $this->admin->request('GET', '/plaine/plaine/new');
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
-        $form = $crawler->selectButton('Ajouter')->form(array(
-            'plaine[intitule]' => $this->nom
-        ));
+        $form = $crawler->selectButton('Ajouter')->form([
+            'plaine[intitule]' => $this->nom,
+                'plaine[jours][0][date_jour]' => '10/11/2020',
+        ]);
 
         $this->admin->submit($form);
-
         $this->admin->followRedirect();
 
-        $crawler = $this->admin->request('GET', '/plaine/plaine/' . $this->nom);
+        $crawler = $this->admin->request('GET', '/plaine/plaine/'.$this->nom);
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
         $crawler = $this->admin->click($crawler->selectLink('Ajouter une date')->link());
 
-        $form = $crawler->selectButton('Ajouter')->form(array(
+        $form = $crawler->selectButton('Ajouter')->form([
             'plaine_jour[date_jour]' => $this->dateAdd,
-        ));
+        ]);
 
         $this->admin->submit($form);
         $crawler = $this->admin->followRedirect();
 
-        $this->assertGreaterThan(0, $crawler->filter('li:contains("' . $this->dateAddTxt . '")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('li:contains("'.$this->dateAddTxt.'")')->count());
     }
 
     public function testDeleteAdd()
     {
-        $crawler = $this->admin->request('GET', '/plaine/plaine/' . $this->nom);
+        $crawler = $this->admin->request('GET', '/plaine/plaine/'.$this->nom);
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
         $crawler = $this->admin->click($crawler->selectLink('Supprimer')->link());
@@ -73,15 +72,15 @@ class PlaineJourControllerTest extends BaseUnit
 
         $this->admin->followRedirect();
 
-        $this->assertNotRegExp('/' . $this->nom . '/', $this->admin->getResponse()->getContent());
+        $this->assertNotRegExp('/'.$this->nom.'/', $this->admin->getResponse()->getContent());
     }
 
     /**
-     * je retire une date puis la remet
+     * je retire une date puis la remet.
      */
     public function testChangeDatePlaine()
     {
-        $crawler = $this->admin->request('GET', '/plaine/plaine/' . $this->urlCarnaval);
+        $crawler = $this->admin->request('GET', '/plaine/plaine/'.$this->urlCarnaval);
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
         $crawler = $this->admin->click($crawler->selectLink($this->dateToDel)->link());
@@ -93,17 +92,17 @@ class PlaineJourControllerTest extends BaseUnit
 
         $crawler = $this->admin->followRedirect();
 
-        $this->assertNotRegExp('/' . $this->dateToDel . '/', $this->admin->getResponse()->getContent());
+        $this->assertNotRegExp('/'.$this->dateToDel.'/', $this->admin->getResponse()->getContent());
 
         $crawler = $this->admin->click($crawler->selectLink('Ajouter une date')->link());
 
-        $form = $crawler->selectButton('Ajouter')->form(array(
+        $form = $crawler->selectButton('Ajouter')->form([
             'plaine_jour[date_jour]' => $this->dateAddCarva,
-        ));
+        ]);
 
         $this->admin->submit($form);
         $crawler = $this->admin->followRedirect();
 
-        $this->assertGreaterThan(0, $crawler->filter('li:contains("' . $this->dateAddCarvaTxt . '")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('li:contains("'.$this->dateAddCarvaTxt.'")')->count());
     }
 }

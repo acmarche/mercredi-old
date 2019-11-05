@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 17/01/19
- * Time: 10:38
+ * Time: 10:38.
  */
 
 namespace AcMarche\Mercredi\Api\Controller;
@@ -38,8 +38,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * Class DefaultController
- * @package AcMarche\Mercredi\Api\Controller
+ * Class DefaultController.
+ *
  * @Route("/api")
  */
 class DefaultController extends AbstractController
@@ -117,7 +117,6 @@ class DefaultController extends AbstractController
      */
     private $santeReponseRepository;
 
-
     public function __construct(
         EcoleRepository $ecoleRepository,
         JourRepository $jourRepository,
@@ -159,9 +158,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     *
      * @Route("/all", methods={"GET"})
-     *
      */
     public function index(Request $request)
     {
@@ -211,23 +208,22 @@ class DefaultController extends AbstractController
         $plaine = $this->serializer->serializePlaine($this->plaineService->getPlaineOuverte());
 
         $data = [
-            "enfants" => $enfants,
-            "tuteur" => $tuteurSerialize,
-            "ecoles" => $ecoles,
-            "jours" => $joursTous,
-            "annees" => $annees,
-            "plaine" => $plaine,
-            "presences" => $presences,
-            "santeQuestions" => $questions,
-            "santeReponses" => $reponses,
-            "santeFiches" => $santeFiches,
+            'enfants' => $enfants,
+            'tuteur' => $tuteurSerialize,
+            'ecoles' => $ecoles,
+            'jours' => $joursTous,
+            'annees' => $annees,
+            'plaine' => $plaine,
+            'presences' => $presences,
+            'santeQuestions' => $questions,
+            'santeReponses' => $reponses,
+            'santeFiches' => $santeFiches,
         ];
 
         return new JsonResponse($data);
     }
 
     /**
-     *
      * @Route("/update/tuteur", methods={"POST"})
      * @IsGranted("index_tuteur")
      */
@@ -240,11 +236,9 @@ class DefaultController extends AbstractController
         }
 
         try {
-
             $tuteurData = json_decode($request->getContent());
 
             if ($tuteur->getId() == $tuteurData->id) {
-
                 $oldTuteur = clone $tuteur;
                 $this->updateObject->updateTuteur($tuteur, $tuteurData);
 
@@ -252,7 +246,6 @@ class DefaultController extends AbstractController
             }
 
             $this->tuteurRepository->save();
-
         } catch (\Exception $exception) {
             return $this->sendError($exception->getMessage());
         }
@@ -261,20 +254,17 @@ class DefaultController extends AbstractController
     }
 
     /**
-     *
      * @Route("/update/enfant/{id}", methods={"POST"})
      * @IsGranted("edit", subject="enfant")
      */
     public function updateEnfant(Request $request, Enfant $enfant)
     {
         try {
-
             $enfantData = json_decode($request->getContent());
 
             $this->updateObject->updateEnfant($enfant, $enfantData);
 
             $this->enfantRepository->save();
-
         } catch (\Exception $exception) {
             return $this->sendError($exception->getMessage());
         }
@@ -283,7 +273,6 @@ class DefaultController extends AbstractController
     }
 
     /**
-     *
      * @Route("/update/enfant/photo/{id}", methods={"POST"})
      * @IsGranted("edit", subject="enfant")
      */
@@ -292,23 +281,21 @@ class DefaultController extends AbstractController
         $fileUploaded = $request->files->get('image');
 
         if (!$fileUploaded instanceof UploadedFile) {
-            return $this->sendError("Image non reçue");
+            return $this->sendError('Image non reçue');
         }
 
         if ($fileUploaded->getError()) {
-            return $this->sendError("error image");
+            return $this->sendError('error image');
         }
 
         if ($fileUploaded instanceof UploadedFile) {
-
             $photoName = md5(uniqid('', true)).'.'.$fileUploaded->guessExtension();
 
             try {
-                $this->fileUploader->uploadEnfant("photo", $enfant->getId(), $fileUploaded, $photoName);
+                $this->fileUploader->uploadEnfant('photo', $enfant->getId(), $fileUploaded, $photoName);
 
                 $enfant->setImageName($photoName);
                 $this->enfantRepository->save();
-
             } catch (FileException $error) {
                 return $this->sendError($error->getMessage());
             }
@@ -318,7 +305,6 @@ class DefaultController extends AbstractController
     }
 
     /**
-     *
      * @Route("/presences/new/{id}", methods={"POST"})
      * @IsGranted("edit", subject="enfant")
      */
@@ -327,18 +313,17 @@ class DefaultController extends AbstractController
         $user = $this->getUser();
         $joursId = json_decode($request->request->get('jours'), true);
 
-        if (!$joursId || count($joursId) == 0) {
-            return $this->sendError("aucun jour recu");
+        if (!$joursId || 0 == count($joursId)) {
+            return $this->sendError('aucun jour recu');
         }
 
         try {
             $this->updateObject->insertPresences($user, $enfant, $joursId);
 
-            return $this->sendSuccess("oki");
+            return $this->sendSuccess('oki');
         } catch (\Exception $exception) {
             return $this->sendError($exception->getMessage());
         }
-
     }
 
     private function sendSuccess(string $message)
@@ -360,6 +345,4 @@ class DefaultController extends AbstractController
             ]
         );
     }
-
-
 }

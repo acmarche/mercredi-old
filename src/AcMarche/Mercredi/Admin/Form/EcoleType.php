@@ -2,9 +2,9 @@
 
 namespace AcMarche\Mercredi\Admin\Form;
 
+use AcMarche\Mercredi\Admin\Entity\Ecole;
 use AcMarche\Mercredi\Security\Entity\Group;
 use AcMarche\Mercredi\Security\Entity\User;
-use AcMarche\Mercredi\Admin\Entity\Ecole;
 use AcMarche\Mercredi\Security\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -17,11 +17,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EcoleType extends AbstractType
 {
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $group = isset($options['group']) ? $options['group'] : null;
@@ -30,9 +25,9 @@ class EcoleType extends AbstractType
             ->add(
                 'nom',
                 TextType::class,
-                array(
+                [
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'users',
@@ -50,67 +45,63 @@ class EcoleType extends AbstractType
             )->add(
                 'adresse',
                 TextType::class,
-                array(
+                [
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'code_postal',
                 IntegerType::class,
-                array(
+                [
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'localite',
                 TextType::class,
-                array(
+                [
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'email',
                 EmailType::class,
-                array(
+                [
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'telephone',
                 TextType::class,
-                array(
+                [
                     'required' => false,
-                )
+                ]
             )->add(
                 'gsm',
                 TextType::class,
-                array(
+                [
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'remarques',
                 TextareaType::class,
-                array(
+                [
                     'required' => false,
-                    'attr' => array('rows' => 8),
-                )
+                    'attr' => ['rows' => 8],
+                ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => Ecole::class,
                 'group' => null,
-            )
+            ]
         );
 
         $resolver->setAllowedTypes('group', Group::class);
     }
-
 }

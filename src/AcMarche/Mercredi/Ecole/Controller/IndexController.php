@@ -18,7 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Ecole controller.
  *
- *
  * @IsGranted("ROLE_MERCREDI_ECOLE")
  */
 class IndexController extends AbstractController
@@ -92,20 +91,22 @@ class IndexController extends AbstractController
 
         return $this->render(
             'ecole/index.html.twig',
-            array(
+            [
                 'form' => $search_form->createView(),
                 'datejour' => $dateJour,
                 'petits' => $petits,
                 'moyens' => $moyens,
                 'grands' => $grands,
                 'presences' => $presences,
-            )
+            ]
         );
     }
 
     /**
-     * Sinon me renvoie toutes les presences de l'enfant
+     * Sinon me renvoie toutes les presences de l'enfant.
+     *
      * @param Presence[] $presences
+     *
      * @return Presence[]
      */
     private function cleanPresences(iterable $presences)
@@ -117,6 +118,5 @@ class IndexController extends AbstractController
         }
 
         return $data;
-
     }
 }

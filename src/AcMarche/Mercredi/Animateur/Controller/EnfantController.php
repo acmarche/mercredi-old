@@ -75,16 +75,15 @@ class EnfantController extends AbstractController
     }
 
     /**
-     *
      * @Route("/", name="animateur_enfant")
      * @Route("/all/{all}", name="animateur_enfant_all")
      * @IsGranted("ROLE_MERCREDI_ANIMATEUR")
      */
     public function index(Request $request, $all = false)
     {
-        $key = "enfant_animateur_search";
+        $key = 'enfant_animateur_search';
 
-        $data = array();
+        $data = [];
         $search = false;
 
         if ($this->session->has($key)) {
@@ -95,9 +94,9 @@ class EnfantController extends AbstractController
         $search_form = $this->createForm(
             SearchEnfantType::class,
             $data,
-            array(
+            [
                 'method' => 'GET',
-            )
+            ]
         );
 
         $search_form->handleRequest($request);
@@ -125,17 +124,16 @@ class EnfantController extends AbstractController
 
         return $this->render(
             'animateur/enfant/index.html.twig',
-            array(
+            [
                 'form' => $search_form->createView(),
                 'enfants' => $enfants,
                 'search' => $search,
-            )
+            ]
         );
     }
 
     /**
      * @Route("/{slugname}", name="animateur_enfant_show", methods={"GET"})
-     *
      */
     public function show(Enfant $enfant)
     {
@@ -143,22 +141,21 @@ class EnfantController extends AbstractController
         $tuteurs = $this->enfantTuteurRepository->getTuteursByEnfant($enfant);
 
         $date = new \DateTime();
-        $date->modify("-2 month");
+        $date->modify('-2 month');
 
         $presences = $this->presenceRepository->getByTuteurs($enfant, $tuteurs, $date);
 
-        $plaines = $this->plaineEnfantRepository->search(array('enfant_id' => $enfant->getId()));
+        $plaines = $this->plaineEnfantRepository->search(['enfant_id' => $enfant->getId()]);
 
         return $this->render(
             'animateur/enfant/show.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'plaines' => $plaines,
                 'fratries' => $allFratries,
                 'tuteurs' => $tuteurs,
                 'presences' => $presences,
-            )
+            ]
         );
     }
-
 }

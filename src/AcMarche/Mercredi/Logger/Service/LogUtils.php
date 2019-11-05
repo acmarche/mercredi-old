@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 17/01/18
- * Time: 14:48
+ * Time: 14:48.
  */
 
 namespace AcMarche\Mercredi\Logger\Service;

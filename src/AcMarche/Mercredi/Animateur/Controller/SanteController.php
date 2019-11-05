@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- *
  * @Route("/sante")
  * @IsGranted({"ROLE_MERCREDI_ANIMATEUR"})
  */
@@ -41,13 +40,12 @@ class SanteController extends AbstractController
 
         return $this->render(
             'animateur/sante/show.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'fiche' => $santeFiche,
                 'isComplete' => $isComplete,
                 'questions' => $questions,
-            )
+            ]
         );
     }
-
 }

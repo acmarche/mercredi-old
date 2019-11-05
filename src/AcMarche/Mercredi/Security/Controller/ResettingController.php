@@ -15,8 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class RegisterController
- * @package AcMarche\Admin\Security\Controller
+ * Class RegisterController.
+ *
  * @Route("reset/password")
  */
 class ResettingController extends AbstractController
@@ -51,9 +51,10 @@ class ResettingController extends AbstractController
     }
 
     /**
-     * @param Request $request
      * @Route("/request", name="mercredi_password_lost", methods={"GET", "POST"})
+     *
      * @return Response
+     *
      * @throws \Exception
      */
     public function request(Request $request)
@@ -64,7 +65,6 @@ class ResettingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user = $this->userRepository->findOneBy(['email' => $form->getData()->getEmailRequest()]);
             if (!$user) {
                 $this->addFlash('warning', 'Aucun utilisateur trouvé');
@@ -90,6 +90,7 @@ class ResettingController extends AbstractController
 
     /**
      * @Route("/confirmation", name="mercredi_password_confirmation", methods={"GET"})
+     *
      * @return Response
      */
     public function requestConfirmed()
@@ -101,8 +102,9 @@ class ResettingController extends AbstractController
 
     /**
      * Reset user password.
+     *
      * @Route("/{token}", name="mercredi_password_reset", methods={"GET","POST"})
-     * @param Request $request
+     *
      * @param string $token
      *
      * @return Response
@@ -134,16 +136,14 @@ class ResettingController extends AbstractController
 
         return $this->render(
             'security/resetting/reset.html.twig',
-            array(
+            [
                 'token' => $token,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
-
     /**
-     * @return string
      * @throws \Exception
      */
     public function generateToken(): string

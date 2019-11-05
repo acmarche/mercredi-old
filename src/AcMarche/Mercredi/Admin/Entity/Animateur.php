@@ -7,23 +7,21 @@ use AcMarche\Mercredi\Security\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo; // gedmo annotations
-use Symfony\Component\HttpFoundation\File\File;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\File; // gedmo annotations
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Animateur
+ * Animateur.
  *
  * @ORM\Table("animateur")
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Admin\Repository\AnimateurRepository")
- *
  */
 class Animateur implements \Serializable, UserPopulateInterface
 {
-
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -57,7 +55,6 @@ class Animateur implements \Serializable, UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $adresse;
 
@@ -65,7 +62,6 @@ class Animateur implements \Serializable, UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="integer", length=6, nullable=true)
-     *
      */
     protected $code_postal;
 
@@ -73,7 +69,6 @@ class Animateur implements \Serializable, UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $localite;
 
@@ -118,49 +113,42 @@ class Animateur implements \Serializable, UserPopulateInterface
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $numero_national;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $num_assimilation;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $num_bancaire;
 
     /**
      * @var string
      * @ORM\Column(type="text", nullable=true)
-     *
      */
     protected $diplome;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $groupe_souhaite;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $taille_tshirt;
 
     /**
      * @var string
      * @ORM\Column(type="text", nullable=true)
-     *
      */
     protected $disponibilite;
 
@@ -171,10 +159,9 @@ class Animateur implements \Serializable, UserPopulateInterface
     protected $remarques;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean", nullable=false, options={"default" = "0"})
-     *
      */
     protected $archive = false;
 
@@ -186,7 +173,6 @@ class Animateur implements \Serializable, UserPopulateInterface
 
     /**
      * @ORM\OneToMany(targetEntity="AcMarche\Mercredi\Plaine\Entity\AnimateurPlaine", mappedBy="animateur", cascade={"persist", "remove"})
-     *
      */
     protected $plaines;
 
@@ -199,7 +185,6 @@ class Animateur implements \Serializable, UserPopulateInterface
     /**
      * @ORM\OneToOne(targetEntity="AcMarche\Mercredi\Security\Entity\User", inversedBy="animateur" )
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-     *
      */
     protected $user;
 
@@ -216,31 +201,29 @@ class Animateur implements \Serializable, UserPopulateInterface
     protected $updated;
 
     /**
-     * PIECE JOINTE
+     * PIECE JOINTE.
      */
 
     /**
-     *
-     *
      * note This is not a mapped field of entity metadata, just a simple property.
+     *
      * @Assert\File(
      *     maxSize = "7M",
      *     mimeTypes={ "application/pdf", "image/*" }
      * )
-     * @var UploadedFile $file
+     *
+     * @var UploadedFile
      */
     protected $file;
 
     /**
      * @ORM\Column(type="string", length=255, name="fileName", nullable=true)
      *
-     * @var string $fileName
+     * @var string
      */
     protected $fileName;
 
     /**
-     *
-     *
      * @param UploadedFile|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      */
     public function setFile(File $file = null)
@@ -263,24 +246,24 @@ class Animateur implements \Serializable, UserPopulateInterface
     }
 
     /**
-     * PHOTO
+     * PHOTO.
      */
 
     /**
-     *
-     *
      * note This is not a mapped field of entity metadata, just a simple property.
+     *
      * @Assert\Image(
      *     maxSize = "5M"
      * )
-     * @var UploadedFile $image
+     *
+     * @var UploadedFile
      */
     protected $image;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      *
-     * @var string $imageName
+     * @var string
      */
     protected $imageName;
 
@@ -313,31 +296,29 @@ class Animateur implements \Serializable, UserPopulateInterface
     }
 
     /**
-     * certificat de bonne vie et moeurs
+     * certificat de bonne vie et moeurs.
      */
 
     /**
-     *
-     *
      * note This is not a mapped field of entity metadata, just a simple property.
+     *
      * @Assert\File(
      *     maxSize = "7M",
      *     mimeTypes={ "application/pdf", "image/*" }
      * )
-     * @var UploadedFile $certificat
+     *
+     * @var UploadedFile
      */
     protected $certificat;
 
     /**
      * @ORM\Column(type="string", length=255, name="certificatName", nullable=true)
      *
-     * @var string $certificatName
+     * @var string
      */
     protected $certificatName;
 
     /**
-     *
-     *
      * @param UploadedFile|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      */
     public function setCertificat(File $file = null)
@@ -360,31 +341,29 @@ class Animateur implements \Serializable, UserPopulateInterface
     }
 
     /**
-     * diplome
+     * diplome.
      */
 
     /**
-     *
-     *
      * note This is not a mapped field of entity metadata, just a simple property.
+     *
      * @Assert\File(
      *     maxSize = "7M",
      *     mimeTypes={ "application/pdf", "image/*" }
      * )
-     * @var UploadedFile $diplome_file
+     *
+     * @var UploadedFile
      */
     protected $diplome_file;
 
     /**
      * @ORM\Column(type="string", length=255, name="diplomeName", nullable=true)
      *
-     * @var string $diplomeName
+     * @var string
      */
     protected $diplomeName;
 
     /**
-     *
-     *
      * @param UploadedFile|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      */
     public function setDiplomeFile(File $file = null)
@@ -407,26 +386,25 @@ class Animateur implements \Serializable, UserPopulateInterface
     }
 
     /**
-     *
-     * certificat de capacité de travail
+     * certificat de capacité de travail.
      */
 
     /**
-     *
-     *
      * note This is not a mapped field of entity metadata, just a simple property.
+     *
      * @Assert\File(
      *     maxSize = "7M",
      *     mimeTypes={ "application/pdf", "image/*" }
      * )
-     * @var UploadedFile $casier
+     *
+     * @var UploadedFile
      */
     protected $casier;
 
     /**
      * @ORM\Column(type="string", length=255, name="casierName", nullable=true)
      *
-     * @var string $casierName
+     * @var string
      */
     protected $casierName;
 
@@ -437,8 +415,6 @@ class Animateur implements \Serializable, UserPopulateInterface
     }
 
     /**
-     *
-     *
      * @param UploadedFile|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      */
     public function setCasier(File $file = null)
@@ -462,7 +438,7 @@ class Animateur implements \Serializable, UserPopulateInterface
 
     public function __toString()
     {
-        $txt = mb_strtoupper($this->getNom(), 'UTF-8')." ".$this->getPrenom();
+        $txt = mb_strtoupper($this->getNom(), 'UTF-8').' '.$this->getPrenom();
 
         return $txt;
     }
@@ -878,39 +854,43 @@ class Animateur implements \Serializable, UserPopulateInterface
     }
 
     /**
-     * String representation of object
-     * @link https://php.net/manual/en/serializable.serialize.php
+     * String representation of object.
+     *
+     * @see https://php.net/manual/en/serializable.serialize.php
+     *
      * @return string the string representation of the object or null
+     *
      * @since 5.1.0
      */
     public function serialize()
     {
         return serialize(
-            array(
+            [
                 $this->id,
                 $this->adresse,
                 $this->imageName,
                 $this->localite,
-
-            )
+            ]
         );
     }
 
     /**
-     * Constructs the object
-     * @link https://php.net/manual/en/serializable.unserialize.php
+     * Constructs the object.
+     *
+     * @see https://php.net/manual/en/serializable.unserialize.php
+     *
      * @param string $serialized <p>
-     * The string representation of the object.
-     * </p>
+     *                           The string representation of the object.
+     *                           </p>
+     *
      * @return void
+     *
      * @since 5.1.0
      */
     public function unserialize($serialized)
     {
-        list (
-            $this->id,
-
-            ) = unserialize($serialized);
+        list(
+            $this->id) = unserialize($serialized);
     }
 
     public function getRoleByDefault(): string

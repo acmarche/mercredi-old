@@ -3,11 +3,9 @@
 namespace AcMarche\Mercredi\Admin\Tests\Controller;
 
 use AcMarche\Mercredi\Admin\Tests\BaseUnit;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- *
- * Test de la page principale
+ * Test de la page principale.
  */
 class MessageTest extends BaseUnit
 {
@@ -29,10 +27,10 @@ class MessageTest extends BaseUnit
         $this->assertGreaterThan(0, $crawler->filter('h3:contains("Nouveau message")')->count());
 
         $form = $crawler->selectButton('Envoyer le message')->form(
-            array(
+            [
                 'message[sujet]' => 'Test de message',
                 'message[texte]' => 'Test de message',
-            )
+            ]
         );
 
         $this->admin->submit($form);
@@ -50,10 +48,10 @@ class MessageTest extends BaseUnit
         $this->assertGreaterThan(0, $crawler->filter('h3:contains("Nouveau message")')->count());
 
         $form = $crawler->selectButton('Envoyer le message')->form(
-            array(
+            [
                 'message[sujet]' => 'Test de message',
                 'message[texte]' => 'Test de message',
-            )
+            ]
         );
 
         $this->admin->submit($form);
@@ -66,7 +64,7 @@ class MessageTest extends BaseUnit
         $crawler = $this->admin->request('GET', '/admin/presence/');
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
-        $form = $crawler->selectButton('Rechercher')->form(array());
+        $form = $crawler->selectButton('Rechercher')->form([]);
 
         $jour_option = $crawler->filter('#search_presence_jour option:contains("11-11-2016 Vendredi")');
         $this->assertGreaterThan(0, count($jour_option), '11-11-2016 non trouvé');
@@ -78,10 +76,10 @@ class MessageTest extends BaseUnit
         $this->assertGreaterThan(0, $crawler->filter('h3:contains("Nouveau message")')->count());
 
         $form = $crawler->selectButton('Envoyer le message')->form(
-            array(
+            [
                 'message[sujet]' => 'Test de message',
                 'message[texte]' => 'Test de message',
-            )
+            ]
         );
 
         $this->admin->submit($form);

@@ -3,16 +3,15 @@
 namespace AcMarche\Mercredi\Admin\Tests\Controller;
 
 use AcMarche\Mercredi\Admin\Tests\BaseUnit;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Test index page
  * Test add gratuit 100%
- * Test edit 100 % > 23 %
+ * Test edit 100 % > 23 %.
  */
 class AddReductionTest extends BaseUnit
 {
-    private $nom = "Gratuit";
+    private $nom = 'Gratuit';
     private $pourcentageBad = 100;
     private $pourcentage = 23;
 
@@ -27,15 +26,15 @@ class AddReductionTest extends BaseUnit
         $crawler = $this->admin->request('GET', '/admin/reduction/new');
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
-        $form = $crawler->selectButton('Ajouter')->form(array(
+        $form = $crawler->selectButton('Ajouter')->form([
             'reduction[nom]' => $this->nom,
-            'reduction[pourcentage]' => $this->pourcentageBad
-        ));
+            'reduction[pourcentage]' => $this->pourcentageBad,
+        ]);
 
         $this->admin->submit($form);
         $crawler = $this->admin->followRedirect();
 
-        $this->assertGreaterThan(0, $crawler->filter('td:contains("' . $this->nom . '")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('td:contains("'.$this->nom.'")')->count());
     }
 
     public function testEdit()
@@ -43,14 +42,14 @@ class AddReductionTest extends BaseUnit
         $crawler = $this->admin->request('GET', '/admin/reduction/gratuit');
         $crawler = $this->admin->click($crawler->selectLink('Editer')->link());
 
-        $form = $crawler->selectButton('Mettre à jour')->form(array(
+        $form = $crawler->selectButton('Mettre à jour')->form([
             'reduction[pourcentage]' => $this->pourcentage,
-        ));
+        ]);
 
         $this->admin->submit($form);
         $crawler = $this->admin->followRedirect();
 
-        $this->assertGreaterThan(0, $crawler->filter('td:contains("' . $this->pourcentage . ' %")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('td:contains("'.$this->pourcentage.' %")')->count());
     }
 
     public function testDelete()

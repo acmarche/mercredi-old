@@ -13,10 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlainePresenceType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $plaine = $options['plaine'];
@@ -26,24 +22,21 @@ class PlainePresenceType extends AbstractType
             ->add(
                 'jours',
                 EntityType::class,
-                array(
+                [
                     'class' => PlaineJour::class,
                     'choices' => $plaine->getJours(),
                     'multiple' => true,
                     'expanded' => true,
                     'label' => 'Date(s)',
-                    'constraints' => array(new PlaineMaxByGroupeScolaire(array('enfant' => $enfant))),
-                )
+                    'constraints' => [new PlaineMaxByGroupeScolaire(['enfant' => $enfant])],
+                ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array()
+            []
         );
         $resolver->setRequired(['plaine', 'enfant']);
         $resolver->setAllowedTypes('plaine', Plaine::class);

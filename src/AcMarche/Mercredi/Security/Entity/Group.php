@@ -31,11 +31,10 @@ class Group extends BaseGroup
 
     /**
      * @ORM\ManyToMany(targetEntity="AcMarche\Mercredi\Security\Entity\User", mappedBy="groups")
-     *
      */
     protected $users;
 
-    public function __construct(string $name, array $roles = array())
+    public function __construct(string $name, array $roles = [])
     {
         parent::__construct($name, $roles);
         $this->users = new ArrayCollection();

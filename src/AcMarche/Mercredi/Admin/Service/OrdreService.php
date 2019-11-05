@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 12/11/18
- * Time: 13:26
+ * Time: 13:26.
  */
 
 namespace AcMarche\Mercredi\Admin\Service;
-
 
 use AcMarche\Mercredi\Admin\Entity\Presence;
 use AcMarche\Mercredi\Admin\Repository\EnfantTuteurRepository;
@@ -30,10 +29,9 @@ class OrdreService
     }
 
     /**
-     * Pour obtenir l'ordre, j'ai besoin de la fratrie ce jour la
-     * @param Presence $presence
+     * Pour obtenir l'ordre, j'ai besoin de la fratrie ce jour la.
+     *
      * @param $fratries
-     * @return integer
      */
     public function getOrdre(Presence $presence, $fratries = null): int
     {
@@ -46,17 +44,17 @@ class OrdreService
 
         //si ordre definit dans la relation tuteur enfant
         $tuteur = $presence->getTuteur();
-        $args = array('enfant' => $enfant, 'tuteur' => $tuteur);
+        $args = ['enfant' => $enfant, 'tuteur' => $tuteur];
         $enfantTuteur = $this->enfantTuteurRepository->findOneBy($args);
 
         if ($enfantTuteur->getOrdre()) {
             $ordreBase = $enfantTuteur->getOrdre();
         }
 
-        /**
+        /*
          * ordre change pas quand vaut 1
          */
-        if ($ordreBase == 1) {
+        if (1 == $ordreBase) {
             return $ordreBase;
         }
 
@@ -66,29 +64,29 @@ class OrdreService
 
         /**
          * s'il y a des fratries le meme jour
-         * l'ordre va changer
+         * l'ordre va changer.
          */
         $countFratrie = count($fratries);
         //   echo "count $countFratrie \n ";
 
-        /**
+        /*
          * l'enfant est seul
          */
-        if ($countFratrie == 0) {
+        if (0 == $countFratrie) {
             return 1;
         }
 
-        /**
+        /*
          * si arwen en 3 et que au moins 2 fratries
          */
-        if ($ordreBase == 3 && $countFratrie > 1) {
+        if (3 == $ordreBase && $countFratrie > 1) {
             return 3;
         }
 
-        /**
+        /*
          * si arwen en 3 et que lisa la
          */
-        if ($ordreBase == 3 && $countFratrie == 1) {
+        if (3 == $ordreBase && 1 == $countFratrie) {
             $frere = $fratries[0];
             //deux enfants à 3, un des deux doit passer a un
             if ($ordreBase == $frere->getOrdre()) {
@@ -100,7 +98,7 @@ class OrdreService
             return 2;
         }
 
-        /**
+        /*
          * si lisa en 2 et arwen en 3
          * count = 1
          * si marie en 1 lisa en 2
@@ -113,7 +111,7 @@ class OrdreService
             foreach ($fratries as $fratrie) {
                 $ordreFratrie = $fratrie->getOrdre();
                 //si marie en 1, lisa en 2
-                if ($ordreBase == 2 && $ordreFratrie == 1) {
+                if (2 == $ordreBase && 1 == $ordreFratrie) {
                     return 2;
                 }
 

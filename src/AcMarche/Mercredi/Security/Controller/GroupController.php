@@ -6,9 +6,9 @@ use AcMarche\Mercredi\Security\Entity\Group;
 use AcMarche\Mercredi\Security\Form\GroupeType;
 use AcMarche\Mercredi\Security\Repository\GroupRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,9 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GroupController extends AbstractController
 {
     /**
-     *
      * @Route("/", name="groupe_index")
-     *
      */
     public function index(GroupRepository $groupRepository)
     {
@@ -30,26 +28,24 @@ class GroupController extends AbstractController
 
         return $this->render(
             'security/groupe/index.html.twig',
-            array(
+            [
                 'groupes' => $groups,
-            )
+            ]
         );
     }
-
 
     /**
      * Finds and displays a User entity.
      *
      * @Route("/{name}", name="groupe_show", methods={"GET"})
-     *
      */
     public function show(Group $group)
     {
         return $this->render(
             'security/groupe/show.html.twig',
-            array(
+            [
                 'entity' => $group,
-            )
+            ]
         );
     }
 
@@ -67,7 +63,7 @@ class GroupController extends AbstractController
             $groupe
         );
 
-        $form->add('submit', SubmitType::class, array('label' => 'Update'));
+        $form->add('submit', SubmitType::class, ['label' => 'Update']);
 
         $editForm->handleRequest($request);
 
@@ -81,10 +77,10 @@ class GroupController extends AbstractController
 
         return $this->render(
             'security/groupe/edit.html.twig',
-            array(
+            [
                 'entity' => $groupe,
                 'edit_form' => $editForm->createView(),
-            )
+            ]
         );
     }
 }

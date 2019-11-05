@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 16/08/18
- * Time: 17:23
+ * Time: 17:23.
  */
 
 namespace AcMarche\Mercredi\Commun\Utils;
@@ -12,7 +12,9 @@ class DateService
 {
     /**
      * @param string $date "01/08/2018"
+     *
      * @return \DatePeriod
+     *
      * @throws \Exception
      */
     public function getDateIntervale(string $date)
@@ -30,10 +32,13 @@ class DateService
      * Verifie si le jour où on reserve,
      * la date de presence choisie n'est pas plus tard
      * que la veille a 12h00
-     * Et pour les jours journees pedagogiques c'est une semaine
+     * Et pour les jours journees pedagogiques c'est une semaine.
+     *
      * @param \DateTime $datePresence
-     * @param null $today
+     * @param null      $today
+     *
      * @return bool
+     *
      * @throws \Exception
      */
     public function checkDate(\DateTimeInterface $datePresence, $today = null)
@@ -45,10 +50,10 @@ class DateService
         $cloneToday = clone $today;
         $todayPlusUneSemaine = $cloneToday->modify('+1 week');
 
-        /**
+        /*
          * Si journee pedagogique
          */
-        if ($datePresence->format('N') != 3) {
+        if (3 != $datePresence->format('N')) {
             if ($todayPlusUneSemaine->format('Y-m-d') > $datePresence->format('Y-m-d')) {
                 return false;
             }
@@ -56,14 +61,14 @@ class DateService
             return true;
         }
 
-        /**
+        /*
          * La date de la presence est plus vieille que aujourd'hui
          */
         if ($today->format('Y-m-d') > $datePresence->format('Y-m-d')) {
             return false;
         }
 
-        /**
+        /*
          * si jour de garde egale aujourd'hui
          * trop tard
          */
@@ -71,23 +76,23 @@ class DateService
             return false;
         }
 
-        /**
+        /*
          * Si on est un mardi la veille !
          * alors il faut qu'on soit max mardi 12h00
          * si on reserve un mardi 6 pour un admin 7
          */
-        if ($today->format('N') == 2) {
+        if (2 == $today->format('N')) {
             $lendemain = clone $today;
             $lendemain = $lendemain->modify('+1 day');
             //la veille ?
             if ($lendemain->format('d-m-Y') == $datePresence->format('d-m-Y')) {
                 //si après 10h
-                $heure = (int)$today->format('G');
-                $minute = (int)$today->format('i');
+                $heure = (int) $today->format('G');
+                $minute = (int) $today->format('i');
                 if ($heure > 10) {
                     return false;
                 }
-                if ($heure == 10) {
+                if (10 == $heure) {
                     //si après 10h02
                     if ($minute > 02) {
                         return false;
@@ -99,15 +104,16 @@ class DateService
         return true;
     }
 
-    public function getFr(\DateTime $date, $jourFirst = false) {
+    public function getFr(\DateTime $date, $jourFirst = false)
+    {
         $jour = $date->format('D');
         $jourFr = $this->getDayFr($jour);
 
         if ($jourFirst) {
-            return $jourFr . ' ' . $date->format('d-m-Y');
+            return $jourFr.' '.$date->format('d-m-Y');
         }
 
-        return $date->format('d-m-Y') . " " . $jourFr;
+        return $date->format('d-m-Y').' '.$jourFr;
     }
 
     public function getDayFr($jour)
@@ -141,5 +147,4 @@ class DateService
 
         return $jourFr;
     }
-
 }

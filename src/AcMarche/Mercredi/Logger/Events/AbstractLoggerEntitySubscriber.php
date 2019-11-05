@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 17/01/18
- * Time: 11:19
+ * Time: 11:19.
  */
 
 namespace AcMarche\Mercredi\Logger\Events;
@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class AbstractLoggerEntitySubscriber
 {
     /**
-     * Default action for logs
+     * Default action for logs.
      */
     const UNKNOWN_ACTION = 'unknown_action';
 
@@ -29,7 +29,6 @@ abstract class AbstractLoggerEntitySubscriber
 
     /**
      * AbstractSubscriber constructor.
-     * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -37,10 +36,10 @@ abstract class AbstractLoggerEntitySubscriber
     }
 
     /**
-     * Log(message, context)
+     * Log(message, context).
+     *
      * @param string $action
      * @param string $title
-     * @param array $entityFields
      */
     protected function logEntity($action = self::UNKNOWN_ACTION, array $entityFields)
     {

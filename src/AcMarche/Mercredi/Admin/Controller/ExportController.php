@@ -21,8 +21,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class DefaultController
- * @package AcMarche\Admin\Admin\Controller
+ * Class DefaultController.
+ *
  * @IsGranted("ROLE_MERCREDI_READ")
  */
 class ExportController extends AbstractController
@@ -95,10 +95,13 @@ class ExportController extends AbstractController
     /**
      * @Route("/presencemois/xls/{mois}/{type}/{one}", name="presence_mois_xls", requirements={"mois"=".+"}, methods={"GET"})
      * Requirement a cause du format "mois/annee"
+     *
      * @param $mois
      * @param $type
      * @param bool $one Office de l'enfance
+     *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function xls($mois, $type, bool $one)
@@ -111,7 +114,7 @@ class ExportController extends AbstractController
             $this->createXSLObject($mois, $type, $spreadsheet);
         }
 
-        $fileName = 'listing-'.preg_replace("#/#", "-", $mois).'.xls';
+        $fileName = 'listing-'.preg_replace('#/#', '-', $mois).'.xls';
 
         $writer = new Xlsx($spreadsheet);
         $temp_file = tempnam(sys_get_temp_dir(), $fileName);
@@ -124,9 +127,6 @@ class ExportController extends AbstractController
     }
 
     /**
-     * @param string $mois
-     * @param string $type
-     * @param Spreadsheet $spreadsheet
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
@@ -135,7 +135,7 @@ class ExportController extends AbstractController
         $result = $this->presenceService->getPresencesAndEnfantsByMonth($mois, $type);
         $presences = $result['allpresences'];
         /**
-         * @var Enfant[] $enfants
+         * @var Enfant[]
          */
         $enfants = $result['allenfants'];
 
@@ -144,49 +144,49 @@ class ExportController extends AbstractController
         $alphabets = range('A', 'Z');
         //  $lastLettre = $alphabets[(count($dates) * 2) - 1];
         /**
-         * title
+         * title.
          */
         $c = 1;
-        $colonne = "C";
+        $colonne = 'C';
         $sheet->setCellValue('A'.$c, 'Enfant')
             ->setCellValue('B'.$c, 'Né le');
         foreach ($presences as $date => $count) {
             $sheet->setCellValue($colonne.$c, $date);
-            $colonne++;
+            ++$colonne;
         }
-        $sheet->setCellValue($colonne.$c, "Total");
+        $sheet->setCellValue($colonne.$c, 'Total');
 
         $ligne = 3;
         foreach ($enfants as $enfant) {
-            $colonne = "A";
+            $colonne = 'A';
             $count = 0;
             $enfantNom = $enfant->__toString();
-            $neLe = $enfant->getBirthday() ? $enfant->getBirthday()->format('d-m-Y') : "";
+            $neLe = $enfant->getBirthday() ? $enfant->getBirthday()->format('d-m-Y') : '';
             $sheet->setCellValue($colonne.$ligne, $enfantNom);
-            $colonne++;
+            ++$colonne;
             $sheet->setCellValue($colonne.$ligne, $neLe);
             foreach ($presences as $date => $data) {
                 $enfantsByDate = $data['enfants'];
                 $txt = 0;
                 if (in_array($enfant, $enfantsByDate)) {
                     $txt = '1';
-                    $count++;
+                    ++$count;
                 }
-                $colonne++;
+                ++$colonne;
                 $sheet->setCellValue($colonne.$ligne, $txt);
             }
-            $colonne++;
+            ++$colonne;
             $sheet->setCellValue($colonne.$ligne, $count);
-            $ligne++;
+            ++$ligne;
         }
-        $colonne = "A";
+        $colonne = 'A';
         $sheet->setCellValue($colonne.$ligne, count($enfants).' enfants');
-        $colonne = "C";
+        $colonne = 'C';
         $totalmois = 0;
         foreach ($presences as $date => $data) {
             $sheet->setCellValue($colonne.$ligne, $data['count']);
             $totalmois += $data['count'];
-            $colonne++;
+            ++$colonne;
         }
 
         $sheet->setCellValue($colonne.$ligne, $totalmois);
@@ -195,7 +195,7 @@ class ExportController extends AbstractController
     /**
      * @param $mois
      * @param $type
-     * @param Spreadsheet $spreadsheet
+     *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \Exception
      */
@@ -203,10 +203,10 @@ class ExportController extends AbstractController
     {
         $sheet = $spreadsheet->getActiveSheet();
 
-        $dateInterval = $this->dateService->getDateIntervale("01/".$mois);
+        $dateInterval = $this->dateService->getDateIntervale('01/'.$mois);
 
         /**
-         * titre de la feuille
+         * titre de la feuille.
          */
         $c = 1;
         $sheet
@@ -215,55 +215,49 @@ class ExportController extends AbstractController
             ->setCellValue('C'.$c, 'Né le')
             ->setCellValue('D'.$c, 'Groupe');
 
-        $colonne = "E";
+        $colonne = 'E';
         foreach ($dateInterval as $date) {
             $sheet->setCellValue($colonne.$c, $date->format('D j'));
-            $colonne++;
+            ++$colonne;
         }
 
-        /**
-         *
-         */
         $result = $this->presenceService->getPresencesAndEnfantsByMonth($mois, $type);
 
         /**
-         * @var Enfant[] $enfants
+         * @var Enfant[]
          */
         $enfants = $result['allenfants'];
 
         $ligne = 3;
         foreach ($enfants as $enfant) {
-            $colonne = "A";
-            $neLe = $enfant->getBirthday() ? $enfant->getBirthday()->format('d-m-Y') : "";
+            $colonne = 'A';
+            $neLe = $enfant->getBirthday() ? $enfant->getBirthday()->format('d-m-Y') : '';
             $sheet->setCellValue($colonne.$ligne, $enfant->getNom());
-            $colonne++;
+            ++$colonne;
             $sheet->setCellValue($colonne.$ligne, $enfant->getPrenom());
-            $colonne++;
+            ++$colonne;
             $sheet->setCellValue($colonne.$ligne, $neLe);
-            $colonne++;
+            ++$colonne;
             $sheet->setCellValue($colonne.$ligne, $this->scolaireService->getGroupeScolaire($enfant));
 
             foreach ($dateInterval as $date) {
                 $presence = $this->plaineService->getPresenceByDateAndEnfant($date, $enfant);
 
                 if (!$presence) {
-                    $colonne++;
+                    ++$colonne;
                     continue;
                 }
 
-                $colonne++;
+                ++$colonne;
                 $sheet->setCellValue($colonne.$ligne, 1);
             }
-            $ligne++;
+            ++$ligne;
         }
     }
 
     /**
-     *
-     *
      * @Route("/xls/presences/{id}/{type}", name="presence_xls", methods={"GET"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function presenceXls(int $id, string $type)
     {
@@ -272,19 +266,19 @@ class ExportController extends AbstractController
             return $this->redirectToRoute('presence');
         }
 
-        if ($type === 'mercredi') {
+        if ('mercredi' === $type) {
             $jour = $this->jourRepository->find($id);
             $presences = $this->presenceRepository->findBy(['jour' => $jour]);
         }
 
-        if ($type === 'plaine') {
+        if ('plaine' === $type) {
             $jour = $this->plaineJourRepository->find($id);
             $presences = $this->plainePresenceRepository->findBy(['jour' => $jour]);
         }
 
         $enfants = [];
         foreach ($presences as $presence) {
-            if ($type === 'plaine') {
+            if ('plaine' === $type) {
                 $plaine_enfant = $presence->getPlaineEnfant();
                 $enfant = $plaine_enfant->getEnfant();
             } else {
@@ -305,14 +299,14 @@ class ExportController extends AbstractController
 
         $ligne = 3;
         foreach ($enfants as $enfant) {
-            $colonne = "A";
-            $neLe = $enfant->getBirthday() ? $enfant->getBirthday()->format('d-m-Y') : "";
+            $colonne = 'A';
+            $neLe = $enfant->getBirthday() ? $enfant->getBirthday()->format('d-m-Y') : '';
             $sheet->setCellValue($colonne.$ligne, $enfant->getNom());
-            $colonne++;
+            ++$colonne;
             $sheet->setCellValue($colonne.$ligne, $enfant->getPrenom());
-            $colonne++;
+            ++$colonne;
             $sheet->setCellValue($colonne.$ligne, $neLe);
-            $ligne++;
+            ++$ligne;
         }
 
         $fileName = 'listing-presences.xls';

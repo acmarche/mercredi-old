@@ -8,11 +8,9 @@ use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
 use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Plaine controller.
@@ -27,7 +25,6 @@ class PlaineController extends AbstractController
      * @ParamConverter("plaine", class="AcMarche\Mercredi\Plaine\Entity\Plaine", options={"mapping": {"plaine_slugname": "slugname"}})
      * @ParamConverter("enfant", class="AcMarche\Mercredi\Admin\Entity\Enfant", options={"mapping": {"enfant_uuid": "uuid"}})
      * @IsGranted("show", subject="enfant")
-     *
      */
     public function show(Enfant $enfant, Plaine $plaine)
     {
@@ -36,7 +33,7 @@ class PlaineController extends AbstractController
         $tuteur = TuteurUtils::getTuteurByUser($user);
 
         $plaine_id = $plaine->getId();
-        $args = array('enfant' => $enfant->getId(), 'plaine' => $plaine_id);
+        $args = ['enfant' => $enfant->getId(), 'plaine' => $plaine_id];
 
         $plaine_enfant = $em->getRepository(PlaineEnfant::class)->findOneBy($args);
 
@@ -44,17 +41,17 @@ class PlaineController extends AbstractController
             throw $this->createNotFoundException('Unable to find plaineEnfant entity.');
         }
 
-        $args = array('plaine_enfant_id' => $plaine_enfant);
+        $args = ['plaine_enfant_id' => $plaine_enfant];
         $presences = $em->getRepository(PlainePresence::class)->search($args);
 
         return $this->render(
             'parent/plaine/show.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'plaine' => $plaine,
                 'presences' => $presences,
                 'entity' => $tuteur,
-            )
+            ]
         );
     }
 }

@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 9/10/18
- * Time: 10:41
+ * Time: 10:41.
  */
 
 namespace AcMarche\Mercredi\Plaine\Manager;
-
 
 use AcMarche\Mercredi\Commun\Utils\ScolaireService;
 use AcMarche\Mercredi\Plaine\Entity\Plaine;
@@ -42,9 +41,6 @@ class PlaineManager
         $this->parameterBag = $parameterBag;
     }
 
-    /**
-     * @return Plaine
-     */
     public function newInstance(): Plaine
     {
         $plaine = new Plaine();
@@ -68,7 +64,7 @@ class PlaineManager
 
     public function initJours(Plaine $plaine)
     {
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 6; ++$i) {
             $jour = new PlaineJour();
             $jour->setPlaine($plaine);
             $plaine->addJour($jour);
@@ -91,7 +87,7 @@ class PlaineManager
     public function setJours(Plaine $plaine, ArrayCollection $jours)
     {
         foreach ($jours as $jour) {
-            if ($jour->getDateJour() != null) {
+            if (null != $jour->getDateJour()) {
                 $jour->setPlaine($plaine);
             } else {
                 $plaine->removeJour($jour); //si un champ date pas rempli

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 17/01/18
- * Time: 11:19
+ * Time: 11:19.
  */
 
 namespace AcMarche\Mercredi\Admin\Events;
@@ -24,9 +24,6 @@ class TuteurSubscriber extends AbstractLoggerEntitySubscriber implements EventSu
         ];
     }
 
-    /**
-     * @param TuteurEvent $event
-     */
     public function onTuteurShow(TuteurEvent $event)
     {
         $this->logEntity(
@@ -37,9 +34,6 @@ class TuteurSubscriber extends AbstractLoggerEntitySubscriber implements EventSu
         );
     }
 
-    /**
-     * @param TuteurEvent $event
-     */
     public function onTuteurEdit(TuteurEvent $event)
     {
         $this->logEntity(

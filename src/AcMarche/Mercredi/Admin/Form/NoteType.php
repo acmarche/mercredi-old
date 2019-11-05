@@ -11,29 +11,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class NoteType extends AbstractType
 {
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('contenu', TextareaType::class, array(
+            ->add('contenu', TextareaType::class, [
                 'attr' => ['rows' => 5, 'data-help' => 'Cette note n\'est pas visible des parents'],
-                'required' => true
-
-            ))
+                'required' => true,
+            ])
             ->add('enfant', EnfantSelectorType::class);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => Note::class
-        ));
+        $resolver->setDefaults([
+            'data_class' => Note::class,
+        ]);
     }
 }

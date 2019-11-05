@@ -2,8 +2,8 @@
 
 namespace AcMarche\Mercredi\Admin\Entity;
 
+use AcMarche\Mercredi\Admin\Doctrine\TimestampableEntityTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,10 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Message
 {
-    use TimestampableEntity;
+    use TimestampableEntityTrait;
 
     /**
-     * @var integer|null $id
+     * @var int|null
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -25,13 +25,13 @@ class Message
     protected $id;
 
     /**
-     * @var string|null $from
+     * @var string|null
      * @Assert\NotBlank()
      */
     protected $from;
 
     /**
-     * @var string|null $sujet
+     * @var string|null
      *
      * @ORM\Column(type="text", nullable=false)
      * @Assert\NotBlank()
@@ -39,7 +39,7 @@ class Message
     protected $sujet;
 
     /**
-     * @var string|null $texte
+     * @var string|null
      *
      * @ORM\Column(type="text", nullable=false)
      * @Assert\NotBlank()
@@ -47,34 +47,33 @@ class Message
     protected $texte;
 
     /**
-     * @var UploadedFile|null $file
+     * @var UploadedFile|null
      */
     protected $file;
 
     /**
-     * @var array|null $destinataires
+     * @var array|null
      *
      * @ORM\Column(type="array", nullable=false)
-     *
      */
     protected $destinataires;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
     public function getFrom(): ?string
     {
         return $this->from;
     }
 
-    /**
-     * @param null|string $from
-     */
     public function setFrom(?string $from): void
     {
         $this->from = $from;
@@ -104,17 +103,11 @@ class Message
         return $this;
     }
 
-    /**
-     * @return null|UploadedFile
-     */
     public function getFile(): ?UploadedFile
     {
         return $this->file;
     }
 
-    /**
-     * @param null|UploadedFile $file
-     */
     public function setFile(?UploadedFile $file): void
     {
         $this->file = $file;

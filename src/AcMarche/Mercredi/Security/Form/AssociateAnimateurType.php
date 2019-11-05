@@ -13,17 +13,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AssociateAnimateurType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add(
                 'animateur',
                 EntityType::class,
-                array(
+                [
                     'label' => 'Animateur',
                     'class' => Animateur::class,
                     'placeholder' => 'Sélectionnez l\'animateur',
@@ -31,7 +27,7 @@ class AssociateAnimateurType extends AbstractType
                     'query_builder' => function (AnimateurRepository $cr) {
                         return $cr->getForAssociateParent();
                     },
-                )
+                ]
             )
             ->add(
                 'dissocier',
@@ -53,15 +49,12 @@ class AssociateAnimateurType extends AbstractType
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => User::class,
-            )
+            ]
         );
     }
 }

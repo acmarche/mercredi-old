@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 21/08/18
- * Time: 15:59
+ * Time: 15:59.
  */
 
 namespace AcMarche\Mercredi\Security\Tests\Controller;
@@ -17,12 +17,12 @@ class AaRegisterControllerTest extends BaseUnit
         $crawler = $this->admin->request('GET', '/security/utilisateurs/new');
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
-        $form = $crawler->selectButton("Ajouter")->form(
-            array(
+        $form = $crawler->selectButton('Ajouter')->form(
+            [
                 'utilisateur[nom]' => 'Leffe',
                 'utilisateur[prenom]' => 'Leffe',
                 'utilisateur[email]' => 'rleffe@marche.be',
-            )
+            ]
         );
 
         $groupParent = $this->getGroup(['name' => 'MERCREDI_PARENT']);
@@ -43,12 +43,12 @@ class AaRegisterControllerTest extends BaseUnit
         $crawler = $this->admin->request('GET', '/security/utilisateurs/new');
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
-        $form = $crawler->selectButton("Ajouter")->form(
-            array(
+        $form = $crawler->selectButton('Ajouter')->form(
+            [
                 'utilisateur[nom]' => 'Ducobu',
                 'utilisateur[prenom]' => 'Fred',
                 'utilisateur[email]' => 'ducobu@marche.be',
-            )
+            ]
         );
 
         $group = $this->getGroup(['name' => 'MERCREDI_ANIMATEUR']);
@@ -69,12 +69,12 @@ class AaRegisterControllerTest extends BaseUnit
         $crawler = $this->admin->request('GET', '/security/utilisateurs/new');
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
-        $form = $crawler->selectButton("Ajouter")->form(
-            array(
+        $form = $crawler->selectButton('Ajouter')->form(
+            [
                 'utilisateur[nom]' => 'Désiré',
                 'utilisateur[prenom]' => 'Mégo',
                 'utilisateur[email]' => 'uharvard@marche.be',
-            )
+            ]
         );
 
         $group = $this->getGroup(['name' => 'MERCREDI_ECOLE']);
@@ -95,12 +95,12 @@ class AaRegisterControllerTest extends BaseUnit
         $crawler = $this->admin->request('GET', '/security/utilisateurs/new');
         $this->assertEquals(200, $this->admin->getResponse()->getStatusCode());
 
-        $form = $crawler->selectButton("Ajouter")->form(
-            array(
+        $form = $crawler->selectButton('Ajouter')->form(
+            [
                 'utilisateur[nom]' => 'Multi',
                 'utilisateur[prenom]' => 'Aria',
                 'utilisateur[email]' => 'aria@marche.be',
-            )
+            ]
         );
 
         $admin = $this->getGroup(['name' => 'MERCREDI_ADMIN']);
@@ -128,28 +128,26 @@ class AaRegisterControllerTest extends BaseUnit
 
         $form = $crawler->selectButton('Ajouter')->form();
 
-        $ecole = $this->getEcole("Saint-Martin");
+        $ecole = $this->getEcole('Saint-Martin');
 
-        $form["quick[tuteur][nom]"] = "Lambert";
-        $form["quick[tuteur][prenom]"] = "Joseph";
-        $form["quick[tuteur][adresse]"] = "Rue de Francorchamps";
-        $form["quick[tuteur][code_postal]"] = 6900;
-        $form["quick[tuteur][localite]"] = "Champlon";
-        $form["quick[tuteur][telephone]"] = "084 56 98 74";
-        $form["quick[enfant][nom]"] = "Lambert";
-        $form["quick[enfant][prenom]"] = "John";
-        $form["quick[tuteur][email]"] = "rleffe@marche.be";
-        $form["quick[enfant][birthday][day]"] = 13;
-        $form["quick[enfant][birthday][month]"] = 11;
-        $form["quick[enfant][birthday][year]"] = 2015;
-        $form["quick[enfant][annee_scolaire]"] = "1P";
-        $form["quick[enfant][ecole]"] = $ecole->getId();
+        $form['quick[tuteur][nom]'] = 'Lambert';
+        $form['quick[tuteur][prenom]'] = 'Joseph';
+        $form['quick[tuteur][adresse]'] = 'Rue de Francorchamps';
+        $form['quick[tuteur][code_postal]'] = 6900;
+        $form['quick[tuteur][localite]'] = 'Champlon';
+        $form['quick[tuteur][telephone]'] = '084 56 98 74';
+        $form['quick[enfant][nom]'] = 'Lambert';
+        $form['quick[enfant][prenom]'] = 'John';
+        $form['quick[tuteur][email]'] = 'rleffe@marche.be';
+        $form['quick[enfant][birthday][day]'] = 13;
+        $form['quick[enfant][birthday][month]'] = 11;
+        $form['quick[enfant][birthday][year]'] = 2015;
+        $form['quick[enfant][annee_scolaire]'] = '1P';
+        $form['quick[enfant][ecole]'] = $ecole->getId();
 
         $crawler = $this->admin->submit($form);
 
         $this->assertGreaterThan(0, $crawler->filter('div:contains("La fiche parent LAMBERT Joseph")')->count());
         $this->assertGreaterThan(0, $crawler->filter('div:contains("La fiche enfant LAMBERT John")')->count());
     }
-
-
 }

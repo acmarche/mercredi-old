@@ -5,8 +5,7 @@ namespace AcMarche\Mercredi\Admin\Tests\Droit;
 use AcMarche\Mercredi\Admin\Tests\BaseUnit;
 
 /**
- * Class IndexTest
- * @package AcMarche\Admin\Admin\Tests\Droit
+ * Class IndexTest.
  */
 class EnfantTest extends BaseUnit
 {

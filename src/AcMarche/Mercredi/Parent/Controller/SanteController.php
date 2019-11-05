@@ -16,9 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- *
  * @Route("/sante")
- *
  */
 class SanteController extends AbstractController
 {
@@ -42,7 +40,6 @@ class SanteController extends AbstractController
         $this->mailerService = $mailerService;
     }
 
-
     /**
      * @Route("/show/{uuid}", name="parent_sante_show")
      * @IsGranted("show", subject="enfant")
@@ -60,12 +57,12 @@ class SanteController extends AbstractController
 
         return $this->render(
             'parent/sante/show.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'fiche' => $santeFiche,
                 'questions' => $questions,
                 'isComplete' => $isComplete,
-            )
+            ]
         );
     }
 
@@ -84,13 +81,12 @@ class SanteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $data = $form->getData();
 
             $this->santeManager->saveSanteFiche($santeFiche);
 
             /**
-             * @var SanteQuestion[] $questions
+             * @var SanteQuestion[]
              */
             $questions = $data->getQuestions();
 
@@ -102,17 +98,17 @@ class SanteController extends AbstractController
 
             $this->mailerService->sendFicheSanteUpdate($santeFiche, $this->getUser());
 
-            $this->addFlash('success', "La fiche de santé à bien été enregistrée");
+            $this->addFlash('success', 'La fiche de santé à bien été enregistrée');
 
             return $this->redirectToRoute('parent_sante_show', ['uuid' => $enfant->getUuid()]);
         }
 
         return $this->render(
             'parent/sante/edit.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -149,12 +145,10 @@ class SanteController extends AbstractController
         return new Response(
             $this->pdf->getOutputFromHtml($html),
             200,
-            array(
+            [
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'attachment; filename="sante-'.$enfant->getSlugname().'.pdf"',
-            )
+            ]
         );
-
     }
-
 }

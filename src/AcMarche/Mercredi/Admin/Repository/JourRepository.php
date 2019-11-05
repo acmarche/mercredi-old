@@ -25,7 +25,7 @@ class JourRepository extends ServiceEntityRepository
      */
     public function findAll()
     {
-        return $this->findBy(array(), array('date_jour' => 'ASC'));
+        return $this->findBy([], ['date_jour' => 'ASC']);
     }
 
     public function getRecents(\DateTime $date)
@@ -33,8 +33,8 @@ class JourRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('jour');
         $dateString = $date->format('Y-m-d');
 
-        $qb->andWhere("jour.date_jour >= :date")
-            ->setParameter("date", $dateString);
+        $qb->andWhere('jour.date_jour >= :date')
+            ->setParameter('date', $dateString);
 
         $qb->orderBy('jour.date_jour', 'DESC');
 
@@ -42,20 +42,21 @@ class JourRepository extends ServiceEntityRepository
     }
 
     /**
-     * Pour formulaire avec liste deroulante
+     * Pour formulaire avec liste deroulante.
+     *
      * @return \Doctrine\ORM\QueryBuilder
      */
     public function getForList(Enfant $enfant = null)
     {
         $qb = $this->createQueryBuilder('j');
 
-        /**
+        /*
          * je retire les dates pour lesquelles l'enfant est
          * deja inscrits
          */
         if ($enfant) {
             $presences = $enfant->getPresences();
-            $jours = array();
+            $jours = [];
             foreach ($presences as $presence) {
                 $jour_id = $presence->getJour()->getId();
                 $jours[] = $jour_id;
@@ -76,14 +77,15 @@ class JourRepository extends ServiceEntityRepository
     }
 
     /**
-     * Pour formulaire avec liste deroulante
+     * Pour formulaire avec liste deroulante.
+     *
      * @return \Doctrine\ORM\QueryBuilder
      */
     public function getForAnimateur(Animateur $animateur = null)
     {
         $qb = $this->createQueryBuilder('j');
 
-        /**
+        /*
          * je retire les dates pour lesquelles l'animateur est
          * deja inscrits
          */
@@ -100,10 +102,12 @@ class JourRepository extends ServiceEntityRepository
 
     /**
      * @param array $args
+     *
      * @return Jour|Jour[]
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function search($args = array())
+    public function search($args = [])
     {
         $jour_id = isset($args['jour_id']) ? $args['jour_id'] : false;
         $one = isset($args['one']) ? $args['one'] : false;
@@ -157,35 +161,35 @@ class JourRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Enfant|null $enfant
      * @return Jour[]
+     *
      * @throws \Exception
      */
     public function getForParent(Enfant $enfant = null)
     {
         $qb = $this->createQueryBuilder('jour');
 
-        /**
+        /*
          * je retire les dates pour lesquelles l'enfant est
          * deja inscrits
          */
         if ($enfant) {
             $presences = $enfant->getPresences();
             if (count($presences) > 0) {
-                $jours = array();
+                $jours = [];
                 foreach ($presences as $presence) {
                     $jours[] = $presence->getJour();
                 }
-                $qb->andWhere("jour NOT IN (:jours)")
+                $qb->andWhere('jour NOT IN (:jours)')
                     ->setParameter('jours', $jours);
             }
         }
 
         /**
-         * je ne propose pas les dates passees
+         * je ne propose pas les dates passees.
          */
         $date_time = new \DateTime();
-        $today = $date_time->format("Y-m-d");
+        $today = $date_time->format('Y-m-d');
 
         $qb->andWhere('jour.date_jour >= :today')
             ->setParameter('today', $today);
@@ -210,7 +214,7 @@ class JourRepository extends ServiceEntityRepository
 
         $query = $qb->getQuery();
         /**
-         * @var Jour[] $results
+         * @var Jour[]
          */
         $results = $query->getResult();
         $jours = [];
@@ -219,7 +223,7 @@ class JourRepository extends ServiceEntityRepository
             $dateJour = $jour->getDateJour();
             $numericDay = $dateJour->format('w');
 
-            if ($numericDay == 3) {
+            if (3 == $numericDay) {
                 $jours[$dateJour->format('d-m-Y')] = $jour->getId();
             }
         }
@@ -236,7 +240,7 @@ class JourRepository extends ServiceEntityRepository
         $qb->orderBy('jour.date_jour', 'DESC');
         $query = $qb->getQuery();
         /**
-         * @var Jour[] $results
+         * @var Jour[]
          */
         $results = $query->getResult();
         $jours = [];

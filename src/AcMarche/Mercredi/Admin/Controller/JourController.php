@@ -4,13 +4,13 @@ namespace AcMarche\Mercredi\Admin\Controller;
 
 use AcMarche\Mercredi\Admin\Entity\Jour;
 use AcMarche\Mercredi\Admin\Entity\Presence;
+use AcMarche\Mercredi\Admin\Form\Jour\JourAnimateursType;
 use AcMarche\Mercredi\Admin\Form\JourType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use AcMarche\Mercredi\Admin\Form\Jour\JourAnimateursType;
 
 /**
  * Jour controller.
@@ -24,19 +24,18 @@ class JourController extends AbstractController
      * Lists all Jour entities.
      *
      * @Route("/", name="jour", methods={"GET"})
-     *
      */
     public function index()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository(Jour::class)->search(array('order' => array('j.date_jour', 'DESC')));
+        $entities = $em->getRepository(Jour::class)->search(['order' => ['j.date_jour', 'DESC']]);
 
         return $this->render(
             'admin/jour/index.html.twig',
-            array(
+            [
                 'entities' => $entities,
-            )
+            ]
         );
     }
 
@@ -52,13 +51,13 @@ class JourController extends AbstractController
         $form = $this->createForm(
             JourType::class,
             $entity,
-            array(
+            [
                 'action' => $this->generateUrl('jour_new'),
                 'method' => 'POST',
-            )
+            ]
         );
 
-        $form->add('submit', SubmitType::class, array('label' => 'Create'));
+        $form->add('submit', SubmitType::class, ['label' => 'Create']);
 
         return $form;
     }
@@ -68,7 +67,6 @@ class JourController extends AbstractController
      *
      * @Route("/new", name="jour_new", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function new(Request $request)
     {
@@ -95,17 +93,17 @@ class JourController extends AbstractController
             $em->persist($entity);
             $em->flush();
 
-            $this->addFlash('success', "La date a bien été ajoutée");
+            $this->addFlash('success', 'La date a bien été ajoutée');
 
             return $this->redirectToRoute('jour');
         }
 
         return $this->render(
             'admin/jour/new.html.twig',
-            array(
+            [
                 'entity' => $entity,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -113,13 +111,12 @@ class JourController extends AbstractController
      * Finds and displays a Jour entity.
      *
      * @Route("/{id}", name="jour_show", methods={"GET"})
-     *
      */
     public function show(Jour $jour)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $args = array('jour_id' => $jour->getId(), 'order' => 'enfant');
+        $args = ['jour_id' => $jour->getId(), 'order' => 'enfant'];
 
         $presences = $em->getRepository(Presence::class)->search($args);
 
@@ -127,11 +124,11 @@ class JourController extends AbstractController
 
         return $this->render(
             'admin/jour/show.html.twig',
-            array(
+            [
                 'entity' => $jour,
                 'presences' => $presences,
                 'delete_form' => $deleteForm->createView(),
-            )
+            ]
         );
     }
 
@@ -145,9 +142,9 @@ class JourController extends AbstractController
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('jour_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('jour_delete', ['id' => $id]))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, array('label' => 'Delete', 'attr' => array('class' => 'btn-danger')))
+            ->add('submit', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
             ->getForm();
     }
 
@@ -156,7 +153,6 @@ class JourController extends AbstractController
      *
      * @Route("/{id}/edit", name="jour_edit", methods={"GET","PUT"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function edit(Jour $jour, Request $request)
     {
@@ -168,17 +164,17 @@ class JourController extends AbstractController
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em->flush();
 
-            $this->addFlash('success', "La date a bien été modifiée");
+            $this->addFlash('success', 'La date a bien été modifiée');
 
             return $this->redirectToRoute('jour');
         }
 
         return $this->render(
             'admin/jour/edit.html.twig',
-            array(
+            [
                 'entity' => $jour,
                 'edit_form' => $editForm->createView(),
-            )
+            ]
         );
     }
 
@@ -194,13 +190,13 @@ class JourController extends AbstractController
         $form = $this->createForm(
             JourType::class,
             $entity,
-            array(
-                'action' => $this->generateUrl('jour_edit', array('id' => $entity->getId())),
+            [
+                'action' => $this->generateUrl('jour_edit', ['id' => $entity->getId()]),
                 'method' => 'PUT',
-            )
+            ]
         );
 
-        $form->add('submit', SubmitType::class, array('label' => 'Update'));
+        $form->add('submit', SubmitType::class, ['label' => 'Update']);
 
         return $form;
     }
@@ -222,7 +218,7 @@ class JourController extends AbstractController
             $em->remove($jour);
             $em->flush();
 
-            $this->addFlash('success', "La date a bien été supprimée");
+            $this->addFlash('success', 'La date a bien été supprimée');
         }
 
         return $this->redirectToRoute('jour');
@@ -232,7 +228,6 @@ class JourController extends AbstractController
      * Displays a form to edit an existing Animateur entity.
      *
      * @Route("/{id}/animateurs", name="jour_animateurs", methods={"GET","POST"})
-     *
      */
     public function animateurs(Request $request, Jour $jour)
     {
@@ -263,20 +258,20 @@ class JourController extends AbstractController
                 }
 
                 $em->flush();
-                $this->addFlash('success', "Les animateurs ont bien été affectés");
+                $this->addFlash('success', 'Les animateurs ont bien été affectés');
             } else {
-                $this->addFlash('warning', "Aucun changement effectué");
+                $this->addFlash('warning', 'Aucun changement effectué');
             }
 
-            return $this->redirect($this->generateUrl('jour_show', array('id' => $jour->getId())));
+            return $this->redirect($this->generateUrl('jour_show', ['id' => $jour->getId()]));
         }
 
         return $this->render(
             'admin/jour/animateurs.html.twig',
-            array(
+            [
                 'entity' => $jour,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -285,13 +280,13 @@ class JourController extends AbstractController
         $form = $this->createForm(
             JourAnimateursType::class,
             $entity,
-            array(
-                'action' => $this->generateUrl('jour_animateurs', array('id' => $entity->getId())),
+            [
+                'action' => $this->generateUrl('jour_animateurs', ['id' => $entity->getId()]),
                 'method' => 'POST',
-            )
+            ]
         );
 
-        $form->add('submit', SubmitType::class, array('label' => 'Update'));
+        $form->add('submit', SubmitType::class, ['label' => 'Update']);
 
         return $form;
     }

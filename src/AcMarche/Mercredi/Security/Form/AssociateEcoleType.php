@@ -13,17 +13,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AssociateEcoleType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add(
                 'ecoles',
                 EntityType::class,
-                array(
+                [
                     'class' => Ecole::class,
                     'placeholder' => 'Sélectionnez une ou plusieurs écoles',
                     'required' => false,
@@ -32,7 +28,7 @@ class AssociateEcoleType extends AbstractType
                     'query_builder' => function (EcoleRepository $cr) {
                         return $cr->getForList();
                     },
-                )
+                ]
             )->add(
                 'sendmail',
                 CheckboxType::class,
@@ -40,20 +36,17 @@ class AssociateEcoleType extends AbstractType
                     'required' => false,
                     'label' => 'Envoyer un email de création de compte',
                     'mapped' => false,
-                    'data'=>true
+                    'data' => true,
                 ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => User::class,
-            )
+            ]
         );
     }
 }

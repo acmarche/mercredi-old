@@ -3,24 +3,24 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 9/01/18
- * Time: 13:16
+ * Time: 13:16.
  */
 
 namespace AcMarche\Mercredi\Plaine\Service;
 
+use AcMarche\Mercredi\Admin\Entity\Enfant;
+use AcMarche\Mercredi\Admin\Entity\Tuteur;
+use AcMarche\Mercredi\Commun\Utils\ScolaireService;
+use AcMarche\Mercredi\Plaine\Entity\Plaine;
+use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
 use AcMarche\Mercredi\Plaine\Entity\PlaineJour;
+use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
 use AcMarche\Mercredi\Plaine\Repository\PlaineEnfantRepository;
 use AcMarche\Mercredi\Plaine\Repository\PlaineJourRepository;
 use AcMarche\Mercredi\Plaine\Repository\PlaineMaxRepository;
 use AcMarche\Mercredi\Plaine\Repository\PlainePresenceRepository;
 use AcMarche\Mercredi\Plaine\Repository\PlaineRepository;
 use AcMarche\Mercredi\Security\Entity\User;
-use AcMarche\Mercredi\Commun\Utils\ScolaireService;
-use AcMarche\Mercredi\Admin\Entity\Enfant;
-use AcMarche\Mercredi\Admin\Entity\Tuteur;
-use AcMarche\Mercredi\Plaine\Entity\Plaine;
-use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
-use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
 
 class PlaineService
 {
@@ -100,9 +100,7 @@ class PlaineService
     }
 
     /**
-     * @param Enfant $enfant
-     * @param Plaine $plaine
-     * @return null|PlaineEnfant
+     * @return PlaineEnfant|null
      */
     public function enfantExistInPlaine(Enfant $enfant, Plaine $plaine)
     {
@@ -115,8 +113,6 @@ class PlaineService
     }
 
     /**
-     * @param PlaineEnfant $plaineEnfant
-     * @param Tuteur $tuteur
      * @return PlainePresence[]
      */
     public function getPresences(PlaineEnfant $plaineEnfant, Tuteur $tuteur)
@@ -130,7 +126,7 @@ class PlaineService
     }
 
     /**
-     * @return null|Plaine
+     * @return Plaine|null
      */
     public function getPlaineOuverte()
     {
@@ -174,7 +170,7 @@ class PlaineService
         }
 
         if ($groupeScolaire) {
-            return isset($groupes[$groupeScolaire]) ? $groupes[$groupeScolaire] : [];
+            return $groupes[$groupeScolaire] ?? [];
         }
 
         return $groupes;
@@ -202,8 +198,7 @@ class PlaineService
     }
 
     /**
-     * @param PlainePresence $plainePresence
-     * @return null|string
+     * @return string|null
      */
     public function getEmailOnPresence(PlainePresence $plainePresence)
     {
@@ -264,4 +259,11 @@ class PlaineService
         return $groupes;
     }
 
+    public function getFirstDatePlaine(Plaine $plaine): \DateTime
+    {
+        $jours = $plaine->getJours();
+        $firstJour = $jours[0];
+
+        return $firstJour->getDateJour();
+    }
 }

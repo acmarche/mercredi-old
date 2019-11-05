@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 9/01/18
- * Time: 13:16
+ * Time: 13:16.
  */
 
 namespace AcMarche\Mercredi\Admin\Service;
@@ -84,7 +84,6 @@ class PresenceService
     public function addPresences(Presence $presenceInit, Tuteur $tuteur, $jours)
     {
         foreach ($jours as $jour) {
-
             if ($this->presenceExist($presenceInit->getEnfant(), $jour)) {
                 continue;
             }
@@ -119,10 +118,10 @@ class PresenceService
         );
     }
 
-
     /**
      * @param string $moisAnnee 03/12
      * @param $type 1 mercredi et plaine, 2 mercredi, 3 plaine
+     *
      * @return array
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
@@ -131,20 +130,20 @@ class PresenceService
     {
         $allenfants = [];
 
-        $args_mois = array('date' => $moisAnnee);
+        $args_mois = ['date' => $moisAnnee];
 
-        if ($type == 1 or $type == 2) {
+        if (1 == $type or 2 == $type) {
             /**
-             * j'obtiens les jours du mercredi du mois
+             * j'obtiens les jours du mercredi du mois.
              */
             $jours = $this->jourRepository->search($args_mois);
 
-            /**
+            /*
              * pour chaque date, je vais chercher les presences
              */
             foreach ($jours as $jour) {
-                $args = array('jour_id' => $jour->getId(), 'absent' => 1);
-                $enfants = array();
+                $args = ['jour_id' => $jour->getId(), 'absent' => 1];
+                $enfants = [];
                 $date = $jour->getDateJour()->format('d-m-Y');
                 $presences = $this->presenceRepository->search($args);
                 $count = count($presences);
@@ -155,24 +154,24 @@ class PresenceService
                         $allenfants[] = $enfant;
                     }
                 }
-                $allpresences[$date] = array(
+                $allpresences[$date] = [
                     'count' => $count,
                     'enfants' => $enfants,
-                );
+                ];
             }
         }
 
-        if ($type == 1 or $type == 3) {
+        if (1 == $type or 3 == $type) {
             /**
-             * j'obtiens les jours de la plaine du mois
+             * j'obtiens les jours de la plaine du mois.
              */
             $plaines_jours = $this->plaineJourRepository->search($args_mois);
-            /**
+            /*
              * pour chaque date, je vais chercher les presences
              */
             foreach ($plaines_jours as $jour) {
-                $args = array('jour_id' => $jour->getId(), 'absent' => 1);
-                $enfants = array();
+                $args = ['jour_id' => $jour->getId(), 'absent' => 1];
+                $enfants = [];
                 $date = $jour->getDateJour()->format('d-m-Y');
                 $presences = $this->plainePresenceRepository->search($args);
                 $count = count($presences);
@@ -184,20 +183,20 @@ class PresenceService
                         $allenfants[] = $enfant;
                     }
                 }
-                $allpresences[$date] = array(
+                $allpresences[$date] = [
                     'count' => $count,
                     'enfants' => $enfants,
-                );
+                ];
             }
         }
 
         /**
-         * je trie le tableau des dates
+         * je trie le tableau des dates.
          */
         $allpresences = $this->sortUtils->sortByDateTime($allpresences);
 
         /**
-         * Je trie le tableau enfants
+         * Je trie le tableau enfants.
          */
         $allenfants = $this->sortUtils->sortObjectsByName($allenfants);
 
@@ -223,31 +222,32 @@ class PresenceService
     }
 
     /**
-     * Calcul le cout d'une journée en prenant en compte tous les parametres
+     * Calcul le cout d'une journée en prenant en compte tous les parametres.
      *
      * @param string $type admin ou plaine
+     *
      * @return array(
-     *      'ordre', //apres test provenance
-     *      'ordre_provenance', //fiche,parente,presence
-     *      'prix', //prix plein suivant l'ordre
-     *      'pourcentage', //si reduction
-     *      'fratries', //ce jour la
-     *      'absence',   //non, oui avec certfi ou pas
-     *      'montant', //cout apres tous les calculs
-     *  )
+     *                'ordre', //apres test provenance
+     *                'ordre_provenance', //fiche,parente,presence
+     *                'prix', //prix plein suivant l'ordre
+     *                'pourcentage', //si reduction
+     *                'fratries', //ce jour la
+     *                'absence',   //non, oui avec certfi ou pas
+     *                'montant', //cout apres tous les calculs
+     *                )
      */
     public function calculCout(Presence $presence, Enfant $enfant)
     {
-        $cout = array();
+        $cout = [];
         $ordre_fiche = $enfant->getOrdre();
 
         $tuteur = $presence->getTuteur();
         $enfant_tuteur = $this->enfantTuteurRepository->findOneBy(
-            array('enfant' => $enfant, 'tuteur' => $tuteur)
+            ['enfant' => $enfant, 'tuteur' => $tuteur]
         );
 
         /**
-         * Ordre de l'enfant par importance decroissante
+         * Ordre de l'enfant par importance decroissante.
          */
         $ordre = false;
         //sur la presence elle meme
@@ -271,7 +271,7 @@ class PresenceService
         $cout['ordre'] = $ordre;
 
         /**
-         * Fratries
+         * Fratries.
          */
         $fratries = $this->enfantRepository->getFratries(
             $enfant->getId()
@@ -299,7 +299,7 @@ class PresenceService
         $cout['fratries'] = $fratries_presence;
 
         /**
-         * Prix hors reduction
+         * Prix hors reduction.
          */
         $jour = $presence->getJour();
         $prix = $jour->getPrixByOrdre($ordre);
@@ -308,30 +308,30 @@ class PresenceService
         $cout['montant'] = $prix;
 
         /**
-         * Reduction
+         * Reduction.
          */
         $reduction = $presence->getReduction();
         $cout['pourcentage'] = 0;
         if ($reduction) {
             $pourcentage = $reduction->getPourcentage();
-            $cout['pourcentage'] = "- ".$prix - (($prix / 100) * $pourcentage).' euros';
+            $cout['pourcentage'] = '- '.$prix - (($prix / 100) * $pourcentage).' euros';
             $cout['montant'] = $prix - (($prix / 100) * $pourcentage);
         }
 
         /**
-         * Paiement
+         * Paiement.
          */
         $paiement = $presence->getPaiement();
         if ($paiement) {
             $paiement_type = $paiement->getTypePaiement();
 
-            if ($paiement_type == 'abonnement') {
+            if ('abonnement' == $paiement_type) {
                 //?
             }
         }
 
         /**
-         * Absence
+         * Absence.
          */
         $absent = $presence->getAbsent();
 

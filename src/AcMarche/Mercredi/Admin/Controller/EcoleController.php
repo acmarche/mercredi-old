@@ -13,7 +13,6 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 /**
  * Ecole controller.
  *
@@ -36,7 +35,6 @@ class EcoleController extends AbstractController
      * Lists all Ecole entities.
      *
      * @Route("/", name="ecole", methods={"GET"})
-     *
      */
     public function index()
     {
@@ -46,9 +44,9 @@ class EcoleController extends AbstractController
 
         return $this->render(
             'admin/ecole/index.html.twig',
-            array(
+            [
                 'ecoles' => $ecoles,
-            )
+            ]
         );
     }
 
@@ -57,7 +55,6 @@ class EcoleController extends AbstractController
      *
      * @Route("/new", name="ecole_new", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function new(Request $request)
     {
@@ -89,7 +86,7 @@ class EcoleController extends AbstractController
             $users = $form->getData()->getUsers();
             foreach ($users as $user) {
                 $this->mailer->sendNewAccountToEcole($user);
-                $this->addFlash('success', "Un mail de bienvenue a été envoyé");
+                $this->addFlash('success', 'Un mail de bienvenue a été envoyé');
             }
 
             $this->addFlash('success', "L'école a bien été ajoutée");
@@ -99,10 +96,10 @@ class EcoleController extends AbstractController
 
         return $this->render(
             'admin/ecole/new.html.twig',
-            array(
+            [
                 'ecole' => $ecole,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -110,7 +107,6 @@ class EcoleController extends AbstractController
      * Finds and displays a Ecole entity.
      *
      * @Route("/{id}", name="ecole_show", methods={"GET"})
-     *
      */
     public function show(Ecole $ecole)
     {
@@ -118,10 +114,10 @@ class EcoleController extends AbstractController
 
         return $this->render(
             'admin/ecole/show.html.twig',
-            array(
+            [
                 'ecole' => $ecole,
                 'delete_form' => $deleteForm->createView(),
-            )
+            ]
         );
     }
 
@@ -135,9 +131,9 @@ class EcoleController extends AbstractController
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('ecole_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('ecole_delete', ['id' => $id]))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, array('label' => 'Delete', 'attr' => array('class' => 'btn-danger')))
+            ->add('submit', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
             ->getForm();
     }
 
@@ -146,7 +142,6 @@ class EcoleController extends AbstractController
      *
      * @Route("/{id}/edit", name="ecole_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function edit(Request $request, Ecole $ecole)
     {
@@ -180,10 +175,10 @@ class EcoleController extends AbstractController
 
         return $this->render(
             'admin/ecole/edit.html.twig',
-            array(
+            [
                 'ecole' => $ecole,
                 'edit_form' => $editForm->createView(),
-            )
+            ]
         );
     }
 

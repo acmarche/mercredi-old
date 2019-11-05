@@ -53,9 +53,7 @@ class AssocierParentController extends AbstractController
     }
 
     /**
-     *
      * @Route("/{id}", name="utilisateur_associate_parent", methods={"GET","POST"})
-     *
      */
     public function associate(Request $request, User $user)
     {
@@ -78,7 +76,7 @@ class AssocierParentController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('dissocier')->getData()) {
-                if ($oldTuteur != null) {
+                if (null != $oldTuteur) {
                     $this->dissociateParent($oldTuteur);
                 }
             } else {
@@ -87,7 +85,7 @@ class AssocierParentController extends AbstractController
                     $this->associerParent($user, $tuteur, $oldTuteur);
                     if ($request->request->get('Sendmail')) {
                         $this->mailer->sendNewAccountToParent($user, $tuteur);
-                        $this->addFlash('success', "Un mail de bienvenue a été envoyé");
+                        $this->addFlash('success', 'Un mail de bienvenue a été envoyé');
                     }
                 }
             }
@@ -97,10 +95,10 @@ class AssocierParentController extends AbstractController
 
         return $this->render(
             'security/utilisateur/associate_parent.html.twig',
-            array(
+            [
                 'user' => $user,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -113,7 +111,7 @@ class AssocierParentController extends AbstractController
 
     private function associerParent(User $user, Tuteur $tuteur, Tuteur $oldTuteur = null)
     {
-        /**
+        /*
          * si deja associe sinon duplicate key
          */
         if ($oldTuteur) {

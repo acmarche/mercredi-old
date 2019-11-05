@@ -2,39 +2,35 @@
 
 namespace AcMarche\Mercredi\Admin\Service;
 
-/**
- *
- *
- */
 class EnfanceData
 {
     public static function getSexes()
     {
-        return array("Masculin" => "Masculin", "Féminin" => "Féminin");
+        return ['Masculin' => 'Masculin', 'Féminin' => 'Féminin'];
     }
 
     public static function getCivilites()
     {
-        return array("Monsieur" => "Monsieur", "Madame" => "Madame");
+        return ['Monsieur' => 'Monsieur', 'Madame' => 'Madame'];
     }
 
     public static function getTypePaiement()
     {
-        $paiements = array("Abonnement", "Journée pédagogique", "Plaine", "Mercredi");
+        $paiements = ['Abonnement', 'Journée pédagogique', 'Plaine', 'Mercredi'];
 
         return array_combine($paiements, $paiements);
     }
 
     public static function getModePaiement()
     {
-        $modePaiements = ["Bancontact", "Liquide", "Virement"];
+        $modePaiements = ['Bancontact', 'Liquide', 'Virement'];
 
         return array_combine($modePaiements, $modePaiements);
     }
 
     public static function getOrdres()
     {
-        return array(1 => 1, 2 => 2, "Suivant" => 3);
+        return [1 => 1, 2 => 2, 'Suivant' => 3];
     }
 
     public static function getListAbsences()
@@ -50,11 +46,11 @@ class EnfanceData
     {
         $absences = self::getListAbsences();
         //attention si number = 0
-        if ($number !== false) {
+        if (false !== $number) {
             return isset($absences[$number]) ? $absences[$number] : $number;
         }
 
-        /**
+        /*
          * inverse clef valeur pour le form
          */
         return array_flip($absences);
@@ -67,20 +63,20 @@ class EnfanceData
 
     public static function getColors()
     {
-        $colors = array(
-            'Vert' => "#7bd148",
-            "Bleu foncé" => "#5484ed",
-            "Bleu" => "#a4bdfc",
-            "Turquoise" => "#46d6db",
-            "Vert clair" => "#7ae7bf",
-            "Vert foncé" => "#51b749",
-            "Jaune" => "#fbd75b",
-            "Orange" => "#ffb878",
-            "Rouge" => "#ff887c",
-            "Rouge foncé" => "#dc2127",
-            "Mauve" => "#dbadff",
-            "Gris" => "#e1e1e1",
-        );
+        $colors = [
+            'Vert' => '#7bd148',
+            'Bleu foncé' => '#5484ed',
+            'Bleu' => '#a4bdfc',
+            'Turquoise' => '#46d6db',
+            'Vert clair' => '#7ae7bf',
+            'Vert foncé' => '#51b749',
+            'Jaune' => '#fbd75b',
+            'Orange' => '#ffb878',
+            'Rouge' => '#ff887c',
+            'Rouge foncé' => '#dc2127',
+            'Mauve' => '#dbadff',
+            'Gris' => '#e1e1e1',
+        ];
 
         ksort($colors);
 
@@ -96,5 +92,4 @@ class EnfanceData
 
         return array_combine($types, $types);
     }
-
 }

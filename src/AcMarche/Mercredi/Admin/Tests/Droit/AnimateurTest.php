@@ -5,8 +5,7 @@ namespace AcMarche\Mercredi\Admin\Tests\Droit;
 use AcMarche\Mercredi\Admin\Tests\BaseUnit;
 
 /**
- * Class TuteurTest
- * @package AcMarche\Admin\Admin\Tests\Droit
+ * Class TuteurTest.
  */
 class AnimateurTest extends BaseUnit
 {
@@ -32,5 +31,4 @@ class AnimateurTest extends BaseUnit
         $this->executeUrl($url, $this->ecole, 403);
         $this->executeUrl($url, $this->read, 403);
     }
-
 }

@@ -7,10 +7,10 @@ use AcMarche\Mercredi\Front\Form\ContactType;
 use AcMarche\Mercredi\Security\Entity\User;
 use AcMarche\Mercredi\Security\Manager\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
@@ -30,43 +30,39 @@ class DefaultController extends AbstractController
     }
 
     /**
-     *
      * @Route("/", name="homepage")
-     *
      */
     public function index()
     {
         /**
-         * @var User $user
+         * @var User
          */
         $user = $this->getUser();
 
         if ($user) {
-
             $roles = $this->userManager->getRolesForProfile($user);
 
-              if (count($roles) > 1) {
-                  return $this->redirectToRoute('mercredi_profile');
-              }
-              if ($user->hasRole('ROLE_MERCREDI_PARENT')) {
-                  return $this->redirectToRoute('home_parent');
-              }
-              if ($user->hasRole('ROLE_MERCREDI_ECOLE')) {
-                  return $this->redirectToRoute('home_ecole');
-              }
-              if ($user->hasRole('ROLE_MERCREDI_ANIMATEUR')) {
-                  return $this->redirectToRoute('home_animateur');
-              }
-              if ($user->hasRole('ROLE_MERCREDI_ADMIN') or $user->hasRole('ROLE_MERCREDI_READ')) {
-                  return $this->redirectToRoute('home_admin');
-              }
+            if (count($roles) > 1) {
+                return $this->redirectToRoute('mercredi_profile');
+            }
+            if ($user->hasRole('ROLE_MERCREDI_PARENT')) {
+                return $this->redirectToRoute('home_parent');
+            }
+            if ($user->hasRole('ROLE_MERCREDI_ECOLE')) {
+                return $this->redirectToRoute('home_ecole');
+            }
+            if ($user->hasRole('ROLE_MERCREDI_ANIMATEUR')) {
+                return $this->redirectToRoute('home_animateur');
+            }
+            if ($user->hasRole('ROLE_MERCREDI_ADMIN') or $user->hasRole('ROLE_MERCREDI_READ')) {
+                return $this->redirectToRoute('home_admin');
+            }
         }
 
         return $this->render('front/default/index.html.twig');
     }
 
     /**
-     *
      * @Route("/profile", name="mercredi_profile")
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
@@ -77,12 +73,11 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/contact", name="contact", methods={"GET","POST"})
-     *
      */
     public function contact(Request $request)
     {
         $contactForm = $this->createForm(ContactType::class)
-            ->add('submit', SubmitType::class, array('label' => 'Envoyer'));
+            ->add('submit', SubmitType::class, ['label' => 'Envoyer']);
 
         $contactForm->handleRequest($request);
 
@@ -101,16 +96,14 @@ class DefaultController extends AbstractController
 
         return $this->render(
             'front/default/contact.html.twig',
-            array(
+            [
                 'contact_form' => $contactForm->createView(),
-            )
+            ]
         );
     }
 
     /**
-     *
      * @Route("/modalite", name="modalite")
-     *
      */
     public function modalite()
     {
@@ -119,7 +112,6 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/blog", name="blog")
-     *
      */
     public function blog()
     {

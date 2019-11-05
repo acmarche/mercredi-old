@@ -1,8 +1,9 @@
 <?php
+
 namespace AcMarche\Mercredi\Admin\Form\DataTransformer;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use AcMarche\Mercredi\Admin\Entity\Jour;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
@@ -13,9 +14,6 @@ class JourToNumberTransformer implements DataTransformerInterface
      */
     private $om;
 
-    /**
-     * @param ObjectManager $om
-     */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;
@@ -24,13 +22,14 @@ class JourToNumberTransformer implements DataTransformerInterface
     /**
      * Transforms an object (jour) to a string (number).
      *
-     * @param  Jour|null $jour
+     * @param Jour|null $jour
+     *
      * @return string
      */
     public function transform($jour)
     {
         if (null === $jour) {
-            return "";
+            return '';
         }
 
         return $jour->getId();
@@ -39,11 +38,11 @@ class JourToNumberTransformer implements DataTransformerInterface
     /**
      * Transforms a string (number) to an object (jour).
      *
-     * @param  string $number
+     * @param string $number
      *
      * @return Jour|null
      *
-     * @throws TransformationFailedException if object (jour) is not found.
+     * @throws TransformationFailedException if object (jour) is not found
      */
     public function reverseTransform($number)
     {
@@ -56,10 +55,7 @@ class JourToNumberTransformer implements DataTransformerInterface
             ->find($number);
 
         if (null === $jour) {
-            throw new TransformationFailedException(sprintf(
-                'An jour with number "%s" does not exist!',
-                $number
-            ));
+            throw new TransformationFailedException(sprintf('An jour with number "%s" does not exist!', $number));
         }
 
         return $jour;

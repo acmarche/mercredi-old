@@ -24,7 +24,6 @@ class GroupRepository extends ServiceEntityRepository
         $role = isset($args['role']) ? $args['role'] : 0;
         $user_id = isset($args['user_id']) ? $args['user_id'] : 0;
 
-
         $qb = $this->createQueryBuilder('g');
         $qb->leftJoin('g.users', 'u', 'WITH');
         $qb->addSelect('u');
@@ -51,7 +50,7 @@ class GroupRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
 
         $results = $query->getResult();
-        $groupes = array();
+        $groupes = [];
 
         foreach ($results as $group) {
             $groupes[$group->getName()] = $group->getId();

@@ -5,18 +5,17 @@ namespace AcMarche\Mercredi\Front\Controller;
 use AcMarche\Mercredi\Admin\Entity\Animateur;
 use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Admin\Events\EnfantEvent;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class DownloadController
- * @Route("/download")
+ * Class DownloadController.
  *
- * @package AppBundle\Controller
+ * @Route("/download")
  */
 class DownloadController extends AbstractController
 {
@@ -46,11 +45,11 @@ class DownloadController extends AbstractController
         switch ($type) {
             case 'sante':
                 $directory = $this->getParameter('enfant_sante');
-                $file = $directory . "/" . $enfant->getId() . "/" . $enfant->getFicheName();
+                $file = $directory.'/'.$enfant->getId().'/'.$enfant->getFicheName();
                 break;
             case 'inscription':
                 $directory = $this->getParameter('enfant_inscription');
-                $file = $directory . "/" . $enfant->getId() . "/" . $enfant->getFileName();
+                $file = $directory.'/'.$enfant->getId().'/'.$enfant->getFileName();
                 break;
             default:
                 break;
@@ -60,7 +59,7 @@ class DownloadController extends AbstractController
             return new BinaryFileResponse($file);
         }
 
-        return new Response('Fichier non trouvé: ' . $file);
+        return new Response('Fichier non trouvé: '.$file);
     }
 
     /**
@@ -74,19 +73,19 @@ class DownloadController extends AbstractController
         switch ($type) {
             case 'cv':
                 $directory = $this->getParameter('animateur_cv');
-                $file = $directory . "/" . $animateur->getId() . "/" . $animateur->getFileName();
+                $file = $directory.'/'.$animateur->getId().'/'.$animateur->getFileName();
                 break;
             case 'casier':
                 $directory = $this->getParameter('animateur_casier');
-                $file = $directory . "/" . $animateur->getId() . "/" . $animateur->getCasierName();
+                $file = $directory.'/'.$animateur->getId().'/'.$animateur->getCasierName();
                 break;
             case 'diplome':
                 $directory = $this->getParameter('animateur_diplome');
-                $file = $directory . "/" . $animateur->getId() . "/" . $animateur->getDiplomeName();
+                $file = $directory.'/'.$animateur->getId().'/'.$animateur->getDiplomeName();
                 break;
             case 'certificat':
                 $directory = $this->getParameter('animateur_certificat');
-                $file = $directory . "/" . $animateur->getId() . "/" . $animateur->getCertificatName();
+                $file = $directory.'/'.$animateur->getId().'/'.$animateur->getCertificatName();
                 break;
             default:
                 break;
@@ -95,6 +94,6 @@ class DownloadController extends AbstractController
             return new BinaryFileResponse($file);
         }
 
-        return new Response('Fichier non trouvé : ' . $file);
+        return new Response('Fichier non trouvé : '.$file);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace AcMarche\Mercredi\Admin\Repository;
 
+use AcMarche\Mercredi\Admin\Entity\Ecole;
 use AcMarche\Mercredi\Security\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
-use AcMarche\Mercredi\Admin\Entity\Ecole;
 
 /**
  * @method Ecole|null find($id, $lockMode = null, $lockVersion = null)
@@ -25,12 +25,12 @@ class EcoleRepository extends ServiceEntityRepository
      */
     public function findAll()
     {
-        return $this->findBy(array(), array('nom' => 'ASC'));
+        return $this->findBy([], ['nom' => 'ASC']);
     }
 
     /**
-     *
      * @param array $args
+     *
      * @return Ecole[]|Ecole
      */
     public function search($args)
@@ -96,10 +96,10 @@ class EcoleRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
 
         /**
-         * @var Ecole[] $results
+         * @var Ecole[]
          */
         $results = $query->getResult();
-        $ecoles = array();
+        $ecoles = [];
 
         foreach ($results as $ecole) {
             $ecoles[$ecole->getNom()] = $ecole->getId();

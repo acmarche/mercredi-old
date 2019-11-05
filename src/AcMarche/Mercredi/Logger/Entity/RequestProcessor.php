@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 17/01/18
- * Time: 10:03
+ * Time: 10:03.
  */
 
 namespace AcMarche\Mercredi\Logger\Entity;
@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
- * Class RequestProcessor
- *
+ * Class RequestProcessor.
  */
 class RequestProcessor
 {
@@ -29,7 +28,7 @@ class RequestProcessor
 
     /**
      * RequestProcessor constructor.
-     * @param RequestStack $request
+     *
      * @param  $token
      */
     public function __construct(RequestStack $request, TokenStorageInterface $tokenStorage)
@@ -39,7 +38,6 @@ class RequestProcessor
     }
 
     /**
-     * @param array $record
      * @return array
      */
     public function processRecord(array $record)

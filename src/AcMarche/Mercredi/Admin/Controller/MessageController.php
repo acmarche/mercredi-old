@@ -141,16 +141,14 @@ class MessageController extends AbstractController
 
     /**
      * @Route("/", name="message", methods={"GET"})
-     *
      */
     public function index(Request $request)
     {
         $tuteurs = [];
-        $search_form = $this->createForm(SearchMessageType::class, [], array('method' => 'GET'));
+        $search_form = $this->createForm(SearchMessageType::class, [], ['method' => 'GET']);
         $search_form->handleRequest($request);
 
         if ($search_form->isSubmitted()) {
-
             if ($search_form->isValid()) {
                 $data = $search_form->getData();
                 $ecole = $data['ecole'];
@@ -207,24 +205,22 @@ class MessageController extends AbstractController
      *
      * @Route("/new", name="message_new", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function new(Request $request)
     {
         $message = $this->messageManager->newInstance();
 
         $form = $form = $this->createForm(MessageType::class, $message)
-            ->add('submit', SubmitType::class, array('label' => 'Envoyer le message'));
+            ->add('submit', SubmitType::class, ['label' => 'Envoyer le message']);
 
         $destinataires = $this->session->get(self::KEY_SESSION, []);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->messageManager->handleMessage($message, $destinataires);
 
-            $this->addFlash('success', "Le message a bien été envoyé");
+            $this->addFlash('success', 'Le message a bien été envoyé');
 
             $this->session->remove(self::KEY_SESSION);
 
@@ -235,28 +231,25 @@ class MessageController extends AbstractController
 
         return $this->render(
             'admin/message/new.html.twig',
-            array(
+            [
                 'emailuser' => $this->getUser()->getEmail(),
                 'form' => $form->createView(),
                 'destinataires' => $destinataires,
                 'from' => $from,
-            )
+            ]
         );
     }
 
     /**
-     *
-     *
      * @Route("/new/groupescolaire/{groupe}", name="message_new_groupescolaire", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function newFromGroupe(Request $request, $groupe)
     {
         $message = $this->messageManager->newInstance();
 
         $form = $form = $this->createForm(MessageType::class, $message)
-            ->add('submit', SubmitType::class, array('label' => 'Envoyer le message'));
+            ->add('submit', SubmitType::class, ['label' => 'Envoyer le message']);
 
         $args = $this->session->get(self::KEY_GROUP_SESSION, []);
         if (count($args) < 1) {
@@ -266,11 +259,11 @@ class MessageController extends AbstractController
         $type = $args['type'];
         unset($args['type']);
 
-        if ($type == 'mercredi') {
+        if ('mercredi' == $type) {
             $presences = $this->presenceRepository->search($args);
         }
 
-        if ($type == 'plaine') {
+        if ('plaine' == $type) {
             $presences = $this->plainePresenceRepository->search($args);
         }
 
@@ -283,52 +276,47 @@ class MessageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->messageManager->handleMessage($message, $destinataires);
 
-            $this->addFlash('success', "Le message a bien été envoyé");
+            $this->addFlash('success', 'Le message a bien été envoyé');
 
             $this->session->remove(self::KEY_GROUP_SESSION);
 
             return $this->redirectToRoute('message');
         }
 
-
         return $this->render(
             'admin/message/new.html.twig',
-            array(
+            [
                 'emailuser' => $this->getUser()->getEmail(),
                 'form' => $form->createView(),
                 'destinataires' => $destinataires,
-            )
+            ]
         );
     }
 
     /**
-     *
-     *
      * @Route("/new/jour/{id}/{type}", name="message_new_jour", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function newFromJour(Request $request, int $id, string $type)
     {
         $message = $this->messageManager->newInstance();
 
         $form = $form = $this->createForm(MessageType::class, $message)
-            ->add('submit', SubmitType::class, array('label' => 'Envoyer le message'));
+            ->add('submit', SubmitType::class, ['label' => 'Envoyer le message']);
 
         $args = $this->session->get(self::KEY_GROUP_SESSION, []);
         if (count($args) < 1) {
             return $this->redirectToRoute('presence');
         }
 
-        if ($type === 'mercredi') {
+        if ('mercredi' === $type) {
             $jour = $this->jourRepository->find($id);
             $presences = $this->presenceRepository->findBy(['jour' => $jour]);
         }
 
-        if ($type === 'plaine') {
+        if ('plaine' === $type) {
             $jour = $this->plaineJourRepository->find($id);
             $presences = $this->plainePresenceRepository->findBy(['jour' => $jour]);
         }
@@ -339,65 +327,61 @@ class MessageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->messageManager->handleMessage($message, $destinataires);
 
-            $this->addFlash('success', "Le message a bien été envoyé");
+            $this->addFlash('success', 'Le message a bien été envoyé');
 
             return $this->redirectToRoute('message');
         }
 
         return $this->render(
             'admin/message/new.html.twig',
-            array(
+            [
                 'emailuser' => $this->getUser()->getEmail(),
                 'form' => $form->createView(),
                 'destinataires' => $destinataires,
-            )
+            ]
         );
     }
-
 
     /**
      * Displays a form to create a new Plaine entity.
      *
      * @Route("/new/tuteur/{id}", name="message_new_tuteur", methods={"GET","POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function newFromTuteur(Request $request, Tuteur $tuteur)
     {
         $message = $this->messageManager->newInstance();
 
         $form = $form = $this->createForm(MessageType::class, $message)
-            ->add('submit', SubmitType::class, array('label' => 'Envoyer le message'));
+            ->add('submit', SubmitType::class, ['label' => 'Envoyer le message']);
 
         $destinataires = $this->tuteurUtils->getEmails([$tuteur]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->messageManager->handleMessage($message, $destinataires);
 
-            $this->addFlash('success', "Le message a bien été envoyé");
+            $this->addFlash('success', 'Le message a bien été envoyé');
 
             return $this->redirectToRoute('message');
         }
 
-
         return $this->render(
             'admin/message/new.html.twig',
-            array(
+            [
                 'emailuser' => $this->getUser()->getEmail(),
                 'form' => $form->createView(),
                 'destinataires' => $destinataires,
-            )
+            ]
         );
     }
 
     /**
-     * Pour envoie de test
+     * Pour envoie de test.
+     *
      * @Route("/ajax/test", name="message_test", methods={"POST"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
      */
@@ -427,7 +411,6 @@ class MessageController extends AbstractController
 
     /**
      * @Route("/archive", name="message_archive", methods={"GET"})
-     *
      */
     public function archive()
     {
@@ -443,7 +426,6 @@ class MessageController extends AbstractController
 
     /**
      * @Route("/show/{id}", name="message_show", methods={"GET"})
-     *
      */
     public function show(Message $message)
     {
@@ -454,5 +436,4 @@ class MessageController extends AbstractController
             ]
         );
     }
-
 }

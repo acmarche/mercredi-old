@@ -3,17 +3,14 @@
 namespace AcMarche\Mercredi\Plaine\Tests\Z;
 
 use AcMarche\Mercredi\Admin\Tests\BaseUnit;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * je supprime un enfant puis son parent lorenzo dany
  * je supprime un parent puis son enfant nat timeo
- * Je supprime la date 01-10-2020
+ * Je supprime la date 01-10-2020.
  */
 class ZDeleteMercrediTest extends BaseUnit
 {
-    
-
     public function testDeleteLorenzo()
     {
         $crawler = $this->admin->request('GET', '/admin/enfant/leruth_lorenzo');
@@ -47,7 +44,7 @@ class ZDeleteMercrediTest extends BaseUnit
 
         $crawler = $this->admin->followRedirect();
 
-        $this->assertNotRegExp('/LERUTH/', "Leruth nat pas supprime");
+        $this->assertNotRegExp('/LERUTH/', 'Leruth nat pas supprime');
     }
 
     public function testDeleteJour()

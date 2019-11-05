@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 18/01/19
- * Time: 22:15
+ * Time: 22:15.
  */
 
 namespace AcMarche\Mercredi\Api;
-
 
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Admin\Repository\TuteurRepository;
@@ -40,8 +39,10 @@ class TuteurCollectionDataProvider implements CollectionDataProviderInterface, R
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
-    {var_dump($resourceClass);
-    exit();
+    {
+        var_dump($resourceClass);
+        exit();
+
         return Tuteur::class === $resourceClass;
     }
 }

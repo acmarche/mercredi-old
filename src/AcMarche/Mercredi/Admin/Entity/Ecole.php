@@ -3,7 +3,6 @@
 namespace AcMarche\Mercredi\Admin\Entity;
 
 use AcMarche\Mercredi\Security\Entity\User;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,23 +10,21 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Ecole
+ * Ecole.
  *
  * @ORM\Table("ecole")
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Admin\Repository\EcoleRepository")
- *
  */
 class Ecole
 {
     //use TimestampableEntity;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
      */
     protected $id;
 
@@ -36,7 +33,6 @@ class Ecole
      *
      * @ORM\Column(name="nom", type="string", length=200, nullable=false)
      * @Assert\NotBlank()
-     *
      */
     protected $nom;
 
@@ -44,7 +40,6 @@ class Ecole
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $adresse;
 
@@ -52,7 +47,6 @@ class Ecole
      * @var string
      *
      * @ORM\Column(type="integer", length=6, nullable=true)
-     *
      */
     protected $code_postal;
 
@@ -60,7 +54,6 @@ class Ecole
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true)
-     *
      */
     protected $localite;
 
@@ -68,15 +61,13 @@ class Ecole
      * @var string
      *
      * @ORM\Column(type="string", length=150, nullable=true)
-     *
      */
     protected $telephone;
 
-     /**
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=150, nullable=true)
-     *
      */
     protected $gsm;
 
@@ -84,14 +75,11 @@ class Ecole
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=50, nullable=true)
-     *
-     *
      */
     protected $email;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     *
      */
     protected $remarques;
 
@@ -124,8 +112,10 @@ class Ecole
     }
 
     /**
-     * Pour le listing ecole
+     * Pour le listing ecole.
+     *
      * @param $enfants
+     *
      * @return $this
      */
     public function setEnfants($enfants)

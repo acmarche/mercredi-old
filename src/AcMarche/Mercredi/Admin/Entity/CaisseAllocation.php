@@ -3,7 +3,6 @@
 namespace AcMarche\Mercredi\Admin\Entity;
 
 use AcMarche\Mercredi\Security\Entity\User;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,21 +12,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 // gedmo annotations
 
 /**
- * Presence
+ * Presence.
  *
  * @ORM\Table("caisse_allocation")
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Admin\Repository\CaisseAllocationRepository")
- *
  */
 class CaisseAllocation
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
      */
     protected $id;
 
@@ -36,20 +33,17 @@ class CaisseAllocation
      *
      * @ORM\Column(name="nom", type="string", length=200, nullable=false)
      * @Assert\NotBlank()
-     *
      */
     protected $nom;
 
     /**
      * @Gedmo\Slug(fields={"nom"}, separator="_")
      * @ORM\Column(length=62, unique=true)
-     *
      */
     protected $slugname;
 
     /**
      * @ORM\OneToMany(targetEntity="Tuteur", mappedBy="caisse_allocation")
-     *
      */
     protected $tuteur;
 
@@ -176,7 +170,8 @@ class CaisseAllocation
 
         return $this;
     }
-    /**
+
+    /*
      * STOP
      */
 }

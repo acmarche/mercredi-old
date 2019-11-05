@@ -18,7 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/tuteur")
  * @IsGranted("ROLE_MERCREDI_ANIMATEUR")
- *
  */
 class TuteurController extends AbstractController
 {
@@ -62,16 +61,15 @@ class TuteurController extends AbstractController
     }
 
     /**
-     *
      * @Route("/", name="animateur_tuteur")
      * @Route("/all/{all}", name="animateur_tuteur_all")
      * @IsGranted("ROLE_MERCREDI_ANIMATEUR")
      */
     public function index(Request $request, $all = false)
     {
-        $key = "tuteur_animateur_search";
+        $key = 'tuteur_animateur_search';
 
-        $data = array();
+        $data = [];
         $search = false;
 
         if ($this->session->has($key)) {
@@ -82,9 +80,9 @@ class TuteurController extends AbstractController
         $search_form = $this->createForm(
             SearchTuteurType::class,
             $data,
-            array(
+            [
                 'method' => 'GET',
-            )
+            ]
         );
 
         $search_form->handleRequest($request);
@@ -112,27 +110,25 @@ class TuteurController extends AbstractController
 
         return $this->render(
             'animateur/tuteur/index.html.twig',
-            array(
+            [
                 'form' => $search_form->createView(),
                 'tuteurs' => $tuteurs,
                 'search' => $search,
                 'all' => $all,
-            )
+            ]
         );
     }
 
     /**
      * @Route("/{slugname}", name="animateur_tuteur_show", methods={"GET"})
-     *
      */
     public function show(Tuteur $tuteur)
     {
         return $this->render(
             'animateur/tuteur/show.html.twig',
-            array(
+            [
                 'tuteur' => $tuteur,
-            )
+            ]
         );
     }
-
 }

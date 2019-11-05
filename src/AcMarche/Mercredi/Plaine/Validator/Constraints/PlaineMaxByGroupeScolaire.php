@@ -3,13 +3,12 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 30/03/18
- * Time: 12:59
+ * Time: 12:59.
  */
 
 namespace AcMarche\Mercredi\Plaine\Validator\Constraints;
 
 use AcMarche\Mercredi\Admin\Entity\Enfant;
-use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\MissingOptionsException;
 
@@ -22,25 +21,22 @@ class PlaineMaxByGroupeScolaire extends Constraint
 
     /**
      * @var Enfant
-     * Necessaire pour le groupe scolaire
+     *             Necessaire pour le groupe scolaire
      */
     public $enfant;
 
     public function __construct($options = null)
     {
         if (null !== $options && !\is_array($options)) {
-            $options = array(
+            $options = [
                 'enfant' => $options,
-            );
+            ];
         }
 
         parent::__construct($options);
 
         if (null === $this->enfant) {
-            throw new MissingOptionsException(
-                sprintf('Either option "plaine" must be given for constraint %s', __CLASS__), array('enfant')
-            );
+            throw new MissingOptionsException(sprintf('Either option "plaine" must be given for constraint %s', __CLASS__), ['enfant']);
         }
     }
-
 }

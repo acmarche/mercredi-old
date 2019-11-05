@@ -5,11 +5,11 @@ namespace AcMarche\Mercredi\Plaine\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Jours d'une plaine
+ * Jours d'une plaine.
  *
  * @ORM\Table("plaine_jours", uniqueConstraints={
  *     @ORM\UniqueConstraint(columns={"date_jour", "plaine_id"})
@@ -20,7 +20,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class PlaineJour
 {
     /**
-     * @var integer|null
+     * @var int|null
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -29,53 +29,53 @@ class PlaineJour
     private $id;
 
     /**
-     * @var \DateTime|null $date_jour
+     * @var \DateTime|null
      *
      * @ORM\Column(name="date_jour", type="date")
      */
     private $date_jour;
 
     /**
-     * @var Plaine|null $plaine
+     * @var Plaine|null
      * @ORM\ManyToOne(targetEntity="Plaine", inversedBy="jours")
      * @ORM\JoinColumn(nullable=false)
      */
     private $plaine;
 
     /**
-     * @var PlainePresence[]|null $presences
+     * @var PlainePresence[]|null
      * @ORM\OneToMany(targetEntity="PlainePresence", mappedBy="jour", cascade={"remove"})
-     *
      */
     private $presences;
 
     /**
-     * @var AnimateurPlaine[]|null $animateurPlaines
+     * @var AnimateurPlaine[]|null
      * @ORM\ManyToMany(targetEntity="AcMarche\Mercredi\Plaine\Entity\AnimateurPlaine", mappedBy="jours")
      */
     private $animateurPlaines;
 
     /**
-     * @var \DateTime|null $created
+     * @var \DateTime|null
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
     /**
-     * @var \DateTime|null $updated
+     * @var \DateTime|null
      * @ORM\Column(name="updated", type="datetime")
      * @Gedmo\Timestampable(on="update")
      */
     private $updated;
 
     /**
-     * pour compter le nbre d enfants par jour
-     * @var integer|null $enfants
+     * pour compter le nbre d enfants par jour.
+     *
+     * @var int|null
      */
     private $enfants = 0;
     /**
-     * @var int|null $enfantsMoins6
+     * @var int|null
      */
     private $enfantsMoins6 = 0;
 
@@ -90,7 +90,7 @@ class PlaineJour
         $date_jour = $this->getDateJour();
 
         if (is_a($date_jour, 'DateTime')) {
-            $jour = $date_jour->format("D");
+            $jour = $date_jour->format('D');
             switch ($jour) {
                 case 'Mon':
                     $jourFr = 'Lundi';
@@ -118,7 +118,7 @@ class PlaineJour
                     break;
             }
 
-            return $date_jour->format("d-m-Y").' '.$jourFr;
+            return $date_jour->format('d-m-Y').' '.$jourFr;
         } else {
             return '';
         }
@@ -138,7 +138,7 @@ class PlaineJour
 
     public function addEnfant()
     {
-        $this->enfants++;
+        ++$this->enfants;
     }
 
     public function setEnfantsMoins6($count)
@@ -155,7 +155,7 @@ class PlaineJour
 
     public function addEnfantMoins6()
     {
-        $this->enfantsMoins6++;
+        ++$this->enfantsMoins6;
     }
 
     public function getId(): ?int

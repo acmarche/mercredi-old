@@ -3,7 +3,6 @@
 namespace AcMarche\Mercredi\Admin\Entity;
 
 use AcMarche\Mercredi\Security\Entity\User;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,22 +11,20 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Presence
+ * Presence.
  *
  * @ORM\Table("jour")
  * @ORM\Entity(repositoryClass="AcMarche\Mercredi\Admin\Repository\JourRepository")
  * @UniqueEntity("date_jour")
- *
  */
 class Jour
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
      */
     protected $id;
 
@@ -35,29 +32,24 @@ class Jour
      * @var \DateTime
      *
      * @ORM\Column(name="date_jour", type="date", unique=true)
-     *
      */
     protected $date_jour;
 
     /**
      * @ORM\Column(type="decimal", precision=4, scale=2, nullable=false)
      * @Assert\NotBlank()
-     *
-     *
      */
     protected $prix1;
 
     /**
      * @ORM\Column(type="decimal", precision=4, scale=2, nullable=false)
      * @Assert\NotBlank()
-     *
      */
     protected $prix2;
 
     /**
      * @ORM\Column(type="decimal", precision=4, scale=2, nullable=false)
      * @Assert\NotBlank()
-     *
      */
     protected $prix3;
 
@@ -65,27 +57,23 @@ class Jour
      * @var string
      *
      * @ORM\Column(type="string", length=20, nullable=true)
-     *
      */
     protected $color;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="boolean", nullable=false, options={"default" = "0"})
-     *
      */
     protected $archive = false;
 
     /**
      * @ORM\OneToMany(targetEntity="Presence", mappedBy="jour", cascade={"persist", "remove"})
-     *
      */
     protected $presences;
 
     /**
      * @ORM\ManyToMany(targetEntity="Animateur", mappedBy="jours")
-     *
      */
     protected $animateurs;
 
@@ -109,7 +97,6 @@ class Jour
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     *
      */
     protected $remarques;
 
@@ -123,7 +110,7 @@ class Jour
     {
         $date_jour = $this->getDateJour();
         if ($date_jour instanceof \DateTime) {
-            $jour = $date_jour->format("D");
+            $jour = $date_jour->format('D');
             switch ($jour) {
                 case 'Mon':
                     $jourFr = 'Lundi';
@@ -151,11 +138,10 @@ class Jour
                     break;
             }
 
-            return $date_jour->format("d-m-Y").' '.$jourFr;
+            return $date_jour->format('d-m-Y').' '.$jourFr;
         }
 
         return '';
-
     }
 
     public function getPrixByOrdre($ordre)
@@ -354,7 +340,7 @@ class Jour
         return $this;
     }
 
-    /**
+    /*
      * STOP
      */
 }

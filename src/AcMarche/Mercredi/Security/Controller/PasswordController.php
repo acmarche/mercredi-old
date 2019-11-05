@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: jfsenechal
  * Date: 27/12/16
- * Time: 13:26
+ * Time: 13:26.
  */
 
 namespace AcMarche\Mercredi\Security\Controller;
@@ -13,9 +13,9 @@ use AcMarche\Mercredi\Security\Entity\User;
 use AcMarche\Mercredi\Security\Form\UserPasswordType;
 use AcMarche\Mercredi\Security\Manager\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -58,7 +58,7 @@ class PasswordController extends AbstractController
     {
         $returnToUser = false;
         if ($user) {
-            if (!$this->authorizationChecker->isGranted("ROLE_MERCREDI_ADMIN")) {
+            if (!$this->authorizationChecker->isGranted('ROLE_MERCREDI_ADMIN')) {
                 return $this->createAccessDeniedException();
             } else {
                 $returnToUser = true;
@@ -91,10 +91,10 @@ class PasswordController extends AbstractController
 
         return $this->render(
             'security/password/edit.html.twig',
-            array(
+            [
                 'user' => $user,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 }

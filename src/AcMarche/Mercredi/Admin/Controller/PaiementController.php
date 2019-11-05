@@ -2,19 +2,18 @@
 
 namespace AcMarche\Mercredi\Admin\Controller;
 
+use AcMarche\Mercredi\Admin\Entity\Paiement;
 use AcMarche\Mercredi\Admin\Entity\Presence;
+use AcMarche\Mercredi\Admin\Entity\Tuteur;
+use AcMarche\Mercredi\Admin\Form\PaiementType;
+use AcMarche\Mercredi\Admin\Form\PayerType;
 use AcMarche\Mercredi\Admin\Service\Facture;
 use AcMarche\Mercredi\Admin\Service\TuteurUtils;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use AcMarche\Mercredi\Admin\Entity\Paiement;
-use AcMarche\Mercredi\Admin\Form\PaiementType;
-use AcMarche\Mercredi\Admin\Form\PayerType;
-use AcMarche\Mercredi\Admin\Entity\Tuteur;
-
 
 /**
  * Paiement controller.
@@ -24,12 +23,10 @@ use AcMarche\Mercredi\Admin\Entity\Tuteur;
  */
 class PaiementController extends AbstractController
 {
-
     /**
      * Lists all Paiement entities.
      *
      * @Route("/", name="paiement", methods={"GET"})
-     *
      */
     public function index()
     {
@@ -48,16 +45,15 @@ class PaiementController extends AbstractController
         $form = $this->createForm(
             PaiementType::class,
             $entity,
-            array(
-                'action' => $this->generateUrl('paiement_new', array('id' => $entity->getTuteur()->getId())),
+            [
+                'action' => $this->generateUrl('paiement_new', ['id' => $entity->getTuteur()->getId()]),
                 'em' => $this->getDoctrine()->getManager(),
                 'method' => 'POST',
                 'paiement' => $entity,
-            )
+            ]
         );
 
-        $form->add('submit', SubmitType::class, array('label' => 'Create'));
-
+        $form->add('submit', SubmitType::class, ['label' => 'Create']);
 
         return $form;
     }
@@ -68,7 +64,6 @@ class PaiementController extends AbstractController
      * @Route("/new/{id}", name="paiement_new", methods={"GET","POST"})
      *
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function new(Tuteur $tuteur, Request $request)
     {
@@ -78,9 +73,9 @@ class PaiementController extends AbstractController
         $enfants = TuteurUtils::hasEnfants($tuteur);
 
         if (count($enfants) < 1) {
-            $this->addFlash("error", "Ce parent n'a aucun enfant attribué");
+            $this->addFlash('error', "Ce parent n'a aucun enfant attribué");
 
-            return $this->redirectToRoute('tuteur_show', array('slugname' => $tuteur->getSlugname()));
+            return $this->redirectToRoute('tuteur_show', ['slugname' => $tuteur->getSlugname()]);
         }
 
         $entity->setTuteur($tuteur);
@@ -96,20 +91,20 @@ class PaiementController extends AbstractController
             $em->persist($entity);
             $em->flush();
 
-            $this->addFlash('success', "Le paiement a bien été ajouté");
+            $this->addFlash('success', 'Le paiement a bien été ajouté');
 
             $tuteur = $entity->getTuteur();
 
-            return $this->redirectToRoute('tuteur_show', array('slugname' => $tuteur->getSlugname()));
+            return $this->redirectToRoute('tuteur_show', ['slugname' => $tuteur->getSlugname()]);
         }
 
         return $this->render(
             'admin/paiement/new.html.twig',
-            array(
+            [
                 'entity' => $entity,
                 'tuteur' => $tuteur,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -117,7 +112,6 @@ class PaiementController extends AbstractController
      * Finds and displays a Paiement entity.
      *
      * @Route("/{id}", name="paiement_show", methods={"GET"})
-     *
      */
     public function show(Paiement $paiement)
     {
@@ -125,10 +119,10 @@ class PaiementController extends AbstractController
 
         return $this->render(
             'admin/paiement/show.html.twig',
-            array(
+            [
                 'entity' => $paiement,
                 'delete_form' => $deleteForm->createView(),
-            )
+            ]
         );
     }
 
@@ -142,9 +136,9 @@ class PaiementController extends AbstractController
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('paiement_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('paiement_delete', ['id' => $id]))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, array('label' => 'Delete', 'attr' => array('class' => 'btn-danger')))
+            ->add('submit', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
             ->getForm();
     }
 
@@ -153,7 +147,6 @@ class PaiementController extends AbstractController
      *
      * @Route("/{id}/edit", name="paiement_edit", methods={"GET","PUT"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function edit(Paiement $paiement, Request $request)
     {
@@ -168,17 +161,17 @@ class PaiementController extends AbstractController
 
             $tuteur = $paiement->getTuteur();
 
-            $this->addFlash('success', "Le paiement a bien été modifié");
+            $this->addFlash('success', 'Le paiement a bien été modifié');
 
-            return $this->redirectToRoute('tuteur_show', array('slugname' => $tuteur->getSlugname()));
+            return $this->redirectToRoute('tuteur_show', ['slugname' => $tuteur->getSlugname()]);
         }
 
         return $this->render(
             'admin/paiement/edit.html.twig',
-            array(
+            [
                 'entity' => $paiement,
                 'edit_form' => $editForm->createView(),
-            )
+            ]
         );
     }
 
@@ -194,15 +187,15 @@ class PaiementController extends AbstractController
         $form = $this->createForm(
             PaiementType::class,
             $entity,
-            array(
-                'action' => $this->generateUrl('paiement_edit', array('id' => $entity->getId())),
+            [
+                'action' => $this->generateUrl('paiement_edit', ['id' => $entity->getId()]),
                 'em' => $this->getDoctrine()->getManager(),
                 'method' => 'PUT',
                 'paiement' => $entity,
-            )
+            ]
         );
 
-        $form->add('submit', SubmitType::class, array('label' => 'Update'));
+        $form->add('submit', SubmitType::class, ['label' => 'Update']);
 
         return $form;
     }
@@ -225,18 +218,17 @@ class PaiementController extends AbstractController
             $em->remove($paiement);
             $em->flush();
 
-            $this->addFlash('success', "Le paiement a bien été supprimé");
+            $this->addFlash('success', 'Le paiement a bien été supprimé');
         }
 
-        return $this->redirectToRoute('tuteur_show', array('slugname' => $tuteur->getSlugname()));
+        return $this->redirectToRoute('tuteur_show', ['slugname' => $tuteur->getSlugname()]);
     }
 
     /**
-     * Payer plusieurs jours de presences avec un paiement
+     * Payer plusieurs jours de presences avec un paiement.
      *
      * @Route("/{id}/payer", name="paiement_payer", methods={"GET","PUT"})
      * @IsGranted("ROLE_MERCREDI_ADMIN")
-     *
      */
     public function payer(Request $request, Paiement $paiement, Facture $facture)
     {
@@ -244,12 +236,12 @@ class PaiementController extends AbstractController
         $presencesOld = clone $paiement->getPresences();
 
         $presences = $em->getRepository(Presence::class)->getPresencesNonPayes(
-            array(
+            [
                 'enfant_id' => $paiement->getEnfant()->getId(),
                 'tuteur_id' => $paiement->getTuteur()->getId(),
                 'paiement' => $paiement,
                 'result' => true,
-            )
+            ]
         );
 
         foreach ($presences as $presence) {
@@ -263,7 +255,7 @@ class PaiementController extends AbstractController
             $presences = $form->getData()->getPresences();
             $change = false;
 
-            /**
+            /*
              * en moins
              */
             foreach ($presencesOld as $presence) {
@@ -274,7 +266,7 @@ class PaiementController extends AbstractController
                 }
             }
 
-            /**
+            /*
              * en plus
              */
             foreach ($presences as $presence) {
@@ -287,26 +279,26 @@ class PaiementController extends AbstractController
 
             if ($change) {
                 $em->flush();
-                $this->addFlash('success', "Le paiement a bien été modifié");
+                $this->addFlash('success', 'Le paiement a bien été modifié');
             } else {
                 $this->addFlash('warning', 'Aucun changement effectué');
             }
 
-            return $this->redirectToRoute('paiement_show', array('id' => $paiement->getId()));
+            return $this->redirectToRoute('paiement_show', ['id' => $paiement->getId()]);
         }
 
         return $this->render(
             'admin/paiement/payer.html.twig',
-            array(
+            [
                 'entity' => $paiement,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
     /**
-     * @param Paiement $entity
      * @param $presences
+     *
      * @return \Symfony\Component\Form\FormInterface
      */
     private function createPayerForm(Paiement $entity, $presences)
@@ -314,15 +306,15 @@ class PaiementController extends AbstractController
         $form = $this->createForm(
             PayerType::class,
             $entity,
-            array(
-                'action' => $this->generateUrl('paiement_payer', array('id' => $entity->getId())),
+            [
+                'action' => $this->generateUrl('paiement_payer', ['id' => $entity->getId()]),
                 'method' => 'PUT',
                 'paiement' => $entity,
                 'presences' => $presences,
-            )
+            ]
         );
 
-        $form->add('submit', SubmitType::class, array('label' => 'Update'));
+        $form->add('submit', SubmitType::class, ['label' => 'Update']);
 
         return $form;
     }

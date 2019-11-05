@@ -11,37 +11,30 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlaineJourType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add(
                 'date_jour',
                 DateType::class,
-                array(
+                [
                     'required' => false,
                     'widget' => 'single_text',
                     'input' => 'datetime',
                     'format' => 'dd/MM/yyyy',
                     'label' => 'Date',
-                    'attr' => array('class' => 'datepicker', 'autocomplete' => 'off'),
-                )
+                    'attr' => ['class' => 'datepicker', 'autocomplete' => 'off'],
+                ]
             )
             ->add('plaine', PlaineSelectorType::class);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
-                'data_class' => PlaineJour::class
-            )
+            [
+                'data_class' => PlaineJour::class,
+            ]
         );
     }
 }

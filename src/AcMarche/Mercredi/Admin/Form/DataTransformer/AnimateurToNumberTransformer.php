@@ -2,22 +2,18 @@
 
 namespace AcMarche\Mercredi\Admin\Form\DataTransformer;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use AcMarche\Mercredi\Admin\Entity\Animateur;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class AnimateurToNumberTransformer implements DataTransformerInterface
 {
-
     /**
      * @var ObjectManager
      */
     private $om;
 
-    /**
-     * @param ObjectManager $om
-     */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;
@@ -26,13 +22,14 @@ class AnimateurToNumberTransformer implements DataTransformerInterface
     /**
      * Transforms an object (animateur) to a string (number).
      *
-     * @param  Animateur|null $animateur
+     * @param Animateur|null $animateur
+     *
      * @return string
      */
     public function transform($animateur)
     {
         if (null === $animateur) {
-            return "";
+            return '';
         }
 
         return $animateur->getId();
@@ -41,11 +38,11 @@ class AnimateurToNumberTransformer implements DataTransformerInterface
     /**
      * Transforms a string (number) to an object (animateur).
      *
-     * @param  string $number
+     * @param string $number
      *
      * @return Animateur|null
      *
-     * @throws TransformationFailedException if object (animateur) is not found.
+     * @throws TransformationFailedException if object (animateur) is not found
      */
     public function reverseTransform($number)
     {
@@ -58,10 +55,7 @@ class AnimateurToNumberTransformer implements DataTransformerInterface
             ->find($number);
 
         if (null === $animateur) {
-            throw new TransformationFailedException(sprintf(
-                'An animateur with number "%s" does not exist!',
-                $number
-            ));
+            throw new TransformationFailedException(sprintf('An animateur with number "%s" does not exist!', $number));
         }
 
         return $animateur;

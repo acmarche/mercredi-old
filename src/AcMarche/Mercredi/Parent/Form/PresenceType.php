@@ -12,10 +12,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PresenceType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -24,23 +20,20 @@ class PresenceType extends AbstractType
             ->add(
                 'remarques',
                 TextareaType::class,
-                array(
+                [
                     'label' => 'Remarque (Facultatif)',
                     'required' => false,
                     'help' => 'Exemple: Mon enfant repart avec telle personne ou je les reprends à 15h car rdv médical ',
-                )
+                ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => Presence::class,
-            )
+            ]
         );
     }
 }

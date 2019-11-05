@@ -8,7 +8,7 @@ class LoginControllerTest extends BaseUnit
 {
     public function testParent()
     {
-        $this->changePassword("rleffe@marche.be", "homer123");
+        $this->changePassword('rleffe@marche.be', 'homer123');
         $crawler = $this->rleffe->request('GET', '/parent');
 
         $this->assertEquals(301, $this->rleffe->getResponse()->getStatusCode());
@@ -19,7 +19,7 @@ class LoginControllerTest extends BaseUnit
 
     public function testEcoleSansEcole()
     {
-        $this->changePassword("uharvard@marche.be", "homer123");
+        $this->changePassword('uharvard@marche.be', 'homer123');
         $this->uharvard->request('GET', '/ecole/');
         $this->assertEquals(403, $this->uharvard->getResponse()->getStatusCode());
     }
@@ -40,14 +40,13 @@ class LoginControllerTest extends BaseUnit
         $crawler = $this->admin->click($crawler->selectLink('Changer le mot de passe')->link());
 
         $form = $crawler->selectButton('Mettre à jour')->form(
-            array(
+            [
                 'user_password[password]' => $password,
-            )
+            ]
         );
 
         $this->admin->submit($form);
         $crawler = $this->admin->followRedirect();
-
 
         $this->assertTrue($crawler->filter('div:contains("Le mot de passe a bien été modifié.")')->count() > 0);
     }

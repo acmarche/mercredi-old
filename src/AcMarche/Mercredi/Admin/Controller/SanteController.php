@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- *
  * @Route("/sante")
  * @IsGranted({"ROLE_MERCREDI_ADMIN"})
  */
@@ -45,12 +44,12 @@ class SanteController extends AbstractController
 
         return $this->render(
             'admin/sante/show.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'fiche' => $santeFiche,
                 'isComplete' => $isComplete,
                 'questions' => $questions,
-            )
+            ]
         );
     }
 
@@ -69,13 +68,12 @@ class SanteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $data = $form->getData();
 
             $this->santeManager->saveSanteFiche($santeFiche);
 
             /**
-             * @var SanteQuestion[] $questions
+             * @var SanteQuestion[]
              */
             $questions = $data->getQuestions();
 
@@ -85,18 +83,17 @@ class SanteController extends AbstractController
 
             $this->santeManager->Reponsesflush();
 
-            $this->addFlash('success', "La fiche de santé à bien été enregistrée");
+            $this->addFlash('success', 'La fiche de santé à bien été enregistrée');
 
             return $this->redirectToRoute('admin_sante_show', ['uuid' => $enfant->getUuid()]);
         }
 
         return $this->render(
             'admin/sante/edit.html.twig',
-            array(
+            [
                 'enfant' => $enfant,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
-
 }
