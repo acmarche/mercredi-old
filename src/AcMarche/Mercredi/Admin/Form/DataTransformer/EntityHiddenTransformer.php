@@ -9,6 +9,7 @@
 namespace AcMarche\Mercredi\Admin\Form\DataTransformer;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
@@ -34,7 +35,7 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 class EntityHiddenTransformer implements DataTransformerInterface
 {
     /**
-     * @var ObjectManager
+     * @var EntityManagerInterface
      */
     private $objectManager;
 
@@ -54,7 +55,7 @@ class EntityHiddenTransformer implements DataTransformerInterface
      * @param string $className
      * @param string $primaryKey
      */
-    public function __construct(ObjectManager $objectManager, $className, $primaryKey)
+    public function __construct(EntityManagerInterface $objectManager, $className, $primaryKey)
     {
         $this->objectManager = $objectManager;
         $this->className = $className;

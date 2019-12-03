@@ -2,8 +2,8 @@
 
 namespace AcMarche\Mercredi\Security\Form\Type;
 
-use AcSecurityBundle\Form\DataTransformer\UserToNumberTransformer;
-use Doctrine\Common\Persistence\ObjectManager;
+use AcMarche\Mercredi\Security\Form\DataTransformer\UserToNumberTransformer;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,11 +12,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class UserHiddenType extends AbstractType
 {
     /**
-     * @var ObjectManager
+     * @var EntityManagerInterface
      */
     private $om;
 
-    public function __construct(ObjectManager $om)
+    public function __construct(EntityManagerInterface $om)
     {
         $this->om = $om;
     }

@@ -4,17 +4,18 @@ namespace AcMarche\Mercredi\Plaine\Form\DataTransformer;
 
 use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class PlaineToNumberTransformer implements DataTransformerInterface
 {
     /**
-     * @var ObjectManager
+     * @var EntityManagerInterface
      */
     private $om;
 
-    public function __construct(ObjectManager $om)
+    public function __construct(EntityManagerInterface $om)
     {
         $this->om = $om;
     }

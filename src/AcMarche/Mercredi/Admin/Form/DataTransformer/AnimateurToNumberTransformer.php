@@ -4,6 +4,7 @@ namespace AcMarche\Mercredi\Admin\Form\DataTransformer;
 
 use AcMarche\Mercredi\Admin\Entity\Animateur;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
@@ -14,7 +15,7 @@ class AnimateurToNumberTransformer implements DataTransformerInterface
      */
     private $om;
 
-    public function __construct(ObjectManager $om)
+    public function __construct(EntityManagerInterface $om)
     {
         $this->om = $om;
     }
