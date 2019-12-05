@@ -20,16 +20,18 @@
     <div class="row">
         <div class="col-md-8">
             <ul class="list-group">
-                {% for enfant in enfants if enfant.inscrit == false %}
-                    <li class="list-group-item">
-                        <a href="{{ path('parent_plainepresence_create', {'uuid': enfant.uuid, 'plaineid': plaine.id} ) }}">
-                            {{ enfant }}
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="list-group-item">
-                        Tous inscrit
-                    </li>
+                {% for enfant in enfants %}
+                    {% if enfant.inscrit == false %}
+                        <li class="list-group-item">
+                            <a href="{{ path('parent_plainepresence_create', {'uuid': enfant.uuid, 'plaineid': plaine.id} ) }}">
+                                {{ enfant }}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item">
+                            Tous inscrit
+                        </li>
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>
@@ -48,13 +50,15 @@
             <th>Nbre de jours</th>
             <th>Montant</th>
         </tr>
-        {% for enfant in enfants if enfant.inscrit %}
-            <tr>
-                <td>{{ enfant }}</td>
-                <td>{{ enfant.ordre }}</td>
-                <td>{{ enfant.presencesPlaine |length }}</td>
-                <td>{{ enfant.totalPlaine | number_format(2,',','') }} €</td>
-            </tr>
+        {% for enfant in enfants %}
+            {% if enfant.inscrit %}
+                <tr>
+                    <td>{{ enfant }}</td>
+                    <td>{{ enfant.ordre }}</td>
+                    <td>{{ enfant.presencesPlaine |length }}</td>
+                    <td>{{ enfant.totalPlaine | number_format(2,',','') }} €</td>
+                </tr>
+            {% endif %}
         {% endfor %}
         <tr>
             <td colspan="3"><strong>Soit un total à payer de</strong></td>
