@@ -6,6 +6,7 @@ use AcMarche\Mercredi\Admin\Entity\Animateur;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Admin\Form\Search\SearchUtilisateurType;
 use AcMarche\Mercredi\Admin\Repository\PresenceRepository;
+use AcMarche\Mercredi\Plaine\Repository\PlainePresenceRepository;
 use AcMarche\Mercredi\Security\Entity\User;
 use AcMarche\Mercredi\Security\Form\UtilisateurEditType;
 use AcMarche\Mercredi\Security\Form\UtilisateurType;
@@ -42,17 +43,23 @@ class UtilisateurController extends AbstractController
      * @var Mailer
      */
     private $mailer;
+    /**
+     * @var PlainePresenceRepository
+     */
+    private $plainePresenceRepository;
 
     public function __construct(
         UserRepository $userRepository,
         UserManager $userManager,
         PresenceRepository $presenceRepository,
+        PlainePresenceRepository $plainePresenceRepository,
         Mailer $mailer
     ) {
         $this->userRepository = $userRepository;
         $this->presenceRepository = $presenceRepository;
         $this->userManager = $userManager;
         $this->mailer = $mailer;
+        $this->plainePresenceRepository = $plainePresenceRepository;
     }
 
     /**
@@ -268,10 +275,11 @@ class UtilisateurController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $presences = $this->presenceRepository->search(['user' => $user]);
+            $presences2 = $this->plainePresenceRepository->findBy(['user_add' => $user]);
 
-            if (count($presences) > 0) {
+            if (count($presences) > 0 || count($presences2) > 0) {
                 $this->addFlash(
-                    'error',
+                    'danger',
                     "L'utilisateur ne peut être supprimé car il y a des présences encodées à son nom"
                 );
 
