@@ -121,9 +121,9 @@ class ArchiverController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $label = $plaine->getArchive() ? 'désarchivé' : 'archivé';
+            $label = $plaine->isArchive() ? 'désarchivé' : 'archivé';
 
-            if ($plaine->getArchive()) {
+            if ($plaine->isArchive()) {
                 $plaine->setArchive(false);
             } else {
                 $plaine->setArchive(true);
@@ -145,7 +145,7 @@ class ArchiverController extends AbstractController
 
     protected function createArchivePlaine(Plaine $plaine)
     {
-        $label = $plaine->getArchive() ? 'Désarchiver' : 'Archiver';
+        $label = $plaine->isArchive() ? 'Désarchiver' : 'Archiver';
 
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('plaine_archiver', ['slugname' => $plaine->getSlugname()]))
