@@ -24,6 +24,7 @@
 ###< acmarche/mercredi ###
 ###> liip/imagine-bundle ###
 /public/media/cache/
+/composer.lock
 ###< liip/imagine-bundle ###
 
 ###> friendsofphp/php-cs-fixer ###
