@@ -7,6 +7,7 @@ use AcMarche\Mercredi\Security\Entity\User;
 use AcMarche\Mercredi\Security\Repository\GroupRepository;
 use AcMarche\Mercredi\Security\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,12 +23,20 @@ class InitUserCommand extends Command
      * @var UserRepository
      */
     private $userRepository;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
-    public function __construct(GroupRepository $groupRepository, UserRepository $userRepository)
-    {
+    public function __construct(
+        GroupRepository $groupRepository,
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager
+    ) {
         parent::__construct();
         $this->groupRepository = $groupRepository;
         $this->userRepository = $userRepository;
+        $this->entityManager = $entityManager;
     }
 
     protected function configure()
@@ -40,16 +49,10 @@ class InitUserCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getContainer();
-        $doctrine = $container->get('doctrine');
-
-        $em = $doctrine->getManager();
-
-        $this->createDefaultAccount($em, $output);
+        $this->createDefaultAccount($output);
     }
 
     protected function createDefaultAccount(
-        ObjectManager $entityManager,
         OutputInterface $output
     ) {
         $groupAdmin = $this->groupRepository->findOneBy(['name' => 'MERCREDI_ADMIN']);
@@ -68,44 +71,40 @@ class InitUserCommand extends Command
             $groupAdmin = new Group('MERCREDI_ADMIN');
             $groupAdmin->addRole('ROLE_MERCREDI_ADMIN');
             $groupAdmin->addRole('ROLE_MERCREDI_READ');
-            $entityManager->persist($groupAdmin);
-            $entityManager->flush();
+            $this->entityManager->persist($groupAdmin);
+            $this->entityManager->flush();
             $output->writeln('Groupe MERCREDI_ADMIN créé');
         }
 
         if (!$groupParent) {
             $groupParent = new Group('MERCREDI_PARENT');
             $groupParent->addRole('ROLE_MERCREDI_PARENT');
-            $entityManager->persist($groupParent);
-            $this->addReference('group-parent', $groupParent);
-            $entityManager->flush();
+            $this->entityManager->persist($groupParent);
+            $this->entityManager->flush();
             $output->writeln('Groupe MERCREDI_PARENT créé');
         }
 
         if (!$groupAnimateur) {
             $groupAnimateur = new Group('MERCREDI_ANIMATEUR');
             $groupAnimateur->addRole('ROLE_MERCREDI_ANIMATEUR');
-            $entityManager->persist($groupAnimateur);
-            $this->addReference('group-animateur', $groupAnimateur);
-            $entityManager->flush();
+            $this->entityManager->persist($groupAnimateur);
+            $this->entityManager->flush();
             $output->writeln('Groupe MERCREDI_ANIMATEUR créé');
         }
 
         if (!$groupEcole) {
             $groupEcole = new Group('MERCREDI_ECOLE');
             $groupEcole->addRole('ROLE_MERCREDI_ECOLE');
-            $entityManager->persist($groupEcole);
-            $this->addReference('group-ecole', $groupEcole);
-            $entityManager->flush();
+            $this->entityManager->persist($groupEcole);
+            $this->entityManager->flush();
             $output->writeln('Groupe MERCREDI_ECOLE créé');
         }
 
         if (!$groupRead) {
             $groupRead = new Group('MERCREDI_READ');
             $groupRead->addRole('ROLE_MERCREDI_READ');
-            $entityManager->persist($groupRead);
-            $this->addReference('group-read', $groupRead);
-            $entityManager->flush();
+            $this->entityManager->persist($groupRead);
+            $this->entityManager->flush();
             $output->writeln('Groupe MERCREDI_READ créé');
         }
 
@@ -118,8 +117,7 @@ class InitUserCommand extends Command
             $admin->setEnabled(1);
             $admin->setEmail('jf@marche.be');
             $admin->addGroup($groupAdmin);
-            $entityManager->persist($admin);
-            $this->addReference('admin-user', $admin);
+            $this->entityManager->persist($admin);
             $output->writeln("L'utilisateur admin a bien été créé");
         }
 
@@ -132,8 +130,7 @@ class InitUserCommand extends Command
             $pmi->setEnabled(1);
             $pmi->setEmail('webmaster@marche.be');
             $pmi->addGroup($groupParent);
-            $entityManager->persist($pmi);
-            $this->addReference('pmi', $pmi);
+            $this->entityManager->persist($pmi);
             $output->writeln("L'utilisateur pmi a bien été créé");
         }
 
@@ -146,7 +143,7 @@ class InitUserCommand extends Command
             $animateur->setEnabled(1);
             $animateur->setEmail('animateur@marche.be');
             $animateur->addGroup($groupAnimateur);
-            $entityManager->persist($animateur);
+            $this->entityManager->persist($animateur);
             $output->writeln("L'utilisateur animateur a bien été créé");
         }
 
@@ -159,7 +156,7 @@ class InitUserCommand extends Command
             $ecole->setEnabled(1);
             $ecole->setEmail('ecole@marche.be');
             $ecole->addGroup($groupEcole);
-            $entityManager->persist($ecole);
+            $this->entityManager->persist($ecole);
             $output->writeln("L'utilisateur ecole a bien été créé");
         }
 
@@ -172,33 +169,33 @@ class InitUserCommand extends Command
             $read->setEnabled(1);
             $read->setEmail('read@marche.be');
             $read->addGroup($groupRead);
-            $entityManager->persist($read);
+            $this->entityManager->persist($read);
         }
 
         if (!$ecoleUser->hasGroup($groupEcole)) {
             $ecoleUser->addGroup($groupEcole);
-            $entityManager->persist($groupEcole);
+            $this->entityManager->persist($groupEcole);
             $output->writeln("L'utilisateur porte a été ajouté dans le groupe commerce");
         }
 
         if (!$animateurUser->hasGroup($groupAnimateur)) {
             $animateurUser->addGroup($groupAnimateur);
-            $entityManager->persist($animateurUser);
+            $this->entityManager->persist($animateurUser);
             $output->writeln("L'utilisateur animateur a été ajouté dans le groupe animateur");
         }
 
         if (!$parentUser->hasGroup($groupParent)) {
             $parentUser->addGroup($groupParent);
-            $entityManager->persist($parentUser);
+            $this->entityManager->persist($parentUser);
             $output->writeln("L'utilisateur parent a été ajouté dans le groupe parent");
         }
 
         if (!$adminUser->hasGroup($groupAdmin)) {
             $adminUser->addGroup($groupAdmin);
-            $entityManager->persist($adminUser);
+            $this->entityManager->persist($adminUser);
             $output->writeln("L'utilisateur admin a été ajouté dans le groupe admin");
         }
 
-        $entityManager->flush();
+        $this->entityManager->flush();
     }
 }
