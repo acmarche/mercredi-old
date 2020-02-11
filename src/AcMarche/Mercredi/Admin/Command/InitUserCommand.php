@@ -109,67 +109,67 @@ class InitUserCommand extends Command
         }
 
         if (!$adminUser) {
-            $admin = new User();
-            $admin->setUsername('admin');
-            $admin->setNom('Admin');
-            $admin->setPrenom('Zeze');
-            $admin->setPlainPassword('admin');
-            $admin->setEnabled(1);
-            $admin->setEmail('jf@marche.be');
-            $admin->addGroup($groupAdmin);
-            $this->entityManager->persist($admin);
+            $adminUser = new User();
+            $adminUser->setUsername('admin');
+            $adminUser->setNom('Admin');
+            $adminUser->setPrenom('Zeze');
+            $adminUser->setPlainPassword('admin');
+            $adminUser->setEnabled(1);
+            $adminUser->setEmail('jf@marche.be');
+            $adminUser->addGroup($groupAdmin);
+            $this->entityManager->persist($adminUser);
             $output->writeln("L'utilisateur admin a bien été créé");
         }
 
         if (!$parentUser) {
-            $pmi = new User();
-            $pmi->setUsername('pmichel');
-            $pmi->setNom('Mich');
-            $pmi->setPrenom('Phili');
-            $pmi->setPlainPassword('admin');
-            $pmi->setEnabled(1);
-            $pmi->setEmail('webmaster@marche.be');
-            $pmi->addGroup($groupParent);
-            $this->entityManager->persist($pmi);
+            $parentUser = new User();
+            $parentUser->setUsername('pmichel');
+            $parentUser->setNom('Mich');
+            $parentUser->setPrenom('Phili');
+            $parentUser->setPlainPassword('admin');
+            $parentUser->setEnabled(1);
+            $parentUser->setEmail('webmaster@marche.be');
+            $parentUser->addGroup($groupParent);
+            $this->entityManager->persist($parentUser);
             $output->writeln("L'utilisateur pmi a bien été créé");
         }
 
         if (!$animateurUser) {
-            $animateur = new User();
-            $animateur->setUsername('animateur');
-            $animateur->setNom('Vermoesen');
-            $animateur->setPrenom('John');
-            $animateur->setPlainPassword('animateur');
-            $animateur->setEnabled(1);
-            $animateur->setEmail('animateur@marche.be');
-            $animateur->addGroup($groupAnimateur);
-            $this->entityManager->persist($animateur);
+            $animateurUser = new User();
+            $animateurUser->setUsername('animateur');
+            $animateurUser->setNom('Vermoesen');
+            $animateurUser->setPrenom('John');
+            $animateurUser->setPlainPassword('animateur');
+            $animateurUser->setEnabled(1);
+            $animateurUser->setEmail('animateur@marche.be');
+            $animateurUser->addGroup($groupAnimateur);
+            $this->entityManager->persist($animateurUser);
             $output->writeln("L'utilisateur animateur a bien été créé");
         }
 
         if (!$ecoleUser) {
-            $ecole = new User();
-            $ecole->setUsername('ecole');
-            $ecole->setNom('Ecole');
-            $ecole->setPrenom('Aye');
-            $ecole->setPlainPassword('ecole');
-            $ecole->setEnabled(1);
-            $ecole->setEmail('ecole@marche.be');
-            $ecole->addGroup($groupEcole);
-            $this->entityManager->persist($ecole);
+            $ecoleUser = new User();
+            $ecoleUser->setUsername('ecole');
+            $ecoleUser->setNom('Ecole');
+            $ecoleUser->setPrenom('Aye');
+            $ecoleUser->setPlainPassword('ecole');
+            $ecoleUser->setEnabled(1);
+            $ecoleUser->setEmail('ecole@marche.be');
+            $ecoleUser->addGroup($groupEcole);
+            $this->entityManager->persist($ecoleUser);
             $output->writeln("L'utilisateur ecole a bien été créé");
         }
 
         if (!$readUser) {
-            $read = new User();
-            $read->setUsername('read');
-            $read->setNom('Lecteur');
-            $read->setPrenom('Ipod');
-            $read->setPlainPassword('read');
-            $read->setEnabled(1);
-            $read->setEmail('read@marche.be');
-            $read->addGroup($groupRead);
-            $this->entityManager->persist($read);
+            $readUser = new User();
+            $readUser->setUsername('read');
+            $readUser->setNom('Lecteur');
+            $readUser->setPrenom('Ipod');
+            $readUser->setPlainPassword('read');
+            $readUser->setEnabled(1);
+            $readUser->setEmail('read@marche.be');
+            $readUser->addGroup($groupRead);
+            $this->entityManager->persist($readUser);
         }
 
         //if (!$ecoleUser->hasGroup($groupEcole)) {
