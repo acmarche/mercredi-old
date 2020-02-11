@@ -12,6 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class InitUserCommand extends Command
 {
@@ -27,16 +28,22 @@ class InitUserCommand extends Command
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
 
     public function __construct(
         GroupRepository $groupRepository,
         UserRepository $userRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        UserPasswordEncoderInterface $passwordEncoder
     ) {
         parent::__construct();
         $this->groupRepository = $groupRepository;
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     protected function configure()
@@ -66,6 +73,8 @@ class InitUserCommand extends Command
         $ecoleUser = $this->userRepository->findOneBy(['username' => 'ecole']);
         $animateurUser = $this->userRepository->findOneBy(['username' => 'animateur']);
         $parentUser = $this->userRepository->findOneBy(['username' => 'parent']);
+
+        $password = 'admin1234';
 
         if (!$groupAdmin) {
             $groupAdmin = new Group('MERCREDI_ADMIN');
@@ -117,6 +126,7 @@ class InitUserCommand extends Command
             $adminUser->setEnabled(1);
             $adminUser->setEmail('jf@marche.be');
             $adminUser->addGroup($groupAdmin);
+            $adminUser->setPassword($this->passwordEncoder->encodePassword($adminUser, $password));
             $this->entityManager->persist($adminUser);
             $output->writeln("L'utilisateur admin a bien été créé");
         }
@@ -130,6 +140,7 @@ class InitUserCommand extends Command
             $parentUser->setEnabled(1);
             $parentUser->setEmail('webmaster@marche.be');
             $parentUser->addGroup($groupParent);
+            $parentUser->setPassword($this->passwordEncoder->encodePassword($parentUser, $password));
             $this->entityManager->persist($parentUser);
             $output->writeln("L'utilisateur pmi a bien été créé");
         }
@@ -143,6 +154,7 @@ class InitUserCommand extends Command
             $animateurUser->setEnabled(1);
             $animateurUser->setEmail('animateur@marche.be');
             $animateurUser->addGroup($groupAnimateur);
+            $animateurUser->setPassword($this->passwordEncoder->encodePassword($animateurUser, $password));
             $this->entityManager->persist($animateurUser);
             $output->writeln("L'utilisateur animateur a bien été créé");
         }
@@ -156,6 +168,7 @@ class InitUserCommand extends Command
             $ecoleUser->setEnabled(1);
             $ecoleUser->setEmail('ecole@marche.be');
             $ecoleUser->addGroup($groupEcole);
+            $ecoleUser->setPassword($this->passwordEncoder->encodePassword($ecoleUser, $password));
             $this->entityManager->persist($ecoleUser);
             $output->writeln("L'utilisateur ecole a bien été créé");
         }
@@ -169,32 +182,33 @@ class InitUserCommand extends Command
             $readUser->setEnabled(1);
             $readUser->setEmail('read@marche.be');
             $readUser->addGroup($groupRead);
+            $readUser->setPassword($this->passwordEncoder->encodePassword($readUser, $password));
             $this->entityManager->persist($readUser);
         }
 
         //if (!$ecoleUser->hasGroup($groupEcole)) {
-            $ecoleUser->addGroup($groupEcole);
-            $this->entityManager->persist($groupEcole);
-            $output->writeln("L'utilisateur porte a été ajouté dans le groupe commerce");
-       // }
+        $ecoleUser->addGroup($groupEcole);
+        $this->entityManager->persist($groupEcole);
+        $output->writeln("L'utilisateur porte a été ajouté dans le groupe commerce");
+        // }
 
-       // if (!$animateurUser->hasGroup($groupAnimateur)) {
-            $animateurUser->addGroup($groupAnimateur);
-            $this->entityManager->persist($animateurUser);
-            $output->writeln("L'utilisateur animateur a été ajouté dans le groupe animateur");
-     //   }
+        // if (!$animateurUser->hasGroup($groupAnimateur)) {
+        $animateurUser->addGroup($groupAnimateur);
+        $this->entityManager->persist($animateurUser);
+        $output->writeln("L'utilisateur animateur a été ajouté dans le groupe animateur");
+        //   }
 
-     //   if (!$parentUser->hasGroup($groupParent)) {
-            $parentUser->addGroup($groupParent);
-            $this->entityManager->persist($parentUser);
-            $output->writeln("L'utilisateur parent a été ajouté dans le groupe parent");
-     //   }
+        //   if (!$parentUser->hasGroup($groupParent)) {
+        $parentUser->addGroup($groupParent);
+        $this->entityManager->persist($parentUser);
+        $output->writeln("L'utilisateur parent a été ajouté dans le groupe parent");
+        //   }
 
-     //   if (!$adminUser->hasGroup($groupAdmin)) {
-            $adminUser->addGroup($groupAdmin);
-            $this->entityManager->persist($adminUser);
-            $output->writeln("L'utilisateur admin a été ajouté dans le groupe admin");
-      //  }
+        //   if (!$adminUser->hasGroup($groupAdmin)) {
+        $adminUser->addGroup($groupAdmin);
+        $this->entityManager->persist($adminUser);
+        $output->writeln("L'utilisateur admin a été ajouté dans le groupe admin");
+        //  }
 
         $this->entityManager->flush();
     }
