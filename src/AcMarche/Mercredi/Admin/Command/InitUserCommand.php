@@ -172,29 +172,29 @@ class InitUserCommand extends Command
             $this->entityManager->persist($read);
         }
 
-        if (!$ecoleUser->hasGroup($groupEcole)) {
+        //if (!$ecoleUser->hasGroup($groupEcole)) {
             $ecoleUser->addGroup($groupEcole);
             $this->entityManager->persist($groupEcole);
             $output->writeln("L'utilisateur porte a été ajouté dans le groupe commerce");
-        }
+       // }
 
-        if (!$animateurUser->hasGroup($groupAnimateur)) {
+       // if (!$animateurUser->hasGroup($groupAnimateur)) {
             $animateurUser->addGroup($groupAnimateur);
             $this->entityManager->persist($animateurUser);
             $output->writeln("L'utilisateur animateur a été ajouté dans le groupe animateur");
-        }
+     //   }
 
-        if (!$parentUser->hasGroup($groupParent)) {
+     //   if (!$parentUser->hasGroup($groupParent)) {
             $parentUser->addGroup($groupParent);
             $this->entityManager->persist($parentUser);
             $output->writeln("L'utilisateur parent a été ajouté dans le groupe parent");
-        }
+     //   }
 
-        if (!$adminUser->hasGroup($groupAdmin)) {
+     //   if (!$adminUser->hasGroup($groupAdmin)) {
             $adminUser->addGroup($groupAdmin);
             $this->entityManager->persist($adminUser);
             $output->writeln("L'utilisateur admin a été ajouté dans le groupe admin");
-        }
+      //  }
 
         $this->entityManager->flush();
     }
