@@ -41,6 +41,10 @@ class SecurityController extends AbstractController
         throw new \RuntimeException('You must activate the logout in your security firewall configuration.');
     }
 
+    /**
+     * @return Response
+     * @Route("/menu", name="mercredi_render_menu")
+     */
     public function renderMenu()
     {
         $user = $this->getUser();

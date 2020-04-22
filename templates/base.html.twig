@@ -67,10 +67,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="{{ path('user_change_password') }}">Mot de passe</a></li>
-                                {{ render(controller(
-                                    'AcMarche\\Mercredi\\Security\\Controller\\SecurityController::renderMenu',
-                                    { 'max': 3 }
-                                )) }}
+                                {{ render(controller(path('mercredi_render_menu'))) }}
                                 <li role="separator" class="divider"></li>
                                 <li><a href="{{ path('mercredi_logout') }}"
                                        title="A bientôt "><span
