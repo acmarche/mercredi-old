@@ -36,23 +36,17 @@ class SanteManager
      * @var SanteReponseRepository
      */
     private $santeReponseRepository;
-    /**
-     * @var SortUtils
-     */
-    private $sortUtils;
 
     public function __construct(
         EnfantRepository $enfantRepository,
         SanteFicheRepository $santeFicheRepository,
         SanteQuestionRepository $santeQuestionRepository,
-        SanteReponseRepository $santeReponseRepository,
-        SortUtils $sortUtils
+        SanteReponseRepository $santeReponseRepository
     ) {
         $this->enfantRepository = $enfantRepository;
         $this->santeFicheRepository = $santeFicheRepository;
         $this->santeQuestionRepository = $santeQuestionRepository;
         $this->santeReponseRepository = $santeReponseRepository;
-        $this->sortUtils = $sortUtils;
     }
 
     /**
