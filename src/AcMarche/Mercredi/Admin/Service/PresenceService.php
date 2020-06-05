@@ -128,7 +128,7 @@ class PresenceService
      */
     public function getPresencesAndEnfantsByMonth($moisAnnee, $type)
     {
-        $allenfants = [];
+        $allpresences = $allenfants = [];
 
         $args_mois = ['date' => $moisAnnee];
 
