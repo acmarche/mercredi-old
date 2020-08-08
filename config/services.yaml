@@ -1,117 +1,89 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'fr'
-    mercredi_bundle_prix_jour1: 5.50
-    mercredi_bundle_prix_jour2: 3.50
-    mercredi_bundle_prix_jour3: 2.50
-    plaine_bundle_prix_jour1: 8
-    plaine_bundle_prix_jour2: 5
-    plaine_bundle_prix_jour3: 3
-    enfance_email_from: epe@marche.be
-    enfant_photo: "%kernel.project_dir%/public/enfants/photo"
-    enfant_photo_web: "/enfants/photo"
-    enfant_sante: "%kernel.project_dir%/data/enfants/sante"
-    enfant_inscription: "%kernel.project_dir%/data/enfants/inscription"
-    animateur_cv: "%kernel.project_dir%/data/animateurs/cv"
-    animateur_photo: "%kernel.project_dir%/public/animateurs/photo"
-    animateur_photo_web: "/animateurs/photo"
-    animateur_diplome: "%kernel.project_dir%/data/animateurs/diplome"
-    animateur_casier: "%kernel.project_dir%/data/animateurs/casier"
-    animateur_certificat: "%kernel.project_dir%/data/animateurs/certificat"
-    mercredi.project_dir: "%kernel.project_dir%"
+  locale: 'fr'
+  mercredi_bundle_prix_jour1: 5.50
+  mercredi_bundle_prix_jour2: 3.50
+  mercredi_bundle_prix_jour3: 2.50
+  plaine_bundle_prix_jour1: 8
+  plaine_bundle_prix_jour2: 5
+  plaine_bundle_prix_jour3: 3
+  enfance_email_from: epe@marche.be
+  enfant_photo: "%kernel.project_dir%/public/enfants/photo"
+  enfant_photo_web: "/enfants/photo"
+  enfant_sante: "%kernel.project_dir%/data/enfants/sante"
+  enfant_inscription: "%kernel.project_dir%/data/enfants/inscription"
+  animateur_cv: "%kernel.project_dir%/data/animateurs/cv"
+  animateur_photo: "%kernel.project_dir%/public/animateurs/photo"
+  animateur_photo_web: "/animateurs/photo"
+  animateur_diplome: "%kernel.project_dir%/data/animateurs/diplome"
+  animateur_casier: "%kernel.project_dir%/data/animateurs/casier"
+  animateur_certificat: "%kernel.project_dir%/data/animateurs/certificat"
+  mercredi.project_dir: "%kernel.project_dir%"
 
 services:
-    # default configuration for services in *this* file
-    _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        public: false       # Allows optimizing the container by removing unused services; this also means
-          # fetching services directly from the container via $container->get() won't work.
-        # The best practice is to be explicit about your dependencies anyway.
-        bind:
-            $emailFrom: '%enfance_email_from%'
-            $rootPath: '%kernel.project_dir%'
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    public: false       # Allows optimizing the container by removing unused services; this also means
+    # fetching services directly from the container via $container->get() won't work.
+    # The best practice is to be explicit about your dependencies anyway.
+    bind:
+      $emailFrom: '%enfance_email_from%'
+      $rootPath: '%kernel.project_dir%'
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
+  # makes classes in src/ available to be used as services
+  # this creates a service per class whose id is the fully-qualified class name
 
-    AcMarche\Mercredi\Admin\:
-        resource: '../src/AcMarche/Mercredi/Admin'
-        exclude: '../src/AcMarche/Mercredi/Admin/{Entity,Tests}'
+  AcMarche\Mercredi\Admin\:
+    resource: '../src/AcMarche/Mercredi/Admin'
+    exclude: '../src/AcMarche/Mercredi/Admin/{Entity,Tests}'
 
-    AcMarche\Mercredi\Admin\Controller\:
-        resource: '../src/AcMarche/Mercredi/Admin/Controller/'
-        tags: ['controller.service_arguments']
+  AcMarche\Mercredi\Commun\:
+    resource: '../src/AcMarche/Mercredi/Commun'
 
-    AcMarche\Mercredi\Commun\:
-        resource: '../src/AcMarche/Mercredi/Commun'
+  AcMarche\Mercredi\Ecole\:
+    resource: '../src/AcMarche/Mercredi/Ecole'
+    exclude: '../src/AcMarche/Mercredi/Ecole/{Entity,Tests,Kernel.php}'
 
-    AcMarche\Mercredi\Ecole\:
-        resource: '../src/AcMarche/Mercredi/Ecole'
-        exclude: '../src/AcMarche/Mercredi/Ecole/{Entity,Tests,Kernel.php}'
+  AcMarche\Mercredi\Front\:
+    resource: '../src/AcMarche/Mercredi/Front'
+    exclude: '../src/AcMarche/Mercredi/Front/{Entity,Tests}'
 
-    AcMarche\Mercredi\Front\:
-        resource: '../src/AcMarche/Mercredi/Front'
-        exclude: '../src/AcMarche/Mercredi/Front/{Entity,Tests}'
+  AcMarche\Mercredi\Logger\:
+    resource: '../src/AcMarche/Mercredi/Logger'
+    exclude: '../src/AcMarche/Mercredi/Logger/{Entity,Tests}'
 
-    AcMarche\Mercredi\Front\Controller\:
-        resource: '../src/AcMarche/Mercredi/Front/Controller/'
-        tags: ['controller.service_arguments']
+  AcMarche\Mercredi\Parent\:
+    resource: '../src/AcMarche/Mercredi/Parent'
+    exclude: '../src/AcMarche/Mercredi/Parent/{Entity,Tests}'
 
-    AcMarche\Mercredi\Logger\:
-        resource: '../src/AcMarche/Mercredi/Logger'
-        exclude: '../src/AcMarche/Mercredi/Logger/{Entity,Tests}'
+  AcMarche\Mercredi\Animateur\:
+    resource: '../src/AcMarche/Mercredi/Animateur'
 
-    AcMarche\Mercredi\Parent\:
-        resource: '../src/AcMarche/Mercredi/Parent'
-        exclude: '../src/AcMarche/Mercredi/Parent/{Entity,Tests}'
+  AcMarche\Mercredi\Plaine\:
+    resource: '../src/AcMarche/Mercredi/Plaine'
+    exclude: '../src/AcMarche/Mercredi/Plaine/{Entity,Tests}'
 
-    AcMarche\Mercredi\Parent\Controller\:
-        resource: '../src/AcMarche/Mercredi/Parent/Controller/'
-        tags: ['controller.service_arguments']
+  AcMarche\Mercredi\Security\:
+    resource: '../src/AcMarche/Mercredi/Security'
+    exclude: '../src/AcMarche/Mercredi/Security/{Entity,Tests,Kernel.php}'
 
-    AcMarche\Mercredi\Animateur\:
-        resource: '../src/AcMarche/Mercredi/Animateur'
+  AcMarche\Mercredi\Api\:
+    resource: '../src/AcMarche/Mercredi/Api'
+    exclude: '../src/AcMarche/Mercredi/Api/{Entity,Tests,Kernel.php}'
 
-    AcMarche\Mercredi\Animateur\Controller\:
-        resource: '../src/AcMarche/Mercredi/Animateur/Controller/'
-        tags: ['controller.service_arguments']
+  # add more service definitions when explicit configuration is needed
+  # please note that last definitions always *replace* previous ones
 
-    AcMarche\Mercredi\Plaine\:
-        resource: '../src/AcMarche/Mercredi/Plaine'
-        exclude: '../src/AcMarche/Mercredi/Plaine/{Entity,Tests}'
+  AcMarche\Mercredi\Security\Authenticator\LdapEmploye:
+    $host: '%env(ACLDAP_URL)%'
+    $dn: '%env(ACLDAP_DN)%'
+    $user: '%env(ACLDAP_USER)%'
+    $password: '%env(ACLDAP_PASSWORD)%'
 
-    AcMarche\Mercredi\Plaine\Controller\:
-        resource: '../src/AcMarche/Mercredi/Plaine/Controller/'
-        tags: ['controller.service_arguments']
-
-    AcMarche\Mercredi\Security\:
-        resource: '../src/AcMarche/Mercredi/Security'
-        exclude: '../src/AcMarche/Mercredi/Security/{Entity,Tests,Kernel.php}'
-
-    AcMarche\Mercredi\Security\Controller\:
-        resource: '../src/AcMarche/Mercredi/Security/Controller/'
-        tags: ['controller.service_arguments']
-
-    AcMarche\Mercredi\Api\:
-        resource: '../src/AcMarche/Mercredi/Api'
-        exclude: '../src/AcMarche/Mercredi/Api/{Entity,Tests,Kernel.php}'
-
-    AcMarche\Mercredi\Api\Controller\:
-        resource: '../src/AcMarche/Mercredi/Api/Controller/'
-        tags: ['controller.service_arguments']
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
-
-    AcMarche\Mercredi\Security\Authenticator\LdapEmploye:
-        $host: '%env(ACLDAP_URL)%'
-        $dn: '%env(ACLDAP_DN)%'
-        $user: '%env(ACLDAP_USER)%'
-        $password: '%env(ACLDAP_PASSWORD)%'
-
-    AcMarche\Mercredi\Logger\Entity\RequestProcessor:
-        tags:
-            - { name: monolog.processor, method: processRecord, handler: db }
+  #    AcMarche\Mercredi\Logger\Entity\RequestProcessor:
+  #       tags:
+  #          - { name: monolog.processor, method: processRecord, handler: db }
 

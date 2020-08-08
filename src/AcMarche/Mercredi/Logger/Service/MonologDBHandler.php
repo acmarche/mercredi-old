@@ -32,7 +32,7 @@ class MonologDBHandler extends AbstractProcessingHandler
     /**
      * Called when writing to our database.
      */
-    protected function write(array $record)
+    protected function write(array $record): void
     {
         if ('db' !== $record['channel']) {
             //  return;

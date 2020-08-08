@@ -10,7 +10,8 @@ namespace AcMarche\Mercredi\Plaine\Events;
 
 use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
-use Symfony\Component\EventDispatcher\Event;
+
+use Symfony\Contracts\EventDispatcher\Event;
 
 class PlaineEvent extends Event
 {

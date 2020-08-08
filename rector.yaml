@@ -1,0 +1,3 @@
+# rector.yaml
+services:
+    Rector\Symfony\Rector\MethodCall\MakeDispatchFirstArgumentEventRector: null

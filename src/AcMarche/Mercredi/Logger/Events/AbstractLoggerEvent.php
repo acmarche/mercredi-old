@@ -8,7 +8,8 @@
 
 namespace AcMarche\Mercredi\Logger\Events;
 
-use Symfony\Component\EventDispatcher\Event;
+
+use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class AbstractLoggerEvent extends Event
 {
