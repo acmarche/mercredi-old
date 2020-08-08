@@ -36,10 +36,7 @@ class DownloadController extends AbstractController
      */
     public function enfant(Enfant $enfant, $type)
     {
-        $this->eventDispatcher->dispatch(
-            EnfantEvent::ENFANT_DOWNLOAD,
-            new EnfantEvent($enfant, $type)
-        );
+        $this->eventDispatcher->dispatch(new EnfantEvent($enfant, $type), EnfantEvent::ENFANT_DOWNLOAD);
 
         $file = false;
         switch ($type) {

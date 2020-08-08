@@ -672,7 +672,7 @@ class PlainePresenceController extends AbstractController
             }
 
             $event = new  PlaineEvent($plaine, $plainePresence);
-            $eventDispatcher->dispatch(PlaineEvent::PLAINE_PAIEMENT, $event);
+            $eventDispatcher->dispatch($event, PlaineEvent::PLAINE_PAIEMENT);
 
             return $this->redirectToRoute(
                 'plainepresence_show_enfant',

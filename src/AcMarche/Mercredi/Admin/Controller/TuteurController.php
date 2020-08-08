@@ -191,10 +191,7 @@ class TuteurController extends AbstractController
         $year = date('Y') + 1;
         $years = range(2015, $year);
 
-        $this->eventDispatcher->dispatch(
-            TuteurEvent::TUTEUR_EDIT,
-            new TuteurEvent($tuteur)
-        );
+        $this->eventDispatcher->dispatch(new TuteurEvent($tuteur), TuteurEvent::TUTEUR_EDIT);
 
         return $this->render(
             'admin/tuteur/show.html.twig',
@@ -292,10 +289,7 @@ class TuteurController extends AbstractController
             return $this->redirectToRoute('tuteur_show', ['slugname' => $tuteur->getSlugname()]);
         }
 
-        $this->eventDispatcher->dispatch(
-            TuteurEvent::TUTEUR_EDIT,
-            new TuteurEvent($tuteur)
-        );
+        $this->eventDispatcher->dispatch(new TuteurEvent($tuteur), TuteurEvent::TUTEUR_EDIT);
 
         return $this->render(
             'admin/tuteur/edit.html.twig',

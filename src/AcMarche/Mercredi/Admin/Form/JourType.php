@@ -27,7 +27,7 @@ class JourType extends AbstractType
                     'label' => 'Date du jour de garde',
                     'widget' => 'single_text',
                     'required' => true,
-                    'format' => 'dd/MM/yyyy',
+
                     'attr' => ['class' => 'datepicker', 'placeholder' => '00-00-000', 'autocomplete' => 'off'],
                 ]
             )

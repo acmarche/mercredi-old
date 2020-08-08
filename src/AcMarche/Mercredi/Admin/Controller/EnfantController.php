@@ -200,10 +200,7 @@ class EnfantController extends AbstractController
      */
     public function show(Enfant $enfant)
     {
-        $this->eventDispatcher->dispatch(
-            EnfantEvent::ENFANT_SHOW,
-            new EnfantEvent($enfant)
-        );
+        $this->eventDispatcher->dispatch(new EnfantEvent($enfant), EnfantEvent::ENFANT_SHOW);
 
         $enfant = $this->enfantRepository->search(
             ['enfant' => $enfant, 'one' => true, 'archive' => 2]
@@ -266,10 +263,7 @@ class EnfantController extends AbstractController
             return $this->redirectToRoute('enfant_show', ['slugname' => $enfant->getSlugname()]);
         }
 
-        $this->eventDispatcher->dispatch(
-            EnfantEvent::ENFANT_EDIT,
-            new EnfantEvent($enfant)
-        );
+        $this->eventDispatcher->dispatch(new EnfantEvent($enfant), EnfantEvent::ENFANT_EDIT);
 
         return $this->render(
             'admin/enfant/edit.html.twig',

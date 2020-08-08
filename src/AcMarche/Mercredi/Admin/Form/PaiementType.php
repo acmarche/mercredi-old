@@ -56,7 +56,7 @@ class PaiementType extends AbstractType
                 [
                     'widget' => 'single_text',
                     'input' => 'datetime',
-                    'format' => 'dd/MM/yyyy',
+
                     'required' => true,
                     'attr' => ['class' => 'datepicker', 'placeholder' => '00-00-000'],
                 ]

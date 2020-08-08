@@ -8,6 +8,8 @@
 
 namespace AcMarche\Mercredi\Admin\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait UuidTrait
 {
     /**
@@ -20,7 +22,7 @@ trait UuidTrait
      */
     private $uuid;
 
-    public function getUuid(): \Ramsey\Uuid\Uuid
+    public function getUuid(): \Ramsey\Uuid\UuidInterface
     {
         return $this->uuid;
     }

@@ -40,7 +40,6 @@ class AnimateurEditType extends AbstractType
                 [
                     'label' => 'Né le',
                     'widget' => 'text',
-                    'format' => 'dd/MM/yyyy',
                     'required' => false,
                     'attr' => ['class' => 'birthday-text'],
                 ]
