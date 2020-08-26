@@ -172,6 +172,9 @@
     "markbaker/matrix": {
         "version": "1.1.4"
     },
+    "migrify/php-config-printer": {
+        "version": "v0.3.31"
+    },
     "monolog/monolog": {
         "version": "1.24.0"
     },
@@ -673,10 +676,10 @@
     "symplify/console-color-diff": {
         "version": "v8.2.1"
     },
-    "symplify/package-builder": {
-        "version": "v8.2.1"
+    "symplify/easy-testing": {
+        "version": "v8.2.13"
     },
-    "symplify/parameter-name-guard": {
+    "symplify/package-builder": {
         "version": "v8.2.1"
     },
     "symplify/set-config-resolver": {

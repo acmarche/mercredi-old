@@ -1,37 +1,29 @@
 # security
 security:
-    providers:
-        sql_provider:
-            id: AcMarche\Mercredi\Security\Provider\EmailUserProvider
+  providers:
+    sql_provider:
+      entity:
+        class: AcMarche\Mercredi\Security\Entity\User
+  encoders:
+    AcMarche\Mercredi\Security\Entity\User: sha512
 
-    encoders:
-        AcMarche\Mercredi\Security\Entity\User: sha512
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
 
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+    secured_area:
+      pattern:    ^/
+      provider: sql_provider
+      guard:
+        authenticators:
+          - AcMarche\Mercredi\Security\Authenticator\MercrediAuthenticator
+      logout:       true
+      anonymous:    true
 
-        api:
-            pattern: ^/api/
-            guard:
-                authenticators:
-                    - AcMarche\Mercredi\Security\Authenticator\TokenAuthenticator
-            provider: sql_provider
-
-        secured_area:
-            pattern:    ^/
-            provider: sql_provider
-            guard:
-                authenticators:
-                    - AcMarche\Mercredi\Security\Authenticator\MercrediAuthenticator
-                entry_point: AcMarche\Mercredi\Security\Authenticator\MercrediAuthenticator
-            logout:       true
-            anonymous:    true
-
-    access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/ipi/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/ipi, roles: ROLE_MERCREDI_ADMIN }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+  access_control:
+    - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/ipi/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api, roles: ROLE_MERCREDI_ADMIN22 }
+    - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
