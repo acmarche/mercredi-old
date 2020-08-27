@@ -10,6 +10,7 @@ namespace AcMarche\Mercredi\Admin\Service;
 
 use AcMarche\Mercredi\Admin\Repository\JourRepository;
 use AcMarche\Mercredi\Plaine\Repository\PlaineJourRepository;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JourService
 {
@@ -21,13 +22,19 @@ class JourService
      * @var JourRepository
      */
     private $jourRepository;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
 
     public function __construct(
         PlaineJourRepository $plaineJourRepository,
-        JourRepository $jourRepository
+        JourRepository $jourRepository,
+        TranslatorInterface $translator
     ) {
         $this->plaineJourRepository = $plaineJourRepository;
         $this->jourRepository = $jourRepository;
+        $this->translator = $translator;
     }
 
     /**
