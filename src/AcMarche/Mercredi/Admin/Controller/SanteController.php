@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/sante")
- * @IsGranted({"ROLE_MERCREDI_ADMIN"})
+ * @IsGranted("ROLE_MERCREDI_ADMIN")
  */
 class SanteController extends AbstractController
 {
