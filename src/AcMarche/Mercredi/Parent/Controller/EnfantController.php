@@ -123,7 +123,7 @@ class EnfantController extends AbstractController
         );
 
         if (!$enfantTuteur) {
-            $this->addFlash('danger', 'Aucun tuteur trouvé pour cette enfant');
+            $this->addFlash('danger', 'Votre compte parent n\'est pas associé à cette enfant');
 
             return $this->redirectToRoute('parent_enfants');
         }
