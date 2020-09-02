@@ -123,8 +123,9 @@ class EnfantController extends AbstractController
         );
 
         if (!$enfantTuteur) {
-            $this->addFlash('danger', 'Une erreur est survenue');
-            $this->redirectToRoute('parent_enfants');
+            $this->addFlash('danger', 'Aucun tuteur trouvé pour cette enfant');
+
+            return $this->redirectToRoute('parent_enfants');
         }
 
         $presences = $this->presenceRepository->getByEnfantTuteur($enfantTuteur);
