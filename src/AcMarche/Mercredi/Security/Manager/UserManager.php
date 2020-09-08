@@ -11,6 +11,7 @@ namespace AcMarche\Mercredi\Security\Manager;
 use AcMarche\Mercredi\Admin\Entity\Animateur;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Admin\Entity\UserPopulateInterface;
+use AcMarche\Mercredi\Admin\Repository\TuteurRepository;
 use AcMarche\Mercredi\Commun\Utils\PasswordManager;
 use AcMarche\Mercredi\Security\Entity\User;
 use AcMarche\Mercredi\Security\Repository\GroupRepository;
@@ -30,15 +31,21 @@ class UserManager
      * @var PasswordManager
      */
     private $passwordManager;
+    /**
+     * @var TuteurRepository
+     */
+    private $tuteurRepository;
 
     public function __construct(
         UserRepository $userRepository,
         GroupRepository $groupRepository,
-        PasswordManager $passwordManager
+        PasswordManager $passwordManager,
+        TuteurRepository $tuteurRepository
     ) {
         $this->userRepository = $userRepository;
         $this->groupRepository = $groupRepository;
         $this->passwordManager = $passwordManager;
+        $this->tuteurRepository = $tuteurRepository;
     }
 
     public function getInstance(string $email = null): User
@@ -79,6 +86,16 @@ class UserManager
         if (!$user) {
             $user = $this->getInstance($tuteur->getEmail());
             $this->populateFromObject($user, $tuteur);
+        }
+
+        /**
+         * Un tuteur est déjà associé à l'utilisateur existant
+         */
+        if ($user->getId()) {
+            if ($exist = $this->tuteurRepository->findOneBy(['user' => $user])) {
+                $exist->setUser(null);
+                $this->tuteurRepository->save();
+            }
         }
 
         $user->setUsername($user->getEmail());
