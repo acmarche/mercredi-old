@@ -100,9 +100,16 @@ class QuickController extends AbstractController
 
             if ($tuteur->getEmail()) {
                 $user = $this->userManager->newFromTuteur($tuteur);
-                $password = $user->getPlainPassword();
-                $this->mailer->sendNewAccountToParent($user, $tuteur, $password);
-                $this->addFlash('success', 'Un compte a été créé pour le parent');
+                if ($user) {
+                    $password = $user->getPlainPassword();
+                    $this->mailer->sendNewAccountToParent($user, $tuteur, $password);
+                    $this->addFlash('success', 'Un compte a été créé pour le parent');
+                } else {
+                    $this->addFlash(
+                        'danger',
+                        'Un compte existe déjà avec adresse email, allez dans la gestion des utilisateurs pour associer manuellement'
+                    );
+                }
             }
 
             return $this->render(

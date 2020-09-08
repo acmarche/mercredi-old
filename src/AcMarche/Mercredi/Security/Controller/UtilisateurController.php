@@ -164,10 +164,17 @@ class UtilisateurController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->userManager->newFromTuteur($tuteur, $user);
-            $this->mailer->sendNewAccountToParent($user, $tuteur, $user->getPlainPassword());
-            $this->addFlash('success', 'Un mail de bienvenue a été envoyé');
+            if ($user) {
+                $this->mailer->sendNewAccountToParent($user, $tuteur, $user->getPlainPassword());
+                $this->addFlash('success', 'Un mail de bienvenue a été envoyé');
 
-            $this->addFlash('success', "L'utilisateur a bien été ajouté");
+                $this->addFlash('success', "L'utilisateur a bien été ajouté");
+            } else {
+                $this->addFlash(
+                    'danger',
+                    'Un compte existe déjà avec adresse email, allez dans la gestion des utilisateurs pour associer manuellement'
+                );
+            }
 
             return $this->redirectToRoute('utilisateur_show', ['id' => $user->getId()]);
         }

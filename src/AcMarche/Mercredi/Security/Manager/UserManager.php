@@ -81,7 +81,7 @@ class UserManager
         return $user;
     }
 
-    public function newFromTuteur(Tuteur $tuteur, User $user = null): User
+    public function newFromTuteur(Tuteur $tuteur, User $user = null): ?User
     {
         if (!$user) {
             $user = $this->getInstance($tuteur->getEmail());
@@ -93,8 +93,7 @@ class UserManager
          */
         if ($user->getId()) {
             if ($exist = $this->tuteurRepository->findOneBy(['user' => $user])) {
-                $exist->setUser(null);
-                $this->tuteurRepository->save();
+                return null;
             }
         }
 
