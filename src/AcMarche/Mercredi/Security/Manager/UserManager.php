@@ -83,12 +83,12 @@ class UserManager
 
     public function newFromTuteur(Tuteur $tuteur, User $user = null): ?User
     {
-        if (!$user) {
+        if ($user === null) {
             $user = $this->getInstance($tuteur->getEmail());
             $this->populateFromObject($user, $tuteur);
         }
 
-        /**
+        /*
          * Un tuteur est déjà associé à l'utilisateur existant
          */
         if ($user->getId()) {

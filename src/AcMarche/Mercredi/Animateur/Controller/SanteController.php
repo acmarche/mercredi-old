@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/sante")
- * @IsGranted({"ROLE_MERCREDI_ANIMATEUR"})
+ * @IsGranted("ROLE_MERCREDI_ANIMATEUR")
  */
 class SanteController extends AbstractController
 {
