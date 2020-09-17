@@ -86,14 +86,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for presenceTmp in presences %}
-                    {% for presence in presenceTmp %}
+                {% for presence in presences %}
                         <tr>
                             <td>{{ presence.jour.datejour | datefr }} </td>
                             <td>{{ presence.enfant }}</td>
                             <td></td>
                         </tr>
-                    {% endfor %}
                 {% endfor %}
 
                 {% for plainePresence in presencesPlaines %}
