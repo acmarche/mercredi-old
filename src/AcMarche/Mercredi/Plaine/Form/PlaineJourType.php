@@ -21,7 +21,6 @@ class PlaineJourType extends AbstractType
                     'required' => false,
                     'widget' => 'single_text',
                     'input' => 'datetime',
-                    'format' => 'dd/MM/yyyy',
                     'label' => 'Date',
                     'attr' => ['class' => 'datepicker', 'autocomplete' => 'off'],
                 ]

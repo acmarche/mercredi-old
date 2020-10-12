@@ -5,7 +5,7 @@
         <h3>Edition de la plaine {{ plaine.intitule }}</h3>
     </div>
 
-    {% include 'plaine/plaine/_form.html.twig' %}
+    {% include 'plaine/plaine/_form_edit.html.twig' %}
 
     <a href="{{ path('plaine_show', {'slugname': plaine.slugname}) }}">
         <span class="fas fa-list"></span> Annuler

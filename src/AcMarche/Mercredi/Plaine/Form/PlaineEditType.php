@@ -10,8 +10,7 @@ class PlaineEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->remove('jours')
-        ;
+                ->remove('jours')        ;
     }
 
     public function getParent()
