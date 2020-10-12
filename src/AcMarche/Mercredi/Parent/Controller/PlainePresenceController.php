@@ -133,7 +133,7 @@ class PlainePresenceController extends AbstractController
                 return $this->redirectToRoute(
                     'parent_plainepresence_create',
                     [
-                        'slugname' => $enfant->getSlugname(),
+                        'uuid' => $enfant->getUuid(),
                         'plaineid' => $plaine->getId(),
                     ]
                 );
