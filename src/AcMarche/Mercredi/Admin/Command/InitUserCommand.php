@@ -6,7 +6,7 @@ use AcMarche\Mercredi\Security\Entity\Group;
 use AcMarche\Mercredi\Security\Entity\User;
 use AcMarche\Mercredi\Security\Repository\GroupRepository;
 use AcMarche\Mercredi\Security\Repository\UserRepository;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

@@ -5,7 +5,7 @@ namespace AcMarche\Mercredi\Security\Repository;
 use AcMarche\Mercredi\Security\Entity\Group;
 use AcMarche\Mercredi\Security\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 

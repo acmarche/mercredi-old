@@ -3,7 +3,7 @@
 namespace AcMarche\Mercredi\Plaine\Form\Type;
 
 use AcMarche\Mercredi\Admin\Form\DataTransformer\EnfantToNumberTransformer;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;

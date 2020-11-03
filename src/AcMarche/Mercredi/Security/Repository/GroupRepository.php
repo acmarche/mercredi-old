@@ -4,7 +4,7 @@ namespace AcMarche\Mercredi\Security\Repository;
 
 use AcMarche\Mercredi\Security\Entity\Group;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Group|null find($id, $lockMode = null, $lockVersion = null)

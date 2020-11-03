@@ -6,7 +6,7 @@ use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 
 /**

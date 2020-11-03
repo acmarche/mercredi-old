@@ -8,7 +8,7 @@ use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadPresences extends Fixture implements ORMFixtureInterface, DependentFixtureInterface
 {

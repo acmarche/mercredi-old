@@ -4,7 +4,7 @@ namespace AcMarche\Mercredi\Admin\Repository;
 
 use AcMarche\Mercredi\Admin\Entity\Sante\SanteQuestion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method SanteQuestion|null find($id, $lockMode = null, $lockVersion = null)

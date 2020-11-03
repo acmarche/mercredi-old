@@ -6,7 +6,7 @@ use AcMarche\Mercredi\Admin\Entity\Reduction;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadReductionData extends Fixture implements ORMFixtureInterface, DependentFixtureInterface
 {

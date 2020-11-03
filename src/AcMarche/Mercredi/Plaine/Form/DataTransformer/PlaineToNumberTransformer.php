@@ -3,7 +3,7 @@
 namespace AcMarche\Mercredi\Plaine\Form\DataTransformer;
 
 use AcMarche\Mercredi\Plaine\Entity\Plaine;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;

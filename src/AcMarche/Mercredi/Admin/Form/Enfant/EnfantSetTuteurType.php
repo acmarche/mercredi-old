@@ -4,7 +4,7 @@ namespace AcMarche\Mercredi\Admin\Form\Enfant;
 
 use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
 use AcMarche\Mercredi\Admin\Form\Type\TuteurHiddenType;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

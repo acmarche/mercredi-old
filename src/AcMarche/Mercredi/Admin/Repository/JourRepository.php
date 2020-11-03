@@ -6,7 +6,7 @@ use AcMarche\Mercredi\Admin\Entity\Animateur;
 use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Admin\Entity\Jour;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Jour|null find($id, $lockMode = null, $lockVersion = null)

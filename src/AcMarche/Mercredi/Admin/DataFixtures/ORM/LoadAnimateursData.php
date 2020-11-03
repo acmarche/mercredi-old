@@ -6,7 +6,7 @@ use AcMarche\Mercredi\Admin\Entity\Animateur;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadAnimateursData extends Fixture implements ORMFixtureInterface, DependentFixtureInterface
 {

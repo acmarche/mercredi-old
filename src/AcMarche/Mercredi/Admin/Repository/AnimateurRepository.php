@@ -4,7 +4,7 @@ namespace AcMarche\Mercredi\Admin\Repository;
 
 use AcMarche\Mercredi\Admin\Entity\Animateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Animateur|null find($id, $lockMode = null, $lockVersion = null)

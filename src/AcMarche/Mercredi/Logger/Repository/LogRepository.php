@@ -4,7 +4,7 @@ namespace AcMarche\Mercredi\Logger\Repository;
 
 use AcMarche\Mercredi\Logger\Entity\Log;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * LogRepository.

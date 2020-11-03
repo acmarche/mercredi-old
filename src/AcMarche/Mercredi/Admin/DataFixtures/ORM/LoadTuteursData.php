@@ -6,7 +6,7 @@ use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadTuteursData extends Fixture implements ORMFixtureInterface, DependentFixtureInterface
 {

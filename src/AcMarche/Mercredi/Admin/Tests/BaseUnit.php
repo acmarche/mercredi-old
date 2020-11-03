@@ -16,7 +16,7 @@ use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Plaine\Entity\PlaineJour;
 use AcMarche\Mercredi\Security\Entity\Group;
 use AcMarche\Mercredi\Security\Entity\User;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

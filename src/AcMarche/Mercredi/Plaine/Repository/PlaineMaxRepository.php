@@ -4,7 +4,7 @@ namespace AcMarche\Mercredi\Plaine\Repository;
 
 use AcMarche\Mercredi\Plaine\Entity\PlaineMax;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method PlaineMax|null   find($id, $lockMode = null, $lockVersion = null)

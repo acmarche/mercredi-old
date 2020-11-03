@@ -4,7 +4,7 @@ namespace AcMarche\Mercredi\Admin\Repository;
 
 use AcMarche\Mercredi\Admin\Entity\Note;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Note|null   find($id, $lockMode = null, $lockVersion = null)

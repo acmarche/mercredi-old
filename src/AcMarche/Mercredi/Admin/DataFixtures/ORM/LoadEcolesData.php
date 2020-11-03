@@ -5,7 +5,7 @@ namespace AcMarche\Mercredi\Admin\DataFixtures\ORM;
 use AcMarche\Mercredi\Admin\Entity\Ecole;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadEcolesData extends Fixture implements ORMFixtureInterface
 {

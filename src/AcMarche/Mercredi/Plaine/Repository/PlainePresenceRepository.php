@@ -7,7 +7,7 @@ use AcMarche\Mercredi\Admin\Entity\Jour;
 use AcMarche\Mercredi\Plaine\Entity\PlaineEnfant;
 use AcMarche\Mercredi\Plaine\Entity\PlainePresence;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method PlainePresence|null   find($id, $lockMode = null, $lockVersion = null)

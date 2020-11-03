@@ -5,7 +5,7 @@ namespace AcMarche\Mercredi\Admin\Repository;
 use AcMarche\Mercredi\Admin\Entity\Ecole;
 use AcMarche\Mercredi\Security\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 
 /**
