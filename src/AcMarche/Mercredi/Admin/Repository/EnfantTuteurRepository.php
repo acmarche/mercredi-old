@@ -16,6 +16,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class EnfantTuteurRepository extends ServiceEntityRepository
 {
+    const RELATION = 'enfantTuteur';
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, EnfantTuteur::class);
@@ -97,7 +99,7 @@ class EnfantTuteurRepository extends ServiceEntityRepository
                 $tuteur_id = array_unique($tuteur_id);
                 $tuteurs_string = implode(',', $tuteur_id);
                 $qb->andWhere('enfantTuteur.tuteur IN ('.$tuteurs_string.')');
-            //  $qb->groupBy('et.enfant'); //sinon jai doublon
+                //  $qb->groupBy('et.enfant'); //sinon jai doublon
             } else {
                 $qb->andwhere('enfantTuteur.tuteur = :tuteur')
                     ->setParameter('tuteur', $tuteur_id);
@@ -136,5 +138,20 @@ class EnfantTuteurRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
 
         return $query->getResult();
+    }
+
+    /**
+     * @return EnfantTuteur[]
+     */
+    public function findTuteursActifs(): array
+    {
+        return $this->createQueryBuilder('enfantTuteur')
+            ->leftJoin('enfantTuteur.enfant', 'enfant', 'with')
+            ->leftJoin('enfantTuteur.tuteur', 'tuteur', 'with')
+            ->leftJoin('enfant.sante_fiche', 'sante_fiche', 'with')
+            ->addSelect('enfant', 'tuteur', 'sante_fiche')
+            ->andwhere('enfant.archive != 1')
+            ->getQuery()
+            ->getResult();
     }
 }

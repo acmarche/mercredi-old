@@ -8,6 +8,7 @@
 
 namespace AcMarche\Mercredi\Admin\Service;
 
+use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Admin\Repository\EnfantTuteurRepository;
 use AcMarche\Mercredi\Security\Entity\User;
@@ -192,5 +193,19 @@ class TuteurUtils
         }
 
         return $emails;
+    }
+
+    /**
+     * @param EnfantTuteur[] $relations
+     * @return Tuteur[]
+     */
+    public static function extractTuteurs($relations)
+    {
+        $tuteurs = [];
+        foreach ($relations as $relation) {
+            $tuteurs[] = $relation->getTuteur();
+        }
+
+        return $tuteurs;
     }
 }

@@ -181,7 +181,10 @@ class MessageController extends AbstractController
                 }
             }
         } else {
-            $tuteurs = $this->tuteurRepository->getActifs();
+            //$enfants = $this->enfantRepository->quickSearchActif([]);
+            //$tuteurs = $this->enfantUtils->extractTuteurs($enfants);
+            $relations = $this->enfantTuteurRepository->findTuteursActifs();
+            $tuteurs = TuteurUtils::extractTuteurs($relations);
         }
 
         $emails = $this->tuteurUtils->getEmails($tuteurs);

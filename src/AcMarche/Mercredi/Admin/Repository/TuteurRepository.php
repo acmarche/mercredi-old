@@ -242,18 +242,6 @@ class TuteurRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function getActifs()
-    {
-        $qb = $this->createQueryBuilder('tuteur');
-        $qb->andWhere('tuteur.archive != 1');
-
-        $qb->orderBy('tuteur.nom');
-
-        $query = $qb->getQuery();
-
-        return $query->getResult();
-    }
-
     /**
      * @return Tuteur|null
      */
