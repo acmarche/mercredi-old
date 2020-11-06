@@ -5,6 +5,8 @@ namespace AcMarche\Mercredi\Admin\Controller;
 use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Admin\Entity\Jour;
 use AcMarche\Mercredi\Admin\Form\Search\SearchEnfantType;
+use AcMarche\Mercredi\Admin\Form\Search\SearchTuteurType;
+use AcMarche\Mercredi\Admin\Repository\TuteurRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +20,54 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ArchiveController extends AbstractController
 {
+    /**
+     * @var TuteurRepository
+     */
+    private $tuteurRepository;
+
+    public function __construct(TuteurRepository $tuteurRepository)
+    {
+        $this->tuteurRepository = $tuteurRepository;
+    }
+
+    /**
+     * Lists all Tuteur entities.
+     *
+     * @Route("/tuteurs", name="tuteur_archive", methods={"GET"})
+     * @Route("/tuteurs/all/{all}", name="tuteur_all_archive")
+     */
+    public function tuteurs(Request $request, $all = false)
+    {
+        $nom = null;
+        $data = [];
+
+        $search_form = $this->createForm(
+            SearchTuteurType::class,
+            $data,
+            [
+                'method' => 'GET',
+            ]
+        );
+
+        $search_form->handleRequest($request);
+
+        if ($search_form->isSubmitted() && $search_form->isValid()) {
+            $data = $search_form->getData();
+            $nom = $data['nom'];
+        }
+
+        $tuteurs = $this->tuteurRepository->findArchived($nom);
+
+        return $this->render(
+            'admin/tuteur/index_archive.html.twig',
+            [
+                'search_form' => $search_form->createView(),
+                'tuteurs' => $tuteurs,
+                'all' => $all,
+            ]
+        );
+    }
+
     /**
      * List archive enfants.
      *

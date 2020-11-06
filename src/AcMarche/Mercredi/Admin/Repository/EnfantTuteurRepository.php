@@ -150,7 +150,8 @@ class EnfantTuteurRepository extends ServiceEntityRepository
             ->leftJoin('enfantTuteur.tuteur', 'tuteur', 'with')
             ->leftJoin('enfant.sante_fiche', 'sante_fiche', 'with')
             ->addSelect('enfant', 'tuteur', 'sante_fiche')
-            ->andwhere('enfant.archive != 1')
+            ->andWhere('enfant.archive = 0')
+            ->addGroupBy('tuteur.id')
             ->getQuery()
             ->getResult();
     }

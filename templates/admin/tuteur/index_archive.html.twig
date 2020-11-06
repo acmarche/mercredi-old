@@ -1,0 +1,48 @@
+{% extends 'admin/layout.html.twig' %}
+{% block body %}
+    <div class="page-header">
+        <h3>Liste des {{ tuteurs | length }} parents archivés</h3>
+    </div>
+
+    <div class="alert alert-info">
+        Les parents sont automatiquements archivés s'ils n'ont plus d'enfants actifs
+    </div>
+
+    {% include 'admin/search/tuteur.html.twig' with {'form': search_form } %}
+    <p>
+        <a href="{{ path('tuteur_all', {'all':'oui'}) }}">Afficher tous les parents</a>
+    </p>
+
+    {% if tuteurs | length > 0 %}
+        <table class='table table-bordered table-hover'>
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Téléphone / gsm</th>
+                <th>Conjoint</th>
+                <th>Téléphone conjoint</th>
+                <th>Enfant(s)</th>
+                <th>Paiements(s)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tuteur in tuteurs %}
+                <tr>
+                    <td>
+                        <a href="{{ path('tuteur_show', { 'slugname': tuteur.slugname }) }}"
+                           title="Consulter">{{ tuteur }}</a>
+                    </td>
+                    <td>{{ tuteur.telephone }} {% if tuteur.gsm %} | {{ tuteur.gsm }} {% endif %}</td>
+                    <td>{{ tuteur.nomconjoint }}</td>
+                    <td>{{ tuteur.telephoneconjoint }} {% if tuteur.gsmconjoint %} {{ tuteur.gsmconjoint }} {% endif %} </td>
+                    <td>{{ tuteur.enfants | length }}</td>
+                    <td>{{ tuteur.paiements | length }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-warning">Aucun parent trouvé</p>
+    {% endif %}
+
+{% endblock %}

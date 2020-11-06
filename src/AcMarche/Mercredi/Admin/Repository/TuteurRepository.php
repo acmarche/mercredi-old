@@ -6,8 +6,8 @@ use AcMarche\Mercredi\Admin\Entity\Enfant;
 use AcMarche\Mercredi\Admin\Entity\EnfantTuteur;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Tuteur|null find($id, $lockMode = null, $lockVersion = null)
@@ -141,16 +141,18 @@ class TuteurRepository extends ServiceEntityRepository
      *
      * @param array $args
      *
-     * @return Tuteur[]|Tuteur
+     * @return Tuteur[]
      */
     public function quickSearch($args)
     {
         $nom = isset($args['nom']) ? $args['nom'] : null;
 
         $qb = $this->createQueryBuilder('tuteur');
-        $qb->leftJoin('tuteur.enfants', 'enfant', 'WITH');
-        $qb->leftJoin('tuteur.paiements', 'paiement', 'WITH');
-        $qb->addSelect('enfant', 'paiement');
+        $qb->leftJoin('tuteur.enfants', 'enfantsTuteur', 'WITH');
+        $qb->leftJoin('enfantsTuteur.enfant', 'enfant', 'WITH');
+        $qb->leftJoin('tuteur.paiements', 'paiements', 'WITH');
+        $qb->leftJoin('enfant.sante_fiche', 'sante_fiche', 'WITH');
+        $qb->addSelect('enfantsTuteur', 'paiements', 'enfant', 'sante_fiche');
 
         if ($nom) {
             $qb->andwhere(
@@ -160,8 +162,36 @@ class TuteurRepository extends ServiceEntityRepository
                 ->setParameter('nom', '%'.$nom.'%');
         }
 
-        $qb->andWhere('tuteur.archive != :archive')
-            ->setParameter(':archive', true);
+        $qb->andwhere('enfant.archive = 0');
+
+        $qb->orderBy('tuteur.nom');
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
+
+    /**
+     * @param string $nom
+     * @return Tuteur[]
+     */
+    public function findArchived(?string $nom)
+    {
+        $qb = $this->createQueryBuilder('tuteur');
+        $qb->leftJoin('tuteur.enfants', 'enfantsTuteur', 'WITH');
+        $qb->leftJoin('enfantsTuteur.enfant', 'enfant', 'WITH');
+        $qb->leftJoin('enfant.sante_fiche', 'sante_fiche', 'WITH');
+        $qb->leftJoin('tuteur.paiements', 'paiements', 'WITH');
+        $qb->addSelect('enfantsTuteur', 'paiements', 'enfant', 'sante_fiche');
+
+        if ($nom) {
+            $qb->andwhere(
+                'tuteur.nom LIKE :nom OR tuteur.prenom LIKE :nom OR tuteur.nom_conjoint LIKE :nom 
+                OR tuteur.prenom_conjoint LIKE :nom OR tuteur.email LIKE :nom OR tuteur.email_conjoint LIKE :nom'
+            )
+                ->setParameter('nom', '%'.$nom.'%');
+        }
+
+        $qb->andwhere('enfant.archive = 1');
 
         $qb->orderBy('tuteur.nom');
         $query = $qb->getQuery();

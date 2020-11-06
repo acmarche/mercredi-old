@@ -5,6 +5,9 @@
     </div>
 
     {% include 'admin/search/tuteur.html.twig' with {'form': search_form } %}
+    <p>
+        <a href="{{ path('tuteur_all', {'all':'oui'}) }}">Afficher tous les parents</a>
+    </p>
 
     {% if search or all %}
         {% if tuteurs | length > 0 %}
@@ -48,10 +51,6 @@
         {% else %}
             <p class="text-warning">Aucun parent trouvé</p>
         {% endif %}
-    {% else %}
-        <p>
-            <a href="{{ path('tuteur_all', {'all':'oui'}) }}">Afficher tous les parents</a>
-        </p>
     {% endif %}
 
 {% endblock %}
