@@ -114,7 +114,7 @@ class SanteController extends AbstractController
 
     /**
      * @Route("/pdf/{uuid}", name="parent_sante_pdf")
-     * @IsGranted("edit", subject="enfant")
+     * @IsGranted("show", subject="enfant")
      */
     public function pdf(Enfant $enfant)
     {
