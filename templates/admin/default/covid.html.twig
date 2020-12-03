@@ -1,0 +1,48 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>{{ plaine }}</h3>
+    </div>
+
+    <div class="alert-info alert">
+        Coût total : {{ coutTotal|number_format }} €
+    </div>
+
+    <h2>Tuteurs</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Enfant(s)</th>
+            <th>Présences</th>
+            <th>Coût</th>
+        </tr>
+        </thead>
+        {% for data in datas %}
+            {% set tuteur = data.tuteur %}
+            <tr>
+                <td>{{ tuteur.nom }}</td>
+                <td>{{ tuteur.prenom }}</td>
+                <td>
+                    {% for dataEnfant in data.enfants %}
+                        {{ dataEnfant.enfant.nom }} {{ dataEnfant.enfant.prenom }} {% if not loop.last %} - {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for dataEnfant in data.enfants %}
+                        {{ dataEnfant.presences | length }} {% if not loop.last %} - {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for dataEnfant in data.enfants %}
+                        {{ dataEnfant.cout | number_format }} € {% if not loop.last %} + {% endif %}
+                    {% endfor %}
+                    =
+                    {{ data.cout | number_format }} €
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
