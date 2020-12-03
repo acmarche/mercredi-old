@@ -86,14 +86,17 @@ class TmpController extends AbstractController
         $coutTotal = 0;
 
         foreach ($tuteurs as $tuteur) {
+            if (48 != $tuteur->getId()) {
+
+            }
             $coutParTuteur = 0;
             $data[$tuteur->getId()]['tuteur'] = $tuteur;
             $enfantsTuteur = $this->enfantTuteurRepository->findBy(['tuteur' => $tuteur]);
             foreach ($enfantsTuteur as $enfantTuteur) {
                 $enfant = $enfantTuteur->getEnfant();
                 $plaineEnfants = $this->plaineEnfantRepository->findBy(['plaine' => $plaine, 'enfant' => $enfant]);
+                $coutParEnfant = 0;
                 if (count($plaineEnfants) > 0) {
-                    $coutParEnfant = 0;
                     $data[$tuteur->getId()]['enfants'][$enfant->getId()]['enfant'] = $enfant;
                     foreach ($plaineEnfants as $plaineEnfant) {
                         $presences = $this->plaineService->getPresences($plaineEnfant, $tuteur);
@@ -109,7 +112,6 @@ class TmpController extends AbstractController
             }
             $data[$tuteur->getId()]['cout'] = $coutParTuteur;
             $coutTotal += $coutParTuteur;
-            break;
         }
 
         return $this->render(
@@ -147,7 +149,8 @@ class TmpController extends AbstractController
         return $tuteurs;
     }
 
-    private function getEnfants(Tuteur $tuteur, Plaine $plaine) {
-
+    private function getEnfants(Tuteur $tuteur, Plaine $plaine)
+    {
+        $this->plainePresenceRepository->findBy(['tuteur' => $tuteur, '']);
     }
 }

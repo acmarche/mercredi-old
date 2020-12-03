@@ -13,6 +13,7 @@
     <table class="table table-bordered">
         <thead>
         <tr>
+            <th>id</th>
             <th>Nom</th>
             <th>Prénom</th>
             <th>Enfant(s)</th>
@@ -23,6 +24,7 @@
         {% for data in datas %}
             {% set tuteur = data.tuteur %}
             <tr>
+                <td>{{ tuteur.id }}</td>
                 <td>{{ tuteur.nom }}</td>
                 <td>{{ tuteur.prenom }}</td>
                 <td>
@@ -36,10 +38,13 @@
                     {% endfor %}
                 </td>
                 <td>
-                    {% for dataEnfant in data.enfants %}
-                        {{ dataEnfant.cout | number_format }} € {% if not loop.last %} + {% endif %}
-                    {% endfor %}
-                    =
+                    {% if data.enfants | length > 1 %}
+                        {% for dataEnfant in data.enfants %}
+                            {{ dataEnfant.cout | number_format }} € {% if not loop.last %} + {% endif %}
+                        {% endfor %}
+                        =
+                    {% endif %}
+
                     {{ data.cout | number_format }} €
                 </td>
             </tr>
