@@ -28,6 +28,24 @@ class JourRepository extends ServiceEntityRepository
         return $this->findBy([], ['date_jour' => 'ASC']);
     }
 
+    /**
+     * @param \DateTime $dateDebut
+     * @param \DateTime $dateFin
+     * @return Jour[]
+     */
+    public function findBetween(\DateTime $dateDebut, \DateTime $dateFin)
+    {
+        $qb = $this->createQueryBuilder('jour');
+
+        $qb->andWhere('jour.date_jour BETWEEN :datedebut AND :datefin')
+            ->setParameter('datedebut', $dateDebut)
+            ->setParameter('datefin', $dateFin);
+
+        $qb->orderBy('jour.date_jour', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function getRecents(\DateTime $date)
     {
         $qb = $this->createQueryBuilder('jour');

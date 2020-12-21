@@ -2,11 +2,16 @@
 
 namespace AcMarche\Mercredi\Admin\Controller;
 
+use AcMarche\Mercredi\Admin\Entity\Presence;
 use AcMarche\Mercredi\Admin\Entity\Tuteur;
 use AcMarche\Mercredi\Admin\Repository\EnfantRepository;
 use AcMarche\Mercredi\Admin\Repository\EnfantTuteurRepository;
+use AcMarche\Mercredi\Admin\Repository\JourRepository;
+use AcMarche\Mercredi\Admin\Repository\PresenceRepository;
 use AcMarche\Mercredi\Admin\Repository\TuteurRepository;
+use AcMarche\Mercredi\Admin\Service\Facture;
 use AcMarche\Mercredi\Admin\Service\FacturePlaine;
+use AcMarche\Mercredi\Admin\Service\PresenceService;
 use AcMarche\Mercredi\Commun\Utils\SortUtils;
 use AcMarche\Mercredi\Plaine\Entity\Plaine;
 use AcMarche\Mercredi\Plaine\Repository\PlaineEnfantRepository;
@@ -52,6 +57,30 @@ class TmpController extends AbstractController
      * @var PlaineService
      */
     private $plaineService;
+    /**
+     * @var PresenceRepository
+     */
+    private $presenceRepository;
+    /**
+     * @var JourRepository
+     */
+    private $jourRepository;
+    /**
+     * @var PresenceService
+     */
+    private $presenceService;
+    /**
+     * @var SortUtils
+     */
+    private $sortUtils;
+    /**
+     * @var Facture
+     */
+    private $facture;
+    /**
+     * @var int
+     */
+    private $total=0;
 
     public function __construct(
         PlaineRepository $plaineRepository,
@@ -61,7 +90,12 @@ class TmpController extends AbstractController
         EnfantRepository $enfantRepository,
         EnfantTuteurRepository $enfantTuteurRepository,
         FacturePlaine $facturePlaine,
-        PlaineService $plaineService
+        PlaineService $plaineService,
+        PresenceRepository $presenceRepository,
+        JourRepository $jourRepository,
+        PresenceService $presenceService,
+        SortUtils $sortUtils,
+        Facture $facture
     ) {
         $this->plaineRepository = $plaineRepository;
         $this->tuteurRepository = $tuteurRepository;
@@ -71,11 +105,66 @@ class TmpController extends AbstractController
         $this->enfantTuteurRepository = $enfantTuteurRepository;
         $this->facturePlaine = $facturePlaine;
         $this->plaineService = $plaineService;
+        $this->presenceRepository = $presenceRepository;
+        $this->jourRepository = $jourRepository;
+        $this->presenceService = $presenceService;
+        $this->sortUtils = $sortUtils;
+        $this->facture = $facture;
+    }
+
+    /**
+     * @Route("/covid/mercredi", name="covid_mercredi")
+     * @IsGranted("ROLE_MERCREDI_ADMIN")
+     * 20/3/2019 au mercredi 26/6/2019 inclus
+     */
+    public function mercredi()
+    {
+        $jours = $this->jourRepository->findBetween(new \DateTime('2019-03-20'), new \DateTime('2019-06-26'));
+        $presences = $this->presenceRepository->findBy(['jour' => $jours]);
+        $tuteurs = $this->presenceService->getTuteursByPrences($presences);
+        $tuteurs = $this->sortUtils->sortObjectsByName($tuteurs);
+        $data = $this->groupByTuteurs($presences);
+        dump($data);
+
+        return $this->render(
+            'admin/default/covid_mercredi.html.twig',
+            [
+                'jours' => $jours,
+                'presences' => $presences,
+                'tuteurs' => $tuteurs,
+                'datas' => $data,
+                'total'=>$this->total
+            ]
+        );
+    }
+
+    /**
+     * @param Presence[] $presences
+     */
+    private function groupByTuteurs(array $presences)
+    {
+        $data = [];
+        $total = 0;
+        foreach ($presences as $presence) {
+            $tuteur = $presence->getTuteur();
+            if ($tuteur) {
+                if (!isset($data[$tuteur->getId()]['cout'])) {
+                    $data[$tuteur->getId()]['cout'] = 0;
+                }
+                $this->facture->handlePresence($presence);
+                $data[$tuteur->getId()]['tuteur'] = $tuteur;
+                $data[$tuteur->getId()]['cout'] = $data[$tuteur->getId()]['cout'] + $presence->getCout();
+                $data[$tuteur->getId()]['presences'][] = $presence;
+                $total += $presence->getCout();
+            }
+        }
+        $this->total = $total;
+        return $data;
     }
 
     /**
      * @Route("/covid", name="plaine_tmp")
-     * @IsGranted("ROLE_MERCREDI_READ")
+     * @IsGranted("ROLE_MERCREDI_ADMIN")
      */
     public function index()
     {
@@ -87,7 +176,6 @@ class TmpController extends AbstractController
 
         foreach ($tuteurs as $tuteur) {
             if (48 != $tuteur->getId()) {
-
             }
             $coutParTuteur = 0;
             $data[$tuteur->getId()]['tuteur'] = $tuteur;

@@ -1,0 +1,43 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h3>20/3/2019 au mercredi 26/6/2019 inclus ({{ jours|length }} jours)</h3>
+    </div>
+
+    {{ presences|length }} présences
+
+    <ul class="list-group list-inline">
+        {% for jour in jours %}
+        <li class="list-group-item ">
+            {{ jour.dateJour|date('d-m-Y') }}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Présences</th>
+            <th>Coûts</th>
+        </tr>
+        </thead>
+        {% for data in datas %}
+            {% set tuteur = data.tuteur %}
+            {% set presences = data.presences %}
+        <tr>
+            <td>{{ tuteur }}</td>
+            <td>{{ presences|length }}</td>
+            <td>{{ data.cout|number_format }} €</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2"><strong>Total</strong></td>
+            <td>{{ total|number_format }} €</td>
+        </tr>
+    </table>
+
+
+
+{% endblock %}
