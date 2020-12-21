@@ -124,7 +124,6 @@ class TmpController extends AbstractController
         $tuteurs = $this->presenceService->getTuteursByPrences($presences);
         $tuteurs = $this->sortUtils->sortObjectsByName($tuteurs);
         $data = $this->groupByTuteurs($presences);
-        dump($data);
 
         return $this->render(
             'admin/default/covid_mercredi.html.twig',
